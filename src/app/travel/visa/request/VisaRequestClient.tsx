@@ -1,0 +1,45 @@
+'use client';
+
+import { VisaRequestPage } from '@/components/VisaRequestPage';
+import { TravelNav } from '@/components/TravelNav';
+import { TravelFooter } from '@/components/TravelFooter';
+import { useRouter } from 'next/navigation';
+
+export function VisaRequestClient() {
+  const router = useRouter();
+
+  const handleNavigate = (page: string) => {
+    const routeMap: Record<string, string> = {
+      'landing': '/landing',
+      'venues': '/venues',
+      'destinations': '/destinations',
+      'inspirations': '/inspirations',
+      'planners': '/planners',
+      'vendors': '/vendors',
+      'tours': '/tours',
+      'visa-services': '/travel/visa',
+      'builder': '/wedding-builder',
+      'expenses': '/expenses',
+      'marketplace': '/marketplace',
+      'account': '/account',
+      'home': '/',
+    };
+
+    const route = routeMap[page];
+    if (route) {
+      router.push(route);
+    }
+  };
+
+  const handleBack = () => {
+    router.push('/travel/visa');
+  };
+
+  return (
+    <div className="size-full">
+      <TravelNav onNavigate={handleNavigate} currentPage="visa-services" />
+      <VisaRequestPage onBack={handleBack} />
+      <TravelFooter />
+    </div>
+  );
+}
