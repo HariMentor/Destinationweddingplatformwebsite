@@ -710,113 +710,196 @@ export function CustomerAccountPage({ onBack }: { onBack: () => void }) {
             const roi = ((totalSavingsINR / conciergeService.priceInr) * 100).toFixed(0);
 
             return (
-              <div className="space-y-6">
-                {/* Concierge Service Header */}
-                <Card className="p-4 sm:p-6 bg-gradient-to-r from-purple-600 to-[#DF6951] text-white">
-                  <div className="flex flex-col md:flex-row items-start justify-between gap-4">
-                    <div className="flex-1">
+              <div className="space-y-4 sm:space-y-6">
+                {/* Minimalist Concierge Service Header */}
+                <Card className="p-4 sm:p-6 border-2">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 sm:mb-6 gap-3 sm:gap-0">
+                    <div className="w-full">
                       <div className="flex items-center gap-2 mb-2">
-                        <Crown className="size-5 sm:size-6" />
-                        <h2 className="text-2xl sm:text-3xl" style={{ fontFamily: "Volkhov, serif" }}>
+                        <Crown className="size-5 sm:size-6 text-[#DF6951] shrink-0" />
+                        <h2 className="text-xl sm:text-2xl md:text-3xl" style={{ fontFamily: "Volkhov, serif" }}>
                           {conciergeService.tierName} Concierge
                         </h2>
                       </div>
-                      <div className="flex flex-wrap items-center gap-3 mb-3">
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                         <Badge className={`${
                           conciergeService.status === "active" ? "bg-green-500" : "bg-gray-500"
-                        } text-white border-0`}>
+                        } text-white border-0 text-xs`}>
                           {conciergeService.status === "active" ? "Active" : "Expired"}
                         </Badge>
-                        <span className="text-sm opacity-90">Since {conciergeService.purchaseDate}</span>
+                        <span className="text-xs sm:text-sm text-muted-foreground">Since {conciergeService.purchaseDate}</span>
                         {conciergeService.expiryDate && (
-                          <span className="text-sm opacity-90">• Expires {conciergeService.expiryDate}</span>
+                          <span className="text-xs sm:text-sm text-muted-foreground">• Expires {conciergeService.expiryDate}</span>
                         )}
                       </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-4">
-                        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
-                          <p className="text-xs opacity-80 mb-1">Total Savings</p>
-                          <p className="text-lg sm:text-xl">{formatPrice(totalSavingsINR)}</p>
-                        </div>
-                        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
-                          <p className="text-xs opacity-80 mb-1">ROI</p>
-                          <p className="text-lg sm:text-xl">{roi}%</p>
-                        </div>
-                        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
-                          <p className="text-xs opacity-80 mb-1">Negotiations</p>
-                          <p className="text-lg sm:text-xl">{conciergeService.stats.negotiationsCompleted}</p>
-                        </div>
-                        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
-                          <p className="text-xs opacity-80 mb-1">Avg. Savings</p>
-                          <p className="text-lg sm:text-xl">{conciergeService.stats.averageSavingsPercent}%</p>
-                        </div>
-                      </div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+                    <div className="border rounded-lg p-2 sm:p-3">
+                      <p className="text-xs text-muted-foreground mb-1">Total Savings</p>
+                      <p className="text-base sm:text-lg md:text-xl text-green-600 break-words">{formatPrice(totalSavingsINR)}</p>
+                    </div>
+                    <div className="border rounded-lg p-2 sm:p-3">
+                      <p className="text-xs text-muted-foreground mb-1">ROI</p>
+                      <p className="text-base sm:text-lg md:text-xl">{roi}%</p>
+                    </div>
+                    <div className="border rounded-lg p-2 sm:p-3">
+                      <p className="text-xs text-muted-foreground mb-1">Negotiations</p>
+                      <p className="text-base sm:text-lg md:text-xl">{conciergeService.stats.negotiationsCompleted}</p>
+                    </div>
+                    <div className="border rounded-lg p-2 sm:p-3">
+                      <p className="text-xs text-muted-foreground mb-1">Avg. Savings</p>
+                      <p className="text-base sm:text-lg md:text-xl">{conciergeService.stats.averageSavingsPercent}%</p>
                     </div>
                   </div>
                 </Card>
 
+                {/* Your Concierge & Service Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                  {/* Your Concierge */}
+                  {conciergeService.conciergeAssigned && (
+                    <Card className="p-4 sm:p-6">
+                      <h4 className="text-base sm:text-lg mb-3 sm:mb-4" style={{ fontFamily: "Volkhov, serif" }}>Your Concierge</h4>
+                      <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
+                        <Avatar className="size-14 sm:size-16 border-2 border-[#DF6951] shrink-0">
+                          <img 
+                            src={conciergeService.conciergeAssigned.avatar} 
+                            alt={conciergeService.conciergeAssigned.name}
+                            className="object-cover"
+                          />
+                          <AvatarFallback>{conciergeService.conciergeAssigned.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <h5 className="font-semibold mb-1 text-sm sm:text-base">{conciergeService.conciergeAssigned.name}</h5>
+                          <div className="space-y-1 text-xs sm:text-sm">
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <Mail className="size-3 shrink-0" />
+                              <span className="truncate">{conciergeService.conciergeAssigned.email}</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-muted-foreground">
+                              <Phone className="size-3 shrink-0" />
+                              <span className="truncate">{conciergeService.conciergeAssigned.phone}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button size="sm" className="flex-1 bg-[#DF6951] hover:bg-[#c5573d] gap-1 sm:gap-2 text-xs sm:text-sm">
+                          <MessageCircle className="size-3 sm:size-4" />
+                          <span className="hidden xs:inline">Chat</span>
+                          <span className="xs:hidden">Chat</span>
+                        </Button>
+                        <Button size="sm" variant="outline" className="flex-1 gap-1 sm:gap-2 text-xs sm:text-sm">
+                          <Phone className="size-3 sm:size-4" />
+                          <span className="hidden xs:inline">Call</span>
+                          <span className="xs:hidden">Call</span>
+                        </Button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Service Stats */}
+                  <Card className="p-4 sm:p-6">
+                    <h4 className="text-base sm:text-lg mb-3 sm:mb-4" style={{ fontFamily: "Volkhov, serif" }}>Service Statistics</h4>
+                    <div className="space-y-3 sm:space-y-4">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <Target className="size-4 text-[#DF6951] shrink-0" />
+                          <span className="text-xs sm:text-sm truncate">Venues Negotiated</span>
+                        </div>
+                        <span className="font-semibold text-sm sm:text-base shrink-0">{conciergeService.stats.venuesNegotiated}</span>
+                      </div>
+                      <Separator />
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <Briefcase className="size-4 text-[#DF6951] shrink-0" />
+                          <span className="text-xs sm:text-sm truncate">Vendors Negotiated</span>
+                        </div>
+                        <span className="font-semibold text-sm sm:text-base shrink-0">{conciergeService.stats.vendorsNegotiated}</span>
+                      </div>
+                      <Separator />
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <Clock className="size-4 text-[#DF6951] shrink-0" />
+                          <span className="text-xs sm:text-sm truncate">Avg. Response Time</span>
+                        </div>
+                        <span className="font-semibold text-sm sm:text-base shrink-0">{conciergeService.stats.responseTime}</span>
+                      </div>
+                      <Separator />
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <BarChart3 className="size-4 text-[#DF6951] shrink-0" />
+                          <span className="text-xs sm:text-sm truncate">Avg. Savings %</span>
+                        </div>
+                        <span className="font-semibold text-sm sm:text-base shrink-0">{conciergeService.stats.averageSavingsPercent}%</span>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+
                 {/* Personal Savings Dashboard */}
                 <div>
-                  <h3 className="text-xl sm:text-2xl mb-4" style={{ fontFamily: "Volkhov, serif" }}>
+                  <h3 className="text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4" style={{ fontFamily: "Volkhov, serif" }}>
                     Personal Savings Dashboard
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <Card className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <p className="text-sm text-muted-foreground mb-1">Total Money Saved</p>
-                          <p className="text-2xl sm:text-3xl mb-1" style={{ color: "#059669" }}>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <Card className="p-3 sm:p-4 bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs sm:text-sm text-muted-foreground mb-1">Total Money Saved</p>
+                          <p className="text-xl sm:text-2xl md:text-3xl mb-1 break-words" style={{ color: "#059669" }}>
                             {formatPrice(totalSavingsINR)}
                           </p>
                           <p className="text-xs text-muted-foreground">Across {conciergeService.savingsBreakdown.length} services</p>
                         </div>
-                        <TrendingDown className="size-8 text-green-600" />
+                        <TrendingDown className="size-6 sm:size-8 text-green-600 shrink-0" />
                       </div>
                     </Card>
 
-                    <Card className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <p className="text-sm text-muted-foreground mb-1">Service Investment</p>
-                          <p className="text-2xl sm:text-3xl mb-1" style={{ color: "#0284c7" }}>
+                    <Card className="p-3 sm:p-4 bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs sm:text-sm text-muted-foreground mb-1">Service Investment</p>
+                          <p className="text-xl sm:text-2xl md:text-3xl mb-1 break-words" style={{ color: "#0284c7" }}>
                             {formatPrice(conciergeService.priceInr)}
                           </p>
                           <p className="text-xs text-muted-foreground">{conciergeService.tierName} tier</p>
                         </div>
-                        <Crown className="size-8 text-blue-600" />
+                        <Crown className="size-6 sm:size-8 text-blue-600 shrink-0" />
                       </div>
                     </Card>
 
-                    <Card className="p-4 bg-gradient-to-br from-orange-50 to-amber-50 border-orange-200">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <p className="text-sm text-muted-foreground mb-1">Net Benefit</p>
-                          <p className="text-2xl sm:text-3xl mb-1" style={{ color: "#d97706" }}>
+                    <Card className="p-3 sm:p-4 bg-gradient-to-br from-orange-50 to-amber-50 border-orange-200 sm:col-span-2 md:col-span-1">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs sm:text-sm text-muted-foreground mb-1">Net Benefit</p>
+                          <p className="text-xl sm:text-2xl md:text-3xl mb-1 break-words" style={{ color: "#d97706" }}>
                             {formatPrice(totalSavingsINR - conciergeService.priceInr)}
                           </p>
                           <p className="text-xs text-muted-foreground">{roi}% return</p>
                         </div>
-                        <Award className="size-8 text-orange-600" />
+                        <Award className="size-6 sm:size-8 text-orange-600 shrink-0" />
                       </div>
                     </Card>
                   </div>
 
                   {/* Savings Breakdown */}
                   <Card className="p-4 sm:p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Savings Breakdown</h4>
-                      <Badge className="bg-[#DF6951]">{conciergeService.savingsBreakdown.length} Services</Badge>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3 sm:mb-4">
+                      <h4 className="text-base sm:text-lg" style={{ fontFamily: "Volkhov, serif" }}>Savings Breakdown</h4>
+                      <Badge className="bg-[#DF6951] w-fit text-xs sm:text-sm">{conciergeService.savingsBreakdown.length} Services</Badge>
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-2 sm:space-y-3">
                       {conciergeService.savingsBreakdown.map((saving) => (
                         <Card key={saving.id} className="p-3 sm:p-4 bg-gray-50 hover:shadow-md transition-shadow">
-                          <div className="flex flex-col sm:flex-row items-start justify-between gap-3">
+                          <div className="flex flex-col gap-3">
                             <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-1">
+                              <div className="flex flex-wrap items-center gap-2 mb-1">
                                 <Badge variant="outline" className="text-xs">{saving.category}</Badge>
-                                <h5 className="font-semibold truncate">{saving.serviceName}</h5>
+                                <h5 className="font-semibold text-sm sm:text-base">{saving.serviceName}</h5>
                               </div>
                               <p className="text-xs sm:text-sm text-muted-foreground mb-2">{saving.details}</p>
-                              <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm">
+                              <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm">
                                 <span className="text-muted-foreground line-through">
                                   Original: {formatPrice(saving.originalPrice)}
                                 </span>
@@ -826,9 +909,9 @@ export function CustomerAccountPage({ onBack }: { onBack: () => void }) {
                                 <span className="text-xs text-muted-foreground">{saving.savedDate}</span>
                               </div>
                             </div>
-                            <div className="bg-green-100 text-green-700 px-3 py-2 rounded-lg">
+                            <div className="bg-green-100 text-green-700 px-3 py-2 rounded-lg w-fit sm:self-end">
                               <p className="text-xs">Saved</p>
-                              <p className="font-semibold">{formatPrice(saving.savedAmount)}</p>
+                              <p className="font-semibold text-sm sm:text-base">{formatPrice(saving.savedAmount)}</p>
                               <p className="text-xs">
                                 {((saving.savedAmount / saving.originalPrice) * 100).toFixed(0)}%
                               </p>
@@ -840,94 +923,16 @@ export function CustomerAccountPage({ onBack }: { onBack: () => void }) {
                   </Card>
                 </div>
 
-                {/* Service Features & Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Your Concierge */}
-                  {conciergeService.conciergeAssigned && (
-                    <Card className="p-4 sm:p-6">
-                      <h4 className="text-lg mb-4" style={{ fontFamily: "Volkhov, serif" }}>Your Concierge</h4>
-                      <div className="flex items-start gap-4 mb-4">
-                        <Avatar className="size-16 border-2 border-[#DF6951]">
-                          <img 
-                            src={conciergeService.conciergeAssigned.avatar} 
-                            alt={conciergeService.conciergeAssigned.name}
-                            className="object-cover"
-                          />
-                          <AvatarFallback>{conciergeService.conciergeAssigned.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <div className="flex-1">
-                          <h5 className="font-semibold mb-1">{conciergeService.conciergeAssigned.name}</h5>
-                          <div className="space-y-1 text-sm">
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <Mail className="size-3" />
-                              <span className="truncate">{conciergeService.conciergeAssigned.email}</span>
-                            </div>
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <Phone className="size-3" />
-                              <span>{conciergeService.conciergeAssigned.phone}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button size="sm" className="flex-1 bg-[#DF6951] hover:bg-[#c5573d] gap-2">
-                          <MessageCircle className="size-4" />
-                          Chat
-                        </Button>
-                        <Button size="sm" variant="outline" className="flex-1 gap-2">
-                          <Phone className="size-4" />
-                          Call
-                        </Button>
-                      </div>
-                    </Card>
-                  )}
-
-                  {/* Service Stats */}
-                  <Card className="p-4 sm:p-6">
-                    <h4 className="text-lg mb-4" style={{ fontFamily: "Volkhov, serif" }}>Service Statistics</h4>
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Target className="size-4 text-[#DF6951]" />
-                          <span className="text-sm">Venues Negotiated</span>
-                        </div>
-                        <span className="font-semibold">{conciergeService.stats.venuesNegotiated}</span>
-                      </div>
-                      <Separator />
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Briefcase className="size-4 text-[#DF6951]" />
-                          <span className="text-sm">Vendors Negotiated</span>
-                        </div>
-                        <span className="font-semibold">{conciergeService.stats.vendorsNegotiated}</span>
-                      </div>
-                      <Separator />
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Clock className="size-4 text-[#DF6951]" />
-                          <span className="text-sm">Avg. Response Time</span>
-                        </div>
-                        <span className="font-semibold">{conciergeService.stats.responseTime}</span>
-                      </div>
-                      <Separator />
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <BarChart3 className="size-4 text-[#DF6951]" />
-                          <span className="text-sm">Avg. Savings %</span>
-                        </div>
-                        <span className="font-semibold">{conciergeService.stats.averageSavingsPercent}%</span>
-                      </div>
-                    </div>
-                  </Card>
-
+                {/* Service Features & Rewards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   {/* Service Features */}
                   <Card className="p-4 sm:p-6 md:col-span-2">
-                    <h4 className="text-lg mb-4" style={{ fontFamily: "Volkhov, serif" }}>Your Service Features</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                    <h4 className="text-base sm:text-lg mb-3 sm:mb-4" style={{ fontFamily: "Volkhov, serif" }}>Your Service Features</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
                       {conciergeService.features.map((feature, index) => (
                         <div key={index} className="flex items-start gap-2">
                           <CheckCircle2 className="size-4 text-green-600 mt-0.5 shrink-0" />
-                          <span className="text-sm">{feature}</span>
+                          <span className="text-xs sm:text-sm">{feature}</span>
                         </div>
                       ))}
                     </div>
@@ -936,27 +941,27 @@ export function CustomerAccountPage({ onBack }: { onBack: () => void }) {
                   {/* Wedzway Coins */}
                   {conciergeService.coinsBalance !== undefined && (
                     <Card className="p-4 sm:p-6 bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-200 md:col-span-2">
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                        <div className="flex-1">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+                        <div className="flex-1 w-full">
                           <div className="flex items-center gap-2 mb-2">
-                            <Sparkles className="size-5 text-yellow-600" />
-                            <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Wedzway Coins</h4>
+                            <Sparkles className="size-4 sm:size-5 text-yellow-600 shrink-0" />
+                            <h4 className="text-base sm:text-lg" style={{ fontFamily: "Volkhov, serif" }}>Wedzway Coins</h4>
                           </div>
-                          <p className="text-sm text-muted-foreground mb-3">
+                          <p className="text-xs sm:text-sm text-muted-foreground mb-3">
                             Redeem your coins for discounts on future bookings and exclusive perks
                           </p>
-                          <div className="flex flex-wrap gap-4">
+                          <div className="flex flex-wrap gap-3 sm:gap-4">
                             <div>
                               <p className="text-xs text-muted-foreground">Current Balance</p>
-                              <p className="text-2xl text-[#DF6951]">{conciergeService.coinsBalance.toLocaleString()}</p>
+                              <p className="text-xl sm:text-2xl text-[#DF6951]">{conciergeService.coinsBalance.toLocaleString()}</p>
                             </div>
                             <div>
                               <p className="text-xs text-muted-foreground">Total Earned</p>
-                              <p className="text-xl text-muted-foreground">{conciergeService.coinsEarned?.toLocaleString()}</p>
+                              <p className="text-lg sm:text-xl text-muted-foreground">{conciergeService.coinsEarned?.toLocaleString()}</p>
                             </div>
                           </div>
                         </div>
-                        <Button className="bg-yellow-600 hover:bg-yellow-700 gap-2">
+                        <Button className="bg-yellow-600 hover:bg-yellow-700 gap-2 w-full sm:w-auto text-sm">
                           <Sparkles className="size-4" />
                           Redeem Coins
                         </Button>
