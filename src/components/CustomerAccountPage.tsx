@@ -85,6 +85,7 @@ import { useCurrency } from "./CurrencyContext";
 
 export function CustomerAccountPage({ onBack }: { onBack: () => void }) {
   const data = mockCustomerData;
+  const { formatPrice } = useCurrency();
   const [activeTab, setActiveTab] = useState("overview");
   const [showBuilder, setShowBuilder] = useState(false);
   const [selectedStep, setSelectedStep] = useState<string | null>(null);
@@ -692,7 +693,6 @@ export function CustomerAccountPage({ onBack }: { onBack: () => void }) {
 
           {/* Concierge Service Tab */}
           {activeTab === "concierge" && (() => {
-            const { formatPrice } = useCurrency();
             const conciergeService = data.conciergeService;
             
             if (!conciergeService) {
