@@ -1488,6 +1488,10 @@
     width: 160px;
   }
 
+  .w-\[300px\] {
+    width: 300px;
+  }
+
   .w-fit {
     width: fit-content;
   }
@@ -5442,6 +5446,12 @@
   }
 
   @media (width >= 40rem) {
+    .sm\:w-\[400px\] {
+      width: 400px;
+    }
+  }
+
+  @media (width >= 40rem) {
     .sm\:w-auto {
       width: auto;
     }
@@ -6298,6 +6308,12 @@
   @media (width >= 64rem) {
     .lg\:block {
       display: block;
+    }
+  }
+
+  @media (width >= 64rem) {
+    .lg\:flex {
+      display: flex;
     }
   }
 
