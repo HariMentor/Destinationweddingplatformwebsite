@@ -105,7 +105,7 @@ export interface Payment {
   amount: string;
   currency: string;
   paymentMethod: "credit-card" | "debit-card" | "bank-transfer" | "upi" | "paypal" | "net-banking";
-  paymentStatus: "completed" | "pending" | "failed" | "refunded";
+  paymentStatus: "completed" | "pending" | "failed" | "refunded" | "awaiting-confirmation";
   cardLast4?: string;
   cardBrand?: string;
   bankName?: string;
@@ -116,6 +116,19 @@ export interface Payment {
   description: string;
   transactionFee?: string;
   netAmount?: string;
+  // Bank transfer specific fields
+  bankTransferProof?: string; // URL to uploaded proof
+  bankTransferStatus?: "pending-upload" | "uploaded" | "verified" | "rejected";
+  bankTransferUploadDate?: string;
+  bankTransferVerificationDate?: string;
+  bankTransferRejectionReason?: string;
+  bankAccountDetails?: {
+    accountNumber: string;
+    swiftCode: string;
+    bankName: string;
+    accountHolder: string;
+    reference: string;
+  };
 }
 
 export interface WeddingPlanData {
@@ -905,6 +918,16 @@ const mockPayments: Payment[] = [
     description: "Advance payment for wedding venue booking - 50% of total",
     transactionFee: "₹2,500",
     netAmount: "₹747,500",
+    bankTransferStatus: "verified",
+    bankTransferVerificationDate: "Jan 17, 2025",
+    bankTransferProof: "/uploads/bank-proof-001.pdf",
+    bankAccountDetails: {
+      accountNumber: "GB29 WEDZ 6016 1331 9268 19",
+      swiftCode: "WEDZGB2L",
+      bankName: "Wedzway International Bank",
+      accountHolder: "Wedzway Ltd",
+      reference: "WDZ-VB001-TXN150001",
+    },
   },
   {
     id: "PAY002",
@@ -1033,7 +1056,7 @@ const mockPayments: Payment[] = [
     amount: "₹95,000",
     currency: "INR",
     paymentMethod: "bank-transfer",
-    paymentStatus: "pending",
+    paymentStatus: "awaiting-confirmation",
     bankName: "Axis Bank",
     invoiceUrl: "/invoices/INV-2025-008.pdf",
     invoiceNumber: "INV-2025-008",
@@ -1041,6 +1064,14 @@ const mockPayments: Payment[] = [
     description: "Advance payment for wedding videography - Cinematic Package",
     transactionFee: "₹1,500",
     netAmount: "₹93,500",
+    bankTransferStatus: "pending-upload",
+    bankAccountDetails: {
+      accountNumber: "GB29 WEDZ 6016 1331 9268 20",
+      swiftCode: "WEDZGB2L",
+      bankName: "Wedzway International Bank",
+      accountHolder: "Wedzway Ltd",
+      reference: "WDZ-VN003-TXN050008",
+    },
   },
   {
     id: "PAY009",
@@ -1079,6 +1110,64 @@ const mockPayments: Payment[] = [
     description: "Complete bridal jewelry set with matching accessories",
     transactionFee: "₹12,750",
     netAmount: "₹412,250",
+  },
+  {
+    id: "PAY011",
+    transactionId: "TXN202502150011",
+    bookingReference: "VN004",
+    bookingType: "vendor",
+    itemName: "Mehndi Magic - Bridal Henna Artist",
+    paymentDate: "Feb 15, 2025",
+    amount: "₹35,000",
+    currency: "INR",
+    paymentMethod: "bank-transfer",
+    paymentStatus: "pending",
+    bankName: "State Bank of India",
+    invoiceUrl: "/invoices/INV-2025-011.pdf",
+    invoiceNumber: "INV-2025-011",
+    paidTo: "Mehndi Magic Studio",
+    description: "Bridal and family mehndi services",
+    transactionFee: "₹0",
+    netAmount: "₹35,000",
+    bankTransferStatus: "uploaded",
+    bankTransferUploadDate: "Feb 16, 2025",
+    bankTransferProof: "/uploads/bank-proof-011.pdf",
+    bankAccountDetails: {
+      accountNumber: "GB29 WEDZ 6016 1331 9268 21",
+      swiftCode: "WEDZGB2L",
+      bankName: "Wedzway International Bank",
+      accountHolder: "Wedzway Ltd",
+      reference: "WDZ-VN004-TXN150011",
+    },
+  },
+  {
+    id: "PAY012",
+    transactionId: "TXN202502180012",
+    bookingReference: "VN005",
+    bookingType: "vendor",
+    itemName: "Royal Caterers - Wedding Catering",
+    paymentDate: "Feb 18, 2025",
+    amount: "₹580,000",
+    currency: "INR",
+    paymentMethod: "bank-transfer",
+    paymentStatus: "awaiting-confirmation",
+    bankName: "Punjab National Bank",
+    invoiceUrl: "/invoices/INV-2025-012.pdf",
+    invoiceNumber: "INV-2025-012",
+    paidTo: "Royal Caterers Ltd",
+    description: "Advance payment for wedding catering - 120 guests",
+    transactionFee: "₹0",
+    netAmount: "₹580,000",
+    bankTransferStatus: "rejected",
+    bankTransferUploadDate: "Feb 19, 2025",
+    bankTransferRejectionReason: "The uploaded document appears to be incomplete. Please upload a clear copy showing the full transaction details including amount, date, and reference number.",
+    bankAccountDetails: {
+      accountNumber: "GB29 WEDZ 6016 1331 9268 22",
+      swiftCode: "WEDZGB2L",
+      bankName: "Wedzway International Bank",
+      accountHolder: "Wedzway Ltd",
+      reference: "WDZ-VN005-TXN180012",
+    },
   },
 ];
 

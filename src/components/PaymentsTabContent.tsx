@@ -13,12 +13,20 @@ import {
   Calendar,
   Filter,
   Search,
+  Upload,
+  AlertCircle,
+  FileCheck,
+  FileX,
 } from "lucide-react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog";
+import { Label } from "./ui/label";
+import { Separator } from "./ui/separator";
 import { toast } from "sonner@2.0.3";
+import { useState } from "react";
 
 interface Payment {
   id: string;
@@ -41,6 +49,19 @@ interface Payment {
   description: string;
   transactionFee?: string;
   netAmount?: string;
+  // Bank transfer specific fields
+  bankTransferProof?: string;
+  bankTransferStatus?: "pending-upload" | "uploaded" | "verified" | "rejected";
+  bankTransferUploadDate?: string;
+  bankTransferVerificationDate?: string;
+  bankTransferRejectionReason?: string;
+  bankAccountDetails?: {
+    accountNumber: string;
+    swiftCode: string;
+    bankName: string;
+    accountHolder: string;
+    reference: string;
+  };
 }
 
 interface PaymentsTabProps {
@@ -68,6 +89,67 @@ export function PaymentsTabContent({
   paymentMethods,
   getStatusBadge,
 }: PaymentsTabProps) {
+  const [selectedPayment, setSelectedPayment] = useState<Payment | null>(null);
+  const [showBankTransferDialog, setShowBankTransferDialog] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setUploadedFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmitBankProof = async () => {
+    if (!uploadedFile || !selectedPayment) return;
+
+    setIsUploading(true);
+    
+    // Simulate upload
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    setIsUploading(false);
+    setShowBankTransferDialog(false);
+    setUploadedFile(null);
+    
+    toast.success("Bank transfer proof uploaded successfully! We'll verify it within 2-3 business days.");
+  };
+
+  const getBankTransferStatusBadge = (status?: string) => {
+    switch (status) {
+      case "pending-upload":
+        return (
+          <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-300">
+            <Upload className="size-3 mr-1" />
+            Awaiting Upload
+          </Badge>
+        );
+      case "uploaded":
+        return (
+          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-300">
+            <Clock className="size-3 mr-1" />
+            Under Review
+          </Badge>
+        );
+      case "verified":
+        return (
+          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-300">
+            <FileCheck className="size-3 mr-1" />
+            Verified
+          </Badge>
+        );
+      case "rejected":
+        return (
+          <Badge variant="outline" className="bg-red-50 text-red-700 border-red-300">
+            <FileX className="size-3 mr-1" />
+            Rejected
+          </Badge>
+        );
+      default:
+        return null;
+    }
+  };
+
   const getPaymentMethodIcon = (method: string) => {
     switch (method) {
       case "credit-card":
@@ -102,6 +184,157 @@ export function PaymentsTabContent({
 
   return (
     <div className="space-y-6">
+      {/* Bank Transfer Upload Dialog */}
+      <Dialog open={showBankTransferDialog} onOpenChange={setShowBankTransferDialog}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Upload Bank Transfer Proof</DialogTitle>
+            <DialogDescription>
+              Upload your bank transfer confirmation to complete your payment verification
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedPayment && (
+            <div className="space-y-6">
+              {/* Payment Details */}
+              <div className="bg-gray-50 rounded-lg p-4 border">
+                <h4 className="font-medium mb-3">Payment Details</h4>
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <p className="text-muted-foreground">Item</p>
+                    <p className="font-medium">{selectedPayment.itemName}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground">Amount</p>
+                    <p className="font-medium text-[#DF6951]">{selectedPayment.amount}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground">Booking Reference</p>
+                    <p className="font-mono text-xs">{selectedPayment.bookingReference}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground">Transaction ID</p>
+                    <p className="font-mono text-xs">{selectedPayment.transactionId}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bank Account Details */}
+              {selectedPayment.bankAccountDetails && (
+                <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                  <h4 className="font-medium mb-3">Bank Account Details</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="grid grid-cols-2 gap-2">
+                      <span className="text-muted-foreground">Bank Name:</span>
+                      <span className="font-medium">{selectedPayment.bankAccountDetails.bankName}</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <span className="text-muted-foreground">Account Number:</span>
+                      <span className="font-mono font-medium">{selectedPayment.bankAccountDetails.accountNumber}</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <span className="text-muted-foreground">SWIFT/BIC:</span>
+                      <span className="font-mono font-medium">{selectedPayment.bankAccountDetails.swiftCode}</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <span className="text-muted-foreground">Account Holder:</span>
+                      <span className="font-medium">{selectedPayment.bankAccountDetails.accountHolder}</span>
+                    </div>
+                    <Separator className="my-2" />
+                    <div className="grid grid-cols-2 gap-2">
+                      <span className="text-muted-foreground">Reference:</span>
+                      <span className="font-mono font-medium text-[#DF6951]">{selectedPayment.bankAccountDetails.reference}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* File Upload */}
+              <div className="space-y-3">
+                <Label>Upload Transfer Confirmation</Label>
+                <div className="relative">
+                  <Input
+                    id="bank-proof-upload"
+                    type="file"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor="bank-proof-upload"
+                    className="flex items-center justify-center gap-3 p-6 border-2 border-dashed border-border rounded-lg cursor-pointer hover:border-[#DF6951] hover:bg-rose-50/30 transition-colors"
+                  >
+                    <Upload className="size-6 text-muted-foreground" />
+                    <div className="text-center">
+                      <p className="font-medium">
+                        {uploadedFile ? uploadedFile.name : 'Click to upload'}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        PDF, JPG, PNG (Max 5MB)
+                      </p>
+                    </div>
+                  </label>
+                </div>
+
+                {uploadedFile && (
+                  <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <CheckCircle2 className="size-5 text-green-600" />
+                    <span className="text-sm text-green-800">
+                      File selected: {uploadedFile.name}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Info Notice */}
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="size-5 text-amber-600 mt-0.5 flex-shrink-0" />
+                  <div className="text-sm text-amber-800">
+                    <p className="font-medium mb-1">Verification Process:</p>
+                    <ul className="space-y-1 text-xs">
+                      <li>• Upload your bank transfer receipt or confirmation</li>
+                      <li>• Our team will verify the payment within 2-3 business days</li>
+                      <li>• You'll receive an email confirmation once verified</li>
+                      <li>• Your booking will be activated after verification</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setShowBankTransferDialog(false);
+                setUploadedFile(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSubmitBankProof}
+              disabled={!uploadedFile || isUploading}
+              className="bg-gradient-to-r from-[#DF6951] to-[#F1A501]"
+            >
+              {isUploading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                  Uploading...
+                </>
+              ) : (
+                <>
+                  <Upload className="size-4 mr-2" />
+                  Submit Proof
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-xl mb-2" style={{ fontFamily: "Volkhov, serif" }}>
@@ -114,7 +347,7 @@ export function PaymentsTabContent({
       </div>
 
       {/* Payment Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
         <Card className="p-4 bg-gradient-to-br from-green-50 to-white border-2 border-green-200">
           <div className="flex items-center justify-between mb-2">
             <CheckCircle2 className="size-8 text-green-600" />
@@ -135,6 +368,17 @@ export function PaymentsTabContent({
             {payments.filter(p => p.paymentStatus === "pending").length}
           </p>
           <p className="text-sm text-muted-foreground">Pending Payments</p>
+        </Card>
+
+        <Card className="p-4 bg-gradient-to-br from-orange-50 to-white border-2 border-orange-200">
+          <div className="flex items-center justify-between mb-2">
+            <Upload className="size-8 text-orange-600" />
+            <Badge className="bg-orange-100 text-orange-700">Action</Badge>
+          </div>
+          <p className="text-2xl mb-1">
+            {payments.filter(p => p.paymentStatus === "awaiting-confirmation" || p.bankTransferStatus === "pending-upload").length}
+          </p>
+          <p className="text-sm text-muted-foreground">Awaiting Upload</p>
         </Card>
 
         <Card className="p-4 bg-gradient-to-br from-purple-50 to-white border-2 border-purple-200">
@@ -220,6 +464,14 @@ export function PaymentsTabContent({
               >
                 <XCircle className="size-3 mr-1" />
                 Failed ({payments.filter(p => p.paymentStatus === "failed").length})
+              </Badge>
+              <Badge
+                variant={paymentStatusFilter === "awaiting-confirmation" ? "default" : "outline"}
+                className={`cursor-pointer ${paymentStatusFilter === "awaiting-confirmation" ? "bg-orange-600" : ""}`}
+                onClick={() => setPaymentStatusFilter("awaiting-confirmation")}
+              >
+                <Upload className="size-3 mr-1" />
+                Awaiting Confirmation ({payments.filter(p => p.paymentStatus === "awaiting-confirmation").length})
               </Badge>
             </div>
           </div>
@@ -365,10 +617,129 @@ export function PaymentsTabContent({
                     </div>
                   </div>
                 )}
+
+                {/* Bank Transfer Specific Statuses */}
+                {payment.paymentMethod === "bank-transfer" && (
+                  <div className="space-y-3">
+                    {/* Bank Transfer Status Badge */}
+                    {payment.bankTransferStatus && (
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-muted-foreground">Transfer Status:</span>
+                        {getBankTransferStatusBadge(payment.bankTransferStatus)}
+                      </div>
+                    )}
+
+                    {/* Pending Upload Notice */}
+                    {payment.bankTransferStatus === "pending-upload" && (
+                      <div className="bg-amber-50 border-2 border-amber-200 rounded-lg p-3">
+                        <div className="flex items-start gap-2">
+                          <Upload className="size-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                          <div>
+                            <p className="text-sm font-semibold text-amber-900 mb-1">
+                              Upload Required
+                            </p>
+                            <p className="text-xs text-amber-800">
+                              Please upload your bank transfer confirmation to proceed with verification.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Uploaded - Under Review */}
+                    {payment.bankTransferStatus === "uploaded" && (
+                      <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-3">
+                        <div className="flex items-start gap-2">
+                          <Clock className="size-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                          <div>
+                            <p className="text-sm font-semibold text-blue-900 mb-1">
+                              Under Review
+                            </p>
+                            <p className="text-xs text-blue-800">
+                              Uploaded on {payment.bankTransferUploadDate}. We're verifying your payment.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Verified */}
+                    {payment.bankTransferStatus === "verified" && (
+                      <div className="bg-green-50 border-2 border-green-200 rounded-lg p-3">
+                        <div className="flex items-start gap-2">
+                          <FileCheck className="size-4 text-green-600 mt-0.5 flex-shrink-0" />
+                          <div>
+                            <p className="text-sm font-semibold text-green-900 mb-1">
+                              Payment Verified
+                            </p>
+                            <p className="text-xs text-green-800">
+                              Verified on {payment.bankTransferVerificationDate}. Your booking is confirmed!
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Rejected */}
+                    {payment.bankTransferStatus === "rejected" && (
+                      <div className="bg-red-50 border-2 border-red-200 rounded-lg p-3">
+                        <div className="flex items-start gap-2">
+                          <FileX className="size-4 text-red-600 mt-0.5 flex-shrink-0" />
+                          <div>
+                            <p className="text-sm font-semibold text-red-900 mb-1">
+                              Proof Rejected
+                            </p>
+                            <p className="text-xs text-red-800 mb-2">
+                              {payment.bankTransferRejectionReason || "The uploaded proof could not be verified."}
+                            </p>
+                            <p className="text-xs text-red-700">
+                              Please upload a clear copy of your bank transfer confirmation.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Right Section - Actions */}
               <div className="shrink-0 flex flex-col gap-2 min-w-[140px]">
+                {/* Bank Transfer Upload Button */}
+                {payment.paymentMethod === "bank-transfer" && 
+                 (payment.bankTransferStatus === "pending-upload" || payment.bankTransferStatus === "rejected") && (
+                  <Button
+                    size="sm"
+                    className="w-full gap-2 bg-gradient-to-r from-[#DF6951] to-[#F1A501] hover:from-[#DF6951]/90 hover:to-[#F1A501]/90"
+                    onClick={() => {
+                      setSelectedPayment(payment);
+                      setShowBankTransferDialog(true);
+                    }}
+                  >
+                    <Upload className="size-4" />
+                    {payment.bankTransferStatus === "rejected" ? "Re-upload" : "Upload Proof"}
+                  </Button>
+                )}
+
+                {/* View Proof Button for uploaded/verified */}
+                {payment.paymentMethod === "bank-transfer" && 
+                 payment.bankTransferProof && 
+                 (payment.bankTransferStatus === "uploaded" || payment.bankTransferStatus === "verified") && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="w-full gap-2"
+                    onClick={() => {
+                      if (payment.bankTransferProof) {
+                        window.open(payment.bankTransferProof, "_blank");
+                      }
+                    }}
+                  >
+                    <FileCheck className="size-4" />
+                    View Proof
+                  </Button>
+                )}
+
                 <Button
                   size="sm"
                   variant="outline"

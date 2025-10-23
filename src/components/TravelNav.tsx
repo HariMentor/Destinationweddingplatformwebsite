@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Settings, Wand2, User, ChevronDown, Users, MapPin, Palette, Briefcase, Building2, Plane, FileText, Crown, Globe, Menu, X, ShoppingBag, Camera, Hotel } from "lucide-react";
+import { Settings, Wand2, User, ChevronDown, Users, MapPin, Palette, Briefcase, Building2, Plane, FileText, Crown, Globe, Menu, X, ShoppingBag, Camera, Hotel, Mail } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   DropdownMenu,
@@ -20,8 +20,8 @@ import {
 import { useCurrency } from "./CurrencyContext";
 
 interface TravelNavProps {
-  onNavigate?: (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge') => void;
-  currentPage?: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge';
+  onNavigate?: (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'email-templates') => void;
+  currentPage?: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'email-templates';
 }
 
 export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) {
@@ -270,6 +270,11 @@ export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) 
               <DropdownMenuItem onClick={() => handleNavigate('expenses')}>
                 <Settings className="size-4 mr-2" />
                 Expenses & Settings
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => handleNavigate('email-templates')}>
+                <Mail className="size-4 mr-2 text-[#DF6951]" />
+                Email Templates
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

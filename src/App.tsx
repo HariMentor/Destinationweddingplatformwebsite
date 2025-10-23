@@ -44,10 +44,11 @@ import { CustomerAccountPage } from "./components/CustomerAccountPage";
 import { ConciergePage } from "./components/ConciergePage";
 import { PaymentPage } from "./components/PaymentPage";
 import { BookingConfirmationPage } from "./components/BookingConfirmationPage";
+import { EmailTemplatesPage } from "./components/EmailTemplatesPage";
 import { Toaster } from "./components/ui/sonner";
 
 type VendorType = 'photographer' | 'videographer' | 'decorator';
-type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge' | 'payment' | 'booking-confirmation';
+type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge' | 'payment' | 'booking-confirmation' | 'email-templates';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('landing');
@@ -411,6 +412,10 @@ export default function App() {
           <>
             <ConciergePage />
             <TravelFooter />
+          </>
+        ) : currentPage === 'email-templates' ? (
+          <>
+            <EmailTemplatesPage onBack={() => setCurrentPage('landing')} />
           </>
         ) : null}
       </div>
