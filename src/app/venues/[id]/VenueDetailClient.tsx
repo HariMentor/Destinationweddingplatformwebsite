@@ -35,10 +35,18 @@ export function VenueDetailClient({ venueId }: { venueId: string }) {
     router.push('/venues');
   };
 
+  const handleProceedToPayment = () => {
+    router.push('/booking/payment?type=venue');
+  };
+
   return (
     <div className="size-full">
       <TravelNav onNavigate={handleNavigate} currentPage="venues" />
-      <VenueDetailsPage venueId={parseInt(venueId)} onBack={handleBack} />
+      <VenueDetailsPage 
+        venueId={parseInt(venueId)} 
+        onBack={handleBack}
+        onProceedToPayment={handleProceedToPayment}
+      />
       <TravelFooter />
     </div>
   );

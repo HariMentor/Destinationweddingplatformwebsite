@@ -20,6 +20,7 @@ import { useCurrency } from "./CurrencyContext";
 interface VenueDetailsPageProps {
   venueId: number;
   onBack: () => void;
+  onProceedToPayment?: () => void;
 }
 
 const venueDetails = {
@@ -110,7 +111,7 @@ const venueDetails = {
   },
 };
 
-export function VenueDetailsPage({ venueId, onBack }: VenueDetailsPageProps) {
+export function VenueDetailsPage({ venueId, onBack, onProceedToPayment }: VenueDetailsPageProps) {
   const venue = venueDetails[venueId as keyof typeof venueDetails] || venueDetails[1];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -469,9 +470,12 @@ export function VenueDetailsPage({ venueId, onBack }: VenueDetailsPageProps) {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-gradient-to-r from-[#DF6951] to-[#F1A501] hover:from-[#DF6951]/90 hover:to-[#F1A501]/90">
+                  <Button 
+                    className="w-full bg-gradient-to-r from-[#DF6951] to-[#F1A501] hover:from-[#DF6951]/90 hover:to-[#F1A501]/90"
+                    onClick={onProceedToPayment}
+                  >
                     <Calendar className="mr-2 size-5" />
-                    Proceed to Booking
+                    Proceed to Payment
                   </Button>
 
                   <p className="text-xs text-center text-muted-foreground">

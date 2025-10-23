@@ -42,10 +42,12 @@ import { BrandProfilePage } from "./components/BrandProfilePage";
 import { TourismBoardProfilePage } from "./components/TourismBoardProfilePage";
 import { CustomerAccountPage } from "./components/CustomerAccountPage";
 import { ConciergePage } from "./components/ConciergePage";
+import { PaymentPage } from "./components/PaymentPage";
+import { BookingConfirmationPage } from "./components/BookingConfirmationPage";
 import { Toaster } from "./components/ui/sonner";
 
 type VendorType = 'photographer' | 'videographer' | 'decorator';
-type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge';
+type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge' | 'payment' | 'booking-confirmation';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('landing');
@@ -169,6 +171,22 @@ export default function App() {
     setSelectedTourismBoard(null);
   };
 
+  const handleProceedToPayment = () => {
+    setCurrentPage('payment');
+  };
+
+  const handleBackFromPayment = () => {
+    setCurrentPage('venue-details');
+  };
+
+  const handlePaymentComplete = () => {
+    setCurrentPage('booking-confirmation');
+  };
+
+  const handleBackFromBookingConfirmation = () => {
+    setCurrentPage('landing');
+  };
+
   const handleNavigate = (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge') => {
     setCurrentPage(page);
   };
@@ -253,8 +271,23 @@ export default function App() {
           </>
         ) : currentPage === 'venue-details' ? (
           <>
-            <VenueDetailsPage venueId={selectedVenueId || 1} onBack={handleBackToVenues} />
+            <VenueDetailsPage 
+              venueId={selectedVenueId || 1} 
+              onBack={handleBackToVenues}
+              onProceedToPayment={handleProceedToPayment}
+            />
             <TravelFooter />
+          </>
+        ) : currentPage === 'payment' ? (
+          <>
+            <PaymentPage 
+              onBack={handleBackFromPayment}
+              onPaymentComplete={handlePaymentComplete}
+            />
+          </>
+        ) : currentPage === 'booking-confirmation' ? (
+          <>
+            <BookingConfirmationPage onBack={handleBackFromBookingConfirmation} />
           </>
         ) : currentPage === 'inspirations' ? (
           <>

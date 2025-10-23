@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, MapPin, Users, Star, Heart, SlidersHorizontal, DollarSign, Calendar, ChevronDown } from "lucide-react";
+import { Search, MapPin, Users, Star, Heart, SlidersHorizontal, DollarSign, Calendar, ChevronDown, BadgeCheck } from "lucide-react";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -220,7 +220,8 @@ export function VenuePage({ onViewDetails }: VenuePageProps) {
                         </Badge>
                       )}
                       {venue.verified && (
-                        <Badge className="bg-emerald-500 text-white border-0 shadow-lg w-fit">
+                        <Badge className="bg-blue-500 border-0 shadow-lg w-fit gap-1">
+                          <BadgeCheck className="size-4" />
                           Verified
                         </Badge>
                       )}
