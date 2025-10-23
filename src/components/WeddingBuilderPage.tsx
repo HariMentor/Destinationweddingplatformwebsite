@@ -669,26 +669,26 @@ const inspirationDetails = [
 
 const vendorsByCategory = {
   planner: [
-    {
-      id: 1,
-      name: "Elite Wedding Planners",
-      location: "Mumbai, India",
-      image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800",
-      gallery: [
-        "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800",
-        "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800",
-        "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
-        "https://images.unsplash.com/photo-1519741497674-611481863552?w=800",
-        "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=800"
-      ],
-      rating: 4.9,
-      reviews: 156,
-      startingPrice: "$5,000",
-      specialties: ["Destination Weddings", "Traditional Ceremonies", "Luxury Events"],
-      verified: true,
-      themeBased: true,
-      events: 200
-    },
+    // {
+    //   id: 1,
+    //   name: "Elite Wedding Planners",
+    //   location: "Mumbai, India",
+    //   image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800",
+    //   gallery: [
+    //     "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800",
+    //     "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800",
+    //     "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
+    //     "https://images.unsplash.com/photo-1519741497674-611481863552?w=800",
+    //     "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=800"
+    //   ],
+    //   rating: 4.9,
+    //   reviews: 156,
+    //   startingPrice: "$5,000",
+    //   specialties: ["Destination Weddings", "Traditional Ceremonies", "Luxury Events"],
+    //   verified: true,
+    //   themeBased: true,
+    //   events: 200
+    // },
     {
       id: 2,
       name: "Dreamday Events",
@@ -745,6 +745,7 @@ const vendorsByCategory = {
       themeBased: true,
       events: 165
     },
+    
   ],
   photographer: [
     {
@@ -823,6 +824,24 @@ const vendorsByCategory = {
       verified: true,
       themeBased: false,
       portfolio: 320
+    },
+    {
+      id: 5,
+      name: "Royal Frame Photography",
+      location: "Udaipur, India",
+      image: "https://images.unsplash.com/photo-1610379230744-2260350e2f17?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1610379230744-2260350e2f17?w=800",
+        "https://images.unsplash.com/photo-1606800052052-c96147d1f0b5?w=800",
+        "https://images.unsplash.com/photo-1629587424603-f117664faf1c?w=800"
+      ],
+      rating: 4.9,
+      reviews: 198,
+      startingPrice: "$2,600",
+      specialties: ["Royal Weddings", "Palace Photography", "Heritage Venues"],
+      verified: true,
+      themeBased: true,
+      portfolio: 410
     },
   ],
   videographer: [
@@ -1178,6 +1197,261 @@ const themeDetails = [
   },
 ];
 
+const venueDetails = [
+  {
+    id: 1,
+    name: "The Taj Lake Palace",
+    location: "Udaipur, India",
+    type: "Palace",
+    capacity: 300,
+    image: "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800",
+    gallery: [
+      "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+      "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800"
+    ],
+    priceRange: "$30K - $80K",
+    description: "Floating marble palace in Lake Pichola offering unparalleled luxury and romance. Experience a royal wedding with stunning lake views and world-class amenities.",
+    features: ["Lake View", "Heritage Property", "Fine Dining", "Luxury Spa", "Royal Suites"],
+    rating: 5.0,
+    reviews: 342,
+    verified: true,
+    destination: "Udaipur, India",
+    themes: ["Royal", "Palace", "Traditional", "Luxury"]
+  },
+  {
+    id: 2,
+    name: "Leela Palace Jaipur",
+    location: "Jaipur, India",
+    type: "Palace",
+    capacity: 500,
+    image: "https://images.unsplash.com/photo-1596436889106-be35e843f974?w=800",
+    gallery: [
+      "https://images.unsplash.com/photo-1596436889106-be35e843f974?w=800",
+      "https://images.unsplash.com/photo-1610379230744-2260350e2f17?w=800",
+      "https://images.unsplash.com/photo-1606800052052-c96147d1f0b5?w=800"
+    ],
+    priceRange: "$35K - $90K",
+    description: "Majestic palace showcasing authentic Rajasthani architecture with stunning courtyards and grand ballrooms. Perfect for large-scale royal celebrations.",
+    features: ["Grand Ballroom", "Courtyard", "Heritage Architecture", "Luxury Service", "Multiple Venues"],
+    rating: 4.9,
+    reviews: 287,
+    verified: true,
+    destination: "Jaipur, India",
+    themes: ["Royal", "Palace", "Traditional", "Grand"]
+  },
+  {
+    id: 3,
+    name: "The Lalit Golf & Spa Resort",
+    location: "Goa, India",
+    type: "Beach Resort",
+    capacity: 400,
+    image: "https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800",
+    gallery: [
+      "https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800",
+      "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800",
+      "https://images.unsplash.com/photo-1548013146-72479768bada?w=800"
+    ],
+    priceRange: "$20K - $50K",
+    description: "Beachfront paradise with Portuguese-inspired architecture. Offers stunning beach ceremonies, multiple event spaces, and world-class amenities.",
+    features: ["Beachfront", "Golf Course", "Spa", "Multiple Venues", "Oceanfront Ceremony"],
+    rating: 4.8,
+    reviews: 298,
+    verified: true,
+    destination: "Goa, India",
+    themes: ["Beach", "Modern", "Resort"]
+  },
+  {
+    id: 4,
+    name: "Kumarakom Lake Resort",
+    location: "Kerala, India",
+    type: "Resort",
+    capacity: 250,
+    image: "https://images.unsplash.com/photo-1602216056289-79def7eaaa7e?w=800",
+    gallery: [
+      "https://images.unsplash.com/photo-1602216056289-79def7eaaa7e?w=800",
+      "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?w=800",
+      "https://images.unsplash.com/photo-1680599022555-57fb95b64b5c?w=800"
+    ],
+    priceRange: "$18K - $45K",
+    description: "Serene backwater resort offering traditional Kerala architecture and lush tropical settings. Unique houseboat ceremonies available.",
+    features: ["Backwater View", "Traditional Architecture", "Houseboat Option", "Ayurvedic Spa", "Waterfront Dining"],
+    rating: 4.7,
+    reviews: 234,
+    verified: true,
+    destination: "Kerala, India",
+    themes: ["Garden", "Traditional", "Bohemian", "Nature"]
+  },
+  {
+    id: 5,
+    name: "The Oberoi Udaivilas",
+    location: "Udaipur, India",
+    type: "Palace",
+    capacity: 350,
+    image: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800",
+    gallery: [
+      "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+      "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800"
+    ],
+    priceRange: "$40K - $100K",
+    description: "Award-winning luxury palace hotel with sprawling courtyards, fountains, and reflection pools. The epitome of Rajput grandeur.",
+    features: ["Reflection Pools", "Courtyard Gardens", "Lake View", "Fine Dining", "Luxury Spa"],
+    rating: 5.0,
+    reviews: 412,
+    verified: true,
+    destination: "Udaipur, India",
+    themes: ["Royal", "Palace", "Luxury", "Traditional"]
+  },
+  {
+    id: 6,
+    name: "Anantara Bali Uluwatu Resort",
+    location: "Bali, Indonesia",
+    type: "Clifftop Resort",
+    capacity: 200,
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800",
+    gallery: [
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800",
+      "https://images.unsplash.com/photo-1559628376-f3fe5f782a2e?w=800",
+      "https://images.unsplash.com/photo-1710563142972-e1f1f018346b?w=800"
+    ],
+    priceRange: "$25K - $60K",
+    description: "Dramatic clifftop setting with panoramic Indian Ocean views. Contemporary Balinese design meets modern luxury for unforgettable celebrations.",
+    features: ["Clifftop Location", "Ocean Views", "Infinity Pool", "Spa", "Multiple Venues"],
+    rating: 4.9,
+    reviews: 276,
+    verified: true,
+    destination: "Bali, Indonesia",
+    themes: ["Beach", "Modern", "Luxury", "Clifftop"]
+  },
+  {
+    id: 7,
+    name: "Katikies Hotel Santorini",
+    location: "Santorini, Greece",
+    type: "Boutique Hotel",
+    capacity: 150,
+    image: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=800",
+    gallery: [
+      "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=800",
+      "https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=800",
+      "https://images.unsplash.com/photo-1720535594377-1a8a890b0718?w=800"
+    ],
+    priceRange: "$35K - $75K",
+    description: "Iconic whitewashed Cycladic architecture perched on volcanic cliffs. Sunset ceremonies with breathtaking caldera views create magical moments.",
+    features: ["Caldera View", "Sunset Terrace", "Infinity Pool", "Cave Suites", "Private Ceremonies"],
+    rating: 5.0,
+    reviews: 198,
+    verified: true,
+    destination: "Santorini, Greece",
+    themes: ["Beach", "Modern", "Minimal", "Luxury"]
+  },
+  {
+    id: 8,
+    name: "Borgo Santo Pietro",
+    location: "Tuscany, Italy",
+    type: "Villa",
+    capacity: 180,
+    image: "https://images.unsplash.com/photo-1523906630133-f6934a1ab2b9?w=800",
+    gallery: [
+      "https://images.unsplash.com/photo-1523906630133-f6934a1ab2b9?w=800",
+      "https://images.unsplash.com/photo-1510076857177-7470076d4098?w=800",
+      "https://images.unsplash.com/photo-1609523698456-84f8afdba194?w=800"
+    ],
+    priceRange: "$30K - $70K",
+    description: "13th-century villa estate surrounded by rolling hills and vineyards. Authentic Tuscan charm with organic gardens and farm-to-table dining.",
+    features: ["Vineyard Setting", "Historic Villa", "Organic Gardens", "Spa", "Wine Cellar"],
+    rating: 4.9,
+    reviews: 167,
+    verified: true,
+    destination: "Tuscany, Italy",
+    themes: ["Rustic", "Garden", "Vintage", "Vineyard"]
+  },
+  {
+    id: 9,
+    name: "Atlantis The Palm Dubai",
+    location: "Dubai, UAE",
+    type: "Resort",
+    capacity: 600,
+    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800",
+    gallery: [
+      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800",
+      "https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=800",
+      "https://images.unsplash.com/photo-1743819458014-f5cf74f175e3?w=800"
+    ],
+    priceRange: "$45K - $120K",
+    description: "Iconic luxury resort offering spectacular Arabian Gulf views and world-class facilities. Grand ballrooms and beachfront venues for extravagant celebrations.",
+    features: ["Beachfront", "Grand Ballroom", "Underwater Suite", "Aquarium", "Multiple Restaurants"],
+    rating: 4.8,
+    reviews: 421,
+    verified: true,
+    destination: "Dubai, UAE",
+    themes: ["Modern", "Luxury", "Grand", "Beach"]
+  },
+  {
+    id: 10,
+    name: "Soneva Jani Maldives",
+    location: "Maldives",
+    type: "Overwater Resort",
+    capacity: 100,
+    image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800",
+    gallery: [
+      "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800",
+      "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=800",
+      "https://images.unsplash.com/photo-1663679508314-b68d8da82409?w=800"
+    ],
+    priceRange: "$50K - $150K",
+    description: "Ultra-luxurious overwater villas in pristine lagoon. Intimate barefoot luxury with personalized service for exclusive island weddings.",
+    features: ["Overwater Villas", "Private Beach", "Observatory", "Water Slides", "Personal Butler"],
+    rating: 5.0,
+    reviews: 143,
+    verified: true,
+    destination: "Maldives",
+    themes: ["Beach", "Luxury", "Minimal", "Intimate"]
+  },
+  {
+    id: 11,
+    name: "Trisara Phuket",
+    location: "Phuket, Thailand",
+    type: "Beach Resort",
+    capacity: 220,
+    image: "https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?w=800",
+    gallery: [
+      "https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?w=800",
+      "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800",
+      "https://images.unsplash.com/photo-1714785520961-1fc8d7360f3b?w=800"
+    ],
+    priceRange: "$22K - $55K",
+    description: "Private beach resort nestled in tropical paradise. Contemporary Thai design with secluded beaches and lush gardens for romantic celebrations.",
+    features: ["Private Beach", "Pool Villas", "Spa", "Thai Pavilion", "Beachfront Dining"],
+    rating: 4.8,
+    reviews: 201,
+    verified: true,
+    destination: "Phuket, Thailand",
+    themes: ["Beach", "Modern", "Tropical", "Luxury"]
+  },
+  {
+    id: 12,
+    name: "City Palace Jaipur",
+    location: "Jaipur, India",
+    type: "Palace",
+    capacity: 800,
+    image: "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=800",
+    gallery: [
+      "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?w=800",
+      "https://images.unsplash.com/photo-1671520427644-33aaf3be7214?w=800",
+      "https://images.unsplash.com/photo-1609766418047-a8e6e608c5cd?w=800"
+    ],
+    priceRange: "$60K - $200K",
+    description: "Historic royal palace complex with stunning courtyards and Mughal architecture. The ultimate venue for grand Rajasthani celebrations.",
+    features: ["Historic Palace", "Multiple Courtyards", "Royal Heritage", "Grand Scale", "Museum Access"],
+    rating: 5.0,
+    reviews: 156,
+    verified: true,
+    destination: "Jaipur, India",
+    themes: ["Royal", "Palace", "Traditional", "Grand"]
+  }
+];
+
 export function WeddingBuilderPage({ onExit }: WeddingBuilderPageProps) {
   // Helper function to get vendor category display name
   const getVendorCategoryName = (key: string): string => {
@@ -1217,6 +1491,7 @@ export function WeddingBuilderPage({ onExit }: WeddingBuilderPageProps) {
   ]); // Pre-populated with example saved destinations
   const [expandedVendorCategory, setExpandedVendorCategory] = useState<string | null>(null);
   const [showSavedVendors, setShowSavedVendors] = useState(false);
+  const [showAllVendors, setShowAllVendors] = useState<{[key: string]: boolean}>({});
   const [savedVendors, setSavedVendors] = useState<{[key: string]: number[]}>({
     planner: [1, 2],
     photographer: [1, 3],
@@ -1228,6 +1503,16 @@ export function WeddingBuilderPage({ onExit }: WeddingBuilderPageProps) {
   const [selectedVendorForDialog, setSelectedVendorForDialog] = useState<{vendor: any, category: string} | null>(null);
   const [vendorGalleryIndex, setVendorGalleryIndex] = useState(0);
   const [isLoggedIn] = useState(true); // This would come from auth context in real app
+  
+  // Venue state variables
+  const [venueSearch, setVenueSearch] = useState("");
+  const [showSavedVenues, setShowSavedVenues] = useState(false);
+  const [showSavedVenuesHelper, setShowSavedVenuesHelper] = useState(false);
+  const [hasSeenVenueSavedHelper, setHasSeenVenueSavedHelper] = useState(false);
+  const [showAllVenues, setShowAllVenues] = useState(false);
+  const [savedVenues, setSavedVenues] = useState<number[]>([1, 3, 5]); // Pre-populated with example saved venues
+  const [selectedVenueForDialog, setSelectedVenueForDialog] = useState<number | null>(null);
+  const [venueGalleryIndex, setVenueGalleryIndex] = useState(0);
   const [weddingPlan, setWeddingPlan] = useState<WeddingPlan>({
     guestSize: 200,
     weddingType: '',
@@ -2854,7 +3139,9 @@ export function WeddingBuilderPage({ onExit }: WeddingBuilderPageProps) {
 
                                 {/* Vendors Grid */}
                                 <div className="grid gap-3 md:gap-4">
-                                  {vendorsToShow.map((vendor) => {
+                                  {vendorsToShow
+                                    .slice(0, showAllVendors[vendorCategory.key] ? undefined : 3)
+                                    .map((vendor) => {
                                     const isSelected = weddingPlan.selectedVendors[vendorCategory.key] === vendor.id;
                                     const isSaved = isLoggedIn && savedVendors[vendorCategory.key]?.includes(vendor.id);
                                     
@@ -2951,6 +3238,36 @@ export function WeddingBuilderPage({ onExit }: WeddingBuilderPageProps) {
                                     );
                                   })}
                                 </div>
+
+                                {/* Show More Button */}
+                                {vendorsToShow.length > 3 && (
+                                  <div className="flex justify-center pt-2">
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setShowAllVendors({
+                                          ...showAllVendors,
+                                          [vendorCategory.key]: !showAllVendors[vendorCategory.key]
+                                        });
+                                      }}
+                                      className="text-[#DF6951] border-[#DF6951] hover:bg-[#DF6951] hover:text-white"
+                                    >
+                                      {showAllVendors[vendorCategory.key] ? (
+                                        <>
+                                          <ChevronUp className="size-4 mr-1" />
+                                          Show Less
+                                        </>
+                                      ) : (
+                                        <>
+                                          Show More ({vendorsToShow.length - 3} more)
+                                          <ChevronDown className="size-4 ml-1" />
+                                        </>
+                                      )}
+                                    </Button>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           )}
@@ -2983,63 +3300,457 @@ export function WeddingBuilderPage({ onExit }: WeddingBuilderPageProps) {
 
                   <Separator />
 
-                  <div>
-                    <Label>Venue Capacity</Label>
-                    <p className="text-sm text-muted-foreground mb-2">
-                      Based on your guest count ({weddingPlan.guestSize} guests)
-                    </p>
-                    <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-4">
-                      {[
-                        { name: 'Intimate (50-150)', capacity: 150 },
-                        { name: 'Medium (150-300)', capacity: 300 },
-                        { name: 'Large (300-500)', capacity: 500 },
-                        { name: 'Grand (500+)', capacity: 1000 },
-                      ].map((option) => (
-                        <Card
-                          key={option.name}
-                          className={`p-3 md:p-4 cursor-pointer transition-all border-2 ${
-                            weddingPlan.guestSize <= option.capacity
-                              ? 'border-[#DF6951] bg-rose-50'
-                              : 'opacity-50'
-                          }`}
-                        >
-                          <Building2 className="size-5 md:size-6 text-[#DF6951] mb-2" />
-                          <span className="text-sm md:text-base">{option.name}</span>
-                        </Card>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label>Venue Type</Label>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {['Indoor', 'Outdoor', 'Banquet Hall', 'Beach', 'Garden', 'Palace', 'Resort'].map((type) => (
-                        <Badge
-                          key={type}
-                          variant="outline"
-                          className="cursor-pointer px-4 py-2 hover:bg-rose-50 hover:border-[#DF6951]"
-                        >
-                          {type}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  <Button className="w-full bg-gradient-to-r from-[#DF6951] to-[#F1A501]">
-                    Browse {weddingPlan.destination || 'All'} Venues
-                  </Button>
-
-                  <Card className="p-4 md:p-6 bg-gradient-to-br from-amber-50 to-orange-50">
-                    <div className="flex items-start gap-3">
-                      <Building2 className="size-5 md:size-6 text-[#DF6951] flex-shrink-0" />
-                      <div>
-                        <h4 className="mb-1 text-sm md:text-base">Venue Recommendations</h4>
-                        <p className="text-xs md:text-sm text-muted-foreground">
-                          Based on your preferences, we found 12 venues in {weddingPlan.destination || 'your selected destination'} that can accommodate {weddingPlan.guestSize} guests.
-                        </p>
+                  {/* Selected Venues Summary */}
+                  {weddingPlan.selectedVenues.length > 0 && (
+                    <div className="mb-4">
+                      <Label className="mb-2 block">Your Selected Venues ({weddingPlan.selectedVenues.length})</Label>
+                      <div className="flex flex-wrap gap-2">
+                        {weddingPlan.selectedVenues.map(venueId => {
+                          const venue = venueDetails.find(v => v.id === venueId);
+                          if (!venue) return null;
+                          return (
+                            <Card key={venueId} className="p-3 border-2 border-[#DF6951] bg-rose-50">
+                              <div className="flex items-center gap-2">
+                                <Building2 className="size-4 text-[#DF6951]" />
+                                <div>
+                                  <p className="text-sm font-medium">{venue.name}</p>
+                                  <p className="text-xs text-muted-foreground">{venue.location}</p>
+                                </div>
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  className="ml-auto h-auto p-1"
+                                  onClick={() => {
+                                    updatePlan({
+                                      selectedVenues: weddingPlan.selectedVenues.filter(id => id !== venueId)
+                                    });
+                                  }}
+                                >
+                                  <X className="size-3" />
+                                </Button>
+                              </div>
+                            </Card>
+                          );
+                        })}
                       </div>
                     </div>
-                  </Card>
+                  )}
+
+                  {/* Search Bar */}
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search venues..."
+                      value={venueSearch}
+                      onChange={(e) => setVenueSearch(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+
+                  {/* Venue Cards Grid */}
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <Label>
+                        {showSavedVenues 
+                          ? 'Saved Venues' 
+                          : `Suggested Venues${weddingPlan.destination ? ` in ${weddingPlan.destination}` : ''}`}
+                      </Label>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          size="sm"
+                          variant={showSavedVenues ? "default" : "outline"}
+                          className={showSavedVenues ? "bg-[#DF6951] hover:bg-[#c5573d]" : ""}
+                          onClick={() => {
+                            const newState = !showSavedVenues;
+                            setShowSavedVenues(newState);
+                            // Show helper on first time viewing saved venues
+                            if (newState && !hasSeenVenueSavedHelper) {
+                              setShowSavedVenuesHelper(true);
+                            }
+                          }}
+                        >
+                          <ArrowLeftRight className="size-3 mr-1" />
+                          {showSavedVenues ? 'Suggested' : 'Saved'}
+                        </Button>
+                        <Button
+                          variant="link"
+                          className="text-[#DF6951] hover:text-[#c5573d] gap-1 p-0 h-auto"
+                          onClick={() => window.location.href = '/venues'}
+                        >
+                          Explore More
+                          <ExternalLink className="size-3" />
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    {/* First-time Helper for Saved Venues */}
+                    {showSavedVenues && showSavedVenuesHelper && (
+                      <Alert className="mb-4 border-[#DF6951]/20 bg-[#DF6951]/5">
+                        <Info className="size-4 text-[#DF6951]" />
+                        <AlertDescription className="flex items-start justify-between gap-2">
+                          <span className="text-sm">
+                            These are the venues you've saved! You currently have <strong>{savedVenues.length} venues</strong> saved. 
+                            Click the heart icon on any venue card to add or remove it from your saved list.
+                          </span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-auto p-0 hover:bg-transparent shrink-0"
+                            onClick={() => {
+                              setShowSavedVenuesHelper(false);
+                              setHasSeenVenueSavedHelper(true);
+                            }}
+                          >
+                            <X className="size-4 text-muted-foreground hover:text-foreground" />
+                          </Button>
+                        </AlertDescription>
+                      </Alert>
+                    )}
+                    
+                    {/* Helper for Suggested Venues with Saved Items */}
+                    {!showSavedVenues && weddingPlan.destination && (() => {
+                      const matchingSavedCount = venueDetails.filter(venue => 
+                        savedVenues.includes(venue.id) && 
+                        venue.destination === weddingPlan.destination
+                      ).length;
+                      return matchingSavedCount > 0 ? (
+                        <Alert className="mb-4 border-[#F1A501]/20 bg-[#F1A501]/5">
+                          <Heart className="size-4 text-[#DF6951] fill-[#DF6951]" />
+                          <AlertDescription className="text-sm">
+                            <strong>{matchingSavedCount}</strong> of your saved venue{matchingSavedCount > 1 ? 's' : ''} {matchingSavedCount === 1 ? 'is' : 'are'} in <strong>{weddingPlan.destination}</strong>! They're shown at the top.
+                          </AlertDescription>
+                        </Alert>
+                      ) : null;
+                    })()}
+                    
+                    <div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {venueDetails
+                          .filter(venue => {
+                            // First filter by saved or suggested
+                            if (showSavedVenues) {
+                              // Show all saved venues
+                              return savedVenues.includes(venue.id);
+                            }
+                            // Show all venues for suggested view
+                            
+                            // Then filter by search
+                            return venue.name.toLowerCase().includes(venueSearch.toLowerCase()) ||
+                              venue.location.toLowerCase().includes(venueSearch.toLowerCase()) ||
+                              venue.type.toLowerCase().includes(venueSearch.toLowerCase()) ||
+                              venue.description.toLowerCase().includes(venueSearch.toLowerCase());
+                          })
+                          .sort((a, b) => {
+                            // In suggested view, sort saved venues to the top
+                            if (!showSavedVenues) {
+                              const aIsSaved = savedVenues.includes(a.id);
+                              const bIsSaved = savedVenues.includes(b.id);
+                              if (aIsSaved && !bIsSaved) return -1;
+                              if (!aIsSaved && bIsSaved) return 1;
+                              
+                              // Then sort by destination match
+                              if (weddingPlan.destination) {
+                                const aMatches = a.destination === weddingPlan.destination;
+                                const bMatches = b.destination === weddingPlan.destination;
+                                if (aMatches && !bMatches) return -1;
+                                if (!aMatches && bMatches) return 1;
+                              }
+                            }
+                            return 0;
+                          })
+                          .slice(0, showAllVenues ? undefined : 9)
+                          .map((venue) => (
+                          <Card 
+                            key={venue.id}
+                            className={`overflow-hidden transition-all group hover:shadow-lg ${
+                              weddingPlan.selectedVenues.includes(venue.id)
+                                ? 'ring-2 ring-[#DF6951]' 
+                                : ''
+                            }`}
+                          >
+                            <div className="relative h-48">
+                              <ImageWithFallback 
+                                src={venue.image}
+                                alt={venue.name}
+                                className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                              
+                              {/* Hover Overlay */}
+                              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                <Button
+                                  size="sm"
+                                  variant="secondary"
+                                  className="gap-2"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setSelectedVenueForDialog(venue.id);
+                                  }}
+                                >
+                                  <Eye className="size-4" />
+                                  View More
+                                </Button>
+                              </div>
+
+                              <div className="absolute bottom-0 left-0 right-0 p-4">
+                                <h3 className="text-white font-semibold mb-1">{venue.name}</h3>
+                                <p className="text-white/90 text-xs">{venue.location}</p>
+                              </div>
+
+                              {weddingPlan.selectedVenues.includes(venue.id) && (
+                                <div className="absolute top-2 right-2 bg-[#DF6951] rounded-full p-1">
+                                  <Check className="size-4 text-white" />
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="p-4 space-y-3">
+                              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                                <span>{venue.type}</span>
+                                <span>Up to {venue.capacity} guests</span>
+                              </div>
+                              <div className="flex gap-2">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="flex-1"
+                                  onClick={() => {
+                                    const current = weddingPlan.selectedVenues;
+                                    updatePlan({
+                                      selectedVenues: current.includes(venue.id)
+                                        ? current.filter(id => id !== venue.id)
+                                        : [...current, venue.id]
+                                    });
+                                  }}
+                                >
+                                  {weddingPlan.selectedVenues.includes(venue.id) ? (
+                                    <>
+                                      <Check className="size-3 mr-1" />
+                                      Selected
+                                    </>
+                                  ) : (
+                                    'Select'
+                                  )}
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant={savedVenues.includes(venue.id) ? "default" : "outline"}
+                                  className={savedVenues.includes(venue.id) ? "bg-[#DF6951] hover:bg-[#c5573d]" : ""}
+                                  onClick={() => {
+                                    if (savedVenues.includes(venue.id)) {
+                                      setSavedVenues(prev => prev.filter(id => id !== venue.id));
+                                    } else {
+                                      setSavedVenues(prev => [...prev, venue.id]);
+                                    }
+                                  }}
+                                >
+                                  <Heart className={`size-3 ${savedVenues.includes(venue.id) ? 'fill-white' : ''}`} />
+                                </Button>
+                              </div>
+                            </div>
+                          </Card>
+                        ))}
+                      </div>
+                      
+                      {/* Show More/Less Button */}
+                      {(() => {
+                        const filteredVenues = venueDetails.filter(venue => {
+                          if (showSavedVenues) {
+                            return savedVenues.includes(venue.id);
+                          }
+                          return venue.name.toLowerCase().includes(venueSearch.toLowerCase()) ||
+                            venue.location.toLowerCase().includes(venueSearch.toLowerCase()) ||
+                            venue.type.toLowerCase().includes(venueSearch.toLowerCase()) ||
+                            venue.description.toLowerCase().includes(venueSearch.toLowerCase());
+                        });
+                        
+                        return filteredVenues.length > 9 && (
+                          <div className="flex justify-center mt-4">
+                            <Button
+                              variant="outline"
+                              onClick={() => setShowAllVenues(!showAllVenues)}
+                              className="gap-2"
+                            >
+                              {showAllVenues ? (
+                                <>
+                                  Show Less
+                                  <ChevronLeft className="size-4" />
+                                </>
+                              ) : (
+                                <>
+                                  Show More ({filteredVenues.length - 9} more venues)
+                                  <ChevronRight className="size-4" />
+                                </>
+                              )}
+                            </Button>
+                          </div>
+                        );
+                      })()}
+                    </div>
+                  </div>
+
+                  {/* Venue Details Dialog */}
+                  {venueDetails.map((venue) => (
+                    <Dialog 
+                      key={venue.id}
+                      open={selectedVenueForDialog === venue.id}
+                      onOpenChange={(open) => {
+                        if (!open) {
+                          setSelectedVenueForDialog(null);
+                          setVenueGalleryIndex(0);
+                        }
+                      }}
+                    >
+                      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                        <DialogHeader>
+                          <DialogTitle className="text-2xl" style={{ fontFamily: "Volkhov, serif" }}>
+                            {venue.name}
+                          </DialogTitle>
+                          <DialogDescription className="text-base mt-2">
+                            {venue.description}
+                          </DialogDescription>
+                        </DialogHeader>
+                        
+                        <div className="space-y-6 mt-4">
+                          {/* Hero Image Gallery */}
+                          <div className="relative h-[300px] sm:h-[400px] rounded-xl overflow-hidden group">
+                            <ImageWithFallback 
+                              src={venue.gallery[venueGalleryIndex]}
+                              alt={`${venue.name} ${venueGalleryIndex + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                            
+                            {/* Navigation Arrows */}
+                            <button
+                              onClick={() => setVenueGalleryIndex((prev) => 
+                                prev === 0 ? venue.gallery.length - 1 : prev - 1
+                              )}
+                              className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <ChevronLeft className="size-6" />
+                            </button>
+                            <button
+                              onClick={() => setVenueGalleryIndex((prev) => 
+                                prev === venue.gallery.length - 1 ? 0 : prev + 1
+                              )}
+                              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <ChevronRight className="size-6" />
+                            </button>
+
+                            {/* Image Counter */}
+                            <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-black/60 text-white text-sm backdrop-blur-sm">
+                              {venueGalleryIndex + 1} / {venue.gallery.length}
+                            </div>
+                          </div>
+
+                          {/* Thumbnail Strip */}
+                          <div className="flex gap-3 overflow-x-auto pb-2">
+                            {venue.gallery.map((img, idx) => (
+                              <button
+                                key={idx}
+                                onClick={() => setVenueGalleryIndex(idx)}
+                                className={`relative flex-shrink-0 w-24 h-20 rounded-lg overflow-hidden hover:opacity-90 transition-opacity ${
+                                  venueGalleryIndex === idx ? 'ring-2 ring-[#DF6951]' : ''
+                                }`}
+                              >
+                                <ImageWithFallback 
+                                  src={img}
+                                  alt={`${venue.name} ${idx + 1}`}
+                                  className="w-full h-full object-cover"
+                                />
+                              </button>
+                            ))}
+                          </div>
+
+                          {/* Quick Facts */}
+                          <div>
+                            <h4 className="font-semibold mb-3">Quick Facts:</h4>
+                            <div className="grid grid-cols-2 gap-3">
+                              <div className="flex items-center gap-2">
+                                <Building2 className="size-4 text-[#DF6951] shrink-0" />
+                                <span className="text-sm">{venue.type}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Users className="size-4 text-[#DF6951] shrink-0" />
+                                <span className="text-sm">Up to {venue.capacity} guests</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <MapPin className="size-4 text-[#DF6951] shrink-0" />
+                                <span className="text-sm">{venue.location}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <DollarSign className="size-4 text-[#DF6951] shrink-0" />
+                                <span className="text-sm">{venue.priceRange}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Star className="size-4 text-[#DF6951] shrink-0" />
+                                <span className="text-sm">{venue.rating} ({venue.reviews} reviews)</span>
+                              </div>
+                              {venue.verified && (
+                                <div className="flex items-center gap-2">
+                                  <Award className="size-4 text-[#DF6951] shrink-0" />
+                                  <span className="text-sm">Verified Venue</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Features */}
+                          <div>
+                            <h4 className="font-semibold mb-3">Key Features:</h4>
+                            <div className="grid grid-cols-2 gap-2">
+                              {venue.features.map((feature, idx) => (
+                                <div key={idx} className="flex items-center gap-2">
+                                  <Check className="size-4 text-[#DF6951] shrink-0" />
+                                  <span className="text-sm">{feature}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                            <Button
+                              className="flex-1 bg-[#DF6951] hover:bg-[#c5573d]"
+                              onClick={() => {
+                                const current = weddingPlan.selectedVenues;
+                                updatePlan({
+                                  selectedVenues: current.includes(venue.id)
+                                    ? current.filter(id => id !== venue.id)
+                                    : [...current, venue.id]
+                                });
+                                setSelectedVenueForDialog(null);
+                                setVenueGalleryIndex(0);
+                              }}
+                            >
+                              {weddingPlan.selectedVenues.includes(venue.id) ? (
+                                <>
+                                  <Check className="size-4 mr-2" />
+                                  Selected - Remove
+                                </>
+                              ) : (
+                                <>
+                                  <Check className="size-4 mr-2" />
+                                  Select This Venue
+                                </>
+                              )}
+                            </Button>
+                            <Button
+                              variant="outline"
+                              onClick={() => {
+                                setSelectedVenueForDialog(null);
+                                setVenueGalleryIndex(0);
+                              }}
+                            >
+                              Close
+                            </Button>
+                          </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  ))}
                 </div>
               )}
 
