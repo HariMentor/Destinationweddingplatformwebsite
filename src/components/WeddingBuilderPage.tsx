@@ -674,6 +674,13 @@ const vendorsByCategory = {
       name: "Elite Wedding Planners",
       location: "Mumbai, India",
       image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800",
+        "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800",
+        "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
+        "https://images.unsplash.com/photo-1519741497674-611481863552?w=800",
+        "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=800"
+      ],
       rating: 4.9,
       reviews: 156,
       startingPrice: "$5,000",
@@ -687,6 +694,12 @@ const vendorsByCategory = {
       name: "Dreamday Events",
       location: "Goa, India",
       image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
+        "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800",
+        "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800",
+        "https://images.unsplash.com/photo-1569976088853-abf1c2cb282a?w=800"
+      ],
       rating: 4.8,
       reviews: 142,
       startingPrice: "$4,500",
@@ -700,6 +713,12 @@ const vendorsByCategory = {
       name: "Royal Events & Co",
       location: "Udaipur, India",
       image: "https://images.unsplash.com/photo-1610379230744-2260350e2f17?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1610379230744-2260350e2f17?w=800",
+        "https://images.unsplash.com/photo-1606800052052-c96147d1f0b5?w=800",
+        "https://images.unsplash.com/photo-1629587424603-f117664faf1c?w=800",
+        "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800"
+      ],
       rating: 5.0,
       reviews: 98,
       startingPrice: "$8,000",
@@ -713,6 +732,11 @@ const vendorsByCategory = {
       name: "Modern Celebrations",
       location: "Bangalore, India",
       image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800",
+        "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800",
+        "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=800"
+      ],
       rating: 4.7,
       reviews: 124,
       startingPrice: "$3,500",
@@ -728,6 +752,13 @@ const vendorsByCategory = {
       name: "Lens & Light Studios",
       location: "Delhi, India",
       image: "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800",
+        "https://images.unsplash.com/photo-1519741497674-611481863552?w=800",
+        "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
+        "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800",
+        "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800"
+      ],
       rating: 4.9,
       reviews: 203,
       startingPrice: "$2,500",
@@ -741,6 +772,12 @@ const vendorsByCategory = {
       name: "Forever Moments Photography",
       location: "Jaipur, India",
       image: "https://images.unsplash.com/photo-1629587424603-f117664faf1c?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1629587424603-f117664faf1c?w=800",
+        "https://images.unsplash.com/photo-1610379230744-2260350e2f17?w=800",
+        "https://images.unsplash.com/photo-1606800052052-c96147d1f0b5?w=800",
+        "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800"
+      ],
       rating: 4.8,
       reviews: 187,
       startingPrice: "$2,200",
@@ -754,6 +791,12 @@ const vendorsByCategory = {
       name: "Beach Stories",
       location: "Goa, India",
       image: "https://images.unsplash.com/photo-1569976088853-abf1c2cb282a?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1569976088853-abf1c2cb282a?w=800",
+        "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
+        "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800",
+        "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800"
+      ],
       rating: 4.9,
       reviews: 165,
       startingPrice: "$2,800",
@@ -767,6 +810,12 @@ const vendorsByCategory = {
       name: "Artisan Photography",
       location: "Kerala, India",
       image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800",
+        "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800",
+        "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=800",
+        "https://images.unsplash.com/photo-1606800052052-c96147d1f0b5?w=800"
+      ],
       rating: 4.7,
       reviews: 142,
       startingPrice: "$2,000",
@@ -782,6 +831,12 @@ const vendorsByCategory = {
       name: "Cinematic Weddings",
       location: "Mumbai, India",
       image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800",
+        "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800",
+        "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800",
+        "https://images.unsplash.com/photo-1519741497674-611481863552?w=800"
+      ],
       rating: 4.9,
       reviews: 178,
       startingPrice: "$3,000",
@@ -795,6 +850,11 @@ const vendorsByCategory = {
       name: "Love Story Films",
       location: "Udaipur, India",
       image: "https://images.unsplash.com/photo-1610379230744-2260350e2f17?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1610379230744-2260350e2f17?w=800",
+        "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
+        "https://images.unsplash.com/photo-1606800052052-c96147d1f0b5?w=800"
+      ],
       rating: 4.8,
       reviews: 156,
       startingPrice: "$2,800",
@@ -808,6 +868,11 @@ const vendorsByCategory = {
       name: "Destination Films Co",
       location: "Goa, India",
       image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
+        "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800",
+        "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800"
+      ],
       rating: 4.9,
       reviews: 134,
       startingPrice: "$3,200",
@@ -823,6 +888,12 @@ const vendorsByCategory = {
       name: "Glamour by Priya",
       location: "Delhi, India",
       image: "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800",
+        "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=800",
+        "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=800",
+        "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800"
+      ],
       rating: 5.0,
       reviews: 245,
       startingPrice: "$800",
@@ -836,6 +907,11 @@ const vendorsByCategory = {
       name: "Royal Makeovers",
       location: "Jaipur, India",
       image: "https://images.unsplash.com/photo-1629587424603-f117664faf1c?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1629587424603-f117664faf1c?w=800",
+        "https://images.unsplash.com/photo-1610379230744-2260350e2f17?w=800",
+        "https://images.unsplash.com/photo-1606800052052-c96147d1f0b5?w=800"
+      ],
       rating: 4.9,
       reviews: 198,
       startingPrice: "$900",
@@ -849,6 +925,11 @@ const vendorsByCategory = {
       name: "Modern Glam Studio",
       location: "Bangalore, India",
       image: "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=800",
+        "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800",
+        "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=800"
+      ],
       rating: 4.8,
       reviews: 167,
       startingPrice: "$700",
@@ -864,6 +945,12 @@ const vendorsByCategory = {
       name: "Floral Fantasy Decor",
       location: "Mumbai, India",
       image: "https://images.unsplash.com/photo-1523438097201-512ae7d59c44?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1523438097201-512ae7d59c44?w=800",
+        "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800",
+        "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
+        "https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=800"
+      ],
       rating: 4.9,
       reviews: 189,
       startingPrice: "$6,000",
@@ -877,6 +964,11 @@ const vendorsByCategory = {
       name: "Royal Decor Events",
       location: "Udaipur, India",
       image: "https://images.unsplash.com/photo-1610379230744-2260350e2f17?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1610379230744-2260350e2f17?w=800",
+        "https://images.unsplash.com/photo-1606800052052-c96147d1f0b5?w=800",
+        "https://images.unsplash.com/photo-1629587424603-f117664faf1c?w=800"
+      ],
       rating: 5.0,
       reviews: 156,
       startingPrice: "$8,500",
@@ -890,6 +982,11 @@ const vendorsByCategory = {
       name: "Beach Vibes Decor",
       location: "Goa, India",
       image: "https://images.unsplash.com/photo-1569976088853-abf1c2cb282a?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1569976088853-abf1c2cb282a?w=800",
+        "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
+        "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800"
+      ],
       rating: 4.8,
       reviews: 142,
       startingPrice: "$5,500",
@@ -905,6 +1002,11 @@ const vendorsByCategory = {
       name: "DJ Beats & Beyond",
       location: "Mumbai, India",
       image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800",
+        "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800",
+        "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800"
+      ],
       rating: 4.8,
       reviews: 167,
       startingPrice: "$1,500",
@@ -918,6 +1020,11 @@ const vendorsByCategory = {
       name: "Royal Sounds Entertainment",
       location: "Delhi, India",
       image: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800",
+        "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800",
+        "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800"
+      ],
       rating: 4.9,
       reviews: 198,
       startingPrice: "$1,800",
@@ -931,6 +1038,11 @@ const vendorsByCategory = {
       name: "Beach Party DJ",
       location: "Goa, India",
       image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
+      gallery: [
+        "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
+        "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800",
+        "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800"
+      ],
       rating: 4.7,
       reviews: 145,
       startingPrice: "$1,200",
@@ -1067,6 +1179,19 @@ const themeDetails = [
 ];
 
 export function WeddingBuilderPage({ onExit }: WeddingBuilderPageProps) {
+  // Helper function to get vendor category display name
+  const getVendorCategoryName = (key: string): string => {
+    const categoryNames: { [key: string]: string } = {
+      planner: 'Wedding Planner',
+      photographer: 'Photographer',
+      videographer: 'Videographer',
+      makeup: 'Makeup Artist',
+      decorator: 'Decorator',
+      dj: 'DJ / Entertainment'
+    };
+    return categoryNames[key] || key;
+  };
+
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedThemeForDialog, setSelectedThemeForDialog] = useState<string | null>(null);
   const [themeGalleryIndex, setThemeGalleryIndex] = useState(0);
@@ -1100,6 +1225,8 @@ export function WeddingBuilderPage({ onExit }: WeddingBuilderPageProps) {
     decorator: [1, 3],
     dj: [2]
   }); // Pre-populated with example saved vendors
+  const [selectedVendorForDialog, setSelectedVendorForDialog] = useState<{vendor: any, category: string} | null>(null);
+  const [vendorGalleryIndex, setVendorGalleryIndex] = useState(0);
   const [isLoggedIn] = useState(true); // This would come from auth context in real app
   const [weddingPlan, setWeddingPlan] = useState<WeddingPlan>({
     guestSize: 200,
@@ -2677,7 +2804,7 @@ export function WeddingBuilderPage({ onExit }: WeddingBuilderPageProps) {
                                   <Label className="text-xs md:text-sm">
                                     {showSavedVendors 
                                       ? 'Saved Vendors' 
-                                      : `Vendors for ${weddingPlan.theme || 'Your Theme'}`}
+                                      : 'Suggested Vendors'}
                                   </Label>
                                   <div className="flex items-center gap-2">
                                     <Button
@@ -2690,7 +2817,7 @@ export function WeddingBuilderPage({ onExit }: WeddingBuilderPageProps) {
                                       }}
                                     >
                                       <ArrowLeftRight className="size-3 mr-1" />
-                                      {showSavedVendors ? 'Theme Based' : 'Saved Vendors'}
+                                      {showSavedVendors ? 'Suggested Vendors' : 'Saved Vendors'}
                                     </Button>
                                     <Button
                                       variant="link"
@@ -2738,12 +2865,8 @@ export function WeddingBuilderPage({ onExit }: WeddingBuilderPageProps) {
                                           isSelected ? 'border-2 border-[#DF6951] bg-rose-50/50' : 'border'
                                         }`}
                                         onClick={() => {
-                                          updatePlan({
-                                            selectedVendors: {
-                                              ...weddingPlan.selectedVendors,
-                                              [vendorCategory.key]: isSelected ? undefined : vendor.id
-                                            }
-                                          });
+                                          setSelectedVendorForDialog({ vendor, category: vendorCategory.key });
+                                          setVendorGalleryIndex(0);
                                         }}
                                       >
                                         <div className="flex flex-col sm:flex-row gap-3 md:gap-4 p-3 md:p-4">
@@ -3183,6 +3306,258 @@ export function WeddingBuilderPage({ onExit }: WeddingBuilderPageProps) {
           )}
         </div>
       </div>
+
+      {/* Vendor Details Dialog */}
+      {selectedVendorForDialog && (
+        <Dialog open={!!selectedVendorForDialog} onOpenChange={() => {
+          setSelectedVendorForDialog(null);
+          setVendorGalleryIndex(0);
+        }}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-4 sm:p-6">
+            <DialogHeader>
+              <DialogTitle className="text-xl sm:text-2xl pr-8" style={{ fontFamily: "Volkhov, serif" }}>
+                {selectedVendorForDialog.vendor.name}
+              </DialogTitle>
+              <DialogDescription className="sr-only">
+                View detailed information about {selectedVendorForDialog.vendor.name}
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="space-y-2 -mt-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant="outline" className="border-[#DF6951] text-[#DF6951] text-xs sm:text-sm">
+                  {getVendorCategoryName(selectedVendorForDialog.category)}
+                </Badge>
+                {selectedVendorForDialog.vendor.verified && (
+                  <Badge className="bg-blue-600 hover:bg-blue-700 text-xs sm:text-sm">
+                    <Award className="size-3 sm:size-3.5 mr-1" />
+                    Verified
+                  </Badge>
+                )}
+              </div>
+              <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+                <MapPinIcon className="size-3.5 sm:size-4 flex-shrink-0" />
+                <span className="truncate">{selectedVendorForDialog.vendor.location}</span>
+              </div>
+            </div>
+
+            <div className="space-y-4 sm:space-y-6 mt-4">
+              {/* Image Gallery */}
+              <div className="space-y-2 sm:space-y-3">
+                {/* Main Image */}
+                <div className="relative h-[200px] sm:h-[280px] md:h-[400px] rounded-lg sm:rounded-xl overflow-hidden group">
+                  <ImageWithFallback
+                    src={
+                      selectedVendorForDialog.vendor.gallery 
+                        ? selectedVendorForDialog.vendor.gallery[vendorGalleryIndex]
+                        : selectedVendorForDialog.vendor.image
+                    }
+                    alt={selectedVendorForDialog.vendor.name}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  
+                  {/* Gallery Navigation - only show if gallery exists and has multiple images */}
+                  {selectedVendorForDialog.vendor.gallery && selectedVendorForDialog.vendor.gallery.length > 1 && (
+                    <>
+                      {/* Previous Button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setVendorGalleryIndex((prev) => 
+                            prev === 0 ? selectedVendorForDialog.vendor.gallery.length - 1 : prev - 1
+                          );
+                        }}
+                        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-1.5 sm:p-2 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                        aria-label="Previous image"
+                      >
+                        <ChevronLeft className="size-4 sm:size-5 md:size-6" />
+                      </button>
+                      
+                      {/* Next Button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setVendorGalleryIndex((prev) => 
+                            prev === selectedVendorForDialog.vendor.gallery.length - 1 ? 0 : prev + 1
+                          );
+                        }}
+                        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-1.5 sm:p-2 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                        aria-label="Next image"
+                      >
+                        <ChevronRight className="size-4 sm:size-5 md:size-6" />
+                      </button>
+                      
+                      {/* Image Counter */}
+                      <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-black/60 text-white text-xs sm:text-sm backdrop-blur-sm">
+                        {vendorGalleryIndex + 1} / {selectedVendorForDialog.vendor.gallery.length}
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Thumbnail Grid - only show if gallery exists and has multiple images */}
+                {selectedVendorForDialog.vendor.gallery && selectedVendorForDialog.vendor.gallery.length > 1 && (
+                  <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 -mx-1 px-1">
+                    {selectedVendorForDialog.vendor.gallery.map((img: string, idx: number) => (
+                      <button
+                        key={idx}
+                        onClick={() => setVendorGalleryIndex(idx)}
+                        className={`relative flex-shrink-0 w-16 h-14 sm:w-20 sm:h-16 md:w-24 md:h-20 rounded-md sm:rounded-lg overflow-hidden hover:opacity-90 transition-opacity ${
+                          vendorGalleryIndex === idx ? 'ring-2 ring-[#DF6951]' : ''
+                        }`}
+                        aria-label={`View image ${idx + 1}`}
+                      >
+                        <ImageWithFallback 
+                          src={img}
+                          alt={`${selectedVendorForDialog.vendor.name} ${idx + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Rating and Reviews */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 md:gap-6">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <Star className="size-4 fill-yellow-400 text-yellow-400 flex-shrink-0" />
+                  <span className="font-semibold text-sm sm:text-base">{selectedVendorForDialog.vendor.rating}</span>
+                  <span className="text-muted-foreground text-xs sm:text-sm">
+                    ({selectedVendorForDialog.vendor.reviews} reviews)
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <DollarSign className="size-4 text-[#DF6951] flex-shrink-0" />
+                  <span className="text-sm sm:text-base">
+                    <span className="hidden sm:inline">Starting from </span>
+                    <span className="font-semibold">{selectedVendorForDialog.vendor.startingPrice}</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Specialties */}
+              <div>
+                <Label className="mb-2 block text-sm">Specialties</Label>
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                  {selectedVendorForDialog.vendor.specialties.map((specialty: string, idx: number) => (
+                    <Badge key={idx} variant="outline" className="text-xs">
+                      {specialty}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+
+              {/* About Section */}
+              <div>
+                <Label className="mb-2 block text-sm">About</Label>
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  {selectedVendorForDialog.vendor.name} is a highly rated {getVendorCategoryName(selectedVendorForDialog.category).toLowerCase()} professional based in {selectedVendorForDialog.vendor.location}. 
+                  With {selectedVendorForDialog.vendor.reviews} positive reviews and an average rating of {selectedVendorForDialog.vendor.rating} stars, 
+                  they specialize in {selectedVendorForDialog.vendor.specialties.join(", ")}. Their services start from {selectedVendorForDialog.vendor.startingPrice}.
+                </p>
+              </div>
+
+              {/* Portfolio Count */}
+              {(selectedVendorForDialog.vendor.portfolio || selectedVendorForDialog.vendor.films || selectedVendorForDialog.vendor.clients || selectedVendorForDialog.vendor.events) && (
+                <div>
+                  <Label className="mb-2 block text-sm">Experience</Label>
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
+                    <Camera className="size-3.5 sm:size-4 text-[#DF6951] flex-shrink-0" />
+                    <span>
+                      {selectedVendorForDialog.vendor.portfolio && `${selectedVendorForDialog.vendor.portfolio}+ Portfolio Images`}
+                      {selectedVendorForDialog.vendor.films && `${selectedVendorForDialog.vendor.films}+ Films Produced`}
+                      {selectedVendorForDialog.vendor.clients && `${selectedVendorForDialog.vendor.clients}+ Happy Clients`}
+                      {selectedVendorForDialog.vendor.events && `${selectedVendorForDialog.vendor.events}+ Events`}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="space-y-2 sm:space-y-3 pt-2">
+                {/* View Full Profile Button */}
+                <Button
+                  variant="outline"
+                  className="w-full h-9 sm:h-10 text-xs sm:text-sm border-[#DF6951] text-[#DF6951] hover:bg-[#DF6951] hover:text-white"
+                  onClick={() => {
+                    window.location.href = `/vendors/${selectedVendorForDialog.category}/${selectedVendorForDialog.vendor.id}`;
+                  }}
+                >
+                  <Eye className="size-3.5 sm:size-4 mr-1.5 sm:mr-2" />
+                  View Full Profile
+                </Button>
+
+                <Separator />
+
+                {/* Other Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Button
+                    className="flex-1 h-9 sm:h-10 text-xs sm:text-sm bg-[#DF6951] hover:bg-[#c5573d]"
+                    onClick={() => {
+                      const isSelected = weddingPlan.selectedVendors[selectedVendorForDialog.category] === selectedVendorForDialog.vendor.id;
+                      updatePlan({
+                        selectedVendors: {
+                          ...weddingPlan.selectedVendors,
+                          [selectedVendorForDialog.category]: isSelected ? undefined : selectedVendorForDialog.vendor.id
+                        }
+                      });
+                      setSelectedVendorForDialog(null);
+                    }}
+                  >
+                    {weddingPlan.selectedVendors[selectedVendorForDialog.category] === selectedVendorForDialog.vendor.id ? (
+                      <>
+                        <Check className="size-3.5 sm:size-4 mr-1.5 sm:mr-2" />
+                        Selected
+                      </>
+                    ) : (
+                      <>
+                        <Check className="size-3.5 sm:size-4 mr-1.5 sm:mr-2" />
+                        <span className="hidden sm:inline">Select This Vendor</span>
+                        <span className="sm:hidden">Select</span>
+                      </>
+                    )}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="flex-1 h-9 sm:h-10 text-xs sm:text-sm"
+                    onClick={() => {
+                      const isSaved = isLoggedIn && savedVendors[selectedVendorForDialog.category]?.includes(selectedVendorForDialog.vendor.id);
+                      const currentSaved = savedVendors[selectedVendorForDialog.category] || [];
+                      const newSaved = isSaved
+                        ? currentSaved.filter(id => id !== selectedVendorForDialog.vendor.id)
+                        : [...currentSaved, selectedVendorForDialog.vendor.id];
+                      setSavedVendors({
+                        ...savedVendors,
+                        [selectedVendorForDialog.category]: newSaved
+                      });
+                    }}
+                  >
+                    <Heart 
+                      className={`size-3.5 sm:size-4 mr-1.5 sm:mr-2 ${
+                        isLoggedIn && savedVendors[selectedVendorForDialog.category]?.includes(selectedVendorForDialog.vendor.id) 
+                          ? 'fill-red-500 text-red-500' 
+                          : ''
+                      }`} 
+                    />
+                    <span className="hidden sm:inline">
+                      {isLoggedIn && savedVendors[selectedVendorForDialog.category]?.includes(selectedVendorForDialog.vendor.id) 
+                        ? 'Saved' 
+                        : 'Save for Later'}
+                    </span>
+                    <span className="sm:hidden">
+                      {isLoggedIn && savedVendors[selectedVendorForDialog.category]?.includes(selectedVendorForDialog.vendor.id) 
+                        ? 'Saved' 
+                        : 'Save'}
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }
