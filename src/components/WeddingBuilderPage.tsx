@@ -22,6 +22,7 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Checkbox } from "./ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./ui/dialog";
 import { Alert, AlertDescription } from "./ui/alert";
+import { toast } from "sonner@2.0.3";
 
 interface WeddingBuilderPageProps {
   onExit: () => void;
@@ -4009,8 +4010,66 @@ export function WeddingBuilderPage({ onExit }: WeddingBuilderPageProps) {
               <ArrowRight className="size-4" />
             </Button>
           ) : (
-            <Button className="gap-2 bg-gradient-to-r from-green-500 to-emerald-600 h-10 md:h-11 px-4 md:px-6 text-sm md:text-base flex-1 sm:flex-initial">
-              <span className="hidden sm:inline">Complete Plan</span>
+            <Button 
+              onClick={() => {
+                // Save wedding plan to localStorage
+                const savedPlan = {
+                  ...weddingPlan,
+                  // Add vendor full details
+                  selectedVendors: {
+                    planner: weddingPlan.selectedVendors.planner 
+                      ? vendorsByCategory.planner.find(v => v.id === weddingPlan.selectedVendors.planner)
+                      : undefined,
+                    photographer: weddingPlan.selectedVendors.photographer
+                      ? vendorsByCategory.photographer.find(v => v.id === weddingPlan.selectedVendors.photographer)
+                      : undefined,
+                    videographer: weddingPlan.selectedVendors.videographer
+                      ? vendorsByCategory.videographer.find(v => v.id === weddingPlan.selectedVendors.videographer)
+                      : undefined,
+                    makeup: weddingPlan.selectedVendors.makeup
+                      ? vendorsByCategory.makeup.find(v => v.id === weddingPlan.selectedVendors.makeup)
+                      : undefined,
+                    decorator: weddingPlan.selectedVendors.decorator
+                      ? vendorsByCategory.decorator.find(v => v.id === weddingPlan.selectedVendors.decorator)
+                      : undefined,
+                    dj: weddingPlan.selectedVendors.dj
+                      ? vendorsByCategory.dj.find(v => v.id === weddingPlan.selectedVendors.dj)
+                      : undefined,
+                  },
+                  // Add venue full details
+                  selectedVenues: weddingPlan.selectedVenues.map(venueId => 
+                    luxuryVenues.find(v => v.id === venueId)
+                  ).filter(Boolean),
+                  // Add metadata
+                  eventName: weddingPlan.theme ? `${weddingPlan.theme} Wedding` : "My Dream Wedding",
+                  weddingDate: weddingPlan.dates && weddingPlan.dates.length > 0 
+                    ? new Date(weddingPlan.dates[0]).toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })
+                    : undefined,
+                  savedAt: new Date().toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  }),
+                };
+                
+                localStorage.setItem('wedzway_wedding_plan', JSON.stringify(savedPlan));
+                toast("Wedding plan saved successfully!", {
+                  description: "You can view and share your plan from the Account page.",
+                  duration: 3000,
+                });
+                
+                // Close builder after a short delay
+                setTimeout(() => {
+                  onExit();
+                }, 1000);
+              }}
+              className="gap-2 bg-gradient-to-r from-green-500 to-emerald-600 h-10 md:h-11 px-4 md:px-6 text-sm md:text-base flex-1 sm:flex-initial"
+            >
+              <span className="hidden sm:inline">Complete & Save Plan</span>
               <span className="sm:hidden">Complete</span>
               <Check className="size-4" />
             </Button>

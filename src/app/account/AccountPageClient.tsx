@@ -33,7 +33,7 @@ export function AccountPageClient() {
   return (
     <div className="size-full">
       <TravelNav onNavigate={handleNavigate} currentPage="account" />
-      <CustomerAccountPage />
+      <CustomerAccountPage onBack={() => router.push('/')} onNavigate={handleNavigate} />
     </div>
   );
 }

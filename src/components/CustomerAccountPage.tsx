@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { motion } from "motion/react";
 import {
@@ -83,12 +85,13 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { toast } from "sonner@2.0.3";
 import { useCurrency } from "./CurrencyContext";
 
-export function CustomerAccountPage({ onBack }: { onBack: () => void }) {
+export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => void; onNavigate?: (page: string) => void }) {
   const data = mockCustomerData;
   const { formatPrice } = useCurrency();
   const [activeTab, setActiveTab] = useState("overview");
   const [showBuilder, setShowBuilder] = useState(false);
   const [selectedStep, setSelectedStep] = useState<string | null>(null);
+  const [showPrintableView, setShowPrintableView] = useState(false);
   const [showInvitationCreator, setShowInvitationCreator] = useState(false);
   const [showPublicPage, setShowPublicPage] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
@@ -974,415 +977,386 @@ export function CustomerAccountPage({ onBack }: { onBack: () => void }) {
           })()}
 
           {/* Wedding Plan Tab */}
-          {activeTab === "plan" && (
-            data.weddingPlan ? (
-              <div className="space-y-6">
-                {/* Plan Header */}
-                <Card className="p-6 bg-white shadow-sm">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <h2 className="text-3xl mb-2" style={{ fontFamily: "Volkhov, serif" }}>
-                        {data.weddingPlan.eventName}
-                      </h2>
-                      <div className="flex flex-wrap items-center gap-4 mb-4">
-                        <Badge className="bg-[#DF6951]">
-                          <PartyPopper className="size-3 mr-1" />
-                          {data.weddingPlan.weddingType === "destination" ? "Destination Wedding" : "Local Wedding"}
-                        </Badge>
-                        <Badge variant="outline">{data.weddingPlan.theme}</Badge>
-                        <Badge variant="outline">
-                          <Users className="size-3 mr-1" />
-                          {data.weddingPlan.guestSize} Guests
-                        </Badge>
-                      </div>
-                      <div className="grid md:grid-cols-3 gap-4 text-sm">
-                        <div className="flex items-center gap-2">
-                          <Calendar className="size-4 text-[#DF6951]" />
-                          <span>{data.weddingPlan.weddingDate}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <MapPin className="size-4 text-[#DF6951]" />
-                          <span>{data.weddingPlan.destination}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <DollarSign className="size-4 text-[#DF6951]" />
-                          <span>₹{(data.weddingPlan.budget / 100000).toFixed(1)}L Budget</span>
-                        </div>
-                      </div>
-                    </div>
-                    <Button 
-                      variant="outline" 
-                      className="gap-2"
-                      onClick={() => setShowBuilder(true)}
-                    >
-                      <Edit className="size-4" />
-                      Edit Plan
-                    </Button>
-                  </div>
-
-                  {/* Progress Bar */}
-                  <div className="bg-gray-50 rounded-lg p-4 border">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-semibold">Planning Progress</span>
-                      <span className="text-2xl text-[#DF6951]">{data.weddingPlan.completionPercentage}%</span>
-                    </div>
-                    <Progress value={data.weddingPlan.completionPercentage} className="h-3" />
-                    <p className="text-xs text-muted-foreground mt-2">
-                      Last updated: {data.weddingPlan.lastUpdated}
-                    </p>
-                  </div>
+          {activeTab === "plan" && (() => {
+            if (!data.weddingPlan) {
+              return (
+                <Card className="p-12 text-center">
+                  <ListChecks className="size-16 mx-auto mb-4 text-muted-foreground" />
+                  <h3 className="text-xl mb-2" style={{ fontFamily: "Volkhov, serif" }}>
+                    No Wedding Plan Yet
+                  </h3>
+                  <p className="text-muted-foreground mb-6">
+                    Start planning your dream wedding with our interactive builder
+                  </p>
+                  <Button 
+                    className="gap-2 bg-gradient-to-r from-[#DF6951] to-[#F1A501]"
+                    onClick={() => setShowBuilder(true)}
+                  >
+                    <Sparkles className="size-4" />
+                    Create Wedding Plan
+                  </Button>
                 </Card>
+              );
+            }
 
-                {/* Builder Steps Overview */}
-                <Card className="p-6">
-                  {(() => {
-                    const builderSteps = [
-                      { id: "basics", name: "Event Basics", icon: Users, completed: true },
-                      { id: "destination", name: "Destination", icon: MapPin, completed: true },
-                      { id: "moodboard", name: "Moodboard", icon: Palette, completed: true },
-                      { id: "vendors", name: "Vendors", icon: Briefcase, completed: true },
-                      { id: "venue", name: "Venue", icon: Building2, completed: false },
-                      { id: "travel", name: "Travel", icon: Plane, completed: false },
-                      { id: "visa", name: "Visa & Docs", icon: FileText, completed: false },
-                    ];
+            const builderSteps = [
+              { id: "basics", name: "Basics", icon: Users, completed: true },
+              { id: "destination", name: "Destination", icon: MapPin, completed: true },
+              { id: "moodboard", name: "Moodboard", icon: Palette, completed: true },
+              { id: "vendors", name: "Vendors", icon: Briefcase, completed: true },
+              { id: "venue", name: "Venue", icon: Building2, completed: true },
+              { id: "travel", name: "Travel", icon: Plane, completed: false },
+              { id: "visa", name: "Visa", icon: FileText, completed: false },
+            ];
 
-                    const renderStepDetails = () => {
-                      if (!selectedStep || !data.weddingPlan) return null;
+            const renderStepDetails = () => {
+              switch (selectedStep) {
+                case "basics":
+                  return (
+                    <div className="mt-6 p-6 bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg border-2 border-purple-200">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Users className="size-5 text-[#DF6951]" />
+                        <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Event Basics</h4>
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="bg-white p-4 rounded-lg">
+                          <p className="text-sm text-muted-foreground mb-1">Event Name</p>
+                          <p className="font-semibold">{data.weddingPlan.eventName}</p>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg">
+                          <p className="text-sm text-muted-foreground mb-1">Wedding Date</p>
+                          <p className="font-semibold">{data.weddingPlan.weddingDate}</p>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg">
+                          <p className="text-sm text-muted-foreground mb-1">Wedding Type</p>
+                          <Badge className="bg-[#DF6951]">
+                            {data.weddingPlan.weddingType === "destination" ? "Destination Wedding" : "Local Wedding"}
+                          </Badge>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg">
+                          <p className="text-sm text-muted-foreground mb-1">Theme</p>
+                          <p className="font-semibold">{data.weddingPlan.theme}</p>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg">
+                          <p className="text-sm text-muted-foreground mb-1">Guest Size</p>
+                          <p className="font-semibold">{data.weddingPlan.guestSize} Guests</p>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg">
+                          <p className="text-sm text-muted-foreground mb-1">Duration</p>
+                          <p className="font-semibold">{data.weddingPlan.duration} Days</p>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg md:col-span-2">
+                          <p className="text-sm text-muted-foreground mb-1">Budget</p>
+                          <p className="text-2xl text-[#DF6951]">{formatPrice(data.weddingPlan.budget)}</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
 
-                      switch (selectedStep) {
-                        case "basics":
-                          return (
-                            <div className="mt-6 p-6 bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg border-2 border-purple-200">
-                              <div className="flex items-center gap-2 mb-4">
-                                <Users className="size-5 text-[#DF6951]" />
-                                <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Event Basics</h4>
-                              </div>
-                              <div className="grid md:grid-cols-2 gap-4">
-                                <div className="bg-white p-4 rounded-lg">
-                                  <p className="text-sm text-muted-foreground mb-1">Event Name</p>
-                                  <p className="font-semibold">{data.weddingPlan.eventName}</p>
-                                </div>
-                                <div className="bg-white p-4 rounded-lg">
-                                  <p className="text-sm text-muted-foreground mb-1">Wedding Date</p>
-                                  <p className="font-semibold">{data.weddingPlan.weddingDate}</p>
-                                </div>
-                                <div className="bg-white p-4 rounded-lg">
-                                  <p className="text-sm text-muted-foreground mb-1">Wedding Type</p>
-                                  <Badge className="bg-[#DF6951]">
-                                    {data.weddingPlan.weddingType === "destination" ? "Destination Wedding" : "Local Wedding"}
-                                  </Badge>
-                                </div>
-                                <div className="bg-white p-4 rounded-lg">
-                                  <p className="text-sm text-muted-foreground mb-1">Theme</p>
-                                  <p className="font-semibold">{data.weddingPlan.theme}</p>
-                                </div>
-                                <div className="bg-white p-4 rounded-lg">
-                                  <p className="text-sm text-muted-foreground mb-1">Guest Size</p>
-                                  <p className="font-semibold">{data.weddingPlan.guestSize} Guests</p>
-                                </div>
-                                <div className="bg-white p-4 rounded-lg">
-                                  <p className="text-sm text-muted-foreground mb-1">Duration</p>
-                                  <p className="font-semibold">{data.weddingPlan.duration} Days</p>
-                                </div>
-                                <div className="bg-white p-4 rounded-lg md:col-span-2">
-                                  <p className="text-sm text-muted-foreground mb-1">Budget</p>
-                                  <p className="text-2xl text-[#DF6951]">₹{(data.weddingPlan.budget / 100000).toFixed(1)}L</p>
-                                </div>
-                              </div>
-                            </div>
-                          );
-
-                        case "destination":
-                          return (
-                            <div className="mt-6 p-6 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg border-2 border-blue-200">
-                              <div className="flex items-center gap-2 mb-4">
-                                <MapPin className="size-5 text-[#DF6951]" />
-                                <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Destination Details</h4>
-                              </div>
-                              <div className="grid md:grid-cols-2 gap-4">
-                                <div className="bg-white p-4 rounded-lg">
-                                  <p className="text-sm text-muted-foreground mb-1">Wedding Destination</p>
-                                  <p className="font-semibold text-lg">{data.weddingPlan.destination}</p>
-                                </div>
-                                <div className="bg-white p-4 rounded-lg">
-                                  <p className="text-sm text-muted-foreground mb-1">Venue</p>
-                                  <p className="font-semibold text-lg">{data.weddingPlan.venue}</p>
-                                </div>
-                                <div className="bg-white p-4 rounded-lg md:col-span-2">
-                                  <p className="text-sm text-muted-foreground mb-2">Guest Origins</p>
-                                  <div className="flex flex-wrap gap-2">
-                                    {data.weddingPlan.guestOrigins.map((origin, idx) => (
-                                      <Badge key={idx} variant="outline">{origin}</Badge>
-                                    ))}
-                                  </div>
-                                </div>
-                                <div className="bg-white p-4 rounded-lg md:col-span-2">
-                                  <p className="text-sm text-muted-foreground mb-1">Accommodations</p>
-                                  <p className="font-semibold">{data.weddingPlan.accommodations}</p>
-                                </div>
-                              </div>
-                            </div>
-                          );
-
-                        case "moodboard":
-                          return (
-                            <div className="mt-6 p-6 bg-gradient-to-br from-pink-50 to-rose-50 rounded-lg border-2 border-pink-200">
-                              <div className="flex items-center gap-2 mb-4">
-                                <Palette className="size-5 text-[#DF6951]" />
-                                <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Design & Moodboard</h4>
-                              </div>
-                              <div className="space-y-4">
-                                <div className="bg-white p-4 rounded-lg">
-                                  <p className="text-sm text-muted-foreground mb-2">Color Palette</p>
-                                  <p className="font-semibold mb-3">{data.weddingPlan.colorPalette.name}</p>
-                                  <div className="flex gap-2">
-                                    {data.weddingPlan.colorPalette.colors.map((color, idx) => (
-                                      <div key={idx} className="flex flex-col items-center gap-1">
-                                        <div 
-                                          className="size-12 rounded-full border-2 border-gray-300"
-                                          style={{ backgroundColor: color }}
-                                        />
-                                        <span className="text-xs text-muted-foreground">{color}</span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                                <div className="bg-white p-4 rounded-lg">
-                                  <p className="text-sm text-muted-foreground mb-2">Design Styles</p>
-                                  <div className="flex flex-wrap gap-2">
-                                    {data.weddingPlan.styles.map((style, idx) => (
-                                      <Badge key={idx} className="bg-[#DF6951]">{style}</Badge>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-
-                        case "vendors":
-                          return (
-                            <div className="mt-6 p-6 bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg border-2 border-amber-200">
-                              <div className="flex items-center gap-2 mb-4">
-                                <Briefcase className="size-5 text-[#DF6951]" />
-                                <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Vendors Booked</h4>
-                              </div>
-                              <div className="grid md:grid-cols-2 gap-3">
-                                {Object.entries(data.weddingPlan.vendors).map(([type, vendor]) => 
-                                  vendor ? (
-                                    <div key={type} className="bg-white p-4 rounded-lg border">
-                                      <div className="flex items-start justify-between mb-1">
-                                        <p className="text-sm text-muted-foreground capitalize">{type}</p>
-                                        <CheckCircle2 className="size-4 text-green-600" />
-                                      </div>
-                                      <p className="font-semibold">{vendor.name}</p>
-                                      <p className="text-sm text-muted-foreground">{vendor.service}</p>
-                                    </div>
-                                  ) : null
-                                )}
-                              </div>
-                            </div>
-                          );
-
-                        case "venue":
-                          const venueTasks = data.weddingPlan.checklist.filter(t => t.category === "Venue");
-                          return (
-                            <div className="mt-6 p-6 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-lg border-2 border-emerald-200">
-                              <div className="flex items-center gap-2 mb-4">
-                                <Building2 className="size-5 text-[#DF6951]" />
-                                <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Venue Tasks</h4>
-                              </div>
-                              <div className="bg-white p-4 rounded-lg mb-4">
-                                <p className="text-sm text-muted-foreground mb-1">Selected Venue</p>
-                                <p className="font-semibold text-lg">{data.weddingPlan.venue}</p>
-                                <p className="text-muted-foreground">{data.weddingPlan.destination}</p>
-                              </div>
-                              <div className="space-y-2">
-                                {venueTasks.map((task) => (
-                                  <div key={task.id} className="bg-white p-3 rounded-lg border flex items-start gap-3">
-                                    {task.completed ? (
-                                      <CheckCircle2 className="size-5 text-green-600 mt-0.5" />
-                                    ) : (
-                                      <Clock className="size-5 text-orange-500 mt-0.5" />
-                                    )}
-                                    <div className="flex-1">
-                                      <p className={task.completed ? "line-through text-muted-foreground" : "font-medium"}>{task.task}</p>
-                                      <p className="text-xs text-muted-foreground">Due: {task.dueDate}</p>
-                                    </div>
-                                    <Badge variant={task.priority === "high" ? "destructive" : "outline"}>
-                                      {task.priority}
-                                    </Badge>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          );
-
-                        case "travel":
-                          const travelTasks = data.weddingPlan.checklist.filter(t => t.category === "Travel");
-                          return (
-                            <div className="mt-6 p-6 bg-gradient-to-br from-sky-50 to-indigo-50 rounded-lg border-2 border-sky-200">
-                              <div className="flex items-center gap-2 mb-4">
-                                <Plane className="size-5 text-[#DF6951]" />
-                                <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Travel Planning</h4>
-                              </div>
-                              <div className="grid md:grid-cols-2 gap-4 mb-4">
-                                <div className="bg-white p-4 rounded-lg">
-                                  <p className="text-sm text-muted-foreground mb-2">Guest Origins</p>
-                                  <div className="flex flex-wrap gap-2">
-                                    {data.weddingPlan.guestOrigins.map((origin, idx) => (
-                                      <Badge key={idx} variant="outline">{origin}</Badge>
-                                    ))}
-                                  </div>
-                                </div>
-                                <div className="bg-white p-4 rounded-lg">
-                                  <p className="text-sm text-muted-foreground mb-1">Accommodations</p>
-                                  <p className="font-semibold">{data.weddingPlan.accommodations}</p>
-                                </div>
-                              </div>
-                              <div className="space-y-2">
-                                {travelTasks.length > 0 ? (
-                                  travelTasks.map((task) => (
-                                    <div key={task.id} className="bg-white p-3 rounded-lg border flex items-start gap-3">
-                                      {task.completed ? (
-                                        <CheckCircle2 className="size-5 text-green-600 mt-0.5" />
-                                      ) : (
-                                        <Clock className="size-5 text-orange-500 mt-0.5" />
-                                      )}
-                                      <div className="flex-1">
-                                        <p className={task.completed ? "line-through text-muted-foreground" : "font-medium"}>{task.task}</p>
-                                        <p className="text-xs text-muted-foreground">Due: {task.dueDate}</p>
-                                      </div>
-                                      <Badge variant={task.priority === "high" ? "destructive" : "outline"}>
-                                        {task.priority}
-                                      </Badge>
-                                    </div>
-                                  ))
-                                ) : (
-                                  <div className="bg-white p-4 rounded-lg text-center text-muted-foreground">
-                                    No travel tasks yet. Click "Continue Building" to add travel arrangements.
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          );
-
-                        case "visa":
-                          return (
-                            <div className="mt-6 p-6 bg-gradient-to-br from-violet-50 to-purple-50 rounded-lg border-2 border-violet-200">
-                              <div className="flex items-center gap-2 mb-4">
-                                <FileText className="size-5 text-[#DF6951]" />
-                                <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Visa & Documents</h4>
-                              </div>
-                              {data.visaApplications && data.visaApplications.length > 0 ? (
-                                <div className="space-y-3">
-                                  {data.visaApplications.map((visa) => (
-                                    <div key={visa.id} className="bg-white p-4 rounded-lg border">
-                                      <div className="flex items-start justify-between mb-2">
-                                        <div>
-                                          <p className="font-semibold">{visa.country}</p>
-                                          <p className="text-sm text-muted-foreground">{visa.visaType}</p>
-                                        </div>
-                                        <Badge className={
-                                          visa.status === "approved" ? "bg-green-600" :
-                                          visa.status === "pending" ? "bg-orange-500" :
-                                          visa.status === "in-review" ? "bg-blue-500" :
-                                          "bg-red-500"
-                                        }>
-                                          {visa.status}
-                                        </Badge>
-                                      </div>
-                                      <div className="text-sm">
-                                        <p className="text-muted-foreground">Application #{visa.applicationNumber}</p>
-                                        <p className="text-muted-foreground">Expected: {visa.expectedProcessing}</p>
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              ) : (
-                                <div className="bg-white p-8 rounded-lg text-center">
-                                  <FileText className="size-12 mx-auto mb-3 text-muted-foreground" />
-                                  <p className="text-muted-foreground mb-4">No visa applications yet</p>
-                                  <Button size="sm" variant="outline">
-                                    Start Visa Application
-                                  </Button>
-                                </div>
-                              )}
-                            </div>
-                          );
-
-                        default:
-                          return null;
-                      }
-                    };
-
-                    return (
-                      <>
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
-                          <h3 className="text-lg sm:text-xl" style={{ fontFamily: "Volkhov, serif" }}>
-                            Builder Steps {selectedStep && `- ${builderSteps.find(s => s.id === selectedStep)?.name}`}
-                          </h3>
-                          <div className="flex gap-2 w-full sm:w-auto">
-                            {selectedStep && (
-                              <Button 
-                                variant="ghost" 
-                                size="sm"
-                                onClick={() => setSelectedStep(null)}
-                                className="gap-2 flex-1 sm:flex-none"
-                              >
-                                <X className="size-4" />
-                                <span>Close</span>
-                              </Button>
-                            )}
-                            <Button 
-                              variant="outline" 
-                              size="sm"
-                              onClick={() => setShowBuilder(true)}
-                              className="gap-2 flex-1 sm:flex-none"
-                            >
-                              <Wand2 className="size-4" />
-                              <span className="hidden sm:inline">Continue Building</span>
-                              <span className="sm:hidden">Build</span>
-                            </Button>
+                case "destination":
+                  return (
+                    <div className="mt-6 p-6 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg border-2 border-blue-200">
+                      <div className="flex items-center gap-2 mb-4">
+                        <MapPin className="size-5 text-[#DF6951]" />
+                        <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Destination Details</h4>
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="bg-white p-4 rounded-lg">
+                          <p className="text-sm text-muted-foreground mb-1">Wedding Destination</p>
+                          <p className="font-semibold text-lg">{data.weddingPlan.destination}</p>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg">
+                          <p className="text-sm text-muted-foreground mb-1">Venue</p>
+                          <p className="font-semibold text-lg">{data.weddingPlan.venue}</p>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg md:col-span-2">
+                          <p className="text-sm text-muted-foreground mb-2">Guest Origins</p>
+                          <div className="flex flex-wrap gap-2">
+                            {data.weddingPlan.guestOrigins.map((origin, idx) => (
+                              <Badge key={idx} variant="outline">{origin}</Badge>
+                            ))}
                           </div>
                         </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-3">
-                          {builderSteps.map((step) => {
-                            const StepIcon = step.icon;
-                            const isSelected = selectedStep === step.id;
-                            return (
-                              <div
-                                key={step.id}
-                                onClick={() => setSelectedStep(isSelected ? null : step.id)}
-                                className={`p-2 sm:p-3 rounded-lg border-2 text-center transition-all cursor-pointer hover:shadow-md ${
-                                  isSelected
-                                    ? "bg-[#DF6951] border-[#DF6951] text-white scale-105"
-                                    : step.completed
-                                    ? "bg-green-50 border-green-300 hover:border-green-400"
-                                    : "bg-gray-50 border-gray-200 hover:border-gray-300"
-                                }`}
-                              >
-                                <div className={`size-8 sm:size-10 mx-auto mb-1 sm:mb-2 rounded-full flex items-center justify-center ${
-                                  isSelected
-                                    ? "bg-white"
-                                    : step.completed 
-                                    ? "bg-green-500" 
-                                    : "bg-gray-300"
-                                }`}>
-                                  {step.completed && !isSelected ? (
-                                    <CheckCircle2 className="size-4 sm:size-5 text-white" />
-                                  ) : (
-                                    <StepIcon className={`size-4 sm:size-5 ${isSelected ? "text-[#DF6951]" : "text-white"}`} />
-                                  )}
-                                </div>
-                                <p className={`text-[10px] sm:text-xs font-medium ${isSelected ? "text-white" : ""}`}>{step.name}</p>
-                              </div>
-                            );
-                          })}
+                        <div className="bg-white p-4 rounded-lg md:col-span-2">
+                          <p className="text-sm text-muted-foreground mb-1">Accommodations</p>
+                          <p className="font-semibold">{data.weddingPlan.accommodations}</p>
                         </div>
-                        {renderStepDetails()}
-                      </>
-                    );
-                  })()}
+                      </div>
+                    </div>
+                  );
+
+                case "moodboard":
+                  return (
+                    <div className="mt-6 p-6 bg-gradient-to-br from-pink-50 to-rose-50 rounded-lg border-2 border-pink-200">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Palette className="size-5 text-[#DF6951]" />
+                        <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Design & Moodboard</h4>
+                      </div>
+                      <div className="space-y-4">
+                        <div className="bg-white p-4 rounded-lg">
+                          <p className="text-sm text-muted-foreground mb-2">Color Palette</p>
+                          <p className="font-semibold mb-3">{data.weddingPlan.colorPalette.name}</p>
+                          <div className="flex gap-2">
+                            {data.weddingPlan.colorPalette.colors.map((color, idx) => (
+                              <div key={idx} className="flex flex-col items-center gap-1">
+                                <div 
+                                  className="size-12 rounded-full border-2 border-gray-300"
+                                  style={{ backgroundColor: color }}
+                                />
+                                <span className="text-xs text-muted-foreground">{color}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg">
+                          <p className="text-sm text-muted-foreground mb-2">Design Styles</p>
+                          <div className="flex flex-wrap gap-2">
+                            {data.weddingPlan.styles.map((style, idx) => (
+                              <Badge key={idx} className="bg-[#DF6951]">{style}</Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+
+                case "vendors":
+                  return (
+                    <div className="mt-6 p-6 bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg border-2 border-amber-200">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Briefcase className="size-5 text-[#DF6951]" />
+                        <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Vendors Booked</h4>
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-3">
+                        {Object.entries(data.weddingPlan.vendors).map(([type, vendor]) => 
+                          vendor ? (
+                            <div key={type} className="bg-white p-4 rounded-lg border">
+                              <div className="flex items-start justify-between mb-1">
+                                <p className="text-sm text-muted-foreground capitalize">{type}</p>
+                                <CheckCircle2 className="size-4 text-green-600" />
+                              </div>
+                              <p className="font-semibold">{vendor.name}</p>
+                              <p className="text-sm text-muted-foreground">{vendor.service}</p>
+                            </div>
+                          ) : null
+                        )}
+                      </div>
+                    </div>
+                  );
+
+                case "venue":
+                  const venueTasks = data.weddingPlan.checklist.filter(t => t.category === "Venue");
+                  return (
+                    <div className="mt-6 p-6 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-lg border-2 border-emerald-200">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Building2 className="size-5 text-[#DF6951]" />
+                        <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Venue Tasks</h4>
+                      </div>
+                      <div className="bg-white p-4 rounded-lg mb-4">
+                        <p className="text-sm text-muted-foreground mb-1">Selected Venue</p>
+                        <p className="font-semibold text-lg">{data.weddingPlan.venue}</p>
+                        <p className="text-muted-foreground">{data.weddingPlan.destination}</p>
+                      </div>
+                      <div className="space-y-2">
+                        {venueTasks.map((task) => (
+                          <div key={task.id} className="bg-white p-3 rounded-lg border flex items-start gap-3">
+                            {task.completed ? (
+                              <CheckCircle2 className="size-5 text-green-600 mt-0.5" />
+                            ) : (
+                              <Clock className="size-5 text-orange-500 mt-0.5" />
+                            )}
+                            <div className="flex-1">
+                              <p className={task.completed ? "line-through text-muted-foreground" : "font-medium"}>{task.task}</p>
+                              <p className="text-xs text-muted-foreground">Due: {task.dueDate}</p>
+                            </div>
+                            <Badge variant={task.priority === "high" ? "destructive" : "outline"}>
+                              {task.priority}
+                            </Badge>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+
+                case "travel":
+                  const travelTasks = data.weddingPlan.checklist.filter(t => t.category === "Travel");
+                  return (
+                    <div className="mt-6 p-6 bg-gradient-to-br from-sky-50 to-indigo-50 rounded-lg border-2 border-sky-200">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Plane className="size-5 text-[#DF6951]" />
+                        <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Travel Planning</h4>
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-4 mb-4">
+                        <div className="bg-white p-4 rounded-lg">
+                          <p className="text-sm text-muted-foreground mb-2">Guest Origins</p>
+                          <div className="flex flex-wrap gap-2">
+                            {data.weddingPlan.guestOrigins.map((origin, idx) => (
+                              <Badge key={idx} variant="outline">{origin}</Badge>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="bg-white p-4 rounded-lg">
+                          <p className="text-sm text-muted-foreground mb-1">Accommodations</p>
+                          <p className="font-semibold">{data.weddingPlan.accommodations}</p>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        {travelTasks.length > 0 ? (
+                          travelTasks.map((task) => (
+                            <div key={task.id} className="bg-white p-3 rounded-lg border flex items-start gap-3">
+                              {task.completed ? (
+                                <CheckCircle2 className="size-5 text-green-600 mt-0.5" />
+                              ) : (
+                                <Clock className="size-5 text-orange-500 mt-0.5" />
+                              )}
+                              <div className="flex-1">
+                                <p className={task.completed ? "line-through text-muted-foreground" : "font-medium"}>{task.task}</p>
+                                <p className="text-xs text-muted-foreground">Due: {task.dueDate}</p>
+                              </div>
+                              <Badge variant={task.priority === "high" ? "destructive" : "outline"}>
+                                {task.priority}
+                              </Badge>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="bg-white p-4 rounded-lg text-center text-muted-foreground">
+                            No travel tasks yet. Click "Continue Building" to add travel arrangements.
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+
+                case "visa":
+                  return (
+                    <div className="mt-6 p-6 bg-gradient-to-br from-violet-50 to-purple-50 rounded-lg border-2 border-violet-200">
+                      <div className="flex items-center gap-2 mb-4">
+                        <FileText className="size-5 text-[#DF6951]" />
+                        <h4 className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>Visa & Documents</h4>
+                      </div>
+                      {data.visaApplications && data.visaApplications.length > 0 ? (
+                        <div className="space-y-3">
+                          {data.visaApplications.map((visa) => (
+                            <div key={visa.id} className="bg-white p-4 rounded-lg border">
+                              <div className="flex items-start justify-between mb-2">
+                                <div>
+                                  <p className="font-semibold">{visa.country}</p>
+                                  <p className="text-sm text-muted-foreground">{visa.visaType}</p>
+                                </div>
+                                <Badge className={
+                                  visa.status === "approved" ? "bg-green-600" :
+                                  visa.status === "pending" ? "bg-orange-500" :
+                                  visa.status === "in-review" ? "bg-blue-500" :
+                                  "bg-red-500"
+                                }>
+                                  {visa.status}
+                                </Badge>
+                              </div>
+                              <div className="text-sm">
+                                <p className="text-muted-foreground">Application #{visa.applicationNumber}</p>
+                                <p className="text-muted-foreground">Expected: {visa.expectedProcessing}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="bg-white p-8 rounded-lg text-center">
+                          <FileText className="size-12 mx-auto mb-3 text-muted-foreground" />
+                          <p className="text-muted-foreground mb-4">No visa applications yet</p>
+                          <Button size="sm" variant="outline">
+                            Start Visa Application
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  );
+
+                default:
+                  return null;
+              }
+            };
+
+            return (
+              <>
+                <Card className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+                    <div>
+                      <h3 className="text-lg sm:text-xl mb-1" style={{ fontFamily: "Volkhov, serif" }}>
+                        {selectedStep ? builderSteps.find(s => s.id === selectedStep)?.name : "Builder Steps"}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {data.weddingPlan.completionPercentage}% Complete • Last updated: {data.weddingPlan.lastUpdated}
+                      </p>
+                    </div>
+                    <div className="flex gap-2 w-full sm:w-auto flex-wrap">
+                      {selectedStep && (
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => setSelectedStep(null)}
+                          className="gap-2 flex-1 sm:flex-none"
+                        >
+                          <X className="size-4" />
+                          <span>Close</span>
+                        </Button>
+                      )}
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => window.location.href = '/account/wedding-plan'}
+                        className="gap-2 flex-1 sm:flex-none"
+                      >
+                        <Eye className="size-4" />
+                        <span className="hidden sm:inline">View Printable Plan</span>
+                        <span className="sm:hidden">Print</span>
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => setShowBuilder(true)}
+                        className="gap-2 flex-1 sm:flex-none"
+                      >
+                        <Wand2 className="size-4" />
+                        <span className="hidden sm:inline">Continue Building</span>
+                        <span className="sm:hidden">Build</span>
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-3">
+                    {builderSteps.map((step) => {
+                      const StepIcon = step.icon;
+                      const isSelected = selectedStep === step.id;
+                      return (
+                        <div
+                          key={step.id}
+                          onClick={() => setSelectedStep(isSelected ? null : step.id)}
+                          className={`p-2 sm:p-3 rounded-lg border-2 text-center transition-all cursor-pointer hover:shadow-md ${
+                            isSelected
+                              ? "bg-[#DF6951] border-[#DF6951] text-white scale-105"
+                              : step.completed
+                              ? "bg-green-50 border-green-300 hover:border-green-400"
+                              : "bg-gray-50 border-gray-200 hover:border-gray-300"
+                          }`}
+                        >
+                          <div className={`size-8 sm:size-10 mx-auto mb-1 sm:mb-2 rounded-full flex items-center justify-center ${
+                            isSelected
+                              ? "bg-white"
+                              : step.completed 
+                              ? "bg-green-500" 
+                              : "bg-gray-300"
+                          }`}>
+                            {step.completed && !isSelected ? (
+                              <CheckCircle2 className="size-4 sm:size-5 text-white" />
+                            ) : (
+                              <StepIcon className={`size-4 sm:size-5 ${isSelected ? "text-[#DF6951]" : "text-white"}`} />
+                            )}
+                          </div>
+                          <p className={`text-[10px] sm:text-xs font-medium ${isSelected ? "text-white" : ""}`}>{step.name}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {renderStepDetails()}
                 </Card>
 
                 <div className="grid lg:grid-cols-3 gap-6">
@@ -1522,11 +1496,13 @@ export function CustomerAccountPage({ onBack }: { onBack: () => void }) {
                       </h3>
                       <div className="space-y-3">
                         {Object.entries(data.weddingPlan.vendors).map(([type, vendor]) => (
-                          <div key={type} className="pb-3 border-b last:border-0 last:pb-0">
-                            <p className="text-xs text-muted-foreground capitalize mb-1">{type}</p>
-                            <p className="font-semibold text-sm">{vendor.name}</p>
-                            <p className="text-xs text-muted-foreground">{vendor.service}</p>
-                          </div>
+                          vendor && (
+                            <div key={type} className="pb-3 border-b last:border-0 last:pb-0">
+                              <p className="text-xs text-muted-foreground capitalize mb-1">{type}</p>
+                              <p className="font-semibold text-sm">{vendor.name}</p>
+                              <p className="text-xs text-muted-foreground">{vendor.service}</p>
+                            </div>
+                          )
                         ))}
                       </div>
                     </Card>
@@ -1557,26 +1533,9 @@ export function CustomerAccountPage({ onBack }: { onBack: () => void }) {
                     </Card>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <Card className="p-12 text-center">
-                <ListChecks className="size-16 mx-auto mb-4 text-muted-foreground" />
-                <h3 className="text-xl mb-2" style={{ fontFamily: "Volkhov, serif" }}>
-                  No Wedding Plan Yet
-                </h3>
-                <p className="text-muted-foreground mb-6">
-                  Start planning your dream wedding with our interactive builder
-                </p>
-                <Button 
-                  className="gap-2 bg-gradient-to-r from-[#DF6951] to-[#F1A501]"
-                  onClick={() => setShowBuilder(true)}
-                >
-                  <Sparkles className="size-4" />
-                  Create Wedding Plan
-                </Button>
-              </Card>
-            )
-          )}
+              </>
+            );
+          })()}
 
           {/* Venue Bookings Tab */}
           {activeTab === "venues" && (
