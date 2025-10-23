@@ -4,7 +4,7 @@ import { useState } from "react";
 import { 
   MapPin, Star, Users, Calendar, Clock, Wifi, Music, Utensils, 
   Camera, Sparkles, Wine, Car, Check, ArrowLeft, Heart, Share2,
-  Mail, Phone, MessageSquare, ChevronLeft, ChevronRight
+  Mail, Phone, MessageSquare, ChevronLeft, ChevronRight, BadgeCheck
 } from "lucide-react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
@@ -223,7 +223,7 @@ export function VenueDetailsPage({ venueId, onBack }: VenueDetailsPageProps) {
                       <span className="font-medium">{venue.rating}</span>
                       <span className="text-muted-foreground">({venue.reviews} reviews)</span>
                     </div>
-                    <Badge className="bg-emerald-500 text-white">Verified</Badge>
+                    <Badge className="bg-blue-500 gap-1"><BadgeCheck className="size-4" />Verified</Badge>
                   </div>
                 </div>
               </div>
