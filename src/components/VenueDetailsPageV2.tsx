@@ -1374,14 +1374,14 @@ export function VenueDetailsPageV2({
               {/* See More Button - Shows when not all images are displayed */}
               {!showAllGalleryImages && venue.images.length > 12 && (
                 <div className="mt-6 text-center">
-                  <Button
+                  {/* <Button
                     variant="outline"
                     onClick={() => setShowAllGalleryImages(true)}
                     className="gap-2 border-[#02542D] text-[#02542D] hover:bg-[#02542D]/10"
                   >
                     <Camera className="size-4" />
                     View All {venue.images.length} Photos
-                  </Button>
+                  </Button> */}
                 </div>
               )}
             </div>
