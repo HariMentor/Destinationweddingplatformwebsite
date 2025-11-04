@@ -189,7 +189,18 @@ const venueDetails = {
       image_cb798e5507ad03096d664717f1ce0c0f0124765b,
       image_00d4a9ab046ee595171f253db694410941523eba,
       image_713f8eb9bbae3295163a927a337743f7f41a5691,
+      image_351a2514681d06a45fc6e0fb4af691f66966d699,
       "https://images.unsplash.com/photo-1578730169862-749bbdc763a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvdXRkb29yJTIwd2VkZGluZyUyMHZlbnVlfGVufDF8fHx8MTc2MTIzNTk3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      "https://images.unsplash.com/photo-1521543387600-c745f8e83d77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYyMjI5Mjg2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      "https://images.unsplash.com/photo-1761120789207-c08a10afb864?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVnYW50JTIwd2VkZGluZyUyMHJlY2VwdGlvbnxlbnwxfHx8fDE3NjIyMjg3Mzh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      "https://images.unsplash.com/photo-1761047726498-67eeb8b35d7c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvdXRkb29yJTIwd2VkZGluZyUyMHRlcnJhY2V8ZW58MXx8fHwxNzYyMjgyMzc4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      "https://images.unsplash.com/photo-1675247488725-22d1b78e75db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwYmFucXVldCUyMGhhbGx8ZW58MXx8fHwxNzYyMjgyMzcyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      "https://images.unsplash.com/photo-1641329386289-6221bb37ebf8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwbGF3biUyMGdhcmRlbnxlbnwxfHx8fDE3NjIyODIzNzh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      "https://images.unsplash.com/photo-1700062069869-0c59ff21fa3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwY2VyZW1vbnklMjBzZXR1cHxlbnwxfHx8fDE3NjIyMjk2MDB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      "https://images.unsplash.com/photo-1759954644796-0ed43f06715b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb21hbnRpYyUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjIyODIzNzV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      "https://images.unsplash.com/photo-1625619080917-7d6ff39e0675?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwdmVudWUlMjBiYWxscm9vbXxlbnwxfHx8fDE3NjIxNzk1MTh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      "https://images.unsplash.com/photo-1744805624952-dab790f6b3bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXN0aW5hdGlvbiUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjIyMjk2MDB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      "https://images.unsplash.com/photo-1721677337543-37b07e7e28b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwdmVudWUlMjBzdW5zZXR8ZW58MXx8fHwxNzYyMjgyMzgwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     ],
     capacity: {
       min: 50,
@@ -316,8 +327,10 @@ export function VenueDetailsPageV2({
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxImageIndex, setLightboxImageIndex] =
     useState(0);
+  const [lightboxImages, setLightboxImages] = useState<any[]>([]);
   const [expandedPackages, setExpandedPackages] = useState<number[]>([]);
   const [packageImageIndices, setPackageImageIndices] = useState<{ [key: number]: number }>({});
+  const [showAllGalleryImages, setShowAllGalleryImages] = useState(false);
   const { formatPrice } = useCurrency();
 
   // Enquiry form state
@@ -358,21 +371,22 @@ export function VenueDetailsPageV2({
     );
   };
 
-  const openLightbox = (index: number) => {
+  const openLightbox = (index: number, images?: any[]) => {
     setLightboxImageIndex(index);
+    setLightboxImages(images || venue.images);
     setIsLightboxOpen(true);
   };
 
   const nextLightboxImage = () => {
     setLightboxImageIndex(
-      (prev) => (prev + 1) % venue.images.length,
+      (prev) => (prev + 1) % lightboxImages.length,
     );
   };
 
   const prevLightboxImage = () => {
     setLightboxImageIndex(
       (prev) =>
-        (prev - 1 + venue.images.length) % venue.images.length,
+        (prev - 1 + lightboxImages.length) % lightboxImages.length,
     );
   };
 
@@ -819,7 +833,13 @@ export function VenueDetailsPageV2({
                   >
                     <div className="grid md:grid-cols-[280px,1fr] gap-6 p-6">
                       {/* Package Image Gallery */}
-                      <div className="relative h-[220px] md:h-[320px] rounded-lg overflow-hidden group">
+                      <div 
+                        className="relative h-[220px] md:h-[320px] rounded-lg overflow-hidden group cursor-pointer"
+                        onClick={() => {
+                          const packageImages = (pkg as any).images || [pkg.image];
+                          openLightbox(packageImageIndices[index] || 0, packageImages);
+                        }}
+                      >
                         <ImageWithFallback
                           src={(pkg as any).images?.[packageImageIndices[index] || 0] || pkg.image}
                           alt={pkg.name}
@@ -834,7 +854,7 @@ export function VenueDetailsPageV2({
                                 e.stopPropagation();
                                 prevPackageImage(index, (pkg as any).images.length);
                               }}
-                              className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                              className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-20"
                             >
                               <ChevronLeft className="size-4" />
                             </button>
@@ -843,14 +863,17 @@ export function VenueDetailsPageV2({
                                 e.stopPropagation();
                                 nextPackageImage(index, (pkg as any).images.length);
                               }}
-                              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-20"
                             >
                               <ChevronRight className="size-4" />
                             </button>
                           </>
                         )}
 
-                        <button className="absolute top-3 right-3 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all hover:scale-110 z-10">
+                        <button 
+                          onClick={(e) => e.stopPropagation()}
+                          className="absolute top-3 right-3 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all hover:scale-110 z-10"
+                        >
                           <Heart className="size-5" />
                         </button>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -1307,6 +1330,60 @@ export function VenueDetailsPageV2({
                   </TabsContent>
                 </Tabs>
               </Card>
+            </div>
+
+            <Separator />
+
+            {/* Photo Gallery */}
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="mb-0">Photo Gallery</h2>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowAllGalleryImages(!showAllGalleryImages)}
+                  className="gap-2"
+                >
+                  <Camera className="size-4" />
+                  {showAllGalleryImages ? 'Show Less' : `See All ${venue.images.length} Photos`}
+                </Button>
+              </div>
+              
+              {/* Gallery Grid - 3x4 on desktop, 2x2 on mobile */}
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {(showAllGalleryImages ? venue.images : venue.images.slice(0, 12)).map((image, index) => (
+                  <div
+                    key={index}
+                    onClick={() => openLightbox(index, venue.images)}
+                    className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group"
+                  >
+                    <ImageWithFallback
+                      src={image}
+                      alt={`${venue.name} - Photo ${index + 1}`}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                    
+                    {/* Image index overlay */}
+                    <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                      {index + 1} / {venue.images.length}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* See More Button - Shows when not all images are displayed */}
+              {!showAllGalleryImages && venue.images.length > 12 && (
+                <div className="mt-6 text-center">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowAllGalleryImages(true)}
+                    className="gap-2 border-[#02542D] text-[#02542D] hover:bg-[#02542D]/10"
+                  >
+                    <Camera className="size-4" />
+                    View All {venue.images.length} Photos
+                  </Button>
+                </div>
+              )}
             </div>
 
             <Separator />
@@ -2110,12 +2187,12 @@ export function VenueDetailsPageV2({
 
           {/* Image Counter - Top Center */}
           <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[10001] text-white text-sm">
-            {lightboxImageIndex + 1} / {venue.images.length}
+            {lightboxImageIndex + 1} / {lightboxImages.length}
           </div>
 
           {/* Image Container - Centered */}
           <div className="fixed inset-0 w-full h-full flex items-center justify-center p-0 m-0 bg-[rgba(164,164,164,0.84)]">
-            {venue.images[lightboxImageIndex] && (
+            {lightboxImages[lightboxImageIndex] && (
               <div className="relative bg-white rounded-lg shadow-2xl p-2">
                 {/* Previous Button - On left side of image */}
                 <button
@@ -2130,7 +2207,7 @@ export function VenueDetailsPageV2({
                 </button>
 
                 <img
-                  src={venue.images[lightboxImageIndex]}
+                  src={lightboxImages[lightboxImageIndex]}
                   alt={`${venue.name} - Image ${lightboxImageIndex + 1}`}
                   className="rounded object-contain"
                   style={{
@@ -2140,7 +2217,7 @@ export function VenueDetailsPageV2({
                   onError={(e) => {
                     console.error(
                       "Image failed to load:",
-                      venue.images[lightboxImageIndex],
+                      lightboxImages[lightboxImageIndex],
                     );
                     e.currentTarget.src =
                       "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzLjciPjxyZWN0IHg9IjE2IiB5PSIxNiIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNiIvPjxwYXRoIGQ9Im0xNiA1OCAxNi0xOCAzMiAzMiIvPjxjaXJjbGUgY3g9IjUzIiBjeT0iMzUiIHI9IjciLz48L3N2Zz4=";
