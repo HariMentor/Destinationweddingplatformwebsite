@@ -48,10 +48,11 @@ import { EmailTemplatesPage } from "./components/EmailTemplatesPage";
 import { VenueBrochurePage } from "./components/VenueBrochurePage";
 import { WeddingProvidersPage } from "./components/WeddingProvidersPage";
 import { ProviderProfilePage } from "./components/ProviderProfilePage";
+import { BrandGuidelinesPage } from "./components/BrandGuidelinesPage";
 import { Toaster } from "./components/ui/sonner";
 
 type VendorType = 'photographer' | 'videographer' | 'decorator';
-type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge' | 'payment' | 'booking-confirmation' | 'email-templates' | 'venue-brochure' | 'providers' | 'provider-profile';
+type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge' | 'payment' | 'booking-confirmation' | 'email-templates' | 'venue-brochure' | 'providers' | 'provider-profile' | 'brand-guidelines';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('landing');
@@ -202,8 +203,8 @@ export default function App() {
     setSelectedProviderId(null);
   };
 
-  const handleNavigate = (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers') => {
-    setCurrentPage(page);
+  const handleNavigate = (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers' | 'brand-guidelines') => {
+    setCurrentPage(page as PageType);
   };
 
   const handleExitBuilder = () => {
@@ -445,6 +446,10 @@ export default function App() {
           <>
             <ProviderProfilePage providerId={selectedProviderId} />
             <TravelFooter />
+          </>
+        ) : currentPage === 'brand-guidelines' ? (
+          <>
+            <BrandGuidelinesPage onBack={() => setCurrentPage('landing')} />
           </>
         ) : null}
       </div>

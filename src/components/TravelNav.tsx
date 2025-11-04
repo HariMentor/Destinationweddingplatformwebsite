@@ -20,8 +20,8 @@ import {
 import { useCurrency } from "./CurrencyContext";
 
 interface TravelNavProps {
-  onNavigate?: (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'email-templates' | 'venue-brochure' | 'providers') => void;
-  currentPage?: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'email-templates' | 'venue-brochure' | 'providers';
+  onNavigate?: (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'email-templates' | 'venue-brochure' | 'providers' | 'brand-guidelines') => void;
+  currentPage?: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'email-templates' | 'venue-brochure' | 'providers' | 'brand-guidelines';
 }
 
 export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) {
@@ -47,26 +47,6 @@ export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) 
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-6">
-          <button
-            onClick={() => handleNavigate('landing')}
-            className={`transition-colors ${
-              currentPage === 'landing' 
-                ? 'text-[#DF6951]' 
-                : 'text-foreground/80 hover:text-foreground'
-            }`}
-          >
-            Home
-          </button>
-          <button
-            onClick={() => handleNavigate('home')}
-            className={`transition-colors ${
-              currentPage === 'home' 
-                ? 'text-[#DF6951]' 
-                : 'text-foreground/80 hover:text-foreground'
-            }`}
-          >
-            Pitch Deck
-          </button>
           <button
             onClick={() => handleNavigate('destinations')}
             className={`transition-colors ${
@@ -152,9 +132,9 @@ export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button 
-                className="gap-2 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80 hidden lg:flex"
+                className="gap-2 bg-gray-100 hover:bg-gray-200 text-gray-900 hidden lg:flex"
               >
-                <Wand2 className="size-4" />
+                <Wand2 className="size-4 text-[#DF6951]" />
                 Plan Wedding
                 <ChevronDown className="size-4" />
               </Button>
@@ -209,42 +189,7 @@ export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) 
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Currency Selector - Desktop */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="gap-2 hidden lg:flex"
-                title="Change Currency"
-              >
-                <Globe className="size-4" />
-                {currency === "INR" ? "₹ INR" : "€ EUR"}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem 
-                onClick={() => setCurrency("INR")}
-                className={currency === "INR" ? "bg-muted" : ""}
-              >
-                <span className="mr-2">🇮🇳</span>
-                <div>
-                  <div className="font-medium">India (INR)</div>
-                  <div className="text-xs text-muted-foreground">Indian Rupee ₹</div>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem 
-                onClick={() => setCurrency("EUR")}
-                className={currency === "EUR" ? "bg-muted" : ""}
-              >
-                <span className="mr-2">🌍</span>
-                <div>
-                  <div className="font-medium">International (EUR)</div>
-                  <div className="text-xs text-muted-foreground">Euro €</div>
-                </div>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+
 
           {/* Account Dropdown - Desktop & Mobile */}
           <DropdownMenu>
@@ -267,6 +212,10 @@ export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) 
                 <Wand2 className="size-4 mr-2" />
                 My Wedding Plan
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleNavigate('home')}>
+                <FileText className="size-4 mr-2" />
+                Pitch Deck
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleNavigate('account')}>
                 <Building2 className="size-4 mr-2" />
@@ -284,6 +233,10 @@ export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) 
               <DropdownMenuItem onClick={() => handleNavigate('venue-brochure')}>
                 <FileSpreadsheet className="size-4 mr-2 text-[#024023]" />
                 Venue Brochure
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleNavigate('brand-guidelines')}>
+                <Palette className="size-4 mr-2 text-[#02542D]" />
+                Brand Guidelines
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleNavigate('providers')}>
@@ -329,48 +282,10 @@ export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) 
                   Concierge Service
                 </Button>
 
-                {/* Currency Selector - Mobile */}
-                <div className="flex gap-2">
-                  <Button 
-                    variant={currency === "INR" ? "default" : "outline"}
-                    size="sm"
-                    className="flex-1"
-                    onClick={() => setCurrency("INR")}
-                  >
-                    🇮🇳 INR
-                  </Button>
-                  <Button 
-                    variant={currency === "EUR" ? "default" : "outline"}
-                    size="sm"
-                    className="flex-1"
-                    onClick={() => setCurrency("EUR")}
-                  >
-                    🌍 EUR
-                  </Button>
-                </div>
+
 
                 {/* Navigation Links */}
                 <div className="mt-4 border-t pt-4 flex flex-col gap-2">
-                  <button
-                    onClick={() => handleNavigate('landing')}
-                    className={`text-left px-4 py-2 rounded-md transition-colors ${
-                      currentPage === 'landing' 
-                        ? 'bg-[#DF6951]/10 text-[#DF6951]' 
-                        : 'hover:bg-muted'
-                    }`}
-                  >
-                    Home
-                  </button>
-                  <button
-                    onClick={() => handleNavigate('home')}
-                    className={`text-left px-4 py-2 rounded-md transition-colors ${
-                      currentPage === 'home' 
-                        ? 'bg-[#DF6951]/10 text-[#DF6951]' 
-                        : 'hover:bg-muted'
-                    }`}
-                  >
-                    Pitch Deck
-                  </button>
                   <button
                     onClick={() => handleNavigate('destinations')}
                     className={`text-left px-4 py-2 rounded-md transition-colors ${

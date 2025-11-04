@@ -168,38 +168,69 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
         {/* Background Image */}
         <div className="absolute inset-0">
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1536961522552-cc937fb8a703?w=1920"
+            src="https://images.unsplash.com/photo-1519167758481-83f29da8813d?w=1920"
             alt="Wedding destination"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 via-blue-800/60 to-transparent" />
+          <div className="absolute inset-0 bg-black/40" />
         </div>
 
         {/* Content */}
         <div className="container relative z-10 mx-auto px-4 md:px-8 py-20">
-          <div className="max-w-3xl">
+          <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight">
-                Unlock Your <br />
-                <span className="font-bold">Dream Wedding</span> <br />
-                Destination!!!
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-4 leading-tight">
+                Plan Your Dream Destination Wedding Seamlessly
               </h1>
-              <p className="text-lg md:text-xl text-white/90 mb-8 max-w-xl">
-                Discover the world one adventure at a time. <br />
-                Let us guide you to your perfect celebration.
+              <p className="text-base md:text-lg text-white/90 mb-12">
+                Discover amazing venues at exclusive deals
               </p>
-              <Button
-                size="lg"
-                className="bg-[#FF7757] hover:bg-[#FF6347] text-white px-8 py-6 text-lg rounded-full shadow-xl hover:shadow-2xl transition-all group"
-                onClick={() => onNavigate('builder')}
-              >
-                GET STARTED
-                <ArrowRight className="ml-2 size-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              
+              {/* Search Bar */}
+              <Card className="p-4 md:p-6 shadow-2xl border-0 rounded-full max-w-4xl mx-auto">
+                <div className="flex flex-col md:flex-row items-center gap-4">
+                  {/* Location */}
+                  <div className="flex-1 w-full md:w-auto">
+                    <div className="text-left">
+                      <label className="text-sm text-gray-900 mb-1 block">
+                        Location
+                      </label>
+                      <Input 
+                        placeholder="Where are you going?" 
+                        className="border-0 focus-visible:ring-0 h-10 px-0 text-gray-600"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Divider */}
+                  <div className="hidden md:block w-px h-12 bg-gray-200"></div>
+                  
+                  {/* Guest Requirements */}
+                  <div className="flex-1 w-full md:w-auto">
+                    <div className="text-left">
+                      <label className="text-sm text-gray-900 mb-1 block">
+                        Guest Requirements
+                      </label>
+                      <Input 
+                        placeholder="2 Days - 50 Total Pas" 
+                        className="border-0 focus-visible:ring-0 h-10 px-0 text-gray-600"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Search Button */}
+                  <Button
+                    className="bg-[#DF6951] hover:bg-[#DF6951]/90 text-white px-8 h-12 rounded-full whitespace-nowrap w-full md:w-auto"
+                    onClick={() => onNavigate('venues')}
+                  >
+                    Find Your Destination Venue
+                  </Button>
+                </div>
+              </Card>
             </motion.div>
           </div>
         </div>

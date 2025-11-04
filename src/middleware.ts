@@ -14,9 +14,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Allow public access to wedding invitation and registry pages (no password required)
-  if (request.nextUrl.pathname.startsWith('/wedding/') || 
-      request.nextUrl.pathname.startsWith('/registry/')) {
+  // Allow public access to wedding invitation, registry, and blog pages (no password required)
+  const pathname = request.nextUrl.pathname;
+  if (pathname.startsWith('/wedding/') || 
+      pathname.startsWith('/registry/') ||
+      pathname === '/blog' ||
+      pathname.startsWith('/blog/')) {
     return NextResponse.next();
   }
 

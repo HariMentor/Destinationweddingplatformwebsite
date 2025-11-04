@@ -33,6 +33,9 @@ import {
   X,
   ChevronDown,
   ChevronUp,
+  Trees,
+  Building2,
+  Sunset,
 } from "lucide-react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
@@ -82,16 +85,19 @@ const venueDetails = {
         name: "Banquet (Indoor)",
         seating: 50,
         floating: 80,
+        icon: Building2,
       },
       {
         name: "Terrace (Outdoor)",
         seating: 150,
         floating: 200,
+        icon: Sunset,
       },
       {
         name: "Lawn (Outdoor)",
         seating: 50,
         floating: 80,
+        icon: Trees,
       },
     ],
     localPrices: [
@@ -194,6 +200,11 @@ const venueDetails = {
         tag: "Silver",
         image:
           "https://images.unsplash.com/photo-1521543387600-c745f8e83d77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYxMjM1OTY4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+        images: [
+          "https://images.unsplash.com/photo-1521543387600-c745f8e83d77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYxMjM1OTY4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+          "https://images.unsplash.com/photo-1675247488725-22d1b78e75db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwYmFucXVldCUyMGhhbGx8ZW58MXx8fHwxNzYxMTYxODExfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+          "https://images.unsplash.com/photo-1578730169862-749bbdc763a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvdXRkb29yJTIwd2VkZGluZyUyMHZlbnVlfGVufDF8fHx8MTc2MTIzNTk3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+        ],
         numberOfDays: 2,
         totalPax: 98,
         numberOfRooms: "Standard Room (17)",
@@ -213,6 +224,12 @@ const venueDetails = {
         tag: "Gold",
         image:
           "https://images.unsplash.com/photo-1575573333824-c3cda86dd4c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzYW50b3JpbmklMjB3ZWRkaW5nJTIwcmVjZXB0aW9ufGVufDF8fHx8MTc2MTIzNTk2OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+        images: [
+          "https://images.unsplash.com/photo-1575573333824-c3cda86dd4c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzYW50b3JpbmklMjB3ZWRkaW5nJTIwcmVjZXB0aW9ufGVufDF8fHx8MTc2MTIzNTk2OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+          "https://images.unsplash.com/photo-1700062069869-0c59ff21fa3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwY2VyZW1vbnklMjBzZXR1cHxlbnwxfHx8fDE3NjEyMzU5Njl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+          "https://images.unsplash.com/photo-1521543387600-c745f8e83d77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYxMjM1OTY4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+          "https://images.unsplash.com/photo-1578730169862-749bbdc763a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvdXRkb29yJTIwd2VkZGluZyUyMHZlbnVlfGVufDF8fHx8MTc2MTIzNTk3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+        ],
         numberOfDays: 3,
         totalPax: 150,
         numberOfRooms: "Deluxe Room (20)",
@@ -234,6 +251,12 @@ const venueDetails = {
         tag: "Platinum",
         image:
           "https://images.unsplash.com/photo-1700062069869-0c59ff21fa3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwY2VyZW1vbnklMjBzZXR1cHxlbnwxfHx8fDE3NjEyMzU5Njl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+        images: [
+          "https://images.unsplash.com/photo-1700062069869-0c59ff21fa3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwY2VyZW1vbnklMjBzZXR1cHxlbnwxfHx8fDE3NjEyMzU5Njl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+          "https://images.unsplash.com/photo-1575573333824-c3cda86dd4c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzYW50b3JpbmklMjB3ZWRkaW5nJTIwcmVjZXB0aW9ufGVufDF8fHx8MTc2MTIzNTk2OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+          "https://images.unsplash.com/photo-1521543387600-c745f8e83d77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYxMjM1OTY4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+          "https://images.unsplash.com/photo-1675247488725-22d1b78e75db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwYmFucXVldCUyMGhhbGx8ZW58MXx8fHwxNzYxMTYxODExfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+        ],
         numberOfDays: 4,
         totalPax: 200,
         numberOfRooms: "Premium Suite (27)",
@@ -278,6 +301,7 @@ export function VenueDetailsPage({
   const [lightboxImageIndex, setLightboxImageIndex] =
     useState(0);
   const [expandedPackages, setExpandedPackages] = useState<number[]>([]);
+  const [packageImageIndices, setPackageImageIndices] = useState<{ [key: number]: number }>({});
   const { formatPrice } = useCurrency();
 
   const nextImage = () => {
@@ -309,6 +333,20 @@ export function VenueDetailsPage({
       (prev) =>
         (prev - 1 + venue.images.length) % venue.images.length,
     );
+  };
+
+  const nextPackageImage = (packageIndex: number, totalImages: number) => {
+    setPackageImageIndices(prev => ({
+      ...prev,
+      [packageIndex]: ((prev[packageIndex] || 0) + 1) % totalImages
+    }));
+  };
+
+  const prevPackageImage = (packageIndex: number, totalImages: number) => {
+    setPackageImageIndices(prev => ({
+      ...prev,
+      [packageIndex]: ((prev[packageIndex] || 0) - 1 + totalImages) % totalImages
+    }));
   };
 
   return (
@@ -352,7 +390,7 @@ export function VenueDetailsPage({
         {/* Image Gallery */}
         <div className="grid md:grid-cols-2 gap-3 mb-8">
           {/* Main Image */}
-          <div className="relative h-[400px] md:h-[500px] rounded-xl overflow-hidden group">
+          <div className="relative h-[320px] md:h-[400px] rounded-xl overflow-hidden group">
             <div
               onClick={() => openLightbox(currentImageIndex)}
               className="w-full h-full cursor-pointer"
@@ -391,7 +429,7 @@ export function VenueDetailsPage({
           </div>
 
           {/* Thumbnail Grid - 2x2 */}
-          <div className="grid grid-cols-2 gap-3 h-[400px] md:h-[500px]">
+          <div className="grid grid-cols-2 gap-3 h-[320px] md:h-[400px]">
             {venue.images.slice(1, 5).map((image, index) => (
               <button
                 key={index}
@@ -434,7 +472,8 @@ export function VenueDetailsPage({
                   <Badge
                     key={index}
                     variant="secondary"
-                    className="px-4 py-2 bg-pink-100 text-pink-900 hover:bg-pink-200"
+                    className="px-4 py-2 bg-orange-50 text-orange-600 hover:bg-orange-100"
+                    style={{ color: '#DF6951' }}
                   >
                     {tag}
                   </Badge>
@@ -480,20 +519,31 @@ export function VenueDetailsPage({
                     <h2 className="mb-6">Highlights</h2>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                       {venue.whyCouplesLove.map(
-                        (feature, index) => (
-                          <div
-                            key={index}
-                            className="flex flex-col items-center text-center gap-3"
-                          >
-                            <feature.icon
-                              className="size-10 md:size-12 text-pink-600"
-                              strokeWidth={1}
-                            />
-                            <span className="font-medium text-[12px]">
-                              {feature.name}
-                            </span>
-                          </div>
-                        ),
+                        (feature, index) => {
+                          // Define color schemes for each index
+                          const colorSchemes = [
+                            { iconColor: 'text-green-600' },
+                            { iconColor: 'text-pink-600' },
+                            { iconColor: 'text-blue-600' },
+                            { iconColor: 'text-orange-600' },
+                          ];
+                          const colors = colorSchemes[index % colorSchemes.length];
+                          
+                          return (
+                            <div
+                              key={index}
+                              className="flex flex-col items-center text-center gap-3"
+                            >
+                              <feature.icon
+                                className={`size-10 md:size-12 ${colors.iconColor}`}
+                                strokeWidth={1}
+                              />
+                              <span className="font-medium text-[12px]">
+                                {feature.name}
+                              </span>
+                            </div>
+                          );
+                        },
                       )}
                     </div>
                   </div>
@@ -510,23 +560,27 @@ export function VenueDetailsPage({
                     Area({venue.areas.length})
                   </h2>
                   <div className="grid md:grid-cols-2 gap-6">
-                    {venue.areas.map((area, index) => (
-                      <div
-                        key={index}
-                        className="flex items-start gap-4"
-                      >
-                        <div className="p-3 rounded-lg bg-pink-100">
-                          <Home className="size-6 text-pink-600" />
+                    {venue.areas.map((area, index) => {
+                      const IconComponent = area.icon || Home;
+                      
+                      return (
+                        <div
+                          key={index}
+                          className="flex items-start gap-4"
+                        >
+                          <div className="p-3 rounded-xl bg-orange-50">
+                            <IconComponent className="size-6 text-orange-600" />
+                          </div>
+                          <div>
+                            <h3 className="mb-1">{area.name}</h3>
+                            <p className="text-sm text-muted-foreground">
+                              Seating {area.seating} | Floating{" "}
+                              {area.floating}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="mb-1">{area.name}</h3>
-                          <p className="text-sm text-muted-foreground">
-                            Seating {area.seating} | Floating{" "}
-                            {area.floating}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -551,7 +605,7 @@ export function VenueDetailsPage({
                               <span className="text-muted-foreground">
                                 {item.item}
                               </span>
-                              <span className="text-pink-600">
+                              <span style={{ color: '#DF6951' }}>
                                 ₹ {item.price.toLocaleString()}{" "}
                                 <span className="text-muted-foreground text-sm">
                                   {item.unit} + taxes
@@ -572,7 +626,9 @@ export function VenueDetailsPage({
             <div className="grid md:grid-cols-2 gap-6">
               <Card className="p-6">
                 <div className="flex items-center gap-3 mb-2">
-                  <Users className="size-5 text-[#DF6951]" />
+                  <div className="p-3 rounded-xl bg-orange-50">
+                    <Users className="size-6 text-orange-600" />
+                  </div>
                   <h3>Guest Capacity</h3>
                 </div>
                 <p
@@ -588,7 +644,9 @@ export function VenueDetailsPage({
 
               <Card className="p-6">
                 <div className="flex items-center gap-3 mb-2">
-                  <Calendar className="size-5 text-[#DF6951]" />
+                  <div className="p-3 rounded-xl bg-orange-50">
+                    <Calendar className="size-6 text-orange-600" />
+                  </div>
                   <h3>Starting Price</h3>
                 </div>
                 <p
@@ -609,17 +667,31 @@ export function VenueDetailsPage({
             <div>
               <h2 className="mb-6">Amenities & Services</h2>
               <div className="grid md:grid-cols-2 gap-4">
-                {venue.amenities.map((amenity, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-3 p-3 rounded-lg bg-rose-50/50"
-                  >
-                    <div className="p-2 rounded-lg bg-white">
-                      <amenity.icon className="size-5 text-[#DF6951]" />
+                {venue.amenities.map((amenity, index) => {
+                  // Cycle through different color schemes for amenities
+                  const colorSchemes = [
+                    { bg: 'bg-green-50', iconBg: 'bg-green-100', iconColor: 'text-green-600' },
+                    { bg: 'bg-blue-50', iconBg: 'bg-blue-100', iconColor: 'text-blue-600' },
+                    { bg: 'bg-orange-50', iconBg: 'bg-orange-100', iconColor: 'text-orange-600' },
+                    { bg: 'bg-purple-50', iconBg: 'bg-purple-100', iconColor: 'text-purple-600' },
+                    { bg: 'bg-pink-50', iconBg: 'bg-pink-100', iconColor: 'text-pink-600' },
+                    { bg: 'bg-cyan-50', iconBg: 'bg-cyan-100', iconColor: 'text-cyan-600' },
+                  ];
+                  const colors = colorSchemes[index % colorSchemes.length];
+                  
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center gap-3 p-3 rounded-lg"
+                      style={{ backgroundColor: 'rgba(223, 105, 81, 0.05)' }}
+                    >
+                      <div className="p-2 rounded-lg bg-white">
+                        <amenity.icon className="size-5" style={{ color: '#DF6951' }} />
+                      </div>
+                      <span>{amenity.name}</span>
                     </div>
-                    <span>{amenity.name}</span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
@@ -637,18 +709,67 @@ export function VenueDetailsPage({
                     className="overflow-hidden hover:shadow-lg transition-shadow"
                   >
                     <div className="grid md:grid-cols-[280px,1fr] gap-6 p-6">
-                      {/* Package Image */}
-                      <div className="relative h-[220px] md:h-[320px] rounded-lg overflow-hidden">
+                      {/* Package Image Gallery */}
+                      <div className="relative h-[220px] md:h-[320px] rounded-lg overflow-hidden group">
                         <ImageWithFallback
-                          src={pkg.image}
+                          src={(pkg as any).images?.[packageImageIndices[index] || 0] || pkg.image}
                           alt={pkg.name}
                           className="w-full h-full object-cover"
                         />
-                        <button className="absolute top-3 right-3 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all hover:scale-110">
+                        
+                        {/* Navigation Arrows */}
+                        {(pkg as any).images && (pkg as any).images.length > 1 && (
+                          <>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                prevPackageImage(index, (pkg as any).images.length);
+                              }}
+                              className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <ChevronLeft className="size-4" />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                nextPackageImage(index, (pkg as any).images.length);
+                              }}
+                              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <ChevronRight className="size-4" />
+                            </button>
+                          </>
+                        )}
+
+                        <button className="absolute top-3 right-3 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all hover:scale-110 z-10">
                           <Heart className="size-5" />
                         </button>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                        <div className="absolute bottom-3 left-3 right-3">
+                        
+                        {/* Image Indicators */}
+                        {(pkg as any).images && (pkg as any).images.length > 1 && (
+                          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                            {(pkg as any).images.map((_: any, imgIndex: number) => (
+                              <button
+                                key={imgIndex}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setPackageImageIndices(prev => ({
+                                    ...prev,
+                                    [index]: imgIndex
+                                  }));
+                                }}
+                                className={`h-1.5 rounded-full transition-all ${
+                                  (packageImageIndices[index] || 0) === imgIndex
+                                    ? "w-6 bg-white"
+                                    : "w-1.5 bg-white/60 hover:bg-white/80"
+                                }`}
+                              />
+                            ))}
+                          </div>
+                        )}
+                        
+                        <div className="absolute bottom-3 left-3">
                           <Badge
                             variant="secondary"
                             className={`${

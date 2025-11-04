@@ -1,13 +1,23 @@
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { Facebook, Instagram, Twitter, Globe } from "lucide-react";
 import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { useCurrency } from "./CurrencyContext";
 
 const footerLinks = {
   company: ["About", "Careers", "Mobile"],
   contact: ["Help/FAQ", "Press", "Affilates"],
   more: ["Airlinefees", "Airline", "Low fare tips"],
+  resources: ["Blog", "Destinations", "Planning Guide"],
 };
 
 export function TravelFooter() {
+  const { currency, setCurrency } = useCurrency();
+
   return (
     <footer className="bg-white pt-16 pb-8 relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-8">
@@ -19,49 +29,112 @@ export function TravelFooter() {
               Book your trip in minute, get full
               <br />Control for much longer.
             </p>
+            
+            {/* Currency Selector */}
+            <div className="mt-6">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="gap-2"
+                    title="Change Currency"
+                  >
+                    <Globe className="size-4" />
+                    {currency === "INR" ? "₹ INR" : "€ EUR"}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-48">
+                  <DropdownMenuItem 
+                    onClick={() => setCurrency("INR")}
+                    className={currency === "INR" ? "bg-muted" : ""}
+                  >
+                    <span className="mr-2">🇮🇳</span>
+                    <div>
+                      <div className="font-medium">India (INR)</div>
+                      <div className="text-xs text-muted-foreground">Indian Rupee ₹</div>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => setCurrency("EUR")}
+                    className={currency === "EUR" ? "bg-muted" : ""}
+                  >
+                    <span className="mr-2">🌍</span>
+                    <div>
+                      <div className="font-medium">International (EUR)</div>
+                      <div className="text-xs text-muted-foreground">Euro €</div>
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
+
+          {/* Resources */}
+          <div>
+            <h4 className="mb-6">Resources</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="/blog" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a href="/destinations" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Destinations
+                </a>
+              </li>
+              <li>
+                <a href="/venues" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Venues
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Services */}
+          <div>
+            <h4 className="mb-6">Services</h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="/planners" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Wedding Planners
+                </a>
+              </li>
+              <li>
+                <a href="/vendors" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Vendors
+                </a>
+              </li>
+              <li>
+                <a href="/travel/visa" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Visa Services
+                </a>
+              </li>
+            </ul>
           </div>
 
           {/* Company */}
-          {/* <div>
+          <div>
             <h4 className="mb-6">Company</h4>
             <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                    {link}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <a href="/landing" className="text-muted-foreground hover:text-foreground transition-colors">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="/concierge" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Concierge Service
+                </a>
+              </li>
+              <li>
+                <a href="/marketplace" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Marketplace
+                </a>
+              </li>
             </ul>
-          </div> */}
-
-          {/* Contact */}
-          {/* <div>
-            <h4 className="mb-6">Contact</h4>
-            <ul className="space-y-3">
-              {footerLinks.contact.map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div> */}
-
-          {/* More */}
-          {/* <div>
-            <h4 className="mb-6">More</h4>
-            <ul className="space-y-3">
-              {footerLinks.more.map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div> */}
+          </div>
 
           {/* Social & Apps */}
           {/* <div>
