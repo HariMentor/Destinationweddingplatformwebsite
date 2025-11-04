@@ -187,3 +187,20 @@
 html {
   font-size: var(--font-size);
 }
+
+/* Print Styles for Venue Brochure */
+@media print {
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  .print\:hidden {
+    display: none !important;
+  }
+  
+  @page {
+    size: 1080px 1920px;
+    margin: 0;
+  }
+}

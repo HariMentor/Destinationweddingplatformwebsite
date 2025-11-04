@@ -546,14 +546,21 @@ const emailTemplates: EmailTemplate[] = [
           
           <!-- Logo -->
           <tr>
-            <td style="padding: 40px 40px 30px;">
+            <td style="padding: 40px 40px 20px;">
               <h1 style="margin: 0; color: #DF6951; font-family: serif; font-size: 24px; font-weight: 400;">Wedzway</h1>
+            </td>
+          </tr>
+          
+          <!-- Banner Image -->
+          <tr>
+            <td style="padding: 0; overflow: hidden; max-height: 350px;">
+              <img src="https://images.unsplash.com/photo-1760669336713-17e4d2cf4e39?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb21hbnRpYyUyMHdlZGRpbmclMjBkZXN0aW5hdGlvbiUyMGJlYWNofGVufDF8fHx8MTc2MTIyNzk0MXww&ixlib=rb-4.1.0&q=80&w=1080" alt="Welcome to Wedzway - Beautiful wedding destination" width="600" style="display: block; width: 100%; max-width: 600px; height: 350px; object-fit: cover; object-position: center; border: 0;" />
             </td>
           </tr>
           
           <!-- Content -->
           <tr>
-            <td style="padding: 0 40px 40px;">
+            <td style="padding: 40px 40px 40px;">
               <p style="margin: 0 0 16px; color: #1a1a1a; font-size: 15px; line-height: 1.5;">Hi {{customerName}},</p>
               
               <p style="margin: 0 0 24px; color: #1a1a1a; font-size: 15px; line-height: 1.5;">
@@ -650,6 +657,91 @@ const emailTemplates: EmailTemplate[] = [
                 <tr>
                   <td>
                     <a href="https://wedzway.com/account" style="display: inline-block; padding: 12px 24px; background-color: #3b82f6; color: #ffffff; text-decoration: none; border-radius: 6px; font-size: 14px;">View Booking Details</a>
+                  </td>
+                </tr>
+              </table>
+              
+              <p style="margin: 32px 0 0; color: #1a1a1a; font-size: 15px; line-height: 1.5;">
+                Thanks,<br/>
+                Wedzway team
+              </p>
+            </td>
+          </tr>
+          
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 24px 40px; border-top: 1px solid #e5e7eb;">
+              <p style="margin: 0 0 8px; color: #6b7280; font-size: 12px; line-height: 1.5;">
+                This email was sent to <a href="mailto:contact@wedzway.com" style="color: #3b82f6; text-decoration: none;">contact@wedzway.com</a>. If you'd rather not receive this kind of email, you can <a href="#" style="color: #3b82f6; text-decoration: none;">unsubscribe</a> or <a href="#" style="color: #3b82f6; text-decoration: none;">manage your email preferences</a>.
+              </p>
+              <p style="margin: 8px 0 0; color: #9ca3af; font-size: 11px;">© 2025 Wedzway. All rights reserved.</p>
+            </td>
+          </tr>
+          
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
+  },
+  {
+    id: "otp-verification",
+    name: "OTP Verification",
+    description: "Sent with one-time password for authentication",
+    category: "Account",
+    variables: ["customerName", "otpCode", "expiryTime"],
+    html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Verification Code</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f7f7f7;">
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #f7f7f7;">
+    <tr>
+      <td style="padding: 40px 20px;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="margin: 0 auto; background-color: #ffffff;">
+          
+          <!-- Logo -->
+          <tr>
+            <td style="padding: 40px 40px 30px;">
+              <h1 style="margin: 0; color: #DF6951; font-family: serif; font-size: 24px; font-weight: 400;">Wedzway</h1>
+            </td>
+          </tr>
+          
+          <!-- Content -->
+          <tr>
+            <td style="padding: 0 40px 40px;">
+              <p style="margin: 0 0 16px; color: #1a1a1a; font-size: 15px; line-height: 1.5;">Hi {{customerName}},</p>
+              
+              <p style="margin: 0 0 24px; color: #1a1a1a; font-size: 15px; line-height: 1.5;">
+                Use the following verification code to complete your sign-in:
+              </p>
+              
+              <!-- OTP Code Box -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: 32px 0;">
+                <tr>
+                  <td align="center">
+                    <div style="display: inline-block; background-color: #f9fafb; border: 2px solid #e5e7eb; border-radius: 8px; padding: 24px 48px;">
+                      <p style="margin: 0; color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Verification Code</p>
+                      <p style="margin: 12px 0 0; color: #1a1a1a; font-size: 36px; font-weight: 700; letter-spacing: 8px; font-family: 'Courier New', monospace;">{{otpCode}}</p>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              
+              <p style="margin: 24px 0; color: #6b7280; font-size: 13px; line-height: 1.6;">
+                This code will expire in <strong>{{expiryTime}}</strong>. If you didn't request this code, please ignore this email or contact our support team.
+              </p>
+              
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: 24px 0; background-color: #fffbeb; border: 1px solid #fde68a; border-radius: 6px;">
+                <tr>
+                  <td style="padding: 16px;">
+                    <p style="margin: 0; color: #92400e; font-size: 13px; line-height: 1.5;">
+                      <strong>⚠️ Security Notice:</strong> Never share this code with anyone. Wedzway staff will never ask for your verification code.
+                    </p>
                   </td>
                 </tr>
               </table>

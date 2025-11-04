@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Search, MapPin, Users, Star, Heart, SlidersHorizontal, DollarSign, Calendar, ChevronDown, BadgeCheck } from "lucide-react";
+import { Search, MapPin, Users, Star, Heart, SlidersHorizontal, DollarSign, Calendar, ChevronDown, BadgeCheck, ChevronRight } from "lucide-react";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { motion } from "motion/react";
 
 const venues = [
   {
@@ -15,7 +16,8 @@ const venues = [
     image: "https://images.unsplash.com/photo-1519167758481-83f29da8c8b0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYwMzY0MzA4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     rating: 4.9,
     reviews: 156,
-    capacity: "50-200",
+    capacity: 200,
+    priceFrom: "£28,500",
     priceRange: "$$$",
     type: "Resort",
     featured: true,
@@ -29,7 +31,8 @@ const venues = [
     image: "https://images.unsplash.com/photo-1693576588167-2e7148490dc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWFjaCUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjAzNjQzMDl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     rating: 4.8,
     reviews: 203,
-    capacity: "30-150",
+    capacity: 150,
+    priceFrom: "£18,000",
     priceRange: "$$",
     type: "Beach",
     featured: true,
@@ -43,7 +46,8 @@ const venues = [
     image: "https://images.unsplash.com/photo-1698616596895-71e43af05b70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYXJkZW4lMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYwMzY0MzA5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     rating: 4.9,
     reviews: 178,
-    capacity: "100-300",
+    capacity: 300,
+    priceFrom: "£32,000",
     priceRange: "$$$",
     type: "Garden",
     featured: false,
@@ -57,7 +61,8 @@ const venues = [
     image: "https://images.unsplash.com/photo-1609137144813-7d9921338f24?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXN0bGUlMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYwMzY0MzEwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     rating: 4.7,
     reviews: 142,
-    capacity: "80-250",
+    capacity: 250,
+    priceFrom: "£42,000",
     priceRange: "$$$",
     type: "Castle",
     featured: false,
@@ -71,7 +76,8 @@ const venues = [
     image: "https://images.unsplash.com/photo-1510076857177-7470076d4098?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aW5leWFyZCUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjAzNjQzMTB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     rating: 4.8,
     reviews: 189,
-    capacity: "60-180",
+    capacity: 180,
+    priceFrom: "£24,500",
     priceRange: "$$",
     type: "Vineyard",
     featured: true,
@@ -85,7 +91,8 @@ const venues = [
     image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjAzNjQzMTF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     rating: 4.9,
     reviews: 134,
-    capacity: "40-120",
+    capacity: 120,
+    priceFrom: "£21,000",
     priceRange: "$$",
     type: "Mountain",
     featured: false,
@@ -196,109 +203,61 @@ export function VenuePage({ onViewDetails }: VenuePageProps) {
       {/* Venue Listings */}
       <section className="pb-24">
         <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredVenues.map((venue) => (
-              <Card
+              <motion.div
                 key={venue.id}
-                className="group overflow-hidden hover:shadow-2xl transition-all duration-300 border-2 hover:border-[#DF6951]/20"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
               >
-                {/* Image */}
-                <div className="relative h-64 overflow-hidden">
+                <Card className="overflow-hidden hover:shadow-xl transition-all group">
+                <div className="relative h-48 overflow-hidden">
                   <ImageWithFallback
                     src={venue.image}
                     alt={venue.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                  
-                  {/* Badges */}
-                  <div className="absolute top-4 left-4 right-4 flex items-start justify-between">
-                    <div className="flex flex-col gap-2">
-                      {venue.featured && (
-                        <Badge className="bg-[#F1A501] text-white border-0 shadow-lg w-fit">
-                          Featured
-                        </Badge>
-                      )}
-                      {venue.verified && (
-                        <Badge className="bg-blue-500 border-0 shadow-lg w-fit gap-1">
-                          <BadgeCheck className="size-4" />
-                          Verified
-                        </Badge>
-                      )}
-                    </div>
-                    <button
-                      onClick={() => toggleFavorite(venue.id)}
-                      className="p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-colors"
-                    >
-                      <Heart
-                        className={`size-5 ${
-                          favorites.includes(venue.id)
-                            ? "fill-red-500 text-red-500"
-                            : "text-muted-foreground"
-                        }`}
-                      />
-                    </button>
-                  </div>
-
-                  {/* Bottom Info */}
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <MapPin className="size-4 text-white" />
-                      <p className="text-sm text-white">{venue.location}</p>
-                    </div>
+                  {venue.featured && (
+                    <Badge className="absolute top-3 left-3 bg-[#F1A501] border-0">
+                      Featured
+                    </Badge>
+                  )}
+                  <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
+                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    {venue.rating}
                   </div>
                 </div>
-
-                {/* Card Content */}
                 <div className="p-6">
-                  <h3 className="mb-3">{venue.name}</h3>
-
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="flex items-center gap-1">
-                      <Star className="size-4 fill-amber-400 text-amber-400" />
-                      <span className="font-medium">{venue.rating}</span>
-                      <span className="text-sm text-muted-foreground">({venue.reviews})</span>
-                    </div>
-                    <Badge variant="outline" className="text-xs">
-                      {venue.type}
-                    </Badge>
+                  <h3 className="mb-2">{venue.name}</h3>
+                  <div className="flex items-center gap-2 text-gray-600 mb-3">
+                    <MapPin className="w-4 h-4" />
+                    <span className="text-sm">{venue.location}</span>
                   </div>
-
-                  <div className="grid grid-cols-2 gap-4 mb-4 pb-4 border-b border-border">
-                    <div className="flex items-center gap-2">
-                      <Users className="size-4 text-muted-foreground" />
-                      <span className="text-sm">{venue.capacity}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <DollarSign className="size-4 text-muted-foreground" />
-                      <span className="text-sm">{venue.priceRange}</span>
-                    </div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm text-gray-600">{venue.reviews} reviews</span>
+                    <span className="text-sm text-gray-600">
+                      <Users className="w-4 h-4 inline mr-1" />
+                      Up to {venue.capacity}
+                    </span>
                   </div>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {venue.amenities.slice(0, 3).map((amenity, index) => (
-                      <span
-                        key={index}
-                        className="text-xs px-2 py-1 bg-rose-50 text-rose-700 rounded-full"
-                      >
-                        {amenity}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex gap-2">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-sm text-gray-600">From</div>
+                      <div className="text-xl text-[#DF6951]">{venue.priceFrom}</div>
+                    </div>
                     <Button 
-                      className="flex-1 bg-gradient-to-r from-[#DF6951] to-[#F1A501] hover:from-[#DF6951]/90 hover:to-[#F1A501]/90"
+                      variant="outline" 
+                      size="sm"
                       onClick={() => onViewDetails(venue.id)}
                     >
                       View Details
-                    </Button>
-                    <Button variant="outline" className="px-4">
-                      <Calendar className="size-4" />
+                      <ChevronRight className="w-4 h-4 ml-1" />
                     </Button>
                   </div>
                 </div>
               </Card>
+              </motion.div>
             ))}
           </div>
 

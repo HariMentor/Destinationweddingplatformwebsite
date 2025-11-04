@@ -45,10 +45,13 @@ import { ConciergePage } from "./components/ConciergePage";
 import { PaymentPage } from "./components/PaymentPage";
 import { BookingConfirmationPage } from "./components/BookingConfirmationPage";
 import { EmailTemplatesPage } from "./components/EmailTemplatesPage";
+import { VenueBrochurePage } from "./components/VenueBrochurePage";
+import { WeddingProvidersPage } from "./components/WeddingProvidersPage";
+import { ProviderProfilePage } from "./components/ProviderProfilePage";
 import { Toaster } from "./components/ui/sonner";
 
 type VendorType = 'photographer' | 'videographer' | 'decorator';
-type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge' | 'payment' | 'booking-confirmation' | 'email-templates';
+type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge' | 'payment' | 'booking-confirmation' | 'email-templates' | 'venue-brochure' | 'providers' | 'provider-profile';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('landing');
@@ -63,6 +66,7 @@ export default function App() {
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const [selectedBrandName, setSelectedBrandName] = useState<string | null>(null);
   const [selectedTourismBoard, setSelectedTourismBoard] = useState<string | null>(null);
+  const [selectedProviderId, setSelectedProviderId] = useState<string | null>(null);
 
   const handleViewVenueDetails = (venueId: number) => {
     setSelectedVenueId(venueId);
@@ -188,7 +192,17 @@ export default function App() {
     setCurrentPage('landing');
   };
 
-  const handleNavigate = (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge') => {
+  const handleViewProviderProfile = (providerId: string) => {
+    setSelectedProviderId(providerId);
+    setCurrentPage('provider-profile');
+  };
+
+  const handleBackToProviders = () => {
+    setCurrentPage('providers');
+    setSelectedProviderId(null);
+  };
+
+  const handleNavigate = (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers') => {
     setCurrentPage(page);
   };
 
@@ -196,7 +210,7 @@ export default function App() {
     setCurrentPage('landing');
   };
 
-  const getCurrentNavPage = (): 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' => {
+  const getCurrentNavPage = (): 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers' => {
     if (currentPage === 'venue-details') return 'venues';
     if (currentPage === 'destination-details') return 'destinations';
     if (currentPage === 'tourism-board') return 'destinations';
@@ -208,7 +222,8 @@ export default function App() {
     if (currentPage === 'flight-booking') return 'visa-services';
     if (currentPage === 'product-detail') return 'marketplace';
     if (currentPage === 'brand-profile') return 'marketplace';
-    return currentPage as 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge';
+    if (currentPage === 'provider-profile') return 'providers';
+    return currentPage as 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers';
   };
 
   return (
@@ -416,6 +431,20 @@ export default function App() {
         ) : currentPage === 'email-templates' ? (
           <>
             <EmailTemplatesPage onBack={() => setCurrentPage('landing')} />
+          </>
+        ) : currentPage === 'venue-brochure' ? (
+          <>
+            <VenueBrochurePage onBack={() => setCurrentPage('landing')} />
+          </>
+        ) : currentPage === 'providers' ? (
+          <>
+            <WeddingProvidersPage onViewProfile={handleViewProviderProfile} />
+            <TravelFooter />
+          </>
+        ) : currentPage === 'provider-profile' && selectedProviderId ? (
+          <>
+            <ProviderProfilePage providerId={selectedProviderId} />
+            <TravelFooter />
           </>
         ) : null}
       </div>

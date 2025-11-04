@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Settings, Wand2, User, ChevronDown, Users, MapPin, Palette, Briefcase, Building2, Plane, FileText, Crown, Globe, Menu, X, ShoppingBag, Camera, Hotel, Mail } from "lucide-react";
+import { Settings, Wand2, User, ChevronDown, Users, MapPin, Palette, Briefcase, Building2, Plane, FileText, Crown, Globe, Menu, X, ShoppingBag, Camera, Hotel, Mail, FileSpreadsheet } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   DropdownMenu,
@@ -20,8 +20,8 @@ import {
 import { useCurrency } from "./CurrencyContext";
 
 interface TravelNavProps {
-  onNavigate?: (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'email-templates') => void;
-  currentPage?: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'email-templates';
+  onNavigate?: (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'email-templates' | 'venue-brochure' | 'providers') => void;
+  currentPage?: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'email-templates' | 'venue-brochure' | 'providers';
 }
 
 export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) {
@@ -84,6 +84,11 @@ export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) 
               Services <ChevronDown className="size-3" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-48">
+              <DropdownMenuItem onClick={() => handleNavigate('providers')}>
+                <Building2 className="size-4 mr-2 text-[#DF6951]" />
+                Premium Providers
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleNavigate('venues')}>
                 <Hotel className="size-4 mr-2 text-[#DF6951]" />
                 Venues
@@ -147,7 +152,7 @@ export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button 
-                className="gap-2 bg-gradient-to-r from-[#DF6951] to-[#F1A501] hidden lg:flex"
+                className="gap-2 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80 hidden lg:flex"
               >
                 <Wand2 className="size-4" />
                 Plan Wedding
@@ -276,6 +281,15 @@ export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) 
                 <Mail className="size-4 mr-2 text-[#DF6951]" />
                 Email Templates
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleNavigate('venue-brochure')}>
+                <FileSpreadsheet className="size-4 mr-2 text-[#024023]" />
+                Venue Brochure
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => handleNavigate('providers')}>
+                <Building2 className="size-4 mr-2 text-[#DF6951]" />
+                Premium Providers
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -371,6 +385,17 @@ export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) 
                   <div className="px-4 py-2 text-xs text-muted-foreground">
                     Services
                   </div>
+                  <button
+                    onClick={() => handleNavigate('providers')}
+                    className={`text-left px-4 py-2 rounded-md transition-colors flex items-center gap-2 ${
+                      currentPage === 'providers' 
+                        ? 'bg-[#DF6951]/10 text-[#DF6951]' 
+                        : 'hover:bg-muted'
+                    }`}
+                  >
+                    <Building2 className="size-4" />
+                    Premium Providers
+                  </button>
                   <button
                     onClick={() => handleNavigate('venues')}
                     className={`text-left px-4 py-2 rounded-md transition-colors flex items-center gap-2 ${
