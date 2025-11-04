@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { BlogDetailClient } from './BlogDetailClient';
+import BlogDetailClient from './BlogDetailClient';
 
 export const metadata: Metadata = {
   title: 'Blog Post | Wedzway',

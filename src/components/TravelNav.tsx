@@ -20,8 +20,8 @@ import {
 import { useCurrency } from "./CurrencyContext";
 
 interface TravelNavProps {
-  onNavigate?: (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'email-templates' | 'venue-brochure' | 'providers' | 'brand-guidelines') => void;
-  currentPage?: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'email-templates' | 'venue-brochure' | 'providers' | 'brand-guidelines';
+  onNavigate?: (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'email-templates' | 'venue-brochure' | 'providers' | 'brand-guidelines' | 'blog' | 'venue-preview') => void;
+  currentPage?: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'email-templates' | 'venue-brochure' | 'providers' | 'brand-guidelines' | 'blog' | 'venue-preview';
 }
 
 export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) {
@@ -102,6 +102,16 @@ export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) 
             }`}
           >
             Inspirations
+          </button>
+          <button
+            onClick={() => handleNavigate('blog')}
+            className={`transition-colors ${
+              currentPage === 'blog' 
+                ? 'text-[#DF6951]' 
+                : 'text-foreground/80 hover:text-foreground'
+            }`}
+          >
+            Blog
           </button>
           <button
             onClick={() => handleNavigate('marketplace')}
@@ -237,6 +247,10 @@ export function TravelNav({ onNavigate, currentPage = 'home' }: TravelNavProps) 
               <DropdownMenuItem onClick={() => handleNavigate('brand-guidelines')}>
                 <Palette className="size-4 mr-2 text-[#02542D]" />
                 Brand Guidelines
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleNavigate('venue-preview')}>
+                <Hotel className="size-4 mr-2 text-[#DF6951]" />
+                Venue Details Preview
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleNavigate('providers')}>

@@ -300,7 +300,7 @@ const venueDetails = {
   },
 };
 
-export function VenueDetailsPage({
+export function VenueDetailsPageV2({
   venueId,
   onBack,
   onProceedToPayment,
@@ -489,77 +489,27 @@ export function VenueDetailsPage({
           </div>
         </div>
 
-        {/* Image Gallery */}
-        <div className="grid md:grid-cols-2 gap-3 mb-8">
-          {/* Main Image */}
-          <div className="relative h-[320px] md:h-[400px] rounded-xl overflow-hidden group">
-            <div
-              onClick={() => openLightbox(currentImageIndex)}
-              className="w-full h-full cursor-pointer"
-            >
-              <ImageWithFallback
-                src={venue.images[currentImageIndex]}
-                alt={venue.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Navigation Arrows */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                prevImage();
-              }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <ChevronLeft className="size-6" />
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                nextImage();
-              }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <ChevronRight className="size-6" />
-            </button>
-
-            {/* Image Counter */}
-            <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-black/60 text-white text-sm backdrop-blur-sm">
-              {currentImageIndex + 1} / {venue.images.length}
-            </div>
+        {/* Single Hero Banner */}
+        <div className="relative h-[400px] md:h-[500px] lg:h-[600px] rounded-2xl overflow-hidden mb-8 group">
+          <div
+            onClick={() => openLightbox(0)}
+            className="w-full h-full cursor-pointer"
+          >
+            <ImageWithFallback
+              src={venue.images[0]}
+              alt={venue.name}
+              className="w-full h-full object-cover"
+            />
           </div>
 
-          {/* Thumbnail Grid - 2x2 */}
-          <div className="grid grid-cols-2 gap-3 h-[320px] md:h-[400px]">
-            {venue.images.slice(1, 5).map((image, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  setCurrentImageIndex(index + 1);
-                  openLightbox(index + 1);
-                }}
-                className={`relative rounded-xl overflow-hidden hover:opacity-90 transition-opacity ${
-                  currentImageIndex === index + 1
-                    ? "ring-2 ring-[#DF6951]"
-                    : ""
-                }`}
-              >
-                <ImageWithFallback
-                  src={image}
-                  alt={`${venue.name} ${index + 2}`}
-                  className="w-full h-full object-cover"
-                />
-                {index === 3 && (
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center pointer-events-none">
-                    <span className="text-white font-medium">
-                      See All {venue.images.length} Photos
-                    </span>
-                  </div>
-                )}
-              </button>
-            ))}
-          </div>
+          {/* View All Photos Button */}
+          <button
+            onClick={() => openLightbox(0)}
+            className="absolute bottom-6 right-6 px-4 py-2 rounded-lg bg-white/95 hover:bg-white shadow-lg transition-all hover:scale-105 backdrop-blur-sm flex items-center gap-2"
+          >
+            <Camera className="size-5" />
+            <span className="font-medium">View All {venue.images.length} Photos</span>
+          </button>
         </div>
 
         {/* Main Content Grid */}

@@ -15,7 +15,11 @@ const footerLinks = {
   resources: ["Blog", "Destinations", "Planning Guide"],
 };
 
-export function TravelFooter() {
+interface TravelFooterProps {
+  onNavigate?: (page: string) => void;
+}
+
+export function TravelFooter({ onNavigate }: TravelFooterProps = {}) {
   const { currency, setCurrency } = useCurrency();
 
   return (
@@ -75,19 +79,28 @@ export function TravelFooter() {
             <h4 className="mb-6">Resources</h4>
             <ul className="space-y-3">
               <li>
-                <a href="/blog" className="text-muted-foreground hover:text-foreground transition-colors">
+                <button 
+                  onClick={() => onNavigate?.('blog')} 
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Blog
-                </a>
+                </button>
               </li>
               <li>
-                <a href="/destinations" className="text-muted-foreground hover:text-foreground transition-colors">
+                <button 
+                  onClick={() => onNavigate?.('destinations')} 
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Destinations
-                </a>
+                </button>
               </li>
               <li>
-                <a href="/venues" className="text-muted-foreground hover:text-foreground transition-colors">
+                <button 
+                  onClick={() => onNavigate?.('venues')} 
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Venues
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -97,19 +110,28 @@ export function TravelFooter() {
             <h4 className="mb-6">Services</h4>
             <ul className="space-y-3">
               <li>
-                <a href="/planners" className="text-muted-foreground hover:text-foreground transition-colors">
+                <button 
+                  onClick={() => onNavigate?.('planners')} 
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Wedding Planners
-                </a>
+                </button>
               </li>
               <li>
-                <a href="/vendors" className="text-muted-foreground hover:text-foreground transition-colors">
+                <button 
+                  onClick={() => onNavigate?.('vendors')} 
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Vendors
-                </a>
+                </button>
               </li>
               <li>
-                <a href="/travel/visa" className="text-muted-foreground hover:text-foreground transition-colors">
+                <button 
+                  onClick={() => onNavigate?.('visa-services')} 
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Visa Services
-                </a>
+                </button>
               </li>
             </ul>
           </div>

@@ -20,6 +20,7 @@ import { TravelCTA } from "./components/TravelCTA";
 import { TravelFooter } from "./components/TravelFooter";
 import { VenuePage } from "./components/VenuePage";
 import { VenueDetailsPage } from "./components/VenueDetailsPage";
+import { VenueDetailsPageV2 } from "./components/VenueDetailsPageV2";
 import { DestinationsPage } from "./components/DestinationsPage";
 import { DestinationDetailsPage } from "./components/DestinationDetailsPage";
 import { InspirationsPage } from "./components/InspirationsPage";
@@ -49,10 +50,12 @@ import { VenueBrochurePage } from "./components/VenueBrochurePage";
 import { WeddingProvidersPage } from "./components/WeddingProvidersPage";
 import { ProviderProfilePage } from "./components/ProviderProfilePage";
 import { BrandGuidelinesPage } from "./components/BrandGuidelinesPage";
+import { BlogPage } from "./components/BlogPage";
+import { BlogDetailPage } from "./components/BlogDetailPage";
 import { Toaster } from "./components/ui/sonner";
 
 type VendorType = 'photographer' | 'videographer' | 'decorator';
-type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge' | 'payment' | 'booking-confirmation' | 'email-templates' | 'venue-brochure' | 'providers' | 'provider-profile' | 'brand-guidelines';
+type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'venue-preview' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge' | 'payment' | 'booking-confirmation' | 'email-templates' | 'venue-brochure' | 'providers' | 'provider-profile' | 'brand-guidelines' | 'blog' | 'blog-detail';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('landing');
@@ -68,6 +71,7 @@ export default function App() {
   const [selectedBrandName, setSelectedBrandName] = useState<string | null>(null);
   const [selectedTourismBoard, setSelectedTourismBoard] = useState<string | null>(null);
   const [selectedProviderId, setSelectedProviderId] = useState<string | null>(null);
+  const [selectedBlogSlug, setSelectedBlogSlug] = useState<string | null>(null);
 
   const handleViewVenueDetails = (venueId: number) => {
     setSelectedVenueId(venueId);
@@ -203,7 +207,17 @@ export default function App() {
     setSelectedProviderId(null);
   };
 
-  const handleNavigate = (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers' | 'brand-guidelines') => {
+  const handleViewBlogPost = (slug: string) => {
+    setSelectedBlogSlug(slug);
+    setCurrentPage('blog-detail');
+  };
+
+  const handleBackToBlog = () => {
+    setCurrentPage('blog');
+    setSelectedBlogSlug(null);
+  };
+
+  const handleNavigate = (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers' | 'brand-guidelines' | 'blog' | 'venue-preview') => {
     setCurrentPage(page as PageType);
   };
 
@@ -211,7 +225,7 @@ export default function App() {
     setCurrentPage('landing');
   };
 
-  const getCurrentNavPage = (): 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers' => {
+  const getCurrentNavPage = (): 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers' | 'blog' | 'venue-preview' => {
     if (currentPage === 'venue-details') return 'venues';
     if (currentPage === 'destination-details') return 'destinations';
     if (currentPage === 'tourism-board') return 'destinations';
@@ -224,7 +238,9 @@ export default function App() {
     if (currentPage === 'product-detail') return 'marketplace';
     if (currentPage === 'brand-profile') return 'marketplace';
     if (currentPage === 'provider-profile') return 'providers';
-    return currentPage as 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers';
+    if (currentPage === 'blog-detail') return 'blog';
+    if (currentPage === 'venue-preview') return 'venue-preview';
+    return currentPage as 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers' | 'blog' | 'venue-preview';
   };
 
   return (
@@ -237,7 +253,7 @@ export default function App() {
         {currentPage === 'landing' ? (
           <>
             <LandingPage onNavigate={handleNavigate} />
-            <TravelFooter />
+            <TravelFooter onNavigate={handleNavigate} />
           </>
         ) : currentPage === 'home' ? (
           <>
@@ -256,12 +272,12 @@ export default function App() {
             <TravelRoadmap />
             <TravelTeam />
             <TravelCTA />
-            <TravelFooter />
+            <TravelFooter onNavigate={handleNavigate} />
           </>
         ) : currentPage === 'destinations' ? (
           <>
             <DestinationsPage onViewDetails={handleViewDestinationDetails} />
-            <TravelFooter />
+            <TravelFooter onNavigate={handleNavigate} />
           </>
         ) : currentPage === 'destination-details' ? (
           <>
@@ -291,6 +307,15 @@ export default function App() {
             <VenueDetailsPage 
               venueId={selectedVenueId || 1} 
               onBack={handleBackToVenues}
+              onProceedToPayment={handleProceedToPayment}
+            />
+            <TravelFooter />
+          </>
+        ) : currentPage === 'venue-preview' ? (
+          <>
+            <VenueDetailsPageV2 
+              venueId={1} 
+              onBack={() => setCurrentPage('landing')}
               onProceedToPayment={handleProceedToPayment}
             />
             <TravelFooter />
@@ -450,6 +475,20 @@ export default function App() {
         ) : currentPage === 'brand-guidelines' ? (
           <>
             <BrandGuidelinesPage onBack={() => setCurrentPage('landing')} />
+          </>
+        ) : currentPage === 'blog' ? (
+          <>
+            <BlogPage onPostClick={handleViewBlogPost} />
+            <TravelFooter />
+          </>
+        ) : currentPage === 'blog-detail' && selectedBlogSlug ? (
+          <>
+            <BlogDetailPage 
+              slug={selectedBlogSlug}
+              onBack={handleBackToBlog}
+              onPostClick={handleViewBlogPost}
+            />
+            <TravelFooter />
           </>
         ) : null}
       </div>

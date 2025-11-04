@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { BlogPage } from "../../components/BlogPage";
-import { TravelNav } from "../../components/TravelNav";
-import { TravelFooter } from "../../components/TravelFooter";
+import { BlogPage } from '@/components/BlogPage';
+import { TravelNav } from '@/components/TravelNav';
+import { TravelFooter } from '@/components/TravelFooter';
+import { useRouter } from 'next/navigation';
 
-export function BlogPageClient() {
+export default function BlogPageClient() {
   const router = useRouter();
 
   const handlePostClick = (slug: string) => {

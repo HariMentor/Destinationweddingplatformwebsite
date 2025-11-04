@@ -1,14 +1,9 @@
-"use client";
+import type { Metadata } from 'next';
+import { brandGuidelinesMetadata } from '@/lib/metadata';
+import BrandGuidelinesClient from './BrandGuidelinesClient';
 
-import { BrandGuidelinesPage } from "@/components/BrandGuidelinesPage";
-import { useRouter } from "next/navigation";
+export const metadata: Metadata = brandGuidelinesMetadata;
 
 export default function BrandGuidelinesRoute() {
-  const router = useRouter();
-
-  return (
-    <BrandGuidelinesPage
-      onBack={() => router.push("/")}
-    />
-  );
+  return <BrandGuidelinesClient />;
 }

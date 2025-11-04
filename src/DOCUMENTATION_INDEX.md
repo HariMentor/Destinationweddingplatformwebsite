@@ -78,6 +78,7 @@ This index helps you find the right documentation for your needs.
 ### For Developers
 
 | File | Purpose | Time to Read |
+|------|---------|--------------|\n| [NEXTJS_SETUP.md](./NEXTJS_SETUP.md) | Complete Next.js setup guide | 15 min |\n| [SEO_IMPLEMENTATION.md](./SEO_IMPLEMENTATION.md) | SEO features & optimization | 12 min |
 |------|---------|--------------|
 | [NEXTJS_MIGRATION_COMPLETE.md](./NEXTJS_MIGRATION_COMPLETE.md) | Technical details | 15 min |
 | [CONVERSION_STATUS.md](./CONVERSION_STATUS.md) | Implementation status | 10 min |

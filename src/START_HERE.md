@@ -32,7 +32,7 @@ npm run dev
 → Start with: **[FIRST_TIME_SETUP.md](./FIRST_TIME_SETUP.md)**
 
 ### I'm Technical
-→ Jump to: **[NEXTJS_MIGRATION_COMPLETE.md](./NEXTJS_MIGRATION_COMPLETE.md)**
+→ Jump to: **[NEXTJS_SETUP.md](./NEXTJS_SETUP.md)**
 
 ### I Want Quick Commands
 → See: **[QUICK_START.md](./QUICK_START.md)**
@@ -40,8 +40,11 @@ npm run dev
 ### I Need to Deploy
 → Read: **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)**
 
+### I Want SEO Details
+→ Check: **[SEO_IMPLEMENTATION.md](./SEO_IMPLEMENTATION.md)**
+
 ### I Want Overview
-→ Check: **[README.md](./README.md)**
+→ Read: **[README.md](./README.md)**
 
 ### I Want All Docs
 → Browse: **[DOCUMENTATION_INDEX.md](./DOCUMENTATION_INDEX.md)**
@@ -258,12 +261,14 @@ vercel --prod
 1. **START_HERE.md** (this file) - Quick orientation
 2. **README.md** - Main documentation
 3. **QUICK_START.md** - 3-minute guide
-4. **FIRST_TIME_SETUP.md** - Detailed setup
-5. **DEPLOYMENT_GUIDE.md** - Deploy instructions
-6. **CONVERSION_SUMMARY.md** - Executive summary
-7. **NEXTJS_MIGRATION_COMPLETE.md** - Technical details
-8. **CONVERSION_STATUS.md** - Implementation status
-9. **DOCUMENTATION_INDEX.md** - Doc navigation
+4. **NEXTJS_SETUP.md** - Complete Next.js setup & config
+5. **SEO_IMPLEMENTATION.md** - SEO features & optimization
+6. **FIRST_TIME_SETUP.md** - Detailed setup
+7. **DEPLOYMENT_GUIDE.md** - Deploy instructions
+8. **CONVERSION_SUMMARY.md** - Executive summary
+9. **NEXTJS_MIGRATION_COMPLETE.md** - Migration details
+10. **CONVERSION_STATUS.md** - Implementation status
+11. **DOCUMENTATION_INDEX.md** - Doc navigation
 
 ---
 

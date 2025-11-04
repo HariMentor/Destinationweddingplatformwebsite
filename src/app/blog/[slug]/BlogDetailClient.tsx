@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { BlogDetailPage } from "../../../components/BlogDetailPage";
-import { TravelNav } from "../../../components/TravelNav";
-import { TravelFooter } from "../../../components/TravelFooter";
+import { BlogDetailPage } from '@/components/BlogDetailPage';
+import { TravelNav } from '@/components/TravelNav';
+import { TravelFooter } from '@/components/TravelFooter';
+import { useRouter } from 'next/navigation';
 
-export function BlogDetailClient({ slug }: { slug: string }) {
+export default function BlogDetailClient({ slug }: { slug: string }) {
   const router = useRouter();
 
   const handleBack = () => {
-    router.push("/blog");
+    router.push('/blog');
   };
 
   const handlePostClick = (newSlug: string) => {
