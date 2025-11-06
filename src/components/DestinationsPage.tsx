@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, MapPin, Star, TrendingUp, Calendar, Users } from "lucide-react";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { CardSkeletonLoader } from "./ui/loader";
 
 const destinations = [
   {
@@ -95,6 +96,16 @@ interface DestinationsPageProps {
 export function DestinationsPage({ onViewDetails }: DestinationsPageProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("all");
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate data loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500); // Simulate 1.5s loading time
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   const filteredDestinations = destinations.filter(destination => {
     const matchesSearch = destination.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -154,11 +165,13 @@ export function DestinationsPage({ onViewDetails }: DestinationsPageProps) {
           </Card>
 
           {/* Results Count */}
-          <div className="max-w-4xl mx-auto mt-8">
-            <p className="text-muted-foreground">
-              {filteredDestinations.length} destinations found
-            </p>
-          </div>
+          {!isLoading && (
+            <div className="max-w-4xl mx-auto mt-8">
+              <p className="text-muted-foreground">
+                {filteredDestinations.length} destinations found
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -168,8 +181,13 @@ export function DestinationsPage({ onViewDetails }: DestinationsPageProps) {
           <h2 className="text-3xl mb-8 text-center" style={{ fontFamily: 'Volkhov, serif' }}>
             Featured Destinations
           </h2>
-          <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {filteredDestinations.filter(d => d.featured).map((destination) => (
+          {isLoading ? (
+            <div className="max-w-7xl mx-auto">
+              <CardSkeletonLoader count={3} />
+            </div>
+          ) : (
+            <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+              {filteredDestinations.filter(d => d.featured).map((destination) => (
               <Card
                 key={destination.id}
                 className="group overflow-hidden hover:shadow-2xl transition-all duration-300 border-2 hover:border-[#DF6951]/20 cursor-pointer"
@@ -232,15 +250,21 @@ export function DestinationsPage({ onViewDetails }: DestinationsPageProps) {
                   </Button>
                 </div>
               </Card>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* All Destinations */}
           <h2 className="text-3xl mb-8 text-center" style={{ fontFamily: 'Volkhov, serif' }}>
             All Destinations
           </h2>
-          <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredDestinations.filter(d => !d.featured).map((destination) => (
+          {isLoading ? (
+            <div className="max-w-7xl mx-auto">
+              <CardSkeletonLoader count={3} />
+            </div>
+          ) : (
+            <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredDestinations.filter(d => !d.featured).map((destination) => (
               <Card
                 key={destination.id}
                 className="group overflow-hidden hover:shadow-2xl transition-all duration-300 border-2 hover:border-[#DF6951]/20 cursor-pointer"
@@ -295,8 +319,9 @@ export function DestinationsPage({ onViewDetails }: DestinationsPageProps) {
                   </Button>
                 </div>
               </Card>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>

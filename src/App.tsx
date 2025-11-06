@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AccessGate } from "./components/AccessGate";
 import { CurrencyProvider } from "./components/CurrencyContext";
+import { PackageCompareProvider } from "./components/PackageCompareContext";
 import { TravelNav } from "./components/TravelNav";
 import { TravelHero } from "./components/TravelHero";
 import { TravelProblem } from "./components/TravelProblem";
@@ -52,10 +53,11 @@ import { ProviderProfilePage } from "./components/ProviderProfilePage";
 import { BrandGuidelinesPage } from "./components/BrandGuidelinesPage";
 import { BlogPage } from "./components/BlogPage";
 import { BlogDetailPage } from "./components/BlogDetailPage";
+import { PackageComparePage } from "./components/PackageComparePage";
 import { Toaster } from "./components/ui/sonner";
 
 type VendorType = 'photographer' | 'videographer' | 'decorator';
-type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'venue-preview' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge' | 'payment' | 'booking-confirmation' | 'email-templates' | 'venue-brochure' | 'providers' | 'provider-profile' | 'brand-guidelines' | 'blog' | 'blog-detail';
+type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'venue-preview' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge' | 'payment' | 'booking-confirmation' | 'email-templates' | 'venue-brochure' | 'providers' | 'provider-profile' | 'brand-guidelines' | 'blog' | 'blog-detail' | 'package-compare';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('landing');
@@ -217,6 +219,14 @@ export default function App() {
     setSelectedBlogSlug(null);
   };
 
+  const handleViewCompare = () => {
+    setCurrentPage('package-compare');
+  };
+
+  const handleBackFromCompare = () => {
+    setCurrentPage('venue-preview');
+  };
+
   const handleNavigate = (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers' | 'brand-guidelines' | 'blog' | 'venue-preview') => {
     setCurrentPage(page as PageType);
   };
@@ -240,15 +250,17 @@ export default function App() {
     if (currentPage === 'provider-profile') return 'providers';
     if (currentPage === 'blog-detail') return 'blog';
     if (currentPage === 'venue-preview') return 'venue-preview';
+    if (currentPage === 'package-compare') return 'venue-preview';
     return currentPage as 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers' | 'blog' | 'venue-preview';
   };
 
   return (
     <CurrencyProvider>
-      <AccessGate>
-        <div className="size-full">
-          <Toaster />
-          <TravelNav onNavigate={handleNavigate} currentPage={getCurrentNavPage()} />
+      <PackageCompareProvider>
+        <AccessGate>
+          <div className="size-full">
+            <Toaster position="top-right" />
+            <TravelNav onNavigate={handleNavigate} currentPage={getCurrentNavPage()} />
         
         {currentPage === 'landing' ? (
           <>
@@ -317,8 +329,13 @@ export default function App() {
               venueId={1} 
               onBack={() => setCurrentPage('landing')}
               onProceedToPayment={handleProceedToPayment}
+              onCompareClick={handleViewCompare}
             />
             <TravelFooter />
+          </>
+        ) : currentPage === 'package-compare' ? (
+          <>
+            <PackageComparePage />
           </>
         ) : currentPage === 'payment' ? (
           <>
@@ -493,6 +510,7 @@ export default function App() {
         ) : null}
       </div>
     </AccessGate>
+      </PackageCompareProvider>
     </CurrencyProvider>
   );
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, MapPin, Users, Star, Heart, SlidersHorizontal, DollarSign, Calendar, ChevronDown, BadgeCheck, ChevronRight } from "lucide-react";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
@@ -7,6 +7,7 @@ import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { motion } from "motion/react";
+import { CardSkeletonLoader } from "./ui/loader";
 
 const venues = [
   {
@@ -110,6 +111,16 @@ export function VenuePage({ onViewDetails }: VenuePageProps) {
   const [selectedType, setSelectedType] = useState("all");
   const [selectedPrice, setSelectedPrice] = useState("all");
   const [favorites, setFavorites] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate data loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500); // Simulate 1.5s loading time
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   const toggleFavorite = (venueId: number) => {
     setFavorites(prev => 
@@ -192,19 +203,26 @@ export function VenuePage({ onViewDetails }: VenuePageProps) {
           </Card>
 
           {/* Results Count */}
-          <div className="max-w-4xl mx-auto mt-8">
-            <p className="text-muted-foreground">
-              {filteredVenues.length} venues found
-            </p>
-          </div>
+          {!isLoading && (
+            <div className="max-w-4xl mx-auto mt-8">
+              <p className="text-muted-foreground">
+                {filteredVenues.length} venues found
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
       {/* Venue Listings */}
       <section className="pb-24">
         <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredVenues.map((venue) => (
+          {isLoading ? (
+            <div className="max-w-7xl mx-auto">
+              <CardSkeletonLoader count={6} />
+            </div>
+          ) : (
+            <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredVenues.map((venue) => (
               <motion.div
                 key={venue.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -258,11 +276,12 @@ export function VenuePage({ onViewDetails }: VenuePageProps) {
                 </div>
               </Card>
               </motion.div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* Load More */}
-          {filteredVenues.length > 0 && (
+          {!isLoading && filteredVenues.length > 0 && (
             <div className="text-center mt-12">
               <Button variant="outline" size="lg" className="px-8">
                 Load More Venues
@@ -272,7 +291,7 @@ export function VenuePage({ onViewDetails }: VenuePageProps) {
           )}
 
           {/* No Results */}
-          {filteredVenues.length === 0 && (
+          {!isLoading && filteredVenues.length === 0 && (
             <div className="text-center py-16">
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-muted mb-4">
                 <Search className="size-10 text-muted-foreground" />

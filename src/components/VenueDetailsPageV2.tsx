@@ -5,7 +5,7 @@ import image_351a2514681d06a45fc6e0fb4af691f66966d699 from 'figma:asset/351a2514
 import image_04fb72f45089eae606b139c0ba08a0bada49570f from 'figma:asset/04fb72f45089eae606b139c0ba08a0bada49570f.png';
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   MapPin,
   Star,
@@ -46,6 +46,9 @@ import {
   Thermometer,
   Droplets,
   Wind,
+  Scale,
+  ShoppingCart,
+  ArrowLeftRight,
 } from "lucide-react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
@@ -72,13 +75,17 @@ import {
 } from "./ui/dialog";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar as CalendarComponent } from "./ui/calendar";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { VenueDetailSkeleton } from "./ui/venue-detail-skeleton";
 import { useCurrency } from "./CurrencyContext";
+import { usePackageCompare } from "./PackageCompareContext";
 import { format } from "date-fns";
 
 interface VenueDetailsPageProps {
   venueId: number;
   onBack: () => void;
   onProceedToPayment?: () => void;
+  onCompareClick?: () => void;
 }
 
 const venueDetails = {
@@ -315,6 +322,7 @@ export function VenueDetailsPageV2({
   venueId,
   onBack,
   onProceedToPayment,
+  onCompareClick,
 }: VenueDetailsPageProps) {
   const venue =
     venueDetails[venueId as keyof typeof venueDetails] ||
@@ -331,7 +339,9 @@ export function VenueDetailsPageV2({
   const [expandedPackages, setExpandedPackages] = useState<number[]>([]);
   const [packageImageIndices, setPackageImageIndices] = useState<{ [key: number]: number }>({});
   const [showAllGalleryImages, setShowAllGalleryImages] = useState(false);
+  const [likedPackages, setLikedPackages] = useState<Set<string>>(new Set());
   const { formatPrice } = useCurrency();
+  const { addToCompare, removeFromCompare, isInCompare, comparePackages } = usePackageCompare();
 
   // Enquiry form state
   const [enquiryStep, setEnquiryStep] = useState(1);
@@ -357,6 +367,16 @@ export function VenueDetailsPageV2({
   const [otpSent, setOtpSent] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate data loading (images and venue details)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); // Simulate 2s loading time for images and content
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   const nextImage = () => {
     setCurrentImageIndex(
@@ -402,6 +422,47 @@ export function VenueDetailsPageV2({
       ...prev,
       [packageIndex]: ((prev[packageIndex] || 0) - 1 + totalImages) % totalImages
     }));
+  };
+
+  const handleLikePackage = (packageId: string) => {
+    setLikedPackages(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(packageId)) {
+        newSet.delete(packageId);
+        toast.success("Removed from favorites");
+      } else {
+        newSet.add(packageId);
+        toast.success("Added to favorites");
+      }
+      return newSet;
+    });
+  };
+
+  const handleAddToCompare = (pkg: any, index: number) => {
+    const packageId = `${venueId}-${pkg.name}`;
+    
+    if (isInCompare(packageId)) {
+      removeFromCompare(packageId);
+    } else {
+      addToCompare({
+        id: packageId,
+        venueName: venue.name,
+        venueId: venueId,
+        packageName: pkg.name,
+        price: pkg.price,
+        currency: venue.pricing.currency,
+        guestCount: `${pkg.totalPax} Guests`,
+        duration: `${pkg.numberOfDays} ${pkg.numberOfDays === 1 ? 'Day' : 'Days'}`,
+        image: pkg.image,
+        inclusions: pkg.features,
+        highlights: [
+          `Rooms: ${pkg.numberOfRooms}`,
+          `Venue Access: ${pkg.venueAreaAccess}`,
+        ],
+        decorStyle: pkg.tag,
+        venueType: venue.venueTags?.join(', '),
+      });
+    }
   };
 
   const handleSendOTP = () => {
@@ -464,6 +525,10 @@ export function VenueDetailsPageV2({
     }
     setEnquiryStep(2);
   };
+
+  if (isLoading) {
+    return <VenueDetailSkeleton />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-rose-50/30 pt-20">
@@ -870,12 +935,46 @@ export function VenueDetailsPageV2({
                           </>
                         )}
 
-                        <button 
-                          onClick={(e) => e.stopPropagation()}
-                          className="absolute top-3 right-3 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all hover:scale-110 z-10"
-                        >
-                          <Heart className="size-5" />
-                        </button>
+                        {/* Like and Compare buttons */}
+                        <div className="absolute top-3 right-3 flex gap-2 z-10">
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleLikePackage(`${venueId}-${pkg.name}`);
+                            }}
+                            className={`p-2 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all hover:scale-110 ${
+                              likedPackages.has(`${venueId}-${pkg.name}`) ? 'text-red-500' : ''
+                            }`}
+                          >
+                            <Heart 
+                              className={`size-5 ${likedPackages.has(`${venueId}-${pkg.name}`) ? 'fill-current' : ''}`} 
+                            />
+                          </button>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleAddToCompare(pkg, index);
+                                }}
+                                className={`relative p-2 rounded-full shadow-lg transition-all hover:scale-110 group-hover:animate-pulse ${
+                                  isInCompare(`${venueId}-${pkg.name}`)
+                                    ? 'bg-[#02542D] text-white hover:bg-[#02542D]/90'
+                                    : 'bg-white/90 hover:bg-white group-hover:ring-2 group-hover:ring-[#DF6951] group-hover:ring-offset-2'
+                                }`}
+                              >
+                                {isInCompare(`${venueId}-${pkg.name}`) ? (
+                                  <Check className="size-5" />
+                                ) : (
+                                  <ArrowLeftRight className="size-5 group-hover:text-[#DF6951]" />
+                                )}
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="left" className="bg-[#02542D] text-white">
+                              <p>{isInCompare(`${venueId}-${pkg.name}`) ? 'Remove from Compare' : 'Add to Compare'}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                         
                         {/* Image Indicators */}
@@ -2169,6 +2268,52 @@ export function VenueDetailsPageV2({
           </div>
         </div>
       </div>
+
+      {/* Floating Compare Cart Button */}
+      {comparePackages.length > 0 && (
+        <div className="fixed bottom-6 right-6 z-50">
+          {onCompareClick ? (
+            <Button 
+              size="lg"
+              onClick={onCompareClick}
+              className="bg-gradient-to-r from-[#02542D] to-[#DF6951] hover:from-[#02542D]/90 hover:to-[#DF6951]/90 shadow-2xl gap-3 text-white pr-6"
+            >
+              <div className="relative">
+                <ArrowLeftRight className="size-6" />
+                <Badge className="absolute -top-2 -right-2 size-5 p-0 flex items-center justify-center bg-white text-[#02542D] hover:bg-white border-2 border-[#02542D]">
+                  {comparePackages.length}
+                </Badge>
+              </div>
+              <div className="flex flex-col items-start">
+                <span className="text-sm font-medium">Compare Packages</span>
+                <span className="text-xs opacity-90">
+                  {comparePackages.length} {comparePackages.length === 1 ? 'package' : 'packages'} added
+                </span>
+              </div>
+            </Button>
+          ) : (
+            <a href="/packages/compare">
+              <Button 
+                size="lg"
+                className="bg-gradient-to-r from-[#02542D] to-[#DF6951] hover:from-[#02542D]/90 hover:to-[#DF6951]/90 shadow-2xl gap-3 text-white pr-6"
+              >
+                <div className="relative">
+                  <ShoppingCart className="size-6" />
+                  <Badge className="absolute -top-2 -right-2 size-5 p-0 flex items-center justify-center bg-white text-[#02542D] hover:bg-white border-2 border-[#02542D]">
+                    {comparePackages.length}
+                  </Badge>
+                </div>
+                <div className="flex flex-col items-start">
+                  <span className="text-sm font-medium">Compare Packages</span>
+                  <span className="text-xs opacity-90">
+                    {comparePackages.length} {comparePackages.length === 1 ? 'package' : 'packages'} added
+                  </span>
+                </div>
+              </Button>
+            </a>
+          )}
+        </div>
+      )}
 
       {/* Full-Screen Image Lightbox */}
       {isLightboxOpen && (

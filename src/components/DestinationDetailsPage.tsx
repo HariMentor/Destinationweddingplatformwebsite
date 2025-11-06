@@ -29,6 +29,8 @@ import {
   Droplets,
   Wind,
   ArrowRight,
+  Send,
+  Shield,
 } from "lucide-react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
@@ -41,6 +43,18 @@ import {
   TabsTrigger,
 } from "./ui/tabs";
 import { Separator } from "./ui/separator";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { Textarea } from "./ui/textarea";
+import { Checkbox } from "./ui/checkbox";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "./ui/popover";
+import { Calendar as CalendarComponent } from "./ui/calendar";
+import { format } from "date-fns";
+import { toast } from "sonner@2.0.3";
 
 interface DestinationDetailsPageProps {
   destinationId: number;
@@ -162,25 +176,32 @@ interface InteractiveMapProps {
   }>;
 }
 
-function InteractiveMap({ center, destinationName, venues }: InteractiveMapProps) {
+function InteractiveMap({
+  center,
+  destinationName,
+  venues,
+}: InteractiveMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
 
   useEffect(() => {
     // Dynamically import Leaflet to avoid SSR issues
     let L: any;
-    
+
     const initMap = async () => {
-      if (typeof window === 'undefined') return;
-      
+      if (typeof window === "undefined") return;
+
       // Import Leaflet
-      L = (await import('leaflet')).default;
-      
+      L = (await import("leaflet")).default;
+
       // Import Leaflet CSS
-      if (!document.querySelector('link[href*="leaflet.css"]')) {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      if (
+        !document.querySelector('link[href*="leaflet.css"]')
+      ) {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href =
+          "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
         document.head.appendChild(link);
       }
 
@@ -197,14 +218,17 @@ function InteractiveMap({ center, destinationName, venues }: InteractiveMapProps
       mapInstanceRef.current = map;
 
       // Add tile layer
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        maxZoom: 19,
-      }).addTo(map);
+      L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+          attribution: "© OpenStreetMap contributors",
+          maxZoom: 19,
+        },
+      ).addTo(map);
 
       // Custom icon for main destination marker
       const mainIcon = L.divIcon({
-        className: 'custom-marker',
+        className: "custom-marker",
         html: `
           <div style="
             background: linear-gradient(135deg, #DF6951 0%, #F1A501 100%);
@@ -232,8 +256,7 @@ function InteractiveMap({ center, destinationName, venues }: InteractiveMapProps
       });
 
       // Add main destination marker
-      L.marker(center, { icon: mainIcon })
-        .addTo(map)
+      L.marker(center, { icon: mainIcon }).addTo(map)
         .bindPopup(`
           <div style="font-family: sans-serif; padding: 8px;">
             <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600; color: #DF6951;">
@@ -250,9 +273,9 @@ function InteractiveMap({ center, destinationName, venues }: InteractiveMapProps
         // Create random offset around main location (roughly 5-10km radius)
         const offsetLat = (Math.random() - 0.5) * 0.1;
         const offsetLng = (Math.random() - 0.5) * 0.1;
-        
+
         const venueIcon = L.divIcon({
-          className: 'venue-marker',
+          className: "venue-marker",
           html: `
             <div style="
               background: white;
@@ -274,9 +297,10 @@ function InteractiveMap({ center, destinationName, venues }: InteractiveMapProps
           popupAnchor: [0, -16],
         });
 
-        L.marker([center[0] + offsetLat, center[1] + offsetLng], { icon: venueIcon })
-          .addTo(map)
-          .bindPopup(`
+        L.marker(
+          [center[0] + offsetLat, center[1] + offsetLng],
+          { icon: venueIcon },
+        ).addTo(map).bindPopup(`
             <div style="font-family: sans-serif; padding: 8px; min-width: 180px;">
               <h4 style="margin: 0 0 6px 0; font-size: 14px; font-weight: 600;">
                 ${venue.name}
@@ -307,46 +331,58 @@ function InteractiveMap({ center, destinationName, venues }: InteractiveMapProps
   return (
     <div className="space-y-4">
       {/* Map Container */}
-      <div 
-        ref={mapRef} 
+      <div
+        ref={mapRef}
         className="w-full h-[500px] rounded-lg overflow-hidden border border-gray-200"
         style={{ zIndex: 1 }}
-      />
-      
+      >
+        <ImageWithFallback
+          src="https://images.unsplash.com/photo-1759255746829-3e65a89f2179?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b3JsZCUyMG1hcCUyMGRlc3RpbmF0aW9ufGVufDF8fHx8MTc2MjI3ODI1N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+          alt="World map showing wedding destinations"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
       {/* Map Legend */}
       <div className="flex flex-wrap gap-6 p-4 bg-gradient-to-br from-rose-50 to-amber-50 rounded-lg">
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#DF6951] to-[#F1A501] flex items-center justify-center text-white text-xs">
             📍
           </div>
-          <span className="text-sm font-medium">Main Destination</span>
+          <span className="text-sm font-medium">
+            Main Destination
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full bg-white border-2 border-[#DF6951] flex items-center justify-center text-[#DF6951] text-xs">
             1
           </div>
-          <span className="text-sm font-medium">Wedding Venues</span>
+          <span className="text-sm font-medium">
+            Wedding Venues
+          </span>
         </div>
         <div className="flex items-center gap-2 ml-auto">
           <Navigation className="size-4 text-[#DF6951]" />
-          <span className="text-sm text-muted-foreground">Click markers for details</span>
+          <span className="text-sm text-muted-foreground">
+            Click markers for details
+          </span>
         </div>
       </div>
 
       {/* Map Actions */}
       <div className="flex flex-wrap gap-3">
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           className="flex-1 min-w-[200px]"
           onClick={() => {
             const url = `https://www.google.com/maps/search/?api=1&query=${center[0]},${center[1]}`;
-            window.open(url, '_blank');
+            window.open(url, "_blank");
           }}
         >
           <Globe className="mr-2 size-4" />
           Open in Google Maps
         </Button>
-        <Button 
+        <Button
           variant="outline"
           className="flex-1 min-w-[200px]"
           onClick={() => {
@@ -363,9 +399,408 @@ function InteractiveMap({ center, destinationName, venues }: InteractiveMapProps
       {/* Coordinates Info */}
       <div className="text-center p-3 bg-white border border-gray-200 rounded-lg">
         <p className="text-sm text-muted-foreground">
-          Coordinates: <span className="font-mono font-medium text-foreground">{center[0].toFixed(4)}°N, {center[1].toFixed(4)}°E</span>
+          Coordinates:{" "}
+          <span className="font-mono font-medium text-foreground">
+            {center[0].toFixed(4)}°N, {center[1].toFixed(4)}°E
+          </span>
         </p>
       </div>
+    </div>
+  );
+}
+
+// Wedding Concierge Enquiry Form Component
+function DestinationEnquiryForm({
+  destination,
+}: {
+  destination: any;
+}) {
+  const [enquiryStep, setEnquiryStep] = useState(1);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [dateRange, setDateRange] = useState<{
+    from?: Date;
+    to?: Date;
+  }>({});
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    countryCode: "+1",
+    guestCount: "",
+    eventType: "",
+    budget: "",
+    message: "",
+    flexibleDates: false,
+    needAccommodation: false,
+    otp: "",
+  });
+
+  const handleSendOTP = () => {
+    if (!formData.phone) {
+      toast.error("Please enter your phone number");
+      return;
+    }
+    setOtpSent(true);
+    toast.success("OTP sent successfully!");
+  };
+
+  const handleVerifyOTP = () => {
+    if (formData.otp.length === 6) {
+      setOtpVerified(true);
+      toast.success("Phone number verified!");
+    } else {
+      toast.error("Please enter a valid 6-digit OTP");
+    }
+  };
+
+  const handleEnquirySubmit = () => {
+    if (
+      !formData.fullName ||
+      !formData.email ||
+      !formData.phone
+    ) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+    if (!otpVerified) {
+      toast.error("Please verify your phone number");
+      return;
+    }
+
+    toast.success(
+      "Enquiry submitted successfully! Our team will contact you within 24 hours.",
+    );
+
+    // Reset form
+    setEnquiryStep(1);
+    setOtpSent(false);
+    setOtpVerified(false);
+    setFormData({
+      fullName: "",
+      email: "",
+      phone: "",
+      countryCode: "+1",
+      guestCount: "",
+      eventType: "",
+      budget: "",
+      message: "",
+      flexibleDates: false,
+      needAccommodation: false,
+      otp: "",
+    });
+    setDateRange({});
+  };
+
+  return (
+    <div className="space-y-4">
+      {enquiryStep === 1 ? (
+        <>
+          {/* Step 1: Event Details */}
+          <div>
+            <Label htmlFor="destination-dates">
+              Dates <span className="text-red-500">*</span>
+            </Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start text-left mt-1 h-10"
+                >
+                  <Calendar className="mr-2 size-4" />
+                  {dateRange.from ? (
+                    dateRange.to ? (
+                      <>
+                        {format(dateRange.from, "LLL dd, y")} -{" "}
+                        {format(dateRange.to, "LLL dd, y")}
+                      </>
+                    ) : (
+                      format(dateRange.from, "LLL dd, y")
+                    )
+                  ) : (
+                    <span>Select dates</span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                className="w-auto p-0"
+                align="start"
+              >
+                <CalendarComponent
+                  mode="range"
+                  selected={{
+                    from: dateRange.from,
+                    to: dateRange.to,
+                  }}
+                  onSelect={(range: any) => {
+                    setDateRange({
+                      from: range?.from,
+                      to: range?.to,
+                    });
+                  }}
+                  numberOfMonths={2}
+                  disabled={(date) => date < new Date()}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+
+          <div>
+            <Label htmlFor="destination-guests">
+              Number of Guests{" "}
+              <span className="text-red-500">*</span>
+            </Label>
+            <Input
+              id="destination-guests"
+              type="number"
+              placeholder="e.g. 150"
+              value={formData.guestCount}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  guestCount: e.target.value,
+                })
+              }
+              className="mt-1"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="destination-eventType">
+              Event Type <span className="text-red-500">*</span>
+            </Label>
+            <Input
+              id="destination-eventType"
+              placeholder="e.g. Wedding, Pre-Wedding"
+              value={formData.eventType}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  eventType: e.target.value,
+                })
+              }
+              className="mt-1"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="destination-budget">
+              Budget Range (Optional)
+            </Label>
+            <Input
+              id="destination-budget"
+              placeholder="e.g. $25,000 - $50,000"
+              value={formData.budget}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  budget: e.target.value,
+                })
+              }
+              className="mt-1"
+            />
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="destination-flexibleDates"
+              checked={formData.flexibleDates}
+              onCheckedChange={(checked) =>
+                setFormData({
+                  ...formData,
+                  flexibleDates: checked === true,
+                })
+              }
+            />
+            <Label
+              htmlFor="destination-flexibleDates"
+              className="text-sm font-normal cursor-pointer"
+            >
+              I'm flexible with dates
+            </Label>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="destination-needAccommodation"
+              checked={formData.needAccommodation}
+              onCheckedChange={(checked) =>
+                setFormData({
+                  ...formData,
+                  needAccommodation: checked === true,
+                })
+              }
+            />
+            <Label
+              htmlFor="destination-needAccommodation"
+              className="text-sm font-normal cursor-pointer"
+            >
+              Need accommodation assistance
+            </Label>
+          </div>
+
+          <div>
+            <Label htmlFor="destination-message">
+              Special Requirements (Optional)
+            </Label>
+            <Textarea
+              id="destination-message"
+              placeholder="Tell us about your vision, special requirements, or any questions you have..."
+              value={formData.message}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  message: e.target.value,
+                })
+              }
+              className="mt-1 min-h-[80px]"
+            />
+          </div>
+
+          <Button
+            className="w-full bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
+            onClick={() => setEnquiryStep(2)}
+          >
+            Continue
+            <ArrowRight className="ml-2 size-4" />
+          </Button>
+        </>
+      ) : (
+        <>
+          {/* Step 2: Contact Details */}
+          <div>
+            <Label htmlFor="destination-fullName">
+              Full Name <span className="text-red-500">*</span>
+            </Label>
+            <Input
+              id="destination-fullName"
+              placeholder="John Doe"
+              value={formData.fullName}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  fullName: e.target.value,
+                })
+              }
+              className="mt-1"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="destination-email">
+              Email <span className="text-red-500">*</span>
+            </Label>
+            <Input
+              id="destination-email"
+              type="email"
+              placeholder="john@example.com"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  email: e.target.value,
+                })
+              }
+              className="mt-1"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="destination-phone">
+              Phone Number{" "}
+              <span className="text-red-500">*</span>
+            </Label>
+            <div className="flex gap-2 mt-1">
+              <Input
+                placeholder="+1"
+                value={formData.countryCode}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    countryCode: e.target.value,
+                  })
+                }
+                className="w-20"
+              />
+              <Input
+                id="destination-phone"
+                type="tel"
+                placeholder="(555) 000-0000"
+                value={formData.phone}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    phone: e.target.value,
+                  })
+                }
+                className="flex-1"
+              />
+            </div>
+          </div>
+
+          {/* OTP Verification */}
+          {!otpSent ? (
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={handleSendOTP}
+            >
+              <Phone className="mr-2 size-4" />
+              Send OTP
+            </Button>
+          ) : (
+            <div className="space-y-2">
+              <Label htmlFor="destination-otp">Enter OTP</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="destination-otp"
+                  placeholder="000000"
+                  value={formData.otp}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      otp: e.target.value,
+                    })
+                  }
+                  maxLength={6}
+                  className="flex-1"
+                />
+                <Button
+                  onClick={handleVerifyOTP}
+                  className="bg-[#02542D] hover:bg-[#02542D]/90"
+                >
+                  <Shield className="mr-1 size-4" />
+                  Verify
+                </Button>
+              </div>
+            </div>
+          )}
+
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={() => setEnquiryStep(1)}
+            >
+              <ChevronLeft className="mr-1 size-4" />
+              Back
+            </Button>
+            <Button
+              className="flex-1 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
+              onClick={handleEnquirySubmit}
+              disabled={!otpVerified}
+            >
+              <Send className="mr-2 size-4" />
+              Submit
+            </Button>
+          </div>
+
+          <p className="text-xs text-center text-muted-foreground">
+            Our destination experts will contact you within 24
+            hours
+          </p>
+        </>
+      )}
     </div>
   );
 }
@@ -381,7 +816,22 @@ export function DestinationDetailsPage({
       destinationId as keyof typeof destinationDetails
     ] || destinationDetails[1];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentMapIndex, setCurrentMapIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
+
+  // Map gallery images
+  const mapGalleryImages = [
+    "https://images.unsplash.com/photo-1664834681908-7ee473dfdec4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b3JsZCUyMHRyYXZlbCUyMGRlc3RpbmF0aW9ufGVufDF8fHx8MTc2MjI2NDY3MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    "https://images.unsplash.com/photo-1558117338-aa433feb1c62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cm9waWNhbCUyMGJlYWNoJTIwcmVzb3J0fGVufDF8fHx8MTc2MjI1NTYwN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    "https://images.unsplash.com/photo-1759343824708-c861a5996dfb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMGxhbmRzY2FwZSUyMGRlc3RpbmF0aW9ufGVufDF8fHx8MTc2MjI5MjQ0N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    "https://images.unsplash.com/photo-1517144447511-aebb25bbc5fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaXR5JTIwc2t5bGluZSUyMHRyYXZlbHxlbnwxfHx8fDE3NjIyNjg3NjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    "https://images.unsplash.com/photo-1744805624954-a6686543c3ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwdmVudWUlMjBkZXN0aW5hdGlvbnxlbnwxfHx8fDE3NjIyOTI0NDh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    "https://images.unsplash.com/photo-1759794308020-1757b1ae2722?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb21hbnRpYyUyMGdldGF3YXklMjBsb2NhdGlvbnxlbnwxfHx8fDE3NjIyOTI0NDl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    "https://images.unsplash.com/photo-1760548814600-2ca1a3f70c81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpc2xhbmQlMjBwYXJhZGlzZSUyMGRlc3RpbmF0aW9ufGVufDF8fHx8MTc2MjI5MjQ0OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    "https://images.unsplash.com/photo-1758762937651-9661a09ade06?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjdWx0dXJhbCUyMGhlcml0YWdlJTIwc2l0ZXxlbnwxfHx8fDE3NjIyOTI0NDl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    "https://images.unsplash.com/photo-1716801408923-c2149294dad2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjByZXNvcnQlMjB2aWV3fGVufDF8fHx8MTc2MjI5MjQ0OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    "https://images.unsplash.com/photo-1758181826950-d0cf754afaf5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY2VuaWMlMjBsYW5kc2NhcGUlMjB0cmF2ZWx8ZW58MXx8fHwxNzYyMjkyNDUwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+  ];
 
   const nextImage = () => {
     setCurrentImageIndex(
@@ -395,6 +845,14 @@ export function DestinationDetailsPage({
         (prev - 1 + destination.images.length) %
         destination.images.length,
     );
+  };
+
+  const nextMapImage = () => {
+    setCurrentMapIndex((prev) => (prev + 1) % mapGalleryImages.length);
+  };
+
+  const prevMapImage = () => {
+    setCurrentMapIndex((prev) => (prev - 1 + mapGalleryImages.length) % mapGalleryImages.length);
   };
 
   return (
@@ -534,21 +992,27 @@ export function DestinationDetailsPage({
                     <div className="text-center">
                       <div className="flex items-center justify-center gap-1 mb-1">
                         <Thermometer className="size-4 text-orange-500" />
-                        <span className="text-xs text-muted-foreground">Temp</span>
+                        <span className="text-xs text-muted-foreground">
+                          Temp
+                        </span>
                       </div>
                       <p className="font-medium">22-28°C</p>
                     </div>
                     <div className="text-center">
                       <div className="flex items-center justify-center gap-1 mb-1">
                         <Droplets className="size-4 text-blue-500" />
-                        <span className="text-xs text-muted-foreground">Humidity</span>
+                        <span className="text-xs text-muted-foreground">
+                          Humidity
+                        </span>
                       </div>
                       <p className="font-medium">65%</p>
                     </div>
                     <div className="text-center">
                       <div className="flex items-center justify-center gap-1 mb-1">
                         <Wind className="size-4 text-teal-500" />
-                        <span className="text-xs text-muted-foreground">Wind</span>
+                        <span className="text-xs text-muted-foreground">
+                          Wind
+                        </span>
                       </div>
                       <p className="font-medium">Light</p>
                     </div>
@@ -560,12 +1024,12 @@ export function DestinationDetailsPage({
               </Card>
             </div>
 
-            <Separator />
+            {/* <Separator /> */}
 
             {/* Tourism Board Section */}
             {destination.tourismBoard && (
               <>
-                <Card className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200">
+                {/* <Card className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200">
                   <div className="flex items-start gap-4">
                     <div className="p-3 rounded-full bg-blue-500 text-white">
                       <Globe className="size-6" />
@@ -624,13 +1088,13 @@ export function DestinationDetailsPage({
                       </div>
                     </div>
                   </div>
-                </Card>
-                <Separator />
+                </Card> */}
+                {/* <Separator /> */}
               </>
             )}
 
             {/* Quick Stats */}
-            <div className="grid md:grid-cols-4 gap-4">
+            {/* <div className="grid md:grid-cols-4 gap-4">
               <Card className="p-4 text-center">
                 <Building2 className="size-6 text-[#DF6951] mx-auto mb-2" />
                 <p className="text-sm text-muted-foreground mb-1">
@@ -676,12 +1140,12 @@ export function DestinationDetailsPage({
                   {destination.stats.venues}+
                 </p>
               </Card>
-            </div>
+            </div> */}
 
-            <Separator />
+            {/* <Separator /> */}
 
             {/* Things To Do */}
-            <div>
+            {/* <div>
               <h2 className="mb-6">Things to Do</h2>
               <div className="grid md:grid-cols-2 gap-6">
                 {destination.thingsToDo.map(
@@ -713,7 +1177,7 @@ export function DestinationDetailsPage({
                   ),
                 )}
               </div>
-            </div>
+            </div> */}
 
             <Separator />
 
@@ -778,7 +1242,10 @@ export function DestinationDetailsPage({
               <h2 className="mb-6">Location & Area Guide</h2>
               <Card className="p-6">
                 <InteractiveMap
-                  center={[destination.coordinates.lat, destination.coordinates.lng]}
+                  center={[
+                    destination.coordinates.lat,
+                    destination.coordinates.lng,
+                  ]}
                   destinationName={destination.name}
                   venues={destination.venues}
                 />
@@ -795,18 +1262,40 @@ export function DestinationDetailsPage({
                 <div className="mb-6">
                   <div className="flex items-start justify-between mb-4">
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">Current Weather</p>
+                      <p className="text-sm text-muted-foreground mb-1">
+                        Current Weather
+                      </p>
                       <h3 className="mb-1 flex items-center gap-2">
-                        <svg className="size-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 19v2m0-6v2m4-2v2m0 2v2m-8-4v2" />
+                        <svg
+                          className="size-8 text-blue-500"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M11 19v2m0-6v2m4-2v2m0 2v2m-8-4v2"
+                          />
                         </svg>
                         Moderate Rain
                       </h3>
-                      <p className="text-sm text-muted-foreground">Province of Turin</p>
+                      <p className="text-sm text-muted-foreground">
+                        Province of Turin
+                      </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-5xl" style={{ fontFamily: "Volkhov, serif" }}>
+                      <p
+                        className="text-5xl"
+                        style={{ fontFamily: "Volkhov, serif" }}
+                      >
                         11°C
                       </p>
                       <p className="text-sm text-muted-foreground mt-1">
@@ -824,97 +1313,204 @@ export function DestinationDetailsPage({
                   <div className="p-4 rounded-lg bg-gradient-to-br from-orange-50 to-orange-100/50">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="p-2 rounded-lg bg-white">
-                        <svg className="size-5 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        <svg
+                          className="size-5 text-orange-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                          />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">Temp Range</p>
+                      <p className="text-sm text-muted-foreground">
+                        Temp Range
+                      </p>
                     </div>
-                    <p className="text-xl" style={{ fontFamily: "Volkhov, serif" }}>
+                    <p
+                      className="text-xl"
+                      style={{ fontFamily: "Volkhov, serif" }}
+                    >
                       10°C - 14°C
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">Min / Max</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Min / Max
+                    </p>
                   </div>
 
                   {/* Humidity */}
                   <div className="p-4 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100/50">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="p-2 rounded-lg bg-white">
-                        <svg className="size-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+                        <svg
+                          className="size-5 text-blue-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
+                          />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">Humidity</p>
+                      <p className="text-sm text-muted-foreground">
+                        Humidity
+                      </p>
                     </div>
-                    <p className="text-xl" style={{ fontFamily: "Volkhov, serif" }}>
+                    <p
+                      className="text-xl"
+                      style={{ fontFamily: "Volkhov, serif" }}
+                    >
                       60%
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">Moderate</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Moderate
+                    </p>
                   </div>
 
                   {/* Wind Speed */}
                   <div className="p-4 rounded-lg bg-gradient-to-br from-cyan-50 to-cyan-100/50">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="p-2 rounded-lg bg-white">
-                        <svg className="size-5 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        <svg
+                          className="size-5 text-cyan-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">Wind</p>
+                      <p className="text-sm text-muted-foreground">
+                        Wind
+                      </p>
                     </div>
-                    <p className="text-xl" style={{ fontFamily: "Volkhov, serif" }}>
+                    <p
+                      className="text-xl"
+                      style={{ fontFamily: "Volkhov, serif" }}
+                    >
                       4.1 m/s
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">SE Direction</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      SE Direction
+                    </p>
                   </div>
 
                   {/* Pressure */}
                   <div className="p-4 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100/50">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="p-2 rounded-lg bg-white">
-                        <svg className="size-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <svg
+                          className="size-5 text-purple-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">Pressure</p>
+                      <p className="text-sm text-muted-foreground">
+                        Pressure
+                      </p>
                     </div>
-                    <p className="text-xl" style={{ fontFamily: "Volkhov, serif" }}>
+                    <p
+                      className="text-xl"
+                      style={{ fontFamily: "Volkhov, serif" }}
+                    >
                       1021 hPa
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">Sea Level</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Sea Level
+                    </p>
                   </div>
 
                   {/* Visibility */}
                   <div className="p-4 rounded-lg bg-gradient-to-br from-emerald-50 to-emerald-100/50">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="p-2 rounded-lg bg-white">
-                        <svg className="size-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        <svg
+                          className="size-5 text-emerald-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                          />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">Visibility</p>
+                      <p className="text-sm text-muted-foreground">
+                        Visibility
+                      </p>
                     </div>
-                    <p className="text-xl" style={{ fontFamily: "Volkhov, serif" }}>
+                    <p
+                      className="text-xl"
+                      style={{ fontFamily: "Volkhov, serif" }}
+                    >
                       10 km
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">Clear</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Clear
+                    </p>
                   </div>
 
                   {/* Cloud Coverage */}
                   <div className="p-4 rounded-lg bg-gradient-to-br from-slate-50 to-slate-100/50">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="p-2 rounded-lg bg-white">
-                        <svg className="size-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                        <svg
+                          className="size-5 text-slate-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+                          />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">Clouds</p>
+                      <p className="text-sm text-muted-foreground">
+                        Clouds
+                      </p>
                     </div>
-                    <p className="text-xl" style={{ fontFamily: "Volkhov, serif" }}>
+                    <p
+                      className="text-xl"
+                      style={{ fontFamily: "Volkhov, serif" }}
+                    >
                       83%
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">Mostly Cloudy</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Mostly Cloudy
+                    </p>
                   </div>
                 </div>
 
@@ -922,50 +1518,120 @@ export function DestinationDetailsPage({
 
                 {/* Additional Details */}
                 <div className="grid md:grid-cols-2 gap-4">
-                  <div className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: 'rgba(2, 84, 45, 0.05)' }}>
+                  <div
+                    className="flex items-center gap-3 p-3 rounded-lg"
+                    style={{
+                      backgroundColor: "rgba(2, 84, 45, 0.05)",
+                    }}
+                  >
                     <div className="p-2 rounded-lg bg-white">
-                      <svg className="size-5 text-[#02542D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      <svg
+                        className="size-5 text-[#02542D]"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Rainfall (1h)</p>
+                      <p className="text-sm text-muted-foreground">
+                        Rainfall (1h)
+                      </p>
                       <p className="font-medium">2.73 mm</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: 'rgba(223, 105, 81, 0.05)' }}>
+                  <div
+                    className="flex items-center gap-3 p-3 rounded-lg"
+                    style={{
+                      backgroundColor:
+                        "rgba(223, 105, 81, 0.05)",
+                    }}
+                  >
                     <div className="p-2 rounded-lg bg-white">
-                      <svg className="size-5 text-[#DF6951]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <svg
+                        className="size-5 text-[#DF6951]"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Ground Level Pressure</p>
+                      <p className="text-sm text-muted-foreground">
+                        Ground Level Pressure
+                      </p>
                       <p className="font-medium">910 hPa</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: 'rgba(2, 84, 45, 0.05)' }}>
+                  <div
+                    className="flex items-center gap-3 p-3 rounded-lg"
+                    style={{
+                      backgroundColor: "rgba(2, 84, 45, 0.05)",
+                    }}
+                  >
                     <div className="p-2 rounded-lg bg-white">
-                      <svg className="size-5 text-[#02542D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                      <svg
+                        className="size-5 text-[#02542D]"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                        />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Sunrise</p>
+                      <p className="text-sm text-muted-foreground">
+                        Sunrise
+                      </p>
                       <p className="font-medium">7:13 AM</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: 'rgba(223, 105, 81, 0.05)' }}>
+                  <div
+                    className="flex items-center gap-3 p-3 rounded-lg"
+                    style={{
+                      backgroundColor:
+                        "rgba(223, 105, 81, 0.05)",
+                    }}
+                  >
                     <div className="p-2 rounded-lg bg-white">
-                      <svg className="size-5 text-[#DF6951]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                      <svg
+                        className="size-5 text-[#DF6951]"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                        />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Sunset</p>
+                      <p className="text-sm text-muted-foreground">
+                        Sunset
+                      </p>
                       <p className="font-medium">7:36 PM</p>
                     </div>
                   </div>
@@ -974,15 +1640,30 @@ export function DestinationDetailsPage({
                 {/* Weather Info */}
                 <div className="mt-6 p-4 rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100">
                   <div className="flex items-start gap-3">
-                    <svg className="size-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="size-5 text-blue-600 mt-0.5 flex-shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
                     <div>
                       <p className="text-sm font-medium text-blue-900 mb-1">
                         Best Time to Visit
                       </p>
                       <p className="text-sm text-blue-800">
-                        Weather data shows current conditions. For weddings, we recommend checking the 7-day forecast and considering the destination's seasonal patterns. Contact our concierge for personalized recommendations.
+                        Weather data shows current conditions.
+                        For weddings, we recommend checking the
+                        7-day forecast and considering the
+                        destination's seasonal patterns. Contact
+                        our concierge for personalized
+                        recommendations.
                       </p>
                     </div>
                   </div>
@@ -991,50 +1672,69 @@ export function DestinationDetailsPage({
             </div>
           </div>
 
-          {/* Right Column - Info Card */}
-          <div className="lg:col-span-1">
-            <Card className="p-6 sticky top-24 border-2">
-              <h3 className="mb-6">Quick Facts</h3>
+          {/* Right Column - Maps & Enquiry */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Destination Gallery Card */}
+            <Card className="p-6 border-2">
+              <h3 className="mb-4 flex items-center gap-2">
+                <MapPin className="size-5 text-[#02542D]" />
+                Destination Gallery
+              </h3>
+              <div className="relative aspect-video rounded-lg overflow-hidden border border-border group">
+                <ImageWithFallback
+                  src={mapGalleryImages[currentMapIndex]}
+                  alt={`${destination.name} destination view ${currentMapIndex + 1}`}
+                  className="w-full h-full object-cover"
+                />
+                
+                {/* Navigation Arrows */}
+                <button
+                  onClick={prevMapImage}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="size-5 text-[#02542D]" />
+                </button>
+                <button
+                  onClick={nextMapImage}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="size-5 text-[#02542D]" />
+                </button>
 
-              <div className="space-y-4 mb-6">
-                {destination.quickFacts.map((fact, index) => (
-                  <div key={index}>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      {fact.label}
-                    </p>
-                    <p className="font-medium">{fact.value}</p>
-                  </div>
-                ))}
+                {/* Image Counter */}
+                <div className="absolute bottom-3 right-3 px-3 py-1 rounded-full bg-black/60 text-white text-xs backdrop-blur-sm">
+                  {currentMapIndex + 1} / {mapGalleryImages.length}
+                </div>
               </div>
+              <p className="text-xs text-muted-foreground mt-3 text-center">
+                {destination.name}, {destination.country}
+              </p>
+            </Card>
 
-              <Separator className="my-6" />
-
-              <div className="space-y-3">
-                <Button className="w-full bg-gradient-to-r from-[#DF6951] to-[#F1A501]">
-                  <Mail className="mr-2 size-4" />
-                  Get Travel Guide
-                </Button>
-                <Button variant="outline" className="w-full">
-                  <Phone className="mr-2 size-4" />
-                  Contact Expert
-                </Button>
-                <Button variant="outline" className="w-full">
-                  <MessageSquare className="mr-2 size-4" />
-                  Live Chat
-                </Button>
-              </div>
-
-              <Separator className="my-6" />
-
-              <div className="p-4 bg-amber-50 rounded-lg">
-                <p className="text-sm mb-2">
-                  <strong>Planning a wedding here?</strong>
+            {/* Wedding Concierge Enquiry Card */}
+            <Card className="p-6 border-2 sticky top-24">
+              <div className="mb-6">
+                <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10 mb-3">
+                  <Sparkles className="size-4 text-[#DF6951]" />
+                  <span className="text-sm font-medium text-[#02542D]">
+                    Wedding Concierge
+                  </span>
+                </div>
+                <h3 className="text-center bg-gradient-to-r from-[#02542D] to-[#DF6951] bg-clip-text text-transparent mb-2">
+                  Plan Your Dream Wedding
+                </h3>
+                <p className="text-sm text-center text-muted-foreground">
+                  Let our destination experts create your
+                  perfect wedding experience in{" "}
+                  {destination.name}
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  Connect with our destination experts for
-                  personalized planning assistance.
-                </p>
               </div>
+
+              <DestinationEnquiryForm
+                destination={destination}
+              />
             </Card>
           </div>
         </div>
