@@ -1,9 +1,9 @@
-import image_00d4a9ab046ee595171f253db694410941523eba from 'figma:asset/00d4a9ab046ee595171f253db694410941523eba.png';
-import image_713f8eb9bbae3295163a927a337743f7f41a5691 from 'figma:asset/713f8eb9bbae3295163a927a337743f7f41a5691.png';
-import image_cb798e5507ad03096d664717f1ce0c0f0124765b from 'figma:asset/cb798e5507ad03096d664717f1ce0c0f0124765b.png';
-import image_351a2514681d06a45fc6e0fb4af691f66966d699 from 'figma:asset/351a2514681d06a45fc6e0fb4af691f66966d699.png';
-import image_04fb72f45089eae606b139c0ba08a0bada49570f from 'figma:asset/04fb72f45089eae606b139c0ba08a0bada49570f.png';
-"use client";
+import image_00d4a9ab046ee595171f253db694410941523eba from "figma:asset/00d4a9ab046ee595171f253db694410941523eba.png";
+import image_713f8eb9bbae3295163a927a337743f7f41a5691 from "figma:asset/713f8eb9bbae3295163a927a337743f7f41a5691.png";
+import image_cb798e5507ad03096d664717f1ce0c0f0124765b from "figma:asset/cb798e5507ad03096d664717f1ce0c0f0124765b.png";
+import image_351a2514681d06a45fc6e0fb4af691f66966d699 from "figma:asset/351a2514681d06a45fc6e0fb4af691f66966d699.png";
+import image_04fb72f45089eae606b139c0ba08a0bada49570f from "figma:asset/04fb72f45089eae606b139c0ba08a0bada49570f.png";
+("use client");
 
 import { useState, useEffect } from "react";
 import {
@@ -57,7 +57,13 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { toast } from "sonner@2.0.3";
 import {
@@ -73,9 +79,17 @@ import {
   DialogTitle,
   DialogDescription,
 } from "./ui/dialog";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "./ui/popover";
 import { Calendar as CalendarComponent } from "./ui/calendar";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "./ui/tooltip";
 import { VenueDetailSkeleton } from "./ui/venue-detail-skeleton";
 import { useCurrency } from "./CurrencyContext";
 import { usePackageCompare } from "./PackageCompareContext";
@@ -232,8 +246,7 @@ const venueDetails = {
         name: "Silver",
         price: 200000,
         tag: "Silver",
-        image:
-          image_04fb72f45089eae606b139c0ba08a0bada49570f,
+        image: image_04fb72f45089eae606b139c0ba08a0bada49570f,
         images: [
           image_04fb72f45089eae606b139c0ba08a0bada49570f,
           image_713f8eb9bbae3295163a927a337743f7f41a5691,
@@ -256,8 +269,7 @@ const venueDetails = {
         name: "Gold",
         price: 300000,
         tag: "Gold",
-        image:
-          image_cb798e5507ad03096d664717f1ce0c0f0124765b,
+        image: image_cb798e5507ad03096d664717f1ce0c0f0124765b,
         images: [
           image_cb798e5507ad03096d664717f1ce0c0f0124765b,
           image_00d4a9ab046ee595171f253db694410941523eba,
@@ -283,8 +295,7 @@ const venueDetails = {
         name: "Platinum",
         price: 450000,
         tag: "Platinum",
-        image:
-          image_00d4a9ab046ee595171f253db694410941523eba,
+        image: image_00d4a9ab046ee595171f253db694410941523eba,
         images: [
           image_00d4a9ab046ee595171f253db694410941523eba,
           image_cb798e5507ad03096d664717f1ce0c0f0124765b,
@@ -335,13 +346,26 @@ export function VenueDetailsPageV2({
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxImageIndex, setLightboxImageIndex] =
     useState(0);
-  const [lightboxImages, setLightboxImages] = useState<any[]>([]);
-  const [expandedPackages, setExpandedPackages] = useState<number[]>([]);
-  const [packageImageIndices, setPackageImageIndices] = useState<{ [key: number]: number }>({});
-  const [showAllGalleryImages, setShowAllGalleryImages] = useState(false);
-  const [likedPackages, setLikedPackages] = useState<Set<string>>(new Set());
+  const [lightboxImages, setLightboxImages] = useState<any[]>(
+    [],
+  );
+  const [expandedPackages, setExpandedPackages] = useState<
+    number[]
+  >([]);
+  const [packageImageIndices, setPackageImageIndices] =
+    useState<{ [key: number]: number }>({});
+  const [showAllGalleryImages, setShowAllGalleryImages] =
+    useState(false);
+  const [likedPackages, setLikedPackages] = useState<
+    Set<string>
+  >(new Set());
   const { formatPrice } = useCurrency();
-  const { addToCompare, removeFromCompare, isInCompare, comparePackages } = usePackageCompare();
+  const {
+    addToCompare,
+    removeFromCompare,
+    isInCompare,
+    comparePackages,
+  } = usePackageCompare();
 
   // Enquiry form state
   const [enquiryStep, setEnquiryStep] = useState(1);
@@ -366,7 +390,8 @@ export function VenueDetailsPageV2({
   });
   const [otpSent, setOtpSent] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
-  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [isDescriptionExpanded, setIsDescriptionExpanded] =
+    useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   // Simulate data loading (images and venue details)
@@ -374,7 +399,7 @@ export function VenueDetailsPageV2({
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2000); // Simulate 2s loading time for images and content
-    
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -406,26 +431,36 @@ export function VenueDetailsPageV2({
   const prevLightboxImage = () => {
     setLightboxImageIndex(
       (prev) =>
-        (prev - 1 + lightboxImages.length) % lightboxImages.length,
+        (prev - 1 + lightboxImages.length) %
+        lightboxImages.length,
     );
   };
 
-  const nextPackageImage = (packageIndex: number, totalImages: number) => {
-    setPackageImageIndices(prev => ({
+  const nextPackageImage = (
+    packageIndex: number,
+    totalImages: number,
+  ) => {
+    setPackageImageIndices((prev) => ({
       ...prev,
-      [packageIndex]: ((prev[packageIndex] || 0) + 1) % totalImages
+      [packageIndex]:
+        ((prev[packageIndex] || 0) + 1) % totalImages,
     }));
   };
 
-  const prevPackageImage = (packageIndex: number, totalImages: number) => {
-    setPackageImageIndices(prev => ({
+  const prevPackageImage = (
+    packageIndex: number,
+    totalImages: number,
+  ) => {
+    setPackageImageIndices((prev) => ({
       ...prev,
-      [packageIndex]: ((prev[packageIndex] || 0) - 1 + totalImages) % totalImages
+      [packageIndex]:
+        ((prev[packageIndex] || 0) - 1 + totalImages) %
+        totalImages,
     }));
   };
 
   const handleLikePackage = (packageId: string) => {
-    setLikedPackages(prev => {
+    setLikedPackages((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(packageId)) {
         newSet.delete(packageId);
@@ -440,7 +475,7 @@ export function VenueDetailsPageV2({
 
   const handleAddToCompare = (pkg: any, index: number) => {
     const packageId = `${venueId}-${pkg.name}`;
-    
+
     if (isInCompare(packageId)) {
       removeFromCompare(packageId);
     } else {
@@ -452,7 +487,7 @@ export function VenueDetailsPageV2({
         price: pkg.price,
         currency: venue.pricing.currency,
         guestCount: `${pkg.totalPax} Guests`,
-        duration: `${pkg.numberOfDays} ${pkg.numberOfDays === 1 ? 'Day' : 'Days'}`,
+        duration: `${pkg.numberOfDays} ${pkg.numberOfDays === 1 ? "Day" : "Days"}`,
         image: pkg.image,
         inclusions: pkg.features,
         highlights: [
@@ -460,7 +495,7 @@ export function VenueDetailsPageV2({
           `Venue Access: ${pkg.venueAreaAccess}`,
         ],
         decorStyle: pkg.tag,
-        venueType: venue.venueTags?.join(', '),
+        venueType: venue.venueTags?.join(", "),
       });
     }
   };
@@ -490,14 +525,16 @@ export function VenueDetailsPageV2({
       toast.error("Please verify your phone number first");
       return;
     }
-    
+
     // Validate required fields
     if (!formData.name || !formData.email || !formData.phone) {
       toast.error("Please fill in all required fields");
       return;
     }
 
-    toast.success("Enquiry submitted successfully! We'll contact you within 24 hours.");
+    toast.success(
+      "Enquiry submitted successfully! We'll contact you within 24 hours.",
+    );
     // Reset form
     setEnquiryStep(1);
     setDateRange({ from: undefined, to: undefined });
@@ -519,7 +556,12 @@ export function VenueDetailsPageV2({
 
   const handleStepOneNext = () => {
     // Validate step 1
-    if (!dateRange.from || !formData.people || !formData.selectPackage || !formData.eventType) {
+    if (
+      !dateRange.from ||
+      !formData.people ||
+      !formData.selectPackage ||
+      !formData.eventType
+    ) {
       toast.error("Please fill in all required fields");
       return;
     }
@@ -587,7 +629,9 @@ export function VenueDetailsPageV2({
             className="absolute bottom-6 right-6 px-4 py-2 rounded-lg bg-white/95 hover:bg-white shadow-lg transition-all hover:scale-105 backdrop-blur-sm flex items-center gap-2"
           >
             <Camera className="size-5" />
-            <span className="font-medium">View All {venue.images.length} Photos</span>
+            <span className="font-medium">
+              View All {venue.images.length} Photos
+            </span>
           </button>
         </div>
 
@@ -604,7 +648,7 @@ export function VenueDetailsPageV2({
                     key={index}
                     variant="secondary"
                     className="px-4 py-2 bg-orange-50 text-orange-600 hover:bg-orange-100"
-                    style={{ color: '#DF6951' }}
+                    style={{ color: "#DF6951" }}
                   >
                     {tag}
                   </Badge>
@@ -636,16 +680,20 @@ export function VenueDetailsPageV2({
               </div>
 
               <div className="relative">
-                <p 
+                <p
                   className={`text-muted-foreground leading-relaxed transition-all ${
-                    !isDescriptionExpanded ? 'line-clamp-5' : ''
+                    !isDescriptionExpanded ? "line-clamp-5" : ""
                   }`}
                 >
                   {venue.description}
                 </p>
                 {venue.description.length > 250 && (
                   <button
-                    onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                    onClick={() =>
+                      setIsDescriptionExpanded(
+                        !isDescriptionExpanded,
+                      )
+                    }
                     className="mt-2 text-[#DF6951] hover:text-[#DF6951]/80 font-medium text-sm flex items-center gap-1 transition-colors"
                   >
                     {isDescriptionExpanded ? (
@@ -677,13 +725,21 @@ export function VenueDetailsPageV2({
                   </div>
                   <div className="space-y-3">
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">Location</p>
-                      <p className="text-lg" style={{ fontFamily: "Volkhov, serif" }}>
+                      <p className="text-sm text-muted-foreground mb-1">
+                        Location
+                      </p>
+                      <p
+                        className="text-lg"
+                        style={{ fontFamily: "Volkhov, serif" }}
+                      >
                         {venue.location}
                       </p>
                     </div>
                     <div className="flex items-center gap-2 pt-2">
-                      <Badge variant="secondary" className="bg-[#02542D]/10 text-[#02542D] hover:bg-[#02542D]/20">
+                      <Badge
+                        variant="secondary"
+                        className="bg-[#02542D]/10 text-[#02542D] hover:bg-[#02542D]/20"
+                      >
                         Popular Destination
                       </Badge>
                     </div>
@@ -705,28 +761,34 @@ export function VenueDetailsPageV2({
                     <div className="text-center">
                       <div className="flex items-center justify-center gap-1 mb-1">
                         <Thermometer className="size-4 text-orange-500" />
-                        <span className="text-xs text-muted-foreground">Temp</span>
+                        <span className="text-xs text-muted-foreground">
+                          Temp
+                        </span>
                       </div>
                       <p className="font-medium">22-28°C</p>
                     </div>
                     <div className="text-center">
                       <div className="flex items-center justify-center gap-1 mb-1">
                         <Droplets className="size-4 text-blue-500" />
-                        <span className="text-xs text-muted-foreground">Humidity</span>
+                        <span className="text-xs text-muted-foreground">
+                          Humidity
+                        </span>
                       </div>
                       <p className="font-medium">65%</p>
                     </div>
                     <div className="text-center">
                       <div className="flex items-center justify-center gap-1 mb-1">
                         <Wind className="size-4 text-teal-500" />
-                        <span className="text-xs text-muted-foreground">Wind</span>
+                        <span className="text-xs text-muted-foreground">
+                          Wind
+                        </span>
                       </div>
                       <p className="font-medium">Light</p>
                     </div>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-3 text-center">
+                  {/* <p className="text-xs text-muted-foreground mt-3 text-center">
                     Best season: April - October
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </Card>
@@ -744,13 +806,16 @@ export function VenueDetailsPageV2({
                         (feature, index) => {
                           // Define color schemes for each index
                           const colorSchemes = [
-                            { iconColor: 'text-green-600' },
-                            { iconColor: 'text-pink-600' },
-                            { iconColor: 'text-blue-600' },
-                            { iconColor: 'text-orange-600' },
+                            { iconColor: "text-green-600" },
+                            { iconColor: "text-pink-600" },
+                            { iconColor: "text-blue-600" },
+                            { iconColor: "text-orange-600" },
                           ];
-                          const colors = colorSchemes[index % colorSchemes.length];
-                          
+                          const colors =
+                            colorSchemes[
+                              index % colorSchemes.length
+                            ];
+
                           return (
                             <div
                               key={index}
@@ -784,7 +849,7 @@ export function VenueDetailsPageV2({
                   <div className="grid md:grid-cols-2 gap-6">
                     {venue.areas.map((area, index) => {
                       const IconComponent = area.icon || Home;
-                      
+
                       return (
                         <div
                           key={index}
@@ -794,7 +859,9 @@ export function VenueDetailsPageV2({
                             <IconComponent className="size-6 text-orange-600" />
                           </div>
                           <div>
-                            <h3 className="mb-1">{area.name}</h3>
+                            <h3 className="mb-1">
+                              {area.name}
+                            </h3>
                             <p className="text-sm text-muted-foreground">
                               Seating {area.seating} | Floating{" "}
                               {area.floating}
@@ -827,7 +894,9 @@ export function VenueDetailsPageV2({
                               <span className="text-muted-foreground">
                                 {item.item}
                               </span>
-                              <span style={{ color: '#DF6951' }}>
+                              <span
+                                style={{ color: "#DF6951" }}
+                              >
                                 ₹ {item.price.toLocaleString()}{" "}
                                 <span className="text-muted-foreground text-sm">
                                   {item.unit} + taxes
@@ -898,108 +967,152 @@ export function VenueDetailsPageV2({
                   >
                     <div className="grid md:grid-cols-[280px,1fr] gap-6 p-6">
                       {/* Package Image Gallery */}
-                      <div 
+                      <div
                         className="relative h-[220px] md:h-[320px] rounded-lg overflow-hidden group cursor-pointer"
                         onClick={() => {
-                          const packageImages = (pkg as any).images || [pkg.image];
-                          openLightbox(packageImageIndices[index] || 0, packageImages);
+                          const packageImages = (pkg as any)
+                            .images || [pkg.image];
+                          openLightbox(
+                            packageImageIndices[index] || 0,
+                            packageImages,
+                          );
                         }}
                       >
                         <ImageWithFallback
-                          src={(pkg as any).images?.[packageImageIndices[index] || 0] || pkg.image}
+                          src={
+                            (pkg as any).images?.[
+                              packageImageIndices[index] || 0
+                            ] || pkg.image
+                          }
                           alt={pkg.name}
                           className="w-full h-full object-cover"
                         />
-                        
+
                         {/* Navigation Arrows */}
-                        {(pkg as any).images && (pkg as any).images.length > 1 && (
-                          <>
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                prevPackageImage(index, (pkg as any).images.length);
-                              }}
-                              className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-20"
-                            >
-                              <ChevronLeft className="size-4" />
-                            </button>
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                nextPackageImage(index, (pkg as any).images.length);
-                              }}
-                              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-20"
-                            >
-                              <ChevronRight className="size-4" />
-                            </button>
-                          </>
-                        )}
+                        {(pkg as any).images &&
+                          (pkg as any).images.length > 1 && (
+                            <>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  prevPackageImage(
+                                    index,
+                                    (pkg as any).images.length,
+                                  );
+                                }}
+                                className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-20"
+                              >
+                                <ChevronLeft className="size-4" />
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  nextPackageImage(
+                                    index,
+                                    (pkg as any).images.length,
+                                  );
+                                }}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-20"
+                              >
+                                <ChevronRight className="size-4" />
+                              </button>
+                            </>
+                          )}
 
                         {/* Like and Compare buttons */}
                         <div className="absolute top-3 right-3 flex gap-2 z-10">
-                          <button 
+                          <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              handleLikePackage(`${venueId}-${pkg.name}`);
+                              handleLikePackage(
+                                `${venueId}-${pkg.name}`,
+                              );
                             }}
                             className={`p-2 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all hover:scale-110 ${
-                              likedPackages.has(`${venueId}-${pkg.name}`) ? 'text-red-500' : ''
+                              likedPackages.has(
+                                `${venueId}-${pkg.name}`,
+                              )
+                                ? "text-red-500"
+                                : ""
                             }`}
                           >
-                            <Heart 
-                              className={`size-5 ${likedPackages.has(`${venueId}-${pkg.name}`) ? 'fill-current' : ''}`} 
+                            <Heart
+                              className={`size-5 ${likedPackages.has(`${venueId}-${pkg.name}`) ? "fill-current" : ""}`}
                             />
                           </button>
                           <Tooltip>
                             <TooltipTrigger asChild>
-                              <button 
+                              <button
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleAddToCompare(pkg, index);
+                                  handleAddToCompare(
+                                    pkg,
+                                    index,
+                                  );
                                 }}
                                 className={`relative p-2 rounded-full shadow-lg transition-all hover:scale-110 group-hover:animate-pulse ${
-                                  isInCompare(`${venueId}-${pkg.name}`)
-                                    ? 'bg-[#02542D] text-white hover:bg-[#02542D]/90'
-                                    : 'bg-white/90 hover:bg-white group-hover:ring-2 group-hover:ring-[#DF6951] group-hover:ring-offset-2'
+                                  isInCompare(
+                                    `${venueId}-${pkg.name}`,
+                                  )
+                                    ? "bg-[#02542D] text-white hover:bg-[#02542D]/90"
+                                    : "bg-white/90 hover:bg-white group-hover:ring-2 group-hover:ring-[#DF6951] group-hover:ring-offset-2"
                                 }`}
                               >
-                                {isInCompare(`${venueId}-${pkg.name}`) ? (
+                                {isInCompare(
+                                  `${venueId}-${pkg.name}`,
+                                ) ? (
                                   <Check className="size-5" />
                                 ) : (
                                   <ArrowLeftRight className="size-5 group-hover:text-[#DF6951]" />
                                 )}
                               </button>
                             </TooltipTrigger>
-                            <TooltipContent side="left" className="bg-[#02542D] text-white">
-                              <p>{isInCompare(`${venueId}-${pkg.name}`) ? 'Remove from Compare' : 'Add to Compare'}</p>
+                            <TooltipContent
+                              side="left"
+                              className="bg-[#02542D] text-white"
+                            >
+                              <p>
+                                {isInCompare(
+                                  `${venueId}-${pkg.name}`,
+                                )
+                                  ? "Remove from Compare"
+                                  : "Add to Compare"}
+                              </p>
                             </TooltipContent>
                           </Tooltip>
                         </div>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                        
+
                         {/* Image Indicators */}
-                        {(pkg as any).images && (pkg as any).images.length > 1 && (
-                          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
-                            {(pkg as any).images.map((_: any, imgIndex: number) => (
-                              <button
-                                key={imgIndex}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setPackageImageIndices(prev => ({
-                                    ...prev,
-                                    [index]: imgIndex
-                                  }));
-                                }}
-                                className={`h-1.5 rounded-full transition-all ${
-                                  (packageImageIndices[index] || 0) === imgIndex
-                                    ? "w-6 bg-white"
-                                    : "w-1.5 bg-white/60 hover:bg-white/80"
-                                }`}
-                              />
-                            ))}
-                          </div>
-                        )}
-                        
+                        {(pkg as any).images &&
+                          (pkg as any).images.length > 1 && (
+                            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                              {(pkg as any).images.map(
+                                (_: any, imgIndex: number) => (
+                                  <button
+                                    key={imgIndex}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setPackageImageIndices(
+                                        (prev) => ({
+                                          ...prev,
+                                          [index]: imgIndex,
+                                        }),
+                                      );
+                                    }}
+                                    className={`h-1.5 rounded-full transition-all ${
+                                      (packageImageIndices[
+                                        index
+                                      ] || 0) === imgIndex
+                                        ? "w-6 bg-white"
+                                        : "w-1.5 bg-white/60 hover:bg-white/80"
+                                    }`}
+                                  />
+                                ),
+                              )}
+                            </div>
+                          )}
+
                         <div className="absolute bottom-3 left-3">
                           <Badge
                             variant="secondary"
@@ -1007,8 +1120,8 @@ export function VenueDetailsPageV2({
                               pkg.tag === "Silver"
                                 ? "bg-gray-100/95 text-gray-900 border border-gray-300"
                                 : pkg.tag === "Gold"
-                                ? "bg-amber-100/95 text-amber-900 border border-amber-300"
-                                : "bg-purple-100/95 text-purple-900 border border-purple-300"
+                                  ? "bg-amber-100/95 text-amber-900 border border-amber-300"
+                                  : "bg-purple-100/95 text-purple-900 border border-purple-300"
                             } backdrop-blur-sm`}
                           >
                             {pkg.tag} Package
@@ -1025,7 +1138,8 @@ export function VenueDetailsPageV2({
                               {pkg.tag} Wedding Package
                             </h3>
                             <p className="text-muted-foreground text-sm">
-                              Complete wedding package with all essential services and amenities
+                              Complete wedding package with all
+                              essential services and amenities
                             </p>
                           </div>
 
@@ -1036,7 +1150,10 @@ export function VenueDetailsPageV2({
                                 Duration
                               </p>
                               <p className="font-medium">
-                                {pkg.numberOfDays} {pkg.numberOfDays === 1 ? 'Day' : 'Days'}
+                                {pkg.numberOfDays}{" "}
+                                {pkg.numberOfDays === 1
+                                  ? "Day"
+                                  : "Days"}
                               </p>
                             </div>
                             <div className="space-y-1">
@@ -1073,8 +1190,8 @@ export function VenueDetailsPageV2({
                               </h4>
                             </div>
                             <div className="grid md:grid-cols-2 gap-x-6 gap-y-2 pb-6 border-b relative">
-                              {(expandedPackages.includes(index) 
-                                ? pkg.features 
+                              {(expandedPackages.includes(index)
+                                ? pkg.features
                                 : pkg.features.slice(0, 4)
                               ).map((feature, fIndex) => (
                                 <div
@@ -1082,27 +1199,46 @@ export function VenueDetailsPageV2({
                                   className="flex items-start gap-2 text-sm py-1"
                                 >
                                   <Check className="size-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-                                  <span className="leading-tight">{feature}</span>
+                                  <span className="leading-tight">
+                                    {feature}
+                                  </span>
                                 </div>
                               ))}
-                              
+
                               {/* Expand/Collapse Button on the line */}
                               {pkg.features.length > 4 && (
                                 <div className="absolute -bottom-3 left-1/2 -translate-x-1/2">
                                   <button
                                     onClick={() => {
-                                      const newExpanded = [...expandedPackages];
+                                      const newExpanded = [
+                                        ...expandedPackages,
+                                      ];
                                       const pkgIndex = index;
-                                      if (newExpanded.includes(pkgIndex)) {
-                                        setExpandedPackages(newExpanded.filter(i => i !== pkgIndex));
+                                      if (
+                                        newExpanded.includes(
+                                          pkgIndex,
+                                        )
+                                      ) {
+                                        setExpandedPackages(
+                                          newExpanded.filter(
+                                            (i) =>
+                                              i !== pkgIndex,
+                                          ),
+                                        );
                                       } else {
-                                        newExpanded.push(pkgIndex);
-                                        setExpandedPackages(newExpanded);
+                                        newExpanded.push(
+                                          pkgIndex,
+                                        );
+                                        setExpandedPackages(
+                                          newExpanded,
+                                        );
                                       }
                                     }}
                                     className="flex items-center justify-center size-6 rounded-full bg-white border border-gray-200 hover:bg-gray-50 transition-colors shadow-sm"
                                   >
-                                    {expandedPackages.includes(index) ? (
+                                    {expandedPackages.includes(
+                                      index,
+                                    ) ? (
                                       <ChevronUp className="size-3.5 text-gray-600" />
                                     ) : (
                                       <ChevronDown className="size-3.5 text-gray-600" />
@@ -1129,7 +1265,8 @@ export function VenueDetailsPageV2({
                               {formatPrice(pkg.price)}
                             </p>
                             <p className="text-xs text-muted-foreground mt-1">
-                              Price varies by season and customization
+                              Price varies by season and
+                              customization
                             </p>
                           </div>
                           <Button
@@ -1156,13 +1293,16 @@ export function VenueDetailsPageV2({
                   <div className="text-center space-y-2">
                     <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10 mb-2 w-full">
                       <Sparkles className="size-4 text-[#DF6951]" />
-                      <span className="text-sm font-medium text-[#02542D]">Wedding Concierge</span>
+                      <span className="text-sm font-medium text-[#02542D]">
+                        Wedding Concierge
+                      </span>
                     </div>
                     <h3 className="bg-gradient-to-r from-[#02542D] to-[#DF6951] bg-clip-text text-transparent">
                       Plan Your Dream Wedding
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      Tell us about your vision and we'll make it happen
+                      Tell us about your vision and we'll make
+                      it happen
                     </p>
                   </div>
                 </div>
@@ -1176,7 +1316,10 @@ export function VenueDetailsPageV2({
                         {/* Step 1: Event Details */}
                         <div>
                           <Label htmlFor="dates-mobile">
-                            Dates <span className="text-red-500">*</span>
+                            Dates{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
                           </Label>
                           <Popover>
                             <PopoverTrigger asChild>
@@ -1188,11 +1331,21 @@ export function VenueDetailsPageV2({
                                 {dateRange.from ? (
                                   dateRange.to ? (
                                     <>
-                                      {format(dateRange.from, "LLL dd, y")} ~{" "}
-                                      {format(dateRange.to, "LLL dd, y")}
+                                      {format(
+                                        dateRange.from,
+                                        "LLL dd, y",
+                                      )}{" "}
+                                      ~{" "}
+                                      {format(
+                                        dateRange.to,
+                                        "LLL dd, y",
+                                      )}
                                     </>
                                   ) : (
-                                    format(dateRange.from, "LLL dd, y")
+                                    format(
+                                      dateRange.from,
+                                      "LLL dd, y",
+                                    )
                                   )
                                 ) : (
                                   <span className="text-muted-foreground">
@@ -1201,11 +1354,21 @@ export function VenueDetailsPageV2({
                                 )}
                               </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                            >
                               <CalendarComponent
                                 mode="range"
                                 selected={dateRange}
-                                onSelect={(range) => setDateRange(range || { from: undefined, to: undefined })}
+                                onSelect={(range) =>
+                                  setDateRange(
+                                    range || {
+                                      from: undefined,
+                                      to: undefined,
+                                    },
+                                  )
+                                }
                                 numberOfMonths={1}
                                 className="rounded-md border"
                               />
@@ -1215,14 +1378,22 @@ export function VenueDetailsPageV2({
 
                         <div>
                           <Label htmlFor="people-mobile">
-                            Number of People <span className="text-red-500">*</span>
+                            Number of People{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
                           </Label>
                           <Input
                             id="people-mobile"
                             type="number"
                             placeholder="0"
                             value={formData.people}
-                            onChange={(e) => setFormData({ ...formData, people: e.target.value })}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                people: e.target.value,
+                              })
+                            }
                             className="mt-1"
                           />
                         </div>
@@ -1233,15 +1404,24 @@ export function VenueDetailsPageV2({
                           </Label>
                           <Select
                             value={formData.selectPackage}
-                            onValueChange={(value) => setFormData({ ...formData, selectPackage: value })}
+                            onValueChange={(value) =>
+                              setFormData({
+                                ...formData,
+                                selectPackage: value,
+                              })
+                            }
                           >
                             <SelectTrigger className="mt-1">
                               <SelectValue placeholder="Select Package" />
                             </SelectTrigger>
                             <SelectContent>
                               {venue.packages.map((pkg) => (
-                                <SelectItem key={pkg.name} value={pkg.name}>
-                                  {pkg.name} - {formatPrice(pkg.price)}
+                                <SelectItem
+                                  key={pkg.name}
+                                  value={pkg.name}
+                                >
+                                  {pkg.name} -{" "}
+                                  {formatPrice(pkg.price)}
                                 </SelectItem>
                               ))}
                             </SelectContent>
@@ -1250,23 +1430,45 @@ export function VenueDetailsPageV2({
 
                         <div>
                           <Label htmlFor="eventType-mobile">
-                            Event Type <span className="text-red-500">*</span>
+                            Event Type{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
                           </Label>
                           <Select
                             value={formData.eventType}
-                            onValueChange={(value) => setFormData({ ...formData, eventType: value })}
+                            onValueChange={(value) =>
+                              setFormData({
+                                ...formData,
+                                eventType: value,
+                              })
+                            }
                           >
                             <SelectTrigger className="mt-1">
                               <SelectValue placeholder="Select Event Type" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="wedding">Wedding</SelectItem>
-                              <SelectItem value="pre-wedding">Pre-Wedding</SelectItem>
-                              <SelectItem value="engagement">Engagement</SelectItem>
-                              <SelectItem value="reception">Reception</SelectItem>
-                              <SelectItem value="sangeet">Sangeet</SelectItem>
-                              <SelectItem value="mehendi">Mehendi</SelectItem>
-                              <SelectItem value="other">Other</SelectItem>
+                              <SelectItem value="wedding">
+                                Wedding
+                              </SelectItem>
+                              <SelectItem value="pre-wedding">
+                                Pre-Wedding
+                              </SelectItem>
+                              <SelectItem value="engagement">
+                                Engagement
+                              </SelectItem>
+                              <SelectItem value="reception">
+                                Reception
+                              </SelectItem>
+                              <SelectItem value="sangeet">
+                                Sangeet
+                              </SelectItem>
+                              <SelectItem value="mehendi">
+                                Mehendi
+                              </SelectItem>
+                              <SelectItem value="other">
+                                Other
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -1275,8 +1477,12 @@ export function VenueDetailsPageV2({
                           <Checkbox
                             id="flexibleDates-mobile"
                             checked={formData.flexibleDates}
-                            onCheckedChange={(checked) => 
-                              setFormData({ ...formData, flexibleDates: checked as boolean })
+                            onCheckedChange={(checked) =>
+                              setFormData({
+                                ...formData,
+                                flexibleDates:
+                                  checked as boolean,
+                              })
                             }
                           />
                           <Label
@@ -1300,13 +1506,21 @@ export function VenueDetailsPageV2({
                         {/* Step 2: Contact Details */}
                         <div>
                           <Label htmlFor="message-mobile">
-                            Message to the venue <span className="text-red-500">*</span>
+                            Message to the venue{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
                           </Label>
                           <Textarea
                             id="message-mobile"
                             placeholder="Type here..."
                             value={formData.message}
-                            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                message: e.target.value,
+                              })
+                            }
                             rows={3}
                             className="mt-1"
                           />
@@ -1314,48 +1528,75 @@ export function VenueDetailsPageV2({
 
                         <div>
                           <Label htmlFor="budget-mobile">
-                            Budget <span className="text-red-500">*</span>
+                            Budget{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
                           </Label>
                           <Input
                             id="budget-mobile"
                             type="number"
                             placeholder="0"
                             value={formData.budget}
-                            onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                budget: e.target.value,
+                              })
+                            }
                             className="mt-1"
                           />
                         </div>
 
                         <div>
                           <Label htmlFor="name-mobile">
-                            Name <span className="text-red-500">*</span>
+                            Name{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
                           </Label>
                           <Input
                             id="name-mobile"
                             placeholder="Enter your Name"
                             value={formData.name}
-                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                name: e.target.value,
+                              })
+                            }
                             className="mt-1"
                           />
                         </div>
 
                         <div>
                           <Label htmlFor="email-mobile">
-                            Email <span className="text-red-500">*</span>
+                            Email{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
                           </Label>
                           <Input
                             id="email-mobile"
                             type="email"
                             placeholder="Enter your Email"
                             value={formData.email}
-                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                email: e.target.value,
+                              })
+                            }
                             className="mt-1"
                           />
                         </div>
 
                         <div>
                           <Label htmlFor="phone-mobile">
-                            Phone Number <span className="text-red-500">*</span>
+                            Phone Number{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
                           </Label>
                           <div className="flex gap-2 mt-1">
                             <Input
@@ -1363,7 +1604,12 @@ export function VenueDetailsPageV2({
                               type="tel"
                               placeholder="Enter your Phone Number"
                               value={formData.phone}
-                              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  phone: e.target.value,
+                                })
+                              }
                               className="flex-1"
                             />
                             <Button
@@ -1379,7 +1625,10 @@ export function VenueDetailsPageV2({
                         {otpSent && !otpVerified && (
                           <div>
                             <Label htmlFor="otp-mobile">
-                              Enter OTP <span className="text-red-500">*</span>
+                              Enter OTP{" "}
+                              <span className="text-red-500">
+                                *
+                              </span>
                             </Label>
                             <div className="flex gap-2 mt-1">
                               <Input
@@ -1387,7 +1636,12 @@ export function VenueDetailsPageV2({
                                 type="text"
                                 placeholder="Enter 6-digit OTP"
                                 value={formData.otp}
-                                onChange={(e) => setFormData({ ...formData, otp: e.target.value })}
+                                onChange={(e) =>
+                                  setFormData({
+                                    ...formData,
+                                    otp: e.target.value,
+                                  })
+                                }
                                 maxLength={6}
                                 className="flex-1"
                               />
@@ -1439,20 +1693,31 @@ export function VenueDetailsPageV2({
                 <h2 className="mb-0">Photo Gallery</h2>
                 <Button
                   variant="outline"
-                  onClick={() => setShowAllGalleryImages(!showAllGalleryImages)}
+                  onClick={() =>
+                    setShowAllGalleryImages(
+                      !showAllGalleryImages,
+                    )
+                  }
                   className="gap-2"
                 >
                   <Camera className="size-4" />
-                  {showAllGalleryImages ? 'Show Less' : `See All ${venue.images.length} Photos`}
+                  {showAllGalleryImages
+                    ? "Show Less"
+                    : `See All ${venue.images.length} Photos`}
                 </Button>
               </div>
-              
+
               {/* Gallery Grid - 3x4 on desktop, 2x2 on mobile */}
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                {(showAllGalleryImages ? venue.images : venue.images.slice(0, 12)).map((image, index) => (
+                {(showAllGalleryImages
+                  ? venue.images
+                  : venue.images.slice(0, 12)
+                ).map((image, index) => (
                   <div
                     key={index}
-                    onClick={() => openLightbox(index, venue.images)}
+                    onClick={() =>
+                      openLightbox(index, venue.images)
+                    }
                     className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group"
                   >
                     <ImageWithFallback
@@ -1461,7 +1726,7 @@ export function VenueDetailsPageV2({
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-                    
+
                     {/* Image index overlay */}
                     <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                       {index + 1} / {venue.images.length}
@@ -1471,9 +1736,10 @@ export function VenueDetailsPageV2({
               </div>
 
               {/* See More Button - Shows when not all images are displayed */}
-              {!showAllGalleryImages && venue.images.length > 12 && (
-                <div className="mt-6 text-center">
-                  {/* <Button
+              {!showAllGalleryImages &&
+                venue.images.length > 12 && (
+                  <div className="mt-6 text-center">
+                    {/* <Button
                     variant="outline"
                     onClick={() => setShowAllGalleryImages(true)}
                     className="gap-2 border-[#02542D] text-[#02542D] hover:bg-[#02542D]/10"
@@ -1481,8 +1747,8 @@ export function VenueDetailsPageV2({
                     <Camera className="size-4" />
                     View All {venue.images.length} Photos
                   </Button> */}
-                </div>
-              )}
+                  </div>
+                )}
             </div>
 
             <Separator />
@@ -1494,23 +1760,54 @@ export function VenueDetailsPageV2({
                 {venue.amenities.map((amenity, index) => {
                   // Cycle through different color schemes for amenities
                   const colorSchemes = [
-                    { bg: 'bg-green-50', iconBg: 'bg-green-100', iconColor: 'text-green-600' },
-                    { bg: 'bg-blue-50', iconBg: 'bg-blue-100', iconColor: 'text-blue-600' },
-                    { bg: 'bg-orange-50', iconBg: 'bg-orange-100', iconColor: 'text-orange-600' },
-                    { bg: 'bg-purple-50', iconBg: 'bg-purple-100', iconColor: 'text-purple-600' },
-                    { bg: 'bg-pink-50', iconBg: 'bg-pink-100', iconColor: 'text-pink-600' },
-                    { bg: 'bg-cyan-50', iconBg: 'bg-cyan-100', iconColor: 'text-cyan-600' },
+                    {
+                      bg: "bg-green-50",
+                      iconBg: "bg-green-100",
+                      iconColor: "text-green-600",
+                    },
+                    {
+                      bg: "bg-blue-50",
+                      iconBg: "bg-blue-100",
+                      iconColor: "text-blue-600",
+                    },
+                    {
+                      bg: "bg-orange-50",
+                      iconBg: "bg-orange-100",
+                      iconColor: "text-orange-600",
+                    },
+                    {
+                      bg: "bg-purple-50",
+                      iconBg: "bg-purple-100",
+                      iconColor: "text-purple-600",
+                    },
+                    {
+                      bg: "bg-pink-50",
+                      iconBg: "bg-pink-100",
+                      iconColor: "text-pink-600",
+                    },
+                    {
+                      bg: "bg-cyan-50",
+                      iconBg: "bg-cyan-100",
+                      iconColor: "text-cyan-600",
+                    },
                   ];
-                  const colors = colorSchemes[index % colorSchemes.length];
-                  
+                  const colors =
+                    colorSchemes[index % colorSchemes.length];
+
                   return (
                     <div
                       key={index}
                       className="flex items-center gap-3 p-3 rounded-lg"
-                      style={{ backgroundColor: 'rgba(223, 105, 81, 0.05)' }}
+                      style={{
+                        backgroundColor:
+                          "rgba(223, 105, 81, 0.05)",
+                      }}
                     >
                       <div className="p-2 rounded-lg bg-white">
-                        <amenity.icon className="size-5" style={{ color: '#DF6951' }} />
+                        <amenity.icon
+                          className="size-5"
+                          style={{ color: "#DF6951" }}
+                        />
                       </div>
                       <span>{amenity.name}</span>
                     </div>
@@ -1607,18 +1904,40 @@ export function VenueDetailsPageV2({
                 <div className="mb-6">
                   <div className="flex items-start justify-between mb-4">
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">Current Weather</p>
+                      <p className="text-sm text-muted-foreground mb-1">
+                        Current Weather
+                      </p>
                       <h3 className="mb-1 flex items-center gap-2">
-                        <svg className="size-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 19v2m0-6v2m4-2v2m0 2v2m-8-4v2" />
+                        <svg
+                          className="size-8 text-blue-500"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M11 19v2m0-6v2m4-2v2m0 2v2m-8-4v2"
+                          />
                         </svg>
                         Moderate Rain
                       </h3>
-                      <p className="text-sm text-muted-foreground">Province of Turin</p>
+                      <p className="text-sm text-muted-foreground">
+                        Province of Turin
+                      </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-5xl" style={{ fontFamily: "Volkhov, serif" }}>
+                      <p
+                        className="text-5xl"
+                        style={{ fontFamily: "Volkhov, serif" }}
+                      >
                         11°C
                       </p>
                       <p className="text-sm text-muted-foreground mt-1">
@@ -1636,97 +1955,204 @@ export function VenueDetailsPageV2({
                   <div className="p-4 rounded-lg bg-gradient-to-br from-orange-50 to-orange-100/50">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="p-2 rounded-lg bg-white">
-                        <svg className="size-5 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        <svg
+                          className="size-5 text-orange-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                          />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">Temp Range</p>
+                      <p className="text-sm text-muted-foreground">
+                        Temp Range
+                      </p>
                     </div>
-                    <p className="text-xl" style={{ fontFamily: "Volkhov, serif" }}>
+                    <p
+                      className="text-xl"
+                      style={{ fontFamily: "Volkhov, serif" }}
+                    >
                       10°C - 14°C
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">Min / Max</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Min / Max
+                    </p>
                   </div>
 
                   {/* Humidity */}
                   <div className="p-4 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100/50">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="p-2 rounded-lg bg-white">
-                        <svg className="size-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+                        <svg
+                          className="size-5 text-blue-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
+                          />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">Humidity</p>
+                      <p className="text-sm text-muted-foreground">
+                        Humidity
+                      </p>
                     </div>
-                    <p className="text-xl" style={{ fontFamily: "Volkhov, serif" }}>
+                    <p
+                      className="text-xl"
+                      style={{ fontFamily: "Volkhov, serif" }}
+                    >
                       60%
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">Moderate</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Moderate
+                    </p>
                   </div>
 
                   {/* Wind Speed */}
                   <div className="p-4 rounded-lg bg-gradient-to-br from-cyan-50 to-cyan-100/50">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="p-2 rounded-lg bg-white">
-                        <svg className="size-5 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        <svg
+                          className="size-5 text-cyan-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">Wind</p>
+                      <p className="text-sm text-muted-foreground">
+                        Wind
+                      </p>
                     </div>
-                    <p className="text-xl" style={{ fontFamily: "Volkhov, serif" }}>
+                    <p
+                      className="text-xl"
+                      style={{ fontFamily: "Volkhov, serif" }}
+                    >
                       4.1 m/s
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">SE Direction</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      SE Direction
+                    </p>
                   </div>
 
                   {/* Pressure */}
                   <div className="p-4 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100/50">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="p-2 rounded-lg bg-white">
-                        <svg className="size-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <svg
+                          className="size-5 text-purple-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">Pressure</p>
+                      <p className="text-sm text-muted-foreground">
+                        Pressure
+                      </p>
                     </div>
-                    <p className="text-xl" style={{ fontFamily: "Volkhov, serif" }}>
+                    <p
+                      className="text-xl"
+                      style={{ fontFamily: "Volkhov, serif" }}
+                    >
                       1021 hPa
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">Sea Level</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Sea Level
+                    </p>
                   </div>
 
                   {/* Visibility */}
                   <div className="p-4 rounded-lg bg-gradient-to-br from-emerald-50 to-emerald-100/50">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="p-2 rounded-lg bg-white">
-                        <svg className="size-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        <svg
+                          className="size-5 text-emerald-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                          />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">Visibility</p>
+                      <p className="text-sm text-muted-foreground">
+                        Visibility
+                      </p>
                     </div>
-                    <p className="text-xl" style={{ fontFamily: "Volkhov, serif" }}>
+                    <p
+                      className="text-xl"
+                      style={{ fontFamily: "Volkhov, serif" }}
+                    >
                       10 km
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">Clear</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Clear
+                    </p>
                   </div>
 
                   {/* Cloud Coverage */}
                   <div className="p-4 rounded-lg bg-gradient-to-br from-slate-50 to-slate-100/50">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="p-2 rounded-lg bg-white">
-                        <svg className="size-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                        <svg
+                          className="size-5 text-slate-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+                          />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">Clouds</p>
+                      <p className="text-sm text-muted-foreground">
+                        Clouds
+                      </p>
                     </div>
-                    <p className="text-xl" style={{ fontFamily: "Volkhov, serif" }}>
+                    <p
+                      className="text-xl"
+                      style={{ fontFamily: "Volkhov, serif" }}
+                    >
                       83%
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">Mostly Cloudy</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Mostly Cloudy
+                    </p>
                   </div>
                 </div>
 
@@ -1734,50 +2160,120 @@ export function VenueDetailsPageV2({
 
                 {/* Additional Details */}
                 <div className="grid md:grid-cols-2 gap-4">
-                  <div className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: 'rgba(2, 84, 45, 0.05)' }}>
+                  <div
+                    className="flex items-center gap-3 p-3 rounded-lg"
+                    style={{
+                      backgroundColor: "rgba(2, 84, 45, 0.05)",
+                    }}
+                  >
                     <div className="p-2 rounded-lg bg-white">
-                      <svg className="size-5 text-[#02542D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      <svg
+                        className="size-5 text-[#02542D]"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Rainfall (1h)</p>
+                      <p className="text-sm text-muted-foreground">
+                        Rainfall (1h)
+                      </p>
                       <p className="font-medium">2.73 mm</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: 'rgba(223, 105, 81, 0.05)' }}>
+                  <div
+                    className="flex items-center gap-3 p-3 rounded-lg"
+                    style={{
+                      backgroundColor:
+                        "rgba(223, 105, 81, 0.05)",
+                    }}
+                  >
                     <div className="p-2 rounded-lg bg-white">
-                      <svg className="size-5 text-[#DF6951]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <svg
+                        className="size-5 text-[#DF6951]"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Ground Level Pressure</p>
+                      <p className="text-sm text-muted-foreground">
+                        Ground Level Pressure
+                      </p>
                       <p className="font-medium">910 hPa</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: 'rgba(2, 84, 45, 0.05)' }}>
+                  <div
+                    className="flex items-center gap-3 p-3 rounded-lg"
+                    style={{
+                      backgroundColor: "rgba(2, 84, 45, 0.05)",
+                    }}
+                  >
                     <div className="p-2 rounded-lg bg-white">
-                      <svg className="size-5 text-[#02542D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                      <svg
+                        className="size-5 text-[#02542D]"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                        />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Sunrise</p>
+                      <p className="text-sm text-muted-foreground">
+                        Sunrise
+                      </p>
                       <p className="font-medium">7:13 AM</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 p-3 rounded-lg" style={{ backgroundColor: 'rgba(223, 105, 81, 0.05)' }}>
+                  <div
+                    className="flex items-center gap-3 p-3 rounded-lg"
+                    style={{
+                      backgroundColor:
+                        "rgba(223, 105, 81, 0.05)",
+                    }}
+                  >
                     <div className="p-2 rounded-lg bg-white">
-                      <svg className="size-5 text-[#DF6951]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                      <svg
+                        className="size-5 text-[#DF6951]"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                        />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Sunset</p>
+                      <p className="text-sm text-muted-foreground">
+                        Sunset
+                      </p>
                       <p className="font-medium">7:36 PM</p>
                     </div>
                   </div>
@@ -1786,15 +2282,30 @@ export function VenueDetailsPageV2({
                 {/* Weather Info */}
                 <div className="mt-6 p-4 rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100">
                   <div className="flex items-start gap-3">
-                    <svg className="size-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="size-5 text-blue-600 mt-0.5 flex-shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
                     <div>
                       <p className="text-sm font-medium text-blue-900 mb-1">
                         Best Time to Visit
                       </p>
                       <p className="text-sm text-blue-800">
-                        Weather data shows current conditions. For weddings, we recommend checking the 7-day forecast and considering the venue's indoor/outdoor facilities. Contact our concierge for seasonal recommendations.
+                        Weather data shows current conditions.
+                        For weddings, we recommend checking the
+                        7-day forecast and considering the
+                        venue's indoor/outdoor facilities.
+                        Contact our concierge for seasonal
+                        recommendations.
                       </p>
                     </div>
                   </div>
@@ -1810,13 +2321,16 @@ export function VenueDetailsPageV2({
                 <div className="text-center space-y-2">
                   <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10 mb-2 w-full">
                     <Sparkles className="size-4 text-[#DF6951]" />
-                    <span className="text-sm font-medium text-[#02542D]">Wedding Concierge</span>
+                    <span className="text-sm font-medium text-[#02542D]">
+                      Wedding Concierge
+                    </span>
                   </div>
                   <h3 className="bg-gradient-to-r from-[#02542D] to-[#DF6951] bg-clip-text text-transparent">
                     Plan Your Dream Wedding
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Tell us about your vision and we'll make it happen
+                    Tell us about your vision and we'll make it
+                    happen
                   </p>
                 </div>
               </div>
@@ -1836,7 +2350,10 @@ export function VenueDetailsPageV2({
                       {/* Step 1: Event Details */}
                       <div>
                         <Label htmlFor="dates">
-                          Dates <span className="text-red-500">*</span>
+                          Dates{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
                         </Label>
                         <Popover>
                           <PopoverTrigger asChild>
@@ -1848,11 +2365,21 @@ export function VenueDetailsPageV2({
                               {dateRange.from ? (
                                 dateRange.to ? (
                                   <>
-                                    {format(dateRange.from, "LLL dd, y")} ~{" "}
-                                    {format(dateRange.to, "LLL dd, y")}
+                                    {format(
+                                      dateRange.from,
+                                      "LLL dd, y",
+                                    )}{" "}
+                                    ~{" "}
+                                    {format(
+                                      dateRange.to,
+                                      "LLL dd, y",
+                                    )}
                                   </>
                                 ) : (
-                                  format(dateRange.from, "LLL dd, y")
+                                  format(
+                                    dateRange.from,
+                                    "LLL dd, y",
+                                  )
                                 )
                               ) : (
                                 <span className="text-muted-foreground">
@@ -1861,7 +2388,10 @@ export function VenueDetailsPageV2({
                               )}
                             </Button>
                           </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
+                          <PopoverContent
+                            className="w-auto p-0"
+                            align="start"
+                          >
                             <CalendarComponent
                               mode="range"
                               selected={{
@@ -1877,7 +2407,15 @@ export function VenueDetailsPageV2({
                               initialFocus
                               numberOfMonths={2}
                               disabled={(date) =>
-                                date < new Date(new Date().setHours(0, 0, 0, 0))
+                                date <
+                                new Date(
+                                  new Date().setHours(
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                  ),
+                                )
                               }
                             />
                           </PopoverContent>
@@ -1886,32 +2424,51 @@ export function VenueDetailsPageV2({
 
                       <div>
                         <Label htmlFor="people">
-                          People <span className="text-red-500">*</span>
+                          People{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
                         </Label>
                         <Input
                           id="people"
                           type="number"
                           placeholder="Enter number of people"
                           value={formData.people}
-                          onChange={(e) => setFormData({ ...formData, people: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              people: e.target.value,
+                            })
+                          }
                           className="mt-1"
                         />
                       </div>
 
                       <div>
                         <Label htmlFor="selectPackage">
-                          Select Package <span className="text-red-500">*</span>
+                          Select Package{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
                         </Label>
                         <Select
                           value={formData.selectPackage}
-                          onValueChange={(value) => setFormData({ ...formData, selectPackage: value })}
+                          onValueChange={(value) =>
+                            setFormData({
+                              ...formData,
+                              selectPackage: value,
+                            })
+                          }
                         >
                           <SelectTrigger className="mt-1">
                             <SelectValue placeholder="Select Package" />
                           </SelectTrigger>
                           <SelectContent>
                             {venue.packages.map((pkg) => (
-                              <SelectItem key={pkg.name} value={pkg.name}>
+                              <SelectItem
+                                key={pkg.name}
+                                value={pkg.name}
+                              >
                                 {pkg.name}
                               </SelectItem>
                             ))}
@@ -1921,23 +2478,45 @@ export function VenueDetailsPageV2({
 
                       <div>
                         <Label htmlFor="eventType">
-                          Event Type <span className="text-red-500">*</span>
+                          Event Type{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
                         </Label>
                         <Select
                           value={formData.eventType}
-                          onValueChange={(value) => setFormData({ ...formData, eventType: value })}
+                          onValueChange={(value) =>
+                            setFormData({
+                              ...formData,
+                              eventType: value,
+                            })
+                          }
                         >
                           <SelectTrigger className="mt-1">
                             <SelectValue placeholder="Select Event Type" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="wedding">Wedding</SelectItem>
-                            <SelectItem value="pre-wedding">Pre-Wedding</SelectItem>
-                            <SelectItem value="engagement">Engagement</SelectItem>
-                            <SelectItem value="reception">Reception</SelectItem>
-                            <SelectItem value="sangeet">Sangeet</SelectItem>
-                            <SelectItem value="mehendi">Mehendi</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
+                            <SelectItem value="wedding">
+                              Wedding
+                            </SelectItem>
+                            <SelectItem value="pre-wedding">
+                              Pre-Wedding
+                            </SelectItem>
+                            <SelectItem value="engagement">
+                              Engagement
+                            </SelectItem>
+                            <SelectItem value="reception">
+                              Reception
+                            </SelectItem>
+                            <SelectItem value="sangeet">
+                              Sangeet
+                            </SelectItem>
+                            <SelectItem value="mehendi">
+                              Mehendi
+                            </SelectItem>
+                            <SelectItem value="other">
+                              Other
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -1946,8 +2525,11 @@ export function VenueDetailsPageV2({
                         <Checkbox
                           id="flexibleDates"
                           checked={formData.flexibleDates}
-                          onCheckedChange={(checked) => 
-                            setFormData({ ...formData, flexibleDates: checked as boolean })
+                          onCheckedChange={(checked) =>
+                            setFormData({
+                              ...formData,
+                              flexibleDates: checked as boolean,
+                            })
                           }
                         />
                         <Label
@@ -1971,13 +2553,21 @@ export function VenueDetailsPageV2({
                       {/* Step 2: Contact Details */}
                       <div>
                         <Label htmlFor="message">
-                          Message to the venue <span className="text-red-500">*</span>
+                          Message to the venue{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
                         </Label>
                         <Textarea
                           id="message"
                           placeholder="Type here..."
                           value={formData.message}
-                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              message: e.target.value,
+                            })
+                          }
                           rows={3}
                           className="mt-1"
                         />
@@ -1985,48 +2575,75 @@ export function VenueDetailsPageV2({
 
                       <div>
                         <Label htmlFor="budget">
-                          Budget <span className="text-red-500">*</span>
+                          Budget{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
                         </Label>
                         <Input
                           id="budget"
                           type="number"
                           placeholder="0"
                           value={formData.budget}
-                          onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              budget: e.target.value,
+                            })
+                          }
                           className="mt-1"
                         />
                       </div>
 
                       <div>
                         <Label htmlFor="name">
-                          Name <span className="text-red-500">*</span>
+                          Name{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
                         </Label>
                         <Input
                           id="name"
                           placeholder="Enter your Name"
                           value={formData.name}
-                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              name: e.target.value,
+                            })
+                          }
                           className="mt-1"
                         />
                       </div>
 
                       <div>
                         <Label htmlFor="email">
-                          Email <span className="text-red-500">*</span>
+                          Email{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
                         </Label>
                         <Input
                           id="email"
                           type="email"
                           placeholder="Enter your Email"
                           value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              email: e.target.value,
+                            })
+                          }
                           className="mt-1"
                         />
                       </div>
 
                       <div>
                         <Label htmlFor="phone">
-                          Phone Number <span className="text-red-500">*</span>
+                          Phone Number{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
                         </Label>
                         <div className="flex gap-2 mt-1">
                           <Input
@@ -2034,7 +2651,12 @@ export function VenueDetailsPageV2({
                             type="tel"
                             placeholder="+91"
                             value={formData.phone}
-                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                phone: e.target.value,
+                              })
+                            }
                             className="flex-1"
                             disabled={otpVerified}
                           />
@@ -2070,7 +2692,10 @@ export function VenueDetailsPageV2({
                       {otpSent && !otpVerified && (
                         <div>
                           <Label htmlFor="otp">
-                            Enter OTP <span className="text-red-500">*</span>
+                            Enter OTP{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
                           </Label>
                           <div className="flex gap-2 mt-1">
                             <Input
@@ -2078,7 +2703,12 @@ export function VenueDetailsPageV2({
                               type="text"
                               placeholder="Enter 6-digit OTP"
                               value={formData.otp}
-                              onChange={(e) => setFormData({ ...formData, otp: e.target.value })}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  otp: e.target.value,
+                                })
+                              }
                               maxLength={6}
                               className="flex-1"
                             />
@@ -2273,7 +2903,7 @@ export function VenueDetailsPageV2({
       {comparePackages.length > 0 && (
         <div className="fixed bottom-6 right-6 z-50">
           {onCompareClick ? (
-            <Button 
+            <Button
               size="lg"
               onClick={onCompareClick}
               className="bg-gradient-to-r from-[#02542D] to-[#DF6951] hover:from-[#02542D]/90 hover:to-[#DF6951]/90 shadow-2xl gap-3 text-white pr-6"
@@ -2285,15 +2915,21 @@ export function VenueDetailsPageV2({
                 </Badge>
               </div>
               <div className="flex flex-col items-start">
-                <span className="text-sm font-medium">Compare Packages</span>
+                <span className="text-sm font-medium">
+                  Compare Packages
+                </span>
                 <span className="text-xs opacity-90">
-                  {comparePackages.length} {comparePackages.length === 1 ? 'package' : 'packages'} added
+                  {comparePackages.length}{" "}
+                  {comparePackages.length === 1
+                    ? "package"
+                    : "packages"}{" "}
+                  added
                 </span>
               </div>
             </Button>
           ) : (
             <a href="/packages/compare">
-              <Button 
+              <Button
                 size="lg"
                 className="bg-gradient-to-r from-[#02542D] to-[#DF6951] hover:from-[#02542D]/90 hover:to-[#DF6951]/90 shadow-2xl gap-3 text-white pr-6"
               >
@@ -2304,9 +2940,15 @@ export function VenueDetailsPageV2({
                   </Badge>
                 </div>
                 <div className="flex flex-col items-start">
-                  <span className="text-sm font-medium">Compare Packages</span>
+                  <span className="text-sm font-medium">
+                    Compare Packages
+                  </span>
                   <span className="text-xs opacity-90">
-                    {comparePackages.length} {comparePackages.length === 1 ? 'package' : 'packages'} added
+                    {comparePackages.length}{" "}
+                    {comparePackages.length === 1
+                      ? "package"
+                      : "packages"}{" "}
+                    added
                   </span>
                 </div>
               </Button>

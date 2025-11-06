@@ -1,6 +1,65 @@
 "use client";
 
-import { ArrowLeft, Check, Copy, X } from "lucide-react";
+import { 
+  ArrowLeft, 
+  Check, 
+  Copy, 
+  X,
+  Heart,
+  Share2,
+  ArrowLeftRight,
+  MapPin,
+  Star,
+  Users,
+  BadgeCheck,
+  Sparkles,
+  Volume2,
+  Dog,
+  Wine,
+  Building2,
+  Sunset,
+  Trees,
+  Wifi,
+  Music,
+  Utensils,
+  Camera,
+  Car,
+  Clock,
+  Home,
+  Receipt,
+  Bed,
+  CloudSun,
+  Thermometer,
+  Droplets,
+  Wind,
+  Calendar,
+  ArrowRight,
+  Mail,
+  Phone,
+  MessageSquare,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  ChevronUp,
+  Search,
+  TrendingUp,
+  Award,
+  Video,
+  Palette,
+  Filter,
+  ShoppingCart,
+  Tag,
+  Crown,
+  Gift,
+  Percent,
+  Grid3x3,
+  List,
+  Eye,
+  Play,
+  Satellite,
+  Plane,
+  Settings,
+} from "lucide-react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
@@ -631,6 +690,697 @@ export function BrandGuidelinesPage({ onBack }: BrandGuidelinesPageProps) {
               </ul>
             </Card>
           </div>
+        </section>
+
+        <Separator className="my-16" />
+
+        {/* Icon System */}
+        <section>
+          <div className="mb-8">
+            <h2 className="mb-2">Icon System</h2>
+            <p className="text-muted-foreground">
+              Comprehensive icon usage across all pages and sections using Lucide React
+            </p>
+          </div>
+
+          {/* Venue Details Page Icons */}
+          <div className="mb-12">
+            <h3 className="mb-6">Venue Details Page</h3>
+            
+            <div className="space-y-6">
+              {/* Header Actions */}
+              <Card className="p-6">
+                <div className="mb-4">
+                  <h4 className="mb-2">Header & Actions</h4>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Navigation and interaction icons in the page header
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="flex items-center gap-2">
+                    <ArrowLeft className="size-5 text-[#DF6951]" />
+                    <span className="text-sm">Back</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Heart className="size-5 text-[#DF6951]" />
+                    <span className="text-sm">Save/Favorite</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Share2 className="size-5 text-[#DF6951]" />
+                    <span className="text-sm">Share</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <ArrowLeftRight className="size-5 text-[#DF6951]" />
+                    <span className="text-sm">Compare</span>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Venue Info & Rating */}
+              <Card className="p-6">
+                <div className="mb-4">
+                  <h4 className="mb-2">Venue Information</h4>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Location, ratings, and basic venue details
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="size-5 text-[#DF6951]" />
+                    <span className="text-sm">Location</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Star className="size-5 text-amber-500" />
+                    <span className="text-sm">Rating</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users className="size-5 text-blue-600" />
+                    <span className="text-sm">Capacity</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <BadgeCheck className="size-5 text-green-600" />
+                    <span className="text-sm">Verified</span>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Why Couples Love (Highlights) */}
+              <Card className="p-6">
+                <div className="mb-4">
+                  <h4 className="mb-2">Why Couples Love (Highlights)</h4>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Key venue features and unique selling points
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="size-5 text-purple-600" />
+                    <span className="text-sm">Fireworks</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Volume2 className="size-5 text-blue-600" />
+                    <span className="text-sm">Sound Policy</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Dog className="size-5 text-orange-600" />
+                    <span className="text-sm">Pet Friendly</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Wine className="size-5 text-pink-600" />
+                    <span className="text-sm">Open Bar</span>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Venue Areas */}
+              <Card className="p-6">
+                <div className="mb-4">
+                  <h4 className="mb-2">Venue Areas</h4>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Different event spaces within the venue
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <div className="flex items-center gap-2">
+                    <Building2 className="size-5 text-blue-600" />
+                    <span className="text-sm">Banquet (Indoor)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Sunset className="size-5 text-orange-600" />
+                    <span className="text-sm">Terrace (Outdoor)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Trees className="size-5 text-green-600" />
+                    <span className="text-sm">Lawn (Outdoor)</span>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Amenities */}
+              <Card className="p-6">
+                <div className="mb-4">
+                  <h4 className="mb-2">Amenities</h4>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Services and facilities available at the venue
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="flex items-center gap-2">
+                    <Wifi className="size-5 text-blue-600" />
+                    <span className="text-sm">WiFi</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Music className="size-5 text-purple-600" />
+                    <span className="text-sm">Sound System</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Utensils className="size-5 text-orange-600" />
+                    <span className="text-sm">Catering</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Camera className="size-5 text-pink-600" />
+                    <span className="text-sm">Photo Spots</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="size-5 text-purple-600" />
+                    <span className="text-sm">Decor Services</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Wine className="size-5 text-pink-600" />
+                    <span className="text-sm">Bar & Beverages</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Car className="size-5 text-blue-600" />
+                    <span className="text-sm">Valet Parking</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="size-5 text-green-600" />
+                    <span className="text-sm">24/7 Support</span>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Good to Know Section */}
+              <Card className="p-6">
+                <div className="mb-4">
+                  <h4 className="mb-2">Good to Know (Policies)</h4>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Venue policies and important information
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="flex items-center gap-2">
+                    <Users className="size-5 text-blue-600" />
+                    <span className="text-sm">Minimum Pax</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Home className="size-5 text-purple-600" />
+                    <span className="text-sm">Room/Buyout</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Wine className="size-5 text-pink-600" />
+                    <span className="text-sm">Alcohol Policy</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Music className="size-5 text-purple-600" />
+                    <span className="text-sm">DJ Policy</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Camera className="size-5 text-pink-600" />
+                    <span className="text-sm">Decor Policy</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Receipt className="size-5 text-orange-600" />
+                    <span className="text-sm">Payment Terms</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Utensils className="size-5 text-orange-600" />
+                    <span className="text-sm">Catering Policy</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Bed className="size-5 text-blue-600" />
+                    <span className="text-sm">Accommodation</span>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Weather Section */}
+              <Card className="p-6">
+                <div className="mb-4">
+                  <h4 className="mb-2">Weather & Climate</h4>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Weather information and climate indicators
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="flex items-center gap-2">
+                    <CloudSun className="size-5 text-blue-600" />
+                    <span className="text-sm">Weather</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Thermometer className="size-5 text-orange-600" />
+                    <span className="text-sm">Temperature</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Droplets className="size-5 text-blue-600" />
+                    <span className="text-sm">Humidity</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Wind className="size-5 text-cyan-600" />
+                    <span className="text-sm">Wind Speed</span>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Packages Section */}
+              <Card className="p-6">
+                <div className="mb-4">
+                  <h4 className="mb-2">Packages & Booking</h4>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Package features and booking actions
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="size-5 text-purple-600" />
+                    <span className="text-sm">Number of Days</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users className="size-5 text-blue-600" />
+                    <span className="text-sm">Total Pax</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Bed className="size-5 text-purple-600" />
+                    <span className="text-sm">Rooms</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Check className="size-5 text-green-600" />
+                    <span className="text-sm">Features/Inclusions</span>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Contact Section */}
+              <Card className="p-6">
+                <div className="mb-4">
+                  <h4 className="mb-2">Contact & Communication</h4>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Contact methods and inquiry actions
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="flex items-center gap-2">
+                    <Mail className="size-5 text-blue-600" />
+                    <span className="text-sm">Email</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Phone className="size-5 text-green-600" />
+                    <span className="text-sm">Phone</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MessageSquare className="size-5 text-purple-600" />
+                    <span className="text-sm">Message/Chat</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <ArrowRight className="size-5 text-[#DF6951]" />
+                    <span className="text-sm">View More/Navigate</span>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Image Gallery Navigation */}
+              <Card className="p-6">
+                <div className="mb-4">
+                  <h4 className="mb-2">Gallery & Navigation</h4>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Image carousel and modal controls
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="flex items-center gap-2">
+                    <ChevronLeft className="size-5 text-[#02542D]" />
+                    <span className="text-sm">Previous</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <ChevronRight className="size-5 text-[#02542D]" />
+                    <span className="text-sm">Next</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <ChevronDown className="size-5 text-muted-foreground" />
+                    <span className="text-sm">Expand</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <ChevronUp className="size-5 text-muted-foreground" />
+                    <span className="text-sm">Collapse</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <X className="size-5 text-muted-foreground" />
+                    <span className="text-sm">Close</span>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </div>
+
+          {/* Destinations Page Icons */}
+          <div className="mb-12">
+            <h3 className="mb-6">Destinations Page</h3>
+            <Card className="p-6">
+              <div className="mb-4">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Search, filtering, and destination cards
+                </p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="flex items-center gap-2">
+                  <Search className="size-5 text-[#02542D]" />
+                  <span className="text-sm">Search</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <MapPin className="size-5 text-[#DF6951]" />
+                  <span className="text-sm">Location</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Star className="size-5 text-amber-500" />
+                  <span className="text-sm">Rating</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="size-5 text-green-600" />
+                  <span className="text-sm">Trending</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Calendar className="size-5 text-purple-600" />
+                  <span className="text-sm">Date Picker</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users className="size-5 text-blue-600" />
+                  <span className="text-sm">Guest Count</span>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Planners Page Icons */}
+          <div className="mb-12">
+            <h3 className="mb-6">Planners Page</h3>
+            <Card className="p-6">
+              <div className="mb-4">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Wedding planner profiles and credentials
+                </p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="flex items-center gap-2">
+                  <Search className="size-5 text-[#02542D]" />
+                  <span className="text-sm">Search</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <MapPin className="size-5 text-[#DF6951]" />
+                  <span className="text-sm">Location</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Star className="size-5 text-amber-500" />
+                  <span className="text-sm">Rating</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Award className="size-5 text-purple-600" />
+                  <span className="text-sm">Awards/Credentials</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Calendar className="size-5 text-blue-600" />
+                  <span className="text-sm">Experience/Years</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <ChevronDown className="size-5 text-muted-foreground" />
+                  <span className="text-sm">Dropdown/Filters</span>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Vendors Page Icons */}
+          <div className="mb-12">
+            <h3 className="mb-6">Vendors Page</h3>
+            <Card className="p-6">
+              <div className="mb-4">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Photographers, videographers, and decorator profiles
+                </p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="flex items-center gap-2">
+                  <Search className="size-5 text-[#02542D]" />
+                  <span className="text-sm">Search</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Camera className="size-5 text-pink-600" />
+                  <span className="text-sm">Photographer</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Video className="size-5 text-blue-600" />
+                  <span className="text-sm">Videographer</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Palette className="size-5 text-purple-600" />
+                  <span className="text-sm">Decorator</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <MapPin className="size-5 text-[#DF6951]" />
+                  <span className="text-sm">Location</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Star className="size-5 text-amber-500" />
+                  <span className="text-sm">Rating</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Award className="size-5 text-purple-600" />
+                  <span className="text-sm">Awards</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <ChevronDown className="size-5 text-muted-foreground" />
+                  <span className="text-sm">Filters</span>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Marketplace Page Icons */}
+          <div className="mb-12">
+            <h3 className="mb-6">Marketplace Page</h3>
+            <Card className="p-6">
+              <div className="mb-4">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Shopping, products, and e-commerce features
+                </p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="flex items-center gap-2">
+                  <Search className="size-5 text-[#02542D]" />
+                  <span className="text-sm">Search</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Filter className="size-5 text-[#02542D]" />
+                  <span className="text-sm">Filter</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <ShoppingCart className="size-5 text-[#DF6951]" />
+                  <span className="text-sm">Cart</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Heart className="size-5 text-pink-600" />
+                  <span className="text-sm">Wishlist</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Star className="size-5 text-amber-500" />
+                  <span className="text-sm">Rating</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Tag className="size-5 text-blue-600" />
+                  <span className="text-sm">Tags/Categories</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="size-5 text-green-600" />
+                  <span className="text-sm">Trending</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Sparkles className="size-5 text-purple-600" />
+                  <span className="text-sm">Featured</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Crown className="size-5 text-amber-600" />
+                  <span className="text-sm">Premium</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Gift className="size-5 text-pink-600" />
+                  <span className="text-sm">Gift Registry</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Percent className="size-5 text-green-600" />
+                  <span className="text-sm">Discount</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <X className="size-5 text-muted-foreground" />
+                  <span className="text-sm">Remove/Close</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <ChevronDown className="size-5 text-muted-foreground" />
+                  <span className="text-sm">Dropdown</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Grid3x3 className="size-5 text-[#02542D]" />
+                  <span className="text-sm">Grid View</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <List className="size-5 text-[#02542D]" />
+                  <span className="text-sm">List View</span>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Inspirations Page Icons */}
+          <div className="mb-12">
+            <h3 className="mb-6">Inspirations Page</h3>
+            <Card className="p-6">
+              <div className="mb-4">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Gallery and inspiration boards
+                </p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="flex items-center gap-2">
+                  <Search className="size-5 text-[#02542D]" />
+                  <span className="text-sm">Search</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Heart className="size-5 text-pink-600" />
+                  <span className="text-sm">Like/Save</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Share2 className="size-5 text-blue-600" />
+                  <span className="text-sm">Share</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Eye className="size-5 text-purple-600" />
+                  <span className="text-sm">Views</span>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Tours Page Icons */}
+          <div className="mb-12">
+            <h3 className="mb-6">Tours & Activities Page</h3>
+            <Card className="p-6">
+              <div className="mb-4">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Tour packages and activity listings
+                </p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="flex items-center gap-2">
+                  <MapPin className="size-5 text-[#DF6951]" />
+                  <span className="text-sm">Location</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="size-5 text-blue-600" />
+                  <span className="text-sm">Duration</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Star className="size-5 text-amber-500" />
+                  <span className="text-sm">Rating</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users className="size-5 text-blue-600" />
+                  <span className="text-sm">Group Size</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Heart className="size-5 text-pink-600" />
+                  <span className="text-sm">Favorite</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Calendar className="size-5 text-purple-600" />
+                  <span className="text-sm">Date Selection</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Filter className="size-5 text-[#02542D]" />
+                  <span className="text-sm">Filter</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Search className="size-5 text-[#02542D]" />
+                  <span className="text-sm">Search</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <X className="size-5 text-muted-foreground" />
+                  <span className="text-sm">Clear/Close</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <ChevronDown className="size-5 text-muted-foreground" />
+                  <span className="text-sm">Expand Options</span>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Home/Landing Page Icons */}
+          <div className="mb-12">
+            <h3 className="mb-6">Home & Landing Pages</h3>
+            <Card className="p-6">
+              <div className="mb-4">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Hero sections and service highlights
+                </p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="flex items-center gap-2">
+                  <Play className="size-5 text-[#DF6951]" />
+                  <span className="text-sm">Play Video</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <ArrowRight className="size-5 text-[#DF6951]" />
+                  <span className="text-sm">Call to Action</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Satellite className="size-5 text-purple-600" />
+                  <span className="text-sm">Weather/Tech</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Plane className="size-5 text-blue-600" />
+                  <span className="text-sm">Flights</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Building2 className="size-5 text-orange-600" />
+                  <span className="text-sm">Local Events</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Settings className="size-5 text-[#02542D]" />
+                  <span className="text-sm">Customization</span>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Icon Usage Guidelines */}
+          <Card className="p-6 bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
+            <h4 className="mb-4">Icon Usage Guidelines</h4>
+            <div className="space-y-3 text-sm">
+              <div className="flex gap-3">
+                <Check className="size-4 text-green-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-medium mb-1">Use Lucide React Icons</p>
+                  <p className="text-muted-foreground">All icons are imported from the lucide-react package for consistency</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <Check className="size-4 text-green-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-medium mb-1">Apply Brand Colors</p>
+                  <p className="text-muted-foreground">Primary icons use #DF6951 (orange), #02542D (teal), or contextual colors (blue, purple, green, pink) based on their function</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <Check className="size-4 text-green-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-medium mb-1">Consistent Sizing</p>
+                  <p className="text-muted-foreground">Use size-4 (16px), size-5 (20px), or size-6 (24px) for icons depending on context and hierarchy</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <Check className="size-4 text-green-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-medium mb-1">Pair with Backgrounds</p>
+                  <p className="text-muted-foreground">Feature icons often use rounded backgrounds with matching pastel colors (e.g., bg-purple-50 with text-purple-600)</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <Check className="size-4 text-green-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-medium mb-1">Interactive States</p>
+                  <p className="text-muted-foreground">Add hover effects with color transitions and scale transforms for clickable icons</p>
+                </div>
+              </div>
+            </div>
+          </Card>
         </section>
       </div>
     </div>
