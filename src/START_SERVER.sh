@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "📦 Installing dependencies..."
+npm install
+
 echo "🧹 Cleaning up..."
 rm -rf .next
 
