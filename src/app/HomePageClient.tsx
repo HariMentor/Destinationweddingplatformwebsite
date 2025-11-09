@@ -18,32 +18,13 @@ import { TravelTeam } from '@/components/TravelTeam';
 import { TravelCTA } from '@/components/TravelCTA';
 import { TravelFooter } from '@/components/TravelFooter';
 import { useRouter } from 'next/navigation';
+import { NAVIGATION_ROUTES } from '@/lib/navigation';
 
 export default function HomePageClient() {
   const router = useRouter();
 
   const handleNavigate = (page: string) => {
-    // Map old state-based navigation to Next.js routes
-    const routeMap: Record<string, string> = {
-      'landing': '/landing',
-      'venues': '/venues',
-      'destinations': '/destinations',
-      'inspirations': '/inspirations',
-      'planners': '/planners',
-      'vendors': '/vendors',
-      'tours': '/tours',
-      'visa-services': '/travel/visa',
-      'builder': '/wedding-builder',
-      'expenses': '/expenses',
-      'marketplace': '/marketplace',
-      'account': '/account',
-      'concierge': '/concierge',
-      'providers': '/providers',
-      'blog': '/blog',
-      'home': '/',
-    };
-
-    const route = routeMap[page];
+    const route = NAVIGATION_ROUTES[page];
     if (route) {
       router.push(route);
     }

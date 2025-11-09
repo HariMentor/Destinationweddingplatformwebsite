@@ -4,28 +4,13 @@ import { InspirationsPage } from '@/components/InspirationsPage';
 import { TravelNav } from '@/components/TravelNav';
 import { TravelFooter } from '@/components/TravelFooter';
 import { useRouter } from 'next/navigation';
+import { NAVIGATION_ROUTES } from '@/lib/navigation';
 
 export function InspirationsPageClient() {
   const router = useRouter();
 
   const handleNavigate = (page: string) => {
-    const routeMap: Record<string, string> = {
-      'landing': '/landing',
-      'venues': '/venues',
-      'destinations': '/destinations',
-      'inspirations': '/inspirations',
-      'planners': '/planners',
-      'vendors': '/vendors',
-      'tours': '/tours',
-      'visa-services': '/travel/visa',
-      'builder': '/wedding-builder',
-      'expenses': '/expenses',
-      'marketplace': '/marketplace',
-      'account': '/account',
-      'home': '/',
-    };
-
-    const route = routeMap[page];
+    const route = NAVIGATION_ROUTES[page];
     if (route) {
       router.push(route);
     }
