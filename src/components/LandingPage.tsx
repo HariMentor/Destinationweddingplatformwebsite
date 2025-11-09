@@ -6,7 +6,6 @@ import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { motion } from "motion/react";
-import exampleImage from 'figma:asset/b112a0e979b938952de4ac1f69f791f8b866b86a.png';
 
 interface LandingPageProps {
   onNavigate: (page: 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'marketplace') => void;

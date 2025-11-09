@@ -1,9 +1,11 @@
-import image_00d4a9ab046ee595171f253db694410941523eba from "figma:asset/00d4a9ab046ee595171f253db694410941523eba.png";
-import image_713f8eb9bbae3295163a927a337743f7f41a5691 from "figma:asset/713f8eb9bbae3295163a927a337743f7f41a5691.png";
-import image_cb798e5507ad03096d664717f1ce0c0f0124765b from "figma:asset/cb798e5507ad03096d664717f1ce0c0f0124765b.png";
-import image_351a2514681d06a45fc6e0fb4af691f66966d699 from "figma:asset/351a2514681d06a45fc6e0fb4af691f66966d699.png";
-import image_04fb72f45089eae606b139c0ba08a0bada49570f from "figma:asset/04fb72f45089eae606b139c0ba08a0bada49570f.png";
 "use client";
+
+// Venue images
+const VENUE_IMAGE_1 = "https://images.unsplash.com/photo-1636925983153-1cfe10ab9516?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudWUlMjBzYW50b3Jpbml8ZW58MXx8fHwxNzYyNjk5NzQ4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
+const VENUE_IMAGE_2 = "https://images.unsplash.com/photo-1760888563092-17d79ae2703b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXN0aW5hdGlvbiUyMHdlZGRpbmclMjB2ZW51ZSUyMHRlcnJhY2V8ZW58MXx8fHwxNzYyNjk5NzQ4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
+const VENUE_IMAGE_3 = "https://images.unsplash.com/photo-1761120789207-c08a10afb864?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVnYW50JTIwd2VkZGluZyUyMGJhbnF1ZXQlMjBoYWxsfGVufDF8fHx8MTc2MjY5OTc0OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
+const VENUE_IMAGE_4 = "https://images.unsplash.com/photo-1613067532651-7075a620c900?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwcmVjZXB0aW9uJTIwdmVudWV8ZW58MXx8fHwxNzYyNjYwOTQzfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
+const VENUE_IMAGE_5 = "https://images.unsplash.com/photo-1731515672817-0491d19c9f19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvdXRkb29yJTIwd2VkZGluZyUyMGNlcmVtb255fGVufDF8fHx8MTc2MjY5OTc0OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
 
 import { useState, useEffect } from "react";
 import {
@@ -280,11 +282,11 @@ const venueDetails = {
       },
     ],
     images: [
-      image_04fb72f45089eae606b139c0ba08a0bada49570f,
-      image_cb798e5507ad03096d664717f1ce0c0f0124765b,
-      image_00d4a9ab046ee595171f253db694410941523eba,
-      image_713f8eb9bbae3295163a927a337743f7f41a5691,
-      image_351a2514681d06a45fc6e0fb4af691f66966d699,
+      VENUE_IMAGE_1,
+      VENUE_IMAGE_2,
+      VENUE_IMAGE_3,
+      VENUE_IMAGE_4,
+      VENUE_IMAGE_5,
       "https://images.unsplash.com/photo-1578730169862-749bbdc763a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvdXRkb29yJTIwd2VkZGluZyUyMHZlbnVlfGVufDF8fHx8MTc2MTIzNTk3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       "https://images.unsplash.com/photo-1521543387600-c745f8e83d77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYyMjI5Mjg2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       "https://images.unsplash.com/photo-1761120789207-c08a10afb864?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVnYW50JTIwd2VkZGluZyUyMHJlY2VwdGlvbnxlbnwxfHx8fDE3NjIyMjg3Mzh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
@@ -320,10 +322,10 @@ const venueDetails = {
         name: "Silver",
         price: 200000,
         tag: "Silver",
-        image: image_04fb72f45089eae606b139c0ba08a0bada49570f,
+        image: VENUE_IMAGE_5,
         images: [
-          image_04fb72f45089eae606b139c0ba08a0bada49570f,
-          image_713f8eb9bbae3295163a927a337743f7f41a5691,
+          VENUE_IMAGE_5,
+          VENUE_IMAGE_4,
           "https://images.unsplash.com/photo-1578730169862-749bbdc763a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvdXRkb29yJTIwd2VkZGluZyUyMHZlbnVlfGVufDF8fHx8MTc2MTIzNTk3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
         ],
         numberOfDays: 2,
@@ -343,11 +345,11 @@ const venueDetails = {
         name: "Gold",
         price: 300000,
         tag: "Gold",
-        image: image_cb798e5507ad03096d664717f1ce0c0f0124765b,
+        image: VENUE_IMAGE_2,
         images: [
-          image_cb798e5507ad03096d664717f1ce0c0f0124765b,
-          image_00d4a9ab046ee595171f253db694410941523eba,
-          image_04fb72f45089eae606b139c0ba08a0bada49570f,
+          VENUE_IMAGE_2,
+          VENUE_IMAGE_3,
+          VENUE_IMAGE_5,
           "https://images.unsplash.com/photo-1578730169862-749bbdc763a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvdXRkb29yJTIwd2VkZGluZyUyMHZlbnVlfGVufDF8fHx8MTc2MTIzNTk3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
         ],
         numberOfDays: 3,
@@ -369,12 +371,12 @@ const venueDetails = {
         name: "Platinum",
         price: 450000,
         tag: "Platinum",
-        image: image_00d4a9ab046ee595171f253db694410941523eba,
+        image: VENUE_IMAGE_3,
         images: [
-          image_00d4a9ab046ee595171f253db694410941523eba,
-          image_cb798e5507ad03096d664717f1ce0c0f0124765b,
-          image_04fb72f45089eae606b139c0ba08a0bada49570f,
-          image_713f8eb9bbae3295163a927a337743f7f41a5691,
+          VENUE_IMAGE_3,
+          VENUE_IMAGE_2,
+          VENUE_IMAGE_5,
+          VENUE_IMAGE_4,
         ],
         numberOfDays: 4,
         totalPax: 200,
