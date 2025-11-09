@@ -722,11 +722,11 @@ export function VenueDetailsPageV2({
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 overflow-x-hidden">
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Column - Main Info */}
-          <div className="lg:col-span-2 space-y-6 min-w-0 overflow-x-hidden">
+          <div className="lg:col-span-2 space-y-6">
             {/* Header */}
-            <div className="overflow-x-hidden">
+            <div>
               {/* Venue Tags */}
               <div className="flex flex-wrap gap-2 sm:gap-3 mb-4">
                 {venue.venueTags?.map((tag, index) => (
@@ -2904,7 +2904,7 @@ export function VenueDetailsPageV2({
 
           {/* Right Column - Booking Form */}
           <div className="hidden lg:block lg:col-span-1">
-            <Card className="p-6 sticky top-24 border-2">
+            <Card className="p-6 sticky top-24 z-10 border-2 self-start">
               <Tabs value={enquiryType} onValueChange={(value) => setEnquiryType(value as "concierge" | "direct")} className="w-full">
                 <TabsList className="grid w-full grid-cols-2 mb-6">
                   <TabsTrigger value="concierge" className="flex items-center gap-2">
