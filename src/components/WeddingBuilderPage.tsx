@@ -22,7 +22,7 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Checkbox } from "./ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./ui/dialog";
 import { Alert, AlertDescription } from "./ui/alert";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 interface WeddingBuilderPageProps {
   onExit: () => void;

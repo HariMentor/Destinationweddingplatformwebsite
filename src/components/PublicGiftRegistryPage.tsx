@@ -20,7 +20,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Progress } from "./ui/progress";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import type { GiftRegistryItem } from "./customerAccountData";
 

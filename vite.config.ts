@@ -14,7 +14,7 @@
         'react-resizable-panels@2.1.7': 'react-resizable-panels',
         'react-hook-form@7.55.0': 'react-hook-form',
         'react-day-picker@8.10.1': 'react-day-picker',
-        'next-themes@0.4.6': 'next-themes',
+        'package@1.0.0': 'package',
         'lucide-react@0.487.0': 'lucide-react',
         'input-otp@1.4.2': 'input-otp',
         'figma:asset/d0d8526022e21349487e00b57498708013a7bb90.png': path.resolve(__dirname, './src/assets/d0d8526022e21349487e00b57498708013a7bb90.png'),

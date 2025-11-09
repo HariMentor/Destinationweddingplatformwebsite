@@ -82,7 +82,7 @@ import { GiftRegistryEditor } from "./GiftRegistryEditor";
 import { PublicGiftRegistryPage } from "./PublicGiftRegistryPage";
 import { PaymentsTabContent } from "./PaymentsTabContent";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import { useCurrency } from "./CurrencyContext";
 
 export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => void; onNavigate?: (page: string) => void }) {

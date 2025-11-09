@@ -56,7 +56,7 @@ import {
 } from "./ui/popover";
 import { Calendar as CalendarComponent } from "./ui/calendar";
 import { format } from "date-fns";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 interface DestinationDetailsPageProps {
   destinationId: number;

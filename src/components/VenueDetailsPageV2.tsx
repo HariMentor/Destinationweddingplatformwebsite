@@ -76,7 +76,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import {
   Tabs,
   TabsContent,

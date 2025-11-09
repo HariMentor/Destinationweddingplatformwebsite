@@ -10,7 +10,7 @@ import { motion } from "motion/react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Checkbox } from "./ui/checkbox";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 interface VisaRequestPageProps {
   onBack: () => void;

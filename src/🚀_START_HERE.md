@@ -1,19 +1,51 @@
 # 🚀 WEDZWAY - START HERE
 
-## 🚨 SEEING A BLANK PAGE?
+## 🚨 SEEING A BLANK PAGE OR MODULE ERRORS?
 
-**👉 You're running the wrong server! Follow the QUICK FIX below.**
+**👉 Choose your issue:**
+
+### Issue 1: Blank Page + `process is not defined` error
+- **Fix:** You're running Vite instead of Next.js
+- **Read:** [`QUICK_FIX.md`](/QUICK_FIX.md)
+
+### Issue 2: `Module not found: Can't resolve '@/components'`
+- **Fix:** You're in the wrong directory
+- **Read:** [`QUICK_DIRECTORY_FIX.md`](/QUICK_DIRECTORY_FIX.md)
 
 ---
 
-## ⚡ QUICK FIX (30 seconds)
+## ⚡ SUPER QUICK FIX
 
-1. **Stop your current server:** Press `Ctrl+C`
-2. **Run this command:** `npm run dev`
-3. **Open browser:** http://localhost:3000
-4. **Enter password:** `wedzway2025`
+**Step 1:** Make sure you're in the correct directory
 
-**✅ Done!** You should now see the Wedzway platform.
+```bash
+# Check where you are
+pwd
+
+# List files - you should see: app/, components/, package.json
+ls -la
+```
+
+**Step 2:** If you don't see those folders, navigate to the correct directory
+
+```bash
+# Find your project
+find ~ -name "package.json" -path "*wedzway*" 2>/dev/null | head -1
+
+# Go to that directory (remove /package.json from the path)
+cd /path/to/correct/directory
+```
+
+**Step 3:** Run the dev server
+
+```bash
+npm install
+npm run dev
+```
+
+**Step 4:** Open browser at http://localhost:3000
+
+**Step 5:** Enter password: `wedzway2025`
 
 ---
 

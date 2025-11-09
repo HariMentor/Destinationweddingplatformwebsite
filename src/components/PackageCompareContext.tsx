@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 
 export interface ComparePackage {
   id: string;
