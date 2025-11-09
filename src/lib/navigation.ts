@@ -19,7 +19,8 @@ export const NAVIGATION_ROUTES: Record<string, string> = {
   'email-templates': '/email-templates',
   'venue-brochure': '/brochure/venue',
   'brand-guidelines': '/brand-guidelines',
-  'venue-preview': '/venues/1', // Preview uses venue ID 1
+  'venue-preview': '/venue-preview', // Dedicated venue preview page
+  'package-compare': '/packages/compare', // Wedding package comparison page
 };
 
 // Helper function to navigate using the route map
