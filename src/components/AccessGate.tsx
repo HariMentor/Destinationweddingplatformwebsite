@@ -1,4 +1,6 @@
-import { useState, FormEvent } from "react";
+"use client";
+
+import { useState, useEffect, FormEvent } from "react";
 import { Lock, ArrowRight, Shield } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -11,13 +13,18 @@ interface AccessGateProps {
 }
 
 export function AccessGate({ children }: AccessGateProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    // Check if user was previously authenticated
-    return localStorage.getItem("wedzway_authenticated") === "true";
-  });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [accessCode, setAccessCode] = useState("");
   const [error, setError] = useState("");
   const [isShaking, setIsShaking] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    // Check if user was previously authenticated
+    const authenticated = localStorage.getItem("wedzway_authenticated") === "true";
+    setIsAuthenticated(authenticated);
+  }, []);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
