@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useRef } from "react";
 import {
   MapPin,
@@ -202,6 +204,7 @@ function InteractiveMap({
         link.rel = "stylesheet";
         link.href =
           "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+        link.crossOrigin = "anonymous";
         document.head.appendChild(link);
       }
 
@@ -912,23 +915,10 @@ export function DestinationDetailsPage({
             {currentImageIndex + 1} /{" "}
             {destination.images.length}
           </div>
-
-          {/* Title Overlay */}
-          <div className="absolute bottom-8 left-8">
-            <h1
-              className="text-5xl text-white mb-2"
-              style={{ fontFamily: "Volkhov, serif" }}
-            >
-              {destination.name}, {destination.country}
-            </h1>
-            <p className="text-xl text-white/90">
-              {destination.tagline}
-            </p>
-          </div>
         </div>
 
         {/* Thumbnail Strip */}
-        <div className="flex gap-4 mb-12 overflow-x-auto pb-4">
+        <div className="flex gap-4 mb-8 overflow-x-auto pb-4">
           {destination.images.map((image, index) => (
             <button
               key={index}
@@ -946,6 +936,19 @@ export function DestinationDetailsPage({
               />
             </button>
           ))}
+        </div>
+
+        {/* Title Section */}
+        <div className="mb-8">
+          <h1
+            className="text-5xl mb-2"
+            style={{ fontFamily: "Volkhov, serif" }}
+          >
+            {destination.name}, {destination.country}
+          </h1>
+          <p className="text-xl text-muted-foreground">
+            {destination.tagline}
+          </p>
         </div>
 
         {/* Main Content */}
@@ -1182,7 +1185,7 @@ export function DestinationDetailsPage({
             <Separator />
 
             {/* Venues in Destination */}
-            <div>
+            <div className="hidden">
               <div className="flex items-center justify-between mb-6">
                 <h2>Top Venues in {destination.name}</h2>
                 <Button variant="outline">
@@ -1236,6 +1239,213 @@ export function DestinationDetailsPage({
             </div>
 
             <Separator />
+
+            {/* Top Venues Section */}
+            <div>
+              <div className="mb-8">
+                <h2 className="mb-2" style={{ fontFamily: "Volkhov, serif" }}>
+                  Top Venues in {destination.name}
+                </h2>
+                <p className="text-muted-foreground">
+                  Discover our handpicked selection of stunning wedding venues
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Venue 1 */}
+                <Card className="overflow-hidden hover:shadow-xl transition-all group cursor-pointer">
+                  <div className="relative h-48 overflow-hidden">
+                    <ImageWithFallback
+                      src="https://images.unsplash.com/photo-1698616596895-71e43af05b70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYXJkZW4lMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYwMzY0MzA5fDA&ixlib=rb-4.1.0&q=80&w=1080"
+                      alt="Royal Gardens Estate"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <Badge className="absolute top-3 left-3 bg-[#F1A501] border-0">
+                      Featured
+                    </Badge>
+                    <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      4.9
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="mb-2">Royal Gardens Estate</h3>
+                    <div className="flex items-center gap-2 text-gray-600 mb-3">
+                      <MapPin className="w-4 h-4" />
+                      <span className="text-sm">Tuscany, Italy</span>
+                    </div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-sm text-gray-600">178 reviews</span>
+                      <span className="text-sm text-gray-600">
+                        <Users className="w-4 h-4 inline mr-1" />
+                        Up to 300
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-sm text-gray-600">From</div>
+                        <div className="text-xl text-[#DF6951]">£32,000</div>
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => onViewVenue && onViewVenue(3)}
+                      >
+                        View Details
+                        <ChevronRight className="w-4 h-4 ml-1" />
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Venue 2 */}
+                <Card className="overflow-hidden hover:shadow-xl transition-all group cursor-pointer">
+                  <div className="relative h-48 overflow-hidden">
+                    <ImageWithFallback
+                      src="https://images.unsplash.com/photo-1464207687429-7505649dae38?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0dXNjYW55JTIwdmlsbGF8ZW58MXx8fHwxNzYwMzY0MzEyfDA&ixlib=rb-4.1.0&q=80&w=1080"
+                      alt="Villa Medici Tuscany"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      4.8
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="mb-2">Villa Medici Tuscany</h3>
+                    <div className="flex items-center gap-2 text-gray-600 mb-3">
+                      <MapPin className="w-4 h-4" />
+                      <span className="text-sm">Florence, Italy</span>
+                    </div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-sm text-gray-600">142 reviews</span>
+                      <span className="text-sm text-gray-600">
+                        <Users className="w-4 h-4 inline mr-1" />
+                        Up to 250
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-sm text-gray-600">From</div>
+                        <div className="text-xl text-[#DF6951]">£28,500</div>
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => onViewVenue && onViewVenue(1)}
+                      >
+                        View Details
+                        <ChevronRight className="w-4 h-4 ml-1" />
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Venue 3 */}
+                <Card className="overflow-hidden hover:shadow-xl transition-all group cursor-pointer">
+                  <div className="relative h-48 overflow-hidden">
+                    <ImageWithFallback
+                      src="https://images.unsplash.com/photo-1510076857177-7470076d4098?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aW5leWFyZCUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjAzNjQzMTB8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                      alt="Chianti Vineyard Estate"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <Badge className="absolute top-3 left-3 bg-[#F1A501] border-0">
+                      Featured
+                    </Badge>
+                    <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      4.9
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="mb-2">Chianti Vineyard Estate</h3>
+                    <div className="flex items-center gap-2 text-gray-600 mb-3">
+                      <MapPin className="w-4 h-4" />
+                      <span className="text-sm">Chianti, Italy</span>
+                    </div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-sm text-gray-600">189 reviews</span>
+                      <span className="text-sm text-gray-600">
+                        <Users className="w-4 h-4 inline mr-1" />
+                        Up to 180
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-sm text-gray-600">From</div>
+                        <div className="text-xl text-[#DF6951]">£24,500</div>
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => onViewVenue && onViewVenue(5)}
+                      >
+                        View Details
+                        <ChevronRight className="w-4 h-4 ml-1" />
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Venue 4 */}
+                <Card className="overflow-hidden hover:shadow-xl transition-all group cursor-pointer">
+                  <div className="relative h-48 overflow-hidden">
+                    <ImageWithFallback
+                      src="https://images.unsplash.com/photo-1717995045676-83ad2eb2a7b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoaXN0b3JpYyUyMGNhc3RsZSUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjI0MDU3MjJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                      alt="Castello di Montalcino"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      4.7
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="mb-2">Castello di Montalcino</h3>
+                    <div className="flex items-center gap-2 text-gray-600 mb-3">
+                      <MapPin className="w-4 h-4" />
+                      <span className="text-sm">Montalcino, Italy</span>
+                    </div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-sm text-gray-600">156 reviews</span>
+                      <span className="text-sm text-gray-600">
+                        <Users className="w-4 h-4 inline mr-1" />
+                        Up to 200
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-sm text-gray-600">From</div>
+                        <div className="text-xl text-[#DF6951]">£30,000</div>
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => onViewVenue && onViewVenue(2)}
+                      >
+                        View Details
+                        <ChevronRight className="w-4 h-4 ml-1" />
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+
+              {/* View All Venues Button */}
+              <div className="text-center mt-8">
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  onClick={() => onViewVenue && onViewVenue(0)}
+                  className="px-8"
+                >
+                  View All Venues in {destination.name}
+                  <ChevronRight className="ml-2 size-5" />
+                </Button>
+              </div>
+            </div>
+
+            <Separator className="my-8" />
 
             {/* Map */}
             <div>
@@ -1674,44 +1884,6 @@ export function DestinationDetailsPage({
 
           {/* Right Column - Maps & Enquiry */}
           <div className="lg:col-span-1 space-y-6">
-            {/* Destination Gallery Card */}
-            <Card className="p-6 border-2">
-              <h3 className="mb-4 flex items-center gap-2">
-                <MapPin className="size-5 text-[#02542D]" />
-                Destination Gallery
-              </h3>
-              <div className="relative aspect-video rounded-lg overflow-hidden border border-border group">
-                <ImageWithFallback
-                  src={mapGalleryImages[currentMapIndex]}
-                  alt={`${destination.name} destination view ${currentMapIndex + 1}`}
-                  className="w-full h-full object-cover"
-                />
-                
-                {/* Navigation Arrows */}
-                <button
-                  onClick={prevMapImage}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
-                  aria-label="Previous image"
-                >
-                  <ChevronLeft className="size-5 text-[#02542D]" />
-                </button>
-                <button
-                  onClick={nextMapImage}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
-                  aria-label="Next image"
-                >
-                  <ChevronRight className="size-5 text-[#02542D]" />
-                </button>
-
-                {/* Image Counter */}
-                <div className="absolute bottom-3 right-3 px-3 py-1 rounded-full bg-black/60 text-white text-xs backdrop-blur-sm">
-                  {currentMapIndex + 1} / {mapGalleryImages.length}
-                </div>
-              </div>
-              <p className="text-xs text-muted-foreground mt-3 text-center">
-                {destination.name}, {destination.country}
-              </p>
-            </Card>
 
             {/* Wedding Concierge Enquiry Card */}
             <Card className="p-6 border-2 sticky top-24">

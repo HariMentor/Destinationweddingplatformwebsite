@@ -3,7 +3,7 @@ import image_713f8eb9bbae3295163a927a337743f7f41a5691 from "figma:asset/713f8eb9
 import image_cb798e5507ad03096d664717f1ce0c0f0124765b from "figma:asset/cb798e5507ad03096d664717f1ce0c0f0124765b.png";
 import image_351a2514681d06a45fc6e0fb4af691f66966d699 from "figma:asset/351a2514681d06a45fc6e0fb4af691f66966d699.png";
 import image_04fb72f45089eae606b139c0ba08a0bada49570f from "figma:asset/04fb72f45089eae606b139c0ba08a0bada49570f.png";
-("use client");
+"use client";
 
 import { useState, useEffect } from "react";
 import {
@@ -49,6 +49,16 @@ import {
   Scale,
   ShoppingCart,
   ArrowLeftRight,
+  Send,
+  Info,
+  Waves,
+  Theater,
+  Tent,
+  Church,
+  Mountain,
+  Flower2,
+  Castle,
+  GlassWater,
 } from "lucide-react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
@@ -57,6 +67,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import {
   Select,
   SelectContent,
@@ -116,6 +127,9 @@ const venueDetails = {
       { icon: Volume2, name: "Sound Restrictions Apply" },
       { icon: Dog, name: "Pet Friendly" },
       { icon: Wine, name: "Open Bar" },
+      { icon: Camera, name: "Photography Friendly" },
+      { icon: Car, name: "Valet Parking" },
+      { icon: Bed, name: "Guest Accommodation" },
     ],
     areas: [
       {
@@ -135,6 +149,66 @@ const venueDetails = {
         seating: 50,
         floating: 80,
         icon: Trees,
+      },
+      {
+        name: "Poolside (Outdoor)",
+        seating: 100,
+        floating: 150,
+        icon: Waves,
+      },
+      {
+        name: "Beach Front (Outdoor)",
+        seating: 200,
+        floating: 300,
+        icon: Mountain,
+      },
+      {
+        name: "Ballroom (Indoor)",
+        seating: 300,
+        floating: 400,
+        icon: Castle,
+      },
+      {
+        name: "Theatre (Indoor)",
+        seating: 150,
+        floating: 200,
+        icon: Theater,
+      },
+      {
+        name: "Garden (Outdoor)",
+        seating: 120,
+        floating: 180,
+        icon: Flower2,
+      },
+      {
+        name: "Rooftop (Outdoor)",
+        seating: 80,
+        floating: 120,
+        icon: Building2,
+      },
+      {
+        name: "Chapel (Indoor)",
+        seating: 100,
+        floating: 150,
+        icon: Church,
+      },
+      {
+        name: "Pavilion (Outdoor)",
+        seating: 150,
+        floating: 200,
+        icon: Tent,
+      },
+      {
+        name: "Courtyard (Outdoor)",
+        seating: 100,
+        floating: 150,
+        icon: Home,
+      },
+      {
+        name: "Conservatory (Indoor)",
+        seating: 80,
+        floating: 100,
+        icon: GlassWater,
       },
     ],
     localPrices: [
@@ -354,6 +428,7 @@ export function VenueDetailsPageV2({
   >([]);
   const [packageImageIndices, setPackageImageIndices] =
     useState<{ [key: number]: number }>({});
+  const [areasExpanded, setAreasExpanded] = useState(false);
   const [showAllGalleryImages, setShowAllGalleryImages] =
     useState(false);
   const [likedPackages, setLikedPackages] = useState<
@@ -369,6 +444,8 @@ export function VenueDetailsPageV2({
 
   // Enquiry form state
   const [enquiryStep, setEnquiryStep] = useState(1);
+  const [enquiryType, setEnquiryType] = useState<"concierge" | "direct">("concierge");
+  const [isConciergeInfoExpanded, setIsConciergeInfoExpanded] = useState(false);
   const [dateRange, setDateRange] = useState<{
     from: Date | undefined;
     to: Date | undefined;
@@ -532,11 +609,16 @@ export function VenueDetailsPageV2({
       return;
     }
 
-    toast.success(
-      "Enquiry submitted successfully! We'll contact you within 24 hours.",
-    );
+    const enquiryTypeMessage = enquiryType === "concierge" 
+      ? "Enquiry submitted successfully! Our wedding concierge will contact you within 24 hours." 
+      : "Enquiry sent directly to the venue! They will contact you within 24 hours.";
+
+    toast.success(enquiryTypeMessage);
+    
     // Reset form
     setEnquiryStep(1);
+    setEnquiryType("concierge");
+    setIsConciergeInfoExpanded(false);
     setDateRange({ from: undefined, to: undefined });
     setFormData({
       people: "",
@@ -573,27 +655,28 @@ export function VenueDetailsPageV2({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-rose-50/30 pt-20">
+    <div className="min-h-screen bg-gradient-to-b from-white to-rose-50/30 pt-20 overflow-x-hidden">
       {/* Back Button & Actions */}
-      <div className="container mx-auto px-4 md:px-8 py-6">
-        <div className="flex items-center justify-between mb-6">
+      <div className="container mx-auto px-4 md:px-8 py-4 md:py-6 max-w-full overflow-x-hidden">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 md:mb-6">
           <Button
             variant="outline"
             onClick={onBack}
             className="gap-2"
           >
             <ArrowLeft className="size-4" />
-            Back to Venues
+            <span className="hidden sm:inline">Back to Venues</span>
+            <span className="sm:hidden">Back</span>
           </Button>
           <div className="flex gap-2 items-center">
-            <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-md border border-gray-200">
+            <div className="flex items-center gap-2 bg-white px-2 sm:px-3 py-2 rounded-lg shadow-md border border-gray-200">
               <div className="bg-blue-500 rounded-full p-1 flex items-center justify-center">
                 <Check
                   className="size-3 text-white"
                   strokeWidth={3}
                 />
               </div>
-              <span className="text-gray-800">Verified</span>
+              <span className="text-gray-800 text-sm sm:text-base">Verified</span>
             </div>
             <Button
               variant="outline"
@@ -601,17 +684,17 @@ export function VenueDetailsPageV2({
               onClick={() => setIsFavorite(!isFavorite)}
             >
               <Heart
-                className={`size-5 ${isFavorite ? "fill-red-500 text-red-500" : ""}`}
+                className={`size-4 sm:size-5 ${isFavorite ? "fill-red-500 text-red-500" : ""}`}
               />
             </Button>
             <Button variant="outline" size="icon">
-              <Share2 className="size-5" />
+              <Share2 className="size-4 sm:size-5" />
             </Button>
           </div>
         </div>
 
         {/* Single Hero Banner */}
-        <div className="relative h-[400px] md:h-[500px] lg:h-[600px] rounded-2xl overflow-hidden mb-8 group">
+        <div className="relative h-[250px] sm:h-[350px] md:h-[500px] lg:h-[600px] rounded-xl md:rounded-2xl overflow-hidden mb-6 md:mb-8 group">
           <div
             onClick={() => openLightbox(0)}
             className="w-full h-full cursor-pointer"
@@ -626,23 +709,24 @@ export function VenueDetailsPageV2({
           {/* View All Photos Button */}
           <button
             onClick={() => openLightbox(0)}
-            className="absolute bottom-6 right-6 px-4 py-2 rounded-lg bg-white/95 hover:bg-white shadow-lg transition-all hover:scale-105 backdrop-blur-sm flex items-center gap-2"
+            className="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg bg-white/95 hover:bg-white shadow-lg transition-all hover:scale-105 backdrop-blur-sm flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base"
           >
-            <Camera className="size-5" />
+            <Camera className="size-4 sm:size-5" />
             <span className="font-medium">
-              View All {venue.images.length} Photos
+              <span className="hidden sm:inline">View All {venue.images.length} Photos</span>
+              <span className="sm:hidden">{venue.images.length} Photos</span>
             </span>
           </button>
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 overflow-x-hidden">
           {/* Left Column - Main Info */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6 min-w-0 overflow-x-hidden">
             {/* Header */}
-            <div>
+            <div className="overflow-x-hidden">
               {/* Venue Tags */}
-              <div className="flex flex-wrap gap-3 mb-4">
+              <div className="flex flex-wrap gap-2 sm:gap-3 mb-4">
                 {venue.venueTags?.map((tag, index) => (
                   <Badge
                     key={index}
@@ -655,24 +739,24 @@ export function VenueDetailsPageV2({
                 ))}
               </div>
 
-              <div className="flex items-start justify-between mb-4">
-                <div>
+              <div className="mb-4 overflow-x-hidden">
+                <div className="min-w-0">
                   <h1
-                    className="text-4xl mb-2"
+                    className="text-2xl sm:text-3xl md:text-4xl mb-2 break-words"
                     style={{ fontFamily: "Volkhov, serif" }}
                   >
                     {venue.name}
                   </h1>
-                  <div className="flex items-center gap-2 text-muted-foreground mb-3">
-                    <MapPin className="size-5" />
-                    <span>{venue.location}</span>
+                  <div className="flex items-center gap-2 text-muted-foreground mb-3 text-sm sm:text-base min-w-0">
+                    <MapPin className="size-4 sm:size-5 flex-shrink-0" />
+                    <span className="truncate">{venue.location}</span>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Star className="size-5 fill-amber-400 text-amber-400" />
+                  <div className="flex items-center gap-1 text-sm sm:text-base flex-wrap">
+                    <Star className="size-4 sm:size-5 fill-amber-400 text-amber-400 flex-shrink-0" />
                     <span className="font-medium">
                       {venue.rating}
                     </span>
-                    <span className="text-muted-foreground">
+                    <span className="text-muted-foreground whitespace-nowrap">
                       ({venue.reviews} reviews)
                     </span>
                   </div>
@@ -716,7 +800,7 @@ export function VenueDetailsPageV2({
             <Card className="overflow-hidden border-2">
               <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x">
                 {/* Destination Info */}
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="p-2 rounded-lg bg-gradient-to-br from-[#02542D]/10 to-[#DF6951]/10">
                       <MapPin className="size-5 text-[#DF6951]" />
@@ -747,17 +831,17 @@ export function VenueDetailsPageV2({
                 </div>
 
                 {/* Weather Info */}
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <div className="p-2 rounded-lg bg-gradient-to-br from-[#02542D]/10 to-[#DF6951]/10">
-                        <CloudSun className="size-5 text-[#DF6951]" />
+                        <CloudSun className="size-4 sm:size-5 text-[#DF6951]" />
                       </div>
-                      <h3>Typical Weather</h3>
+                      <h3 className="text-sm sm:text-base">Typical Weather</h3>
                     </div>
-                    <ArrowRight className="size-5 text-[#DF6951] hover:text-[#02542D] transition-colors cursor-pointer hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="size-4 sm:size-5 text-[#DF6951] hover:text-[#02542D] transition-colors cursor-pointer hover:translate-x-1 transition-transform" />
                   </div>
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-4">
                     <div className="text-center">
                       <div className="flex items-center justify-center gap-1 mb-1">
                         <Thermometer className="size-4 text-orange-500" />
@@ -800,8 +884,42 @@ export function VenueDetailsPageV2({
               venue.whyCouplesLove.length > 0 && (
                 <>
                   <div>
-                    <h2 className="mb-6">Highlights</h2>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div className="flex items-center justify-between mb-6">
+                      <h2>Highlights</h2>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="size-8"
+                          onClick={() => {
+                            const container = document.getElementById('highlights-carousel');
+                            if (container) {
+                              container.scrollBy({ left: -300, behavior: 'smooth' });
+                            }
+                          }}
+                        >
+                          <ChevronLeft className="size-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="size-8"
+                          onClick={() => {
+                            const container = document.getElementById('highlights-carousel');
+                            if (container) {
+                              container.scrollBy({ left: 300, behavior: 'smooth' });
+                            }
+                          }}
+                        >
+                          <ChevronRight className="size-4" />
+                        </Button>
+                      </div>
+                    </div>
+                    <div 
+                      id="highlights-carousel"
+                      className="flex gap-6 overflow-x-auto scroll-smooth pb-4 -mx-4 px-4 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden"
+                      style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                    >
                       {venue.whyCouplesLove.map(
                         (feature, index) => {
                           // Define color schemes for each index
@@ -819,7 +937,7 @@ export function VenueDetailsPageV2({
                           return (
                             <div
                               key={index}
-                              className="flex flex-col items-center text-center gap-3"
+                              className="flex flex-col items-center text-center gap-3 flex-shrink-0 w-[calc(50%-12px)] md:w-[calc(25%-18px)]"
                             >
                               <feature.icon
                                 className={`size-10 md:size-12 ${colors.iconColor}`}
@@ -843,26 +961,26 @@ export function VenueDetailsPageV2({
             {venue.areas && venue.areas.length > 0 && (
               <>
                 <div>
-                  <h2 className="mb-6">
+                  <h2 className="mb-4 sm:mb-6 text-lg sm:text-xl">
                     Area({venue.areas.length})
                   </h2>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    {venue.areas.map((area, index) => {
+                  <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
+                    {(areasExpanded ? venue.areas : venue.areas.slice(0, 4)).map((area, index) => {
                       const IconComponent = area.icon || Home;
 
                       return (
                         <div
                           key={index}
-                          className="flex items-start gap-4"
+                          className="flex items-start gap-3 sm:gap-4"
                         >
-                          <div className="p-3 rounded-xl bg-orange-50">
-                            <IconComponent className="size-6 text-orange-600" />
+                          <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-orange-50">
+                            <IconComponent className="size-5 sm:size-6 text-orange-600" />
                           </div>
                           <div>
-                            <h3 className="mb-1">
+                            <h3 className="mb-1 text-sm sm:text-base">
                               {area.name}
                             </h3>
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-xs sm:text-sm text-muted-foreground">
                               Seating {area.seating} | Floating{" "}
                               {area.floating}
                             </p>
@@ -871,6 +989,28 @@ export function VenueDetailsPageV2({
                       );
                     })}
                   </div>
+                  
+                  {venue.areas.length > 4 && (
+                    <div className="flex justify-center mt-4 sm:mt-6">
+                      <Button
+                        variant="outline"
+                        onClick={() => setAreasExpanded(!areasExpanded)}
+                        className="gap-2 text-sm sm:text-base"
+                      >
+                        {areasExpanded ? (
+                          <>
+                            Show Less <ChevronUp className="size-4" />
+                          </>
+                        ) : (
+                          <>
+                            <span className="hidden sm:inline">Show More ({venue.areas.length - 4} more)</span>
+                            <span className="sm:hidden">+{venue.areas.length - 4} More</span>
+                            <ChevronDown className="size-4" />
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  )}
                 </div>
 
                 <Separator />
@@ -955,20 +1095,20 @@ export function VenueDetailsPageV2({
             <Separator />
 
             {/* Packages */}
-            <div>
+            <div className="overflow-x-hidden">
               <h2 className="mb-6">
                 Exclusive Wedding Packages
               </h2>
-              <div className="space-y-6">
+              <div className="space-y-6 overflow-x-hidden">
                 {venue.packages.map((pkg, index) => (
                   <Card
                     key={index}
-                    className="overflow-hidden hover:shadow-lg transition-shadow"
+                    className="overflow-hidden hover:shadow-lg transition-shadow w-full"
                   >
-                    <div className="grid md:grid-cols-[280px,1fr] gap-6 p-6">
+                    <div className="grid md:grid-cols-[280px,1fr] gap-4 sm:gap-6 p-4 sm:p-6 min-w-0">
                       {/* Package Image Gallery */}
                       <div
-                        className="relative h-[220px] md:h-[320px] rounded-lg overflow-hidden group cursor-pointer"
+                        className="relative h-[200px] sm:h-[220px] md:h-[320px] rounded-lg overflow-hidden group cursor-pointer"
                         onClick={() => {
                           const packageImages = (pkg as any)
                             .images || [pkg.image];
@@ -1130,76 +1270,76 @@ export function VenueDetailsPageV2({
                       </div>
 
                       {/* Package Details */}
-                      <div className="flex flex-col">
-                        <div className="flex-1">
+                      <div className="flex flex-col min-w-0 overflow-hidden">
+                        <div className="flex-1 min-w-0">
                           {/* Header */}
-                          <div className="mb-6">
-                            <h3 className="mb-2">
+                          <div className="mb-4 sm:mb-6 overflow-hidden">
+                            <h3 className="mb-2 text-lg sm:text-xl break-words">
                               {pkg.tag} Wedding Package
                             </h3>
-                            <p className="text-muted-foreground text-sm">
+                            <p className="text-muted-foreground text-xs sm:text-sm break-words">
                               Complete wedding package with all
                               essential services and amenities
                             </p>
                           </div>
 
                           {/* Package Specifications */}
-                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6 pb-6 border-b">
-                            <div className="space-y-1">
+                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6 pb-4 sm:pb-6 border-b">
+                            <div className="space-y-1 min-w-0">
                               <p className="text-xs text-muted-foreground uppercase tracking-wide">
                                 Duration
                               </p>
-                              <p className="font-medium">
+                              <p className="font-medium text-sm break-words">
                                 {pkg.numberOfDays}{" "}
                                 {pkg.numberOfDays === 1
                                   ? "Day"
                                   : "Days"}
                               </p>
                             </div>
-                            <div className="space-y-1">
+                            <div className="space-y-1 min-w-0">
                               <p className="text-xs text-muted-foreground uppercase tracking-wide">
                                 Capacity
                               </p>
-                              <p className="font-medium">
+                              <p className="font-medium text-sm break-words">
                                 {pkg.totalPax} Guests
                               </p>
                             </div>
-                            <div className="space-y-1">
+                            <div className="space-y-1 min-w-0">
                               <p className="text-xs text-muted-foreground uppercase tracking-wide">
                                 Accommodation
                               </p>
-                              <p className="font-medium text-sm">
+                              <p className="font-medium text-sm break-words">
                                 {pkg.numberOfRooms}
                               </p>
                             </div>
-                            <div className="space-y-1">
+                            <div className="space-y-1 min-w-0">
                               <p className="text-xs text-muted-foreground uppercase tracking-wide">
                                 Venue Access
                               </p>
-                              <p className="font-medium text-sm">
+                              <p className="font-medium text-sm break-words">
                                 {pkg.venueAreaAccess}
                               </p>
                             </div>
                           </div>
 
                           {/* Features Section with Expand/Collapse */}
-                          <div className="mb-6">
+                          <div className="mb-4 sm:mb-6">
                             <div className="mb-3">
                               <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                                 Included Services
                               </h4>
                             </div>
-                            <div className="grid md:grid-cols-2 gap-x-6 gap-y-2 pb-6 border-b relative">
+                            <div className="grid md:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2 pb-4 sm:pb-6 border-b relative">
                               {(expandedPackages.includes(index)
                                 ? pkg.features
                                 : pkg.features.slice(0, 4)
                               ).map((feature, fIndex) => (
                                 <div
                                   key={fIndex}
-                                  className="flex items-start gap-2 text-sm py-1"
+                                  className="flex items-start gap-2 text-sm py-1 min-w-0"
                                 >
                                   <Check className="size-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-                                  <span className="leading-tight">
+                                  <span className="leading-tight break-words overflow-wrap-anywhere">
                                     {feature}
                                   </span>
                                 </div>
@@ -1251,32 +1391,32 @@ export function VenueDetailsPageV2({
                         </div>
 
                         {/* Price and CTA */}
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 mt-auto">
-                          <div>
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 pt-4 sm:pt-6 mt-auto min-w-0">
+                          <div className="min-w-0 w-full sm:w-auto">
                             <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                               Starting from
                             </p>
                             <p
-                              className="text-3xl"
+                              className="text-2xl sm:text-3xl break-words"
                               style={{
                                 fontFamily: "Volkhov, serif",
                               }}
                             >
                               {formatPrice(pkg.price)}
                             </p>
-                            <p className="text-xs text-muted-foreground mt-1">
+                            <p className="text-xs text-muted-foreground mt-1 break-words">
                               Price varies by season and
                               customization
                             </p>
                           </div>
                           <Button
-                            className="bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80 gap-2 whitespace-nowrap"
+                            className="bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80 gap-2 w-full sm:w-auto text-sm sm:text-base flex-shrink-0"
                             onClick={() =>
                               setSelectedPackage(pkg.name)
                             }
                           >
-                            Check Availability
-                            <ArrowRight className="size-4" />
+                            <span className="truncate">Check Availability</span>
+                            <ArrowRight className="size-4 flex-shrink-0" />
                           </Button>
                         </div>
                       </div>
@@ -1288,27 +1428,21 @@ export function VenueDetailsPageV2({
 
             {/* Mobile Enquiry Form - Shows only on mobile after packages */}
             <div className="lg:hidden">
-              <Card className="p-6 border-2">
-                <div className="mb-6">
-                  <div className="text-center space-y-2">
-                    <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10 mb-2 w-full">
-                      <Sparkles className="size-4 text-[#DF6951]" />
-                      <span className="text-sm font-medium text-[#02542D]">
-                        Wedding Concierge
-                      </span>
-                    </div>
-                    <h3 className="bg-gradient-to-r from-[#02542D] to-[#DF6951] bg-clip-text text-transparent">
-                      Plan Your Dream Wedding
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      Tell us about your vision and we'll make
-                      it happen
-                    </p>
-                  </div>
-                </div>
-                <Tabs defaultValue="enquiry" className="w-full">
+              <Card className="p-4 sm:p-6 border-2">
+                <Tabs value={enquiryType} onValueChange={(value) => setEnquiryType(value as "concierge" | "direct")} className="w-full">
+                  <TabsList className="grid w-full grid-cols-2 mb-6">
+                    <TabsTrigger value="concierge" className="flex items-center gap-2">
+                      <Sparkles className="size-4" />
+                      Concierge
+                    </TabsTrigger>
+                    <TabsTrigger value="direct" className="flex items-center gap-2">
+                      <Send className="size-4" />
+                      Venue
+                    </TabsTrigger>
+                  </TabsList>
+
                   <TabsContent
-                    value="enquiry"
+                    value="concierge"
                     className="space-y-4"
                   >
                     {enquiryStep === 1 ? (
@@ -1500,6 +1634,65 @@ export function VenueDetailsPageV2({
                           Next Step
                           <ArrowRight className="ml-2 size-4" />
                         </Button>
+
+                        {/* Concierge Info - Expandable */}
+                        <div className="space-y-2 mt-6">
+                              <button
+                                type="button"
+                                onClick={() => setIsConciergeInfoExpanded(!isConciergeInfoExpanded)}
+                                className="w-full flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-[#02542D]/5 to-[#DF6951]/5 border border-[#02542D]/20 hover:border-[#02542D]/40 transition-all"
+                              >
+                                <div className="flex items-center gap-2">
+                                  <Info className="size-4 text-[#DF6951]" />
+                                  <span className="text-sm font-medium text-[#02542D]">
+                                    What is Concierge Service?
+                                  </span>
+                                </div>
+                                {isConciergeInfoExpanded ? (
+                                  <ChevronUp className="size-4 text-[#02542D]" />
+                                ) : (
+                                  <ChevronDown className="size-4 text-[#02542D]" />
+                                )}
+                              </button>
+
+                              {isConciergeInfoExpanded && (
+                                <div className="p-4 rounded-lg bg-white border border-gray-200 space-y-3 animate-in slide-in-from-top-2">
+                                  <p className="text-sm text-muted-foreground">
+                                    Our wedding concierge team acts as your personal wedding planning assistant, coordinating with the venue and all vendors to ensure your dream wedding comes to life.
+                                  </p>
+                                  <div className="space-y-2">
+                                    <div className="flex items-start gap-2">
+                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                      <div>
+                                        <p className="text-sm font-medium">Expert Guidance</p>
+                                        <p className="text-xs text-muted-foreground">Professional advice on venue selection, packages, and planning</p>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                      <div>
+                                        <p className="text-sm font-medium">Price Negotiation</p>
+                                        <p className="text-xs text-muted-foreground">We negotiate the best rates and packages on your behalf</p>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                      <div>
+                                        <p className="text-sm font-medium">End-to-End Planning</p>
+                                        <p className="text-xs text-muted-foreground">Complete support from enquiry to your special day</p>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                      <div>
+                                        <p className="text-sm font-medium">Single Point of Contact</p>
+                                        <p className="text-xs text-muted-foreground">Coordinated communication with all vendors and venue</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                        </div>
                       </>
                     ) : (
                       <>
@@ -1681,6 +1874,399 @@ export function VenueDetailsPageV2({
                       </>
                     )}
                   </TabsContent>
+
+                  <TabsContent
+                    value="direct"
+                    className="space-y-4"
+                  >
+                    {enquiryStep === 1 ? (
+                      <>\n                        {/* Step 1: Event Details */}
+                        <div>
+                          <Label htmlFor="dates-mobile-direct">
+                            Dates{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
+                          </Label>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                className="w-full justify-start text-left mt-1 h-10"
+                              >
+                                <Calendar className="mr-2 size-4" />
+                                {dateRange.from ? (
+                                  dateRange.to ? (
+                                    <>
+                                      {format(
+                                        dateRange.from,
+                                        "LLL dd, y",
+                                      )}{" "}
+                                      ~{" "}
+                                      {format(
+                                        dateRange.to,
+                                        "LLL dd, y",
+                                      )}
+                                    </>
+                                  ) : (
+                                    format(
+                                      dateRange.from,
+                                      "LLL dd, y",
+                                    )
+                                  )
+                                ) : (
+                                  <span className="text-muted-foreground">
+                                    Pick a date range
+                                  </span>
+                                )}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                            >
+                              <CalendarComponent
+                                mode="range"
+                                selected={{
+                                  from: dateRange.from,
+                                  to: dateRange.to,
+                                }}
+                                onSelect={(range) => {
+                                  setDateRange({
+                                    from: range?.from,
+                                    to: range?.to,
+                                  });
+                                }}
+                                initialFocus
+                                numberOfMonths={2}
+                                disabled={(date) =>
+                                  date <
+                                  new Date(
+                                    new Date().setHours(
+                                      0,
+                                      0,
+                                      0,
+                                      0,
+                                    ),
+                                  )
+                                }
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </div>
+
+                        <div>
+                          <Label htmlFor="people-mobile-direct">
+                            People{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
+                          </Label>
+                          <Input
+                            id="people-mobile-direct"
+                            type="number"
+                            placeholder="Number of guests"
+                            value={formData.people}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                people: e.target.value,
+                              })
+                            }
+                            className="mt-1"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="message-mobile-direct">
+                            Message{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
+                          </Label>
+                          <Textarea
+                            id="message-mobile-direct"
+                            placeholder="Tell us about your dream wedding..."
+                            value={formData.message}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                message: e.target.value,
+                              })
+                            }
+                            className="mt-1 min-h-[100px]"
+                          />
+                        </div>
+
+                        <div>
+                          <Button
+                            className="w-full bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
+                            onClick={handleStepOneNext}
+                          >
+                            Continue
+                            <ArrowRight className="ml-2 size-4" />
+                          </Button>
+                        </div>
+
+                        {/* Concierge Info - Expandable */}
+                        <div className="space-y-2 mt-6">
+                              <button
+                                type="button"
+                                onClick={() => setIsConciergeInfoExpanded(!isConciergeInfoExpanded)}
+                                className="w-full flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-[#02542D]/5 to-[#DF6951]/5 border border-[#02542D]/20 hover:border-[#02542D]/40 transition-all"
+                              >
+                                <div className="flex items-center gap-2">
+                                  <Info className="size-4 text-[#DF6951]" />
+                                  <span className="text-sm font-medium text-[#02542D]">
+                                    What is Concierge Service?
+                                  </span>
+                                </div>
+                                {isConciergeInfoExpanded ? (
+                                  <ChevronUp className="size-4 text-[#02542D]" />
+                                ) : (
+                                  <ChevronDown className="size-4 text-[#02542D]" />
+                                )}
+                              </button>
+
+                              {isConciergeInfoExpanded && (
+                                <div className="p-4 rounded-lg bg-white border border-gray-200 space-y-3 animate-in slide-in-from-top-2">
+                                  <p className="text-sm text-muted-foreground">
+                                    Our wedding concierge team acts as your personal wedding planning assistant, coordinating with the venue and all vendors to ensure your dream wedding comes to life.
+                                  </p>
+                                  <div className="space-y-2">
+                                    <div className="flex items-start gap-2">
+                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                      <div>
+                                        <p className="text-sm font-medium">Expert Guidance</p>
+                                        <p className="text-xs text-muted-foreground">Professional advice on venue selection, packages, and planning</p>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                      <div>
+                                        <p className="text-sm font-medium">Price Negotiation</p>
+                                        <p className="text-xs text-muted-foreground">We negotiate the best rates and packages on your behalf</p>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                      <div>
+                                        <p className="text-sm font-medium">End-to-End Planning</p>
+                                        <p className="text-xs text-muted-foreground">Complete support from enquiry to your special day</p>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-start gap-2">
+                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                      <div>
+                                        <p className="text-sm font-medium">Single Point of Contact</p>
+                                        <p className="text-xs text-muted-foreground">Coordinated communication with all vendors and venue</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        {/* Step 2: Contact Details */}
+                        <div>
+                          <Label htmlFor="message-mobile-direct">
+                            Message to the venue{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
+                          </Label>
+                          <Textarea
+                            id="message-mobile-direct"
+                            placeholder="Type here..."
+                            value={formData.message}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                message: e.target.value,
+                              })
+                            }
+                            rows={3}
+                            className="mt-1"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="budget-mobile-direct">
+                            Budget{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
+                          </Label>
+                          <Input
+                            id="budget-mobile-direct"
+                            type="number"
+                            placeholder="0"
+                            value={formData.budget}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                budget: e.target.value,
+                              })
+                            }
+                            className="mt-1"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="name-mobile-direct">
+                            Name{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
+                          </Label>
+                          <Input
+                            id="name-mobile-direct"
+                            placeholder="Enter your Name"
+                            value={formData.name}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                name: e.target.value,
+                              })
+                            }
+                            className="mt-1"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="email-mobile-direct">
+                            Email{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
+                          </Label>
+                          <Input
+                            id="email-mobile-direct"
+                            type="email"
+                            placeholder="your@email.com"
+                            value={formData.email}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                email: e.target.value,
+                              })
+                            }
+                            className="mt-1"
+                          />
+                        </div>
+
+                        <div>
+                          <Label htmlFor="phone-mobile-direct">
+                            Phone{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
+                          </Label>
+                          <div className="flex gap-2 mt-1">
+                            <Input
+                              id="phone-mobile-direct"
+                              type="tel"
+                              placeholder="+1 (555) 000-0000"
+                              value={formData.phone}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  phone: e.target.value,
+                                })
+                              }
+                              className="flex-1"
+                              disabled={otpVerified}
+                            />
+                            {!otpSent ? (
+                              <Button
+                                onClick={handleSendOTP}
+                                variant="outline"
+                                className="whitespace-nowrap"
+                              >
+                                Send OTP
+                              </Button>
+                            ) : !otpVerified ? (
+                              <Button
+                                onClick={handleSendOTP}
+                                variant="outline"
+                                className="whitespace-nowrap"
+                              >
+                                Resend
+                              </Button>
+                            ) : (
+                              <Button
+                                variant="outline"
+                                className="whitespace-nowrap gap-1 text-green-600 border-green-600"
+                                disabled
+                              >
+                                <Check className="size-4" />
+                                Verified
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+
+                        {otpSent && !otpVerified && (
+                          <div>
+                            <Label htmlFor="otp-mobile-direct">
+                              Enter OTP{" "}
+                              <span className="text-red-500">
+                                *
+                              </span>
+                            </Label>
+                            <div className="flex gap-2 mt-1">
+                              <Input
+                                id="otp-mobile-direct"
+                                type="text"
+                                placeholder="Enter 6-digit OTP"
+                                value={formData.otp}
+                                onChange={(e) =>
+                                  setFormData({
+                                    ...formData,
+                                    otp: e.target.value,
+                                  })
+                                }
+                                maxLength={6}
+                                className="flex-1"
+                              />
+                              <Button
+                                onClick={handleVerifyOTP}
+                                className="bg-[#02542D] hover:bg-[#02542D]/90"
+                              >
+                                <Shield className="mr-1 size-4" />
+                                Verify
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="flex gap-2">
+                          <Button
+                            variant="outline"
+                            className="flex-1"
+                            onClick={() => setEnquiryStep(1)}
+                          >
+                            <ChevronLeft className="mr-1 size-4" />
+                            Back
+                          </Button>
+                          <Button
+                            className="flex-1 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
+                            onClick={handleEnquirySubmit}
+                            disabled={!otpVerified}
+                          >
+                            <Mail className="mr-2 size-5" />
+                            Submit Enquiry
+                          </Button>
+                        </div>
+
+                        <p className="text-xs text-center text-muted-foreground">
+                          We'll respond within 24 hours
+                        </p>
+                      </>
+                    )}
+                  </TabsContent>
                 </Tabs>
               </Card>
             </div>
@@ -1755,8 +2341,8 @@ export function VenueDetailsPageV2({
 
             {/* Amenities */}
             <div>
-              <h2 className="mb-6">Amenities & Services</h2>
-              <div className="grid md:grid-cols-2 gap-4">
+              <h2 className="mb-4 sm:mb-6 text-lg sm:text-xl">Amenities & Services</h2>
+              <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
                 {venue.amenities.map((amenity, index) => {
                   // Cycle through different color schemes for amenities
                   const colorSchemes = [
@@ -2317,32 +2903,20 @@ export function VenueDetailsPageV2({
           {/* Right Column - Booking Form */}
           <div className="hidden lg:block lg:col-span-1">
             <Card className="p-6 sticky top-24 border-2">
-              <div className="mb-6">
-                <div className="text-center space-y-2">
-                  <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10 mb-2 w-full">
-                    <Sparkles className="size-4 text-[#DF6951]" />
-                    <span className="text-sm font-medium text-[#02542D]">
-                      Wedding Concierge
-                    </span>
-                  </div>
-                  <h3 className="bg-gradient-to-r from-[#02542D] to-[#DF6951] bg-clip-text text-transparent">
-                    Plan Your Dream Wedding
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    Tell us about your vision and we'll make it
-                    happen
-                  </p>
-                </div>
-              </div>
-              <Tabs defaultValue="enquiry" className="w-full">
-                {/* <TabsList className="grid w-full grid-cols-1 mb-6">
-                  <TabsTrigger value="enquiry">
-                    Send Enquiry
+              <Tabs value={enquiryType} onValueChange={(value) => setEnquiryType(value as "concierge" | "direct")} className="w-full">
+                <TabsList className="grid w-full grid-cols-2 mb-6">
+                  <TabsTrigger value="concierge" className="flex items-center gap-2">
+                    <Sparkles className="size-4" />
+                    Concierge
                   </TabsTrigger>
-                </TabsList> */}
+                  <TabsTrigger value="direct" className="flex items-center gap-2">
+                    <Send className="size-4" />
+                    Venue
+                  </TabsTrigger>
+                </TabsList>
 
                 <TabsContent
-                  value="enquiry"
+                  value="concierge"
                   className="space-y-4"
                 >
                   {enquiryStep === 1 ? (
@@ -2547,6 +3121,65 @@ export function VenueDetailsPageV2({
                         Next Step
                         <ArrowRight className="ml-2 size-4" />
                       </Button>
+
+                      {/* Concierge Info - Expandable */}
+                      <div className="space-y-2 mt-6">
+                            <button
+                              type="button"
+                              onClick={() => setIsConciergeInfoExpanded(!isConciergeInfoExpanded)}
+                              className="w-full flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-[#02542D]/5 to-[#DF6951]/5 border border-[#02542D]/20 hover:border-[#02542D]/40 transition-all"
+                            >
+                              <div className="flex items-center gap-2">
+                                <Info className="size-4 text-[#DF6951]" />
+                                <span className="text-sm font-medium text-[#02542D]">
+                                  What is Concierge Service?
+                                </span>
+                              </div>
+                              {isConciergeInfoExpanded ? (
+                                <ChevronUp className="size-4 text-[#02542D]" />
+                              ) : (
+                                <ChevronDown className="size-4 text-[#02542D]" />
+                              )}
+                            </button>
+
+                            {isConciergeInfoExpanded && (
+                              <div className="p-4 rounded-lg bg-white border border-gray-200 space-y-3 animate-in slide-in-from-top-2">
+                                <p className="text-sm text-muted-foreground">
+                                  Our wedding concierge team acts as your personal wedding planning assistant, coordinating with the venue and all vendors to ensure your dream wedding comes to life.
+                                </p>
+                                <div className="space-y-2">
+                                  <div className="flex items-start gap-2">
+                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                    <div>
+                                      <p className="text-sm font-medium">Expert Guidance</p>
+                                      <p className="text-xs text-muted-foreground">Professional advice on venue selection, packages, and planning</p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                    <div>
+                                      <p className="text-sm font-medium">Price Negotiation</p>
+                                      <p className="text-xs text-muted-foreground">We negotiate the best rates and packages on your behalf</p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                    <div>
+                                      <p className="text-sm font-medium">End-to-End Planning</p>
+                                      <p className="text-xs text-muted-foreground">Complete support from enquiry to your special day</p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                    <div>
+                                      <p className="text-sm font-medium">Single Point of Contact</p>
+                                      <p className="text-xs text-muted-foreground">Coordinated communication with all vendors and venue</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                      </div>
                     </>
                   ) : (
                     <>
@@ -2700,6 +3333,473 @@ export function VenueDetailsPageV2({
                           <div className="flex gap-2 mt-1">
                             <Input
                               id="otp"
+                              type="text"
+                              placeholder="Enter 6-digit OTP"
+                              value={formData.otp}
+                              onChange={(e) =>
+                                setFormData({
+                                  ...formData,
+                                  otp: e.target.value,
+                                })
+                              }
+                              maxLength={6}
+                              className="flex-1"
+                            />
+                            <Button
+                              onClick={handleVerifyOTP}
+                              className="bg-[#02542D] hover:bg-[#02542D]/90"
+                            >
+                              <Shield className="mr-1 size-4" />
+                              Verify
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          className="flex-1"
+                          onClick={() => setEnquiryStep(1)}
+                        >
+                          <ChevronLeft className="mr-1 size-4" />
+                          Back
+                        </Button>
+                        <Button
+                          className="flex-1 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
+                          onClick={handleEnquirySubmit}
+                          disabled={!otpVerified}
+                        >
+                          <Mail className="mr-2 size-5" />
+                          Submit Enquiry
+                        </Button>
+                      </div>
+
+                      <p className="text-xs text-center text-muted-foreground">
+                        We'll respond within 24 hours
+                      </p>
+                    </>
+                  )}
+                </TabsContent>
+
+                <TabsContent
+                  value="direct"
+                  className="space-y-4"
+                >
+                  {enquiryStep === 1 ? (
+                    <>
+                      {/* Step 1: Event Details */}
+                      <div>
+                        <Label htmlFor="dates">
+                          Dates{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
+                        </Label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="outline"
+                              className="w-full justify-start text-left mt-1 h-10"
+                            >
+                              <Calendar className="mr-2 size-4" />
+                              {dateRange.from ? (
+                                dateRange.to ? (
+                                  <>
+                                    {format(
+                                      dateRange.from,
+                                      "LLL dd, y",
+                                    )}{" "}
+                                    ~{" "}
+                                    {format(
+                                      dateRange.to,
+                                      "LLL dd, y",
+                                    )}
+                                  </>
+                                ) : (
+                                  format(
+                                    dateRange.from,
+                                    "LLL dd, y",
+                                  )
+                                )
+                              ) : (
+                                <span className="text-muted-foreground">
+                                  Pick a date range
+                                </span>
+                              )}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent
+                            className="w-auto p-0"
+                            align="start"
+                          >
+                            <CalendarComponent
+                              mode="range"
+                              selected={{
+                                from: dateRange.from,
+                                to: dateRange.to,
+                              }}
+                              onSelect={(range) => {
+                                setDateRange({
+                                  from: range?.from,
+                                  to: range?.to,
+                                });
+                              }}
+                              initialFocus
+                              numberOfMonths={2}
+                              disabled={(date) =>
+                                date <
+                                new Date(
+                                  new Date().setHours(
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                  ),
+                                )
+                              }
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+
+                      <div>
+                        <Label htmlFor="people">
+                          People{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
+                        </Label>
+                        <Input
+                          id="people"
+                          type="number"
+                          placeholder="Enter number of people"
+                          value={formData.people}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              people: e.target.value,
+                            })
+                          }
+                          className="mt-1"
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="selectPackage-direct">
+                          Select Package{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
+                        </Label>
+                        <Select
+                          value={formData.selectPackage}
+                          onValueChange={(value) =>
+                            setFormData({
+                              ...formData,
+                              selectPackage: value,
+                            })
+                          }
+                        >
+                          <SelectTrigger className="mt-1">
+                            <SelectValue placeholder="Select Package" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {venue.packages.map((pkg) => (
+                              <SelectItem
+                                key={pkg.name}
+                                value={pkg.name}
+                              >
+                                {pkg.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div>
+                        <Label htmlFor="eventType-direct">
+                          Event Type{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
+                        </Label>
+                        <Select
+                          value={formData.eventType}
+                          onValueChange={(value) =>
+                            setFormData({
+                              ...formData,
+                              eventType: value,
+                            })
+                          }
+                        >
+                          <SelectTrigger className="mt-1">
+                            <SelectValue placeholder="Select Event Type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="wedding">
+                              Wedding
+                            </SelectItem>
+                            <SelectItem value="pre-wedding">
+                              Pre-Wedding
+                            </SelectItem>
+                            <SelectItem value="engagement">
+                              Engagement
+                            </SelectItem>
+                            <SelectItem value="reception">
+                              Reception
+                            </SelectItem>
+                            <SelectItem value="sangeet">
+                              Sangeet
+                            </SelectItem>
+                            <SelectItem value="mehendi">
+                              Mehendi
+                            </SelectItem>
+                            <SelectItem value="other">
+                              Other
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="flexibleDates-direct"
+                          checked={formData.flexibleDates}
+                          onCheckedChange={(checked) =>
+                            setFormData({
+                              ...formData,
+                              flexibleDates: checked as boolean,
+                            })
+                          }
+                        />
+                        <Label
+                          htmlFor="flexibleDates-direct"
+                          className="text-sm cursor-pointer"
+                        >
+                          I have flexible dates
+                        </Label>
+                      </div>
+
+                      <Button
+                        className="w-full bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
+                        onClick={handleStepOneNext}
+                      >
+                        Next Step
+                        <ArrowRight className="ml-2 size-4" />
+                      </Button>
+
+                      {/* Concierge Info - Expandable */}
+                      <div className="space-y-2 mt-6">
+                            <button
+                              type="button"
+                              onClick={() => setIsConciergeInfoExpanded(!isConciergeInfoExpanded)}
+                              className="w-full flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-[#02542D]/5 to-[#DF6951]/5 border border-[#02542D]/20 hover:border-[#02542D]/40 transition-all"
+                            >
+                              <div className="flex items-center gap-2">
+                                <Info className="size-4 text-[#DF6951]" />
+                                <span className="text-sm font-medium text-[#02542D]">
+                                  What is Concierge Service?
+                                </span>
+                              </div>
+                              {isConciergeInfoExpanded ? (
+                                <ChevronUp className="size-4 text-[#02542D]" />
+                              ) : (
+                                <ChevronDown className="size-4 text-[#02542D]" />
+                              )}
+                            </button>
+
+                            {isConciergeInfoExpanded && (
+                              <div className="p-4 rounded-lg bg-white border border-gray-200 space-y-3 animate-in slide-in-from-top-2">
+                                <p className="text-sm text-muted-foreground">
+                                  Our wedding concierge team acts as your personal wedding planning assistant, coordinating with the venue and all vendors to ensure your dream wedding comes to life.
+                                </p>
+                                <div className="space-y-2">
+                                  <div className="flex items-start gap-2">
+                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                    <div>
+                                      <p className="text-sm font-medium">Expert Guidance</p>
+                                      <p className="text-xs text-muted-foreground">Professional advice on venue selection, packages, and planning</p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                    <div>
+                                      <p className="text-sm font-medium">Price Negotiation</p>
+                                      <p className="text-xs text-muted-foreground">We negotiate the best rates and packages on your behalf</p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                    <div>
+                                      <p className="text-sm font-medium">End-to-End Planning</p>
+                                      <p className="text-xs text-muted-foreground">Complete support from enquiry to your special day</p>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-start gap-2">
+                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                    <div>
+                                      <p className="text-sm font-medium">Single Point of Contact</p>
+                                      <p className="text-xs text-muted-foreground">Coordinated communication with all vendors and venue</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* Step 2: Contact Details */}
+                      <div>
+                        <Label htmlFor="message-direct">
+                          Message to the venue{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
+                        </Label>
+                        <Textarea
+                          id="message-direct"
+                          placeholder="Type here..."
+                          value={formData.message}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              message: e.target.value,
+                            })
+                          }
+                          rows={3}
+                          className="mt-1"
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="budget-direct">
+                          Budget{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
+                        </Label>
+                        <Input
+                          id="budget-direct"
+                          type="number"
+                          placeholder="0"
+                          value={formData.budget}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              budget: e.target.value,
+                            })
+                          }
+                          className="mt-1"
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="name-direct">
+                          Name{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
+                        </Label>
+                        <Input
+                          id="name-direct"
+                          placeholder="Enter your Name"
+                          value={formData.name}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              name: e.target.value,
+                            })
+                          }
+                          className="mt-1"
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="email-direct">
+                          Email{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
+                        </Label>
+                        <Input
+                          id="email-direct"
+                          type="email"
+                          placeholder="your@email.com"
+                          value={formData.email}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              email: e.target.value,
+                            })
+                          }
+                          className="mt-1"
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="phone">
+                          Phone{" "}
+                          <span className="text-red-500">
+                            *
+                          </span>
+                        </Label>
+                        <div className="flex gap-2 mt-1">
+                          <Input
+                            id="phone"
+                            type="tel"
+                            placeholder="+1 (555) 000-0000"
+                            value={formData.phone}
+                            onChange={(e) =>
+                              setFormData({
+                                ...formData,
+                                phone: e.target.value,
+                              })
+                            }
+                            className="flex-1"
+                            disabled={otpVerified}
+                          />
+                          {!otpSent ? (
+                            <Button
+                              onClick={handleSendOTP}
+                              variant="outline"
+                              className="whitespace-nowrap"
+                            >
+                              Send OTP
+                            </Button>
+                          ) : !otpVerified ? (
+                            <Button
+                              onClick={handleSendOTP}
+                              variant="outline"
+                              className="whitespace-nowrap"
+                            >
+                              Resend
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="outline"
+                              className="whitespace-nowrap gap-1 text-green-600 border-green-600"
+                              disabled
+                            >
+                              <Check className="size-4" />
+                              Verified
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+
+                      {otpSent && !otpVerified && (
+                        <div>
+                          <Label htmlFor="otp-direct">
+                            Enter OTP{" "}
+                            <span className="text-red-500">
+                              *
+                            </span>
+                          </Label>
+                          <div className="flex gap-2 mt-1">
+                            <Input
+                              id="otp-direct"
                               type="text"
                               placeholder="Enter 6-digit OTP"
                               value={formData.otp}
