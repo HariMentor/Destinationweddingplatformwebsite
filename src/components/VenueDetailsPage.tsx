@@ -1,9 +1,10 @@
+"use client";
+
 import image_00d4a9ab046ee595171f253db694410941523eba from 'figma:asset/00d4a9ab046ee595171f253db694410941523eba.png';
 import image_713f8eb9bbae3295163a927a337743f7f41a5691 from 'figma:asset/713f8eb9bbae3295163a927a337743f7f41a5691.png';
 import image_cb798e5507ad03096d664717f1ce0c0f0124765b from 'figma:asset/cb798e5507ad03096d664717f1ce0c0f0124765b.png';
 import image_351a2514681d06a45fc6e0fb4af691f66966d699 from 'figma:asset/351a2514681d06a45fc6e0fb4af691f66966d699.png';
 import image_04fb72f45089eae606b139c0ba08a0bada49570f from 'figma:asset/04fb72f45089eae606b139c0ba08a0bada49570f.png';
-"use client";
 
 import { useState } from "react";
 import {
