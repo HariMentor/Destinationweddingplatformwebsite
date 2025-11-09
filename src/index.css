@@ -1732,10 +1732,6 @@
     max-width: calc(100vw - 2rem);
   }
 
-  .max-w-full {
-    max-width: 100%;
-  }
-
   .max-w-lg {
     max-width: var(--container-lg);
   }

@@ -659,7 +659,7 @@ export function VenueDetailsPageV2({
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-rose-50/30 pt-20 overflow-x-hidden">
       {/* Back Button & Actions */}
-      <div className="container mx-auto px-4 md:px-8 py-4 md:py-6 max-w-full overflow-x-hidden">
+      <div className="container mx-auto px-4 md:px-8 py-4 md:py-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 md:mb-6">
           <Button
             variant="outline"
