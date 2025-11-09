@@ -657,20 +657,20 @@ export function VenueDetailsPageV2({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-rose-50/30 pt-20 overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-white to-rose-50/30 pt-20 pb-20 md:pb-0">
       {/* Back Button & Actions */}
       <div className="container mx-auto px-4 md:px-8 py-4 md:py-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 md:mb-6">
           <Button
             variant="outline"
             onClick={onBack}
-            className="gap-2"
+            className="gap-2 w-full sm:w-auto"
           >
             <ArrowLeft className="size-4" />
             <span className="hidden sm:inline">Back to Venues</span>
             <span className="sm:hidden">Back</span>
           </Button>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center w-full sm:w-auto justify-end">
             <div className="flex items-center gap-2 bg-white px-2 sm:px-3 py-2 rounded-lg shadow-md border border-gray-200">
               <div className="bg-blue-500 rounded-full p-1 flex items-center justify-center">
                 <Check
@@ -684,12 +684,13 @@ export function VenueDetailsPageV2({
               variant="outline"
               size="icon"
               onClick={() => setIsFavorite(!isFavorite)}
+              className="flex-shrink-0"
             >
               <Heart
                 className={`size-4 sm:size-5 ${isFavorite ? "fill-red-500 text-red-500" : ""}`}
               />
             </Button>
-            <Button variant="outline" size="icon">
+            <Button variant="outline" size="icon" className="flex-shrink-0">
               <Share2 className="size-4 sm:size-5" />
             </Button>
           </div>
@@ -1432,14 +1433,20 @@ export function VenueDetailsPageV2({
             <div className="lg:hidden">
               <Card className="p-4 sm:p-6 border-2">
                 <Tabs value={enquiryType} onValueChange={(value) => setEnquiryType(value as "concierge" | "direct")} className="w-full">
-                  <TabsList className="grid w-full grid-cols-2 mb-6">
-                    <TabsTrigger value="concierge" className="flex items-center gap-2">
+                  <TabsList className="grid w-full grid-cols-2 mb-6 bg-transparent gap-2 sm:gap-3 p-0">
+                    <TabsTrigger 
+                      value="concierge" 
+                      className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10 data-[state=active]:from-[#02542D] data-[state=active]:to-[#DF6951] data-[state=active]:text-white transition-all duration-200 border-0"
+                    >
                       <Sparkles className="size-4" />
-                      Concierge
+                      <span className="text-sm sm:text-base">Concierge</span>
                     </TabsTrigger>
-                    <TabsTrigger value="direct" className="flex items-center gap-2">
+                    <TabsTrigger 
+                      value="direct" 
+                      className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10 data-[state=active]:from-[#02542D] data-[state=active]:to-[#DF6951] data-[state=active]:text-white transition-all duration-200 border-0"
+                    >
                       <Send className="size-4" />
-                      Venue
+                      <span className="text-sm sm:text-base">Venue</span>
                     </TabsTrigger>
                   </TabsList>
 
@@ -1940,7 +1947,7 @@ export function VenueDetailsPageV2({
                                   });
                                 }}
                                 initialFocus
-                                numberOfMonths={2}
+                                numberOfMonths={window.innerWidth >= 768 ? 2 : 1}
                                 disabled={(date) =>
                                   date <
                                   new Date(
@@ -2906,12 +2913,18 @@ export function VenueDetailsPageV2({
           <div className="hidden lg:block lg:col-span-1">
             <Card className="p-6 sticky top-24 z-10 border-2 self-start">
               <Tabs value={enquiryType} onValueChange={(value) => setEnquiryType(value as "concierge" | "direct")} className="w-full">
-                <TabsList className="grid w-full grid-cols-2 mb-6">
-                  <TabsTrigger value="concierge" className="flex items-center gap-2">
+                <TabsList className="grid w-full grid-cols-2 mb-6 bg-transparent gap-3 p-0">
+                  <TabsTrigger 
+                    value="concierge" 
+                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10 data-[state=active]:from-[#02542D] data-[state=active]:to-[#DF6951] data-[state=active]:text-white transition-all duration-200 border-0"
+                  >
                     <Sparkles className="size-4" />
                     Concierge
                   </TabsTrigger>
-                  <TabsTrigger value="direct" className="flex items-center gap-2">
+                  <TabsTrigger 
+                    value="direct" 
+                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10 data-[state=active]:from-[#02542D] data-[state=active]:to-[#DF6951] data-[state=active]:text-white transition-all duration-200 border-0"
+                  >
                     <Send className="size-4" />
                     Venue
                   </TabsTrigger>
@@ -4003,24 +4016,24 @@ export function VenueDetailsPageV2({
 
       {/* Floating Compare Cart Button */}
       {comparePackages.length > 0 && (
-        <div className="fixed bottom-6 right-6 z-50">
+        <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50">
           {onCompareClick ? (
             <Button
               size="lg"
               onClick={onCompareClick}
-              className="bg-gradient-to-r from-[#02542D] to-[#DF6951] hover:from-[#02542D]/90 hover:to-[#DF6951]/90 shadow-2xl gap-3 text-white pr-6"
+              className="bg-gradient-to-r from-[#02542D] to-[#DF6951] hover:from-[#02542D]/90 hover:to-[#DF6951]/90 shadow-2xl gap-2 md:gap-3 text-white pr-4 md:pr-6 py-3 md:py-4"
             >
               <div className="relative">
-                <ArrowLeftRight className="size-6" />
-                <Badge className="absolute -top-2 -right-2 size-5 p-0 flex items-center justify-center bg-white text-[#02542D] hover:bg-white border-2 border-[#02542D]">
+                <ArrowLeftRight className="size-5 md:size-6" />
+                <Badge className="absolute -top-2 -right-2 size-5 p-0 flex items-center justify-center bg-white text-[#02542D] hover:bg-white border-2 border-[#02542D] text-xs">
                   {comparePackages.length}
                 </Badge>
               </div>
               <div className="flex flex-col items-start">
-                <span className="text-sm font-medium">
+                <span className="text-xs md:text-sm font-medium">
                   Compare Packages
                 </span>
-                <span className="text-xs opacity-90">
+                <span className="text-[10px] md:text-xs opacity-90">
                   {comparePackages.length}{" "}
                   {comparePackages.length === 1
                     ? "package"
@@ -4033,19 +4046,19 @@ export function VenueDetailsPageV2({
             <a href="/packages/compare">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-[#02542D] to-[#DF6951] hover:from-[#02542D]/90 hover:to-[#DF6951]/90 shadow-2xl gap-3 text-white pr-6"
+                className="bg-gradient-to-r from-[#02542D] to-[#DF6951] hover:from-[#02542D]/90 hover:to-[#DF6951]/90 shadow-2xl gap-2 md:gap-3 text-white pr-4 md:pr-6 py-3 md:py-4"
               >
                 <div className="relative">
-                  <ShoppingCart className="size-6" />
-                  <Badge className="absolute -top-2 -right-2 size-5 p-0 flex items-center justify-center bg-white text-[#02542D] hover:bg-white border-2 border-[#02542D]">
+                  <ShoppingCart className="size-5 md:size-6" />
+                  <Badge className="absolute -top-2 -right-2 size-5 p-0 flex items-center justify-center bg-white text-[#02542D] hover:bg-white border-2 border-[#02542D] text-xs">
                     {comparePackages.length}
                   </Badge>
                 </div>
                 <div className="flex flex-col items-start">
-                  <span className="text-sm font-medium">
+                  <span className="text-xs md:text-sm font-medium">
                     Compare Packages
                   </span>
-                  <span className="text-xs opacity-90">
+                  <span className="text-[10px] md:text-xs opacity-90">
                     {comparePackages.length}{" "}
                     {comparePackages.length === 1
                       ? "package"

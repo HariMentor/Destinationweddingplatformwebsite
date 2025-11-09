@@ -350,3 +350,35 @@ export function generateTourMetadata(tourName: string, location: string): Metada
     },
   };
 }
+
+// Generic page metadata generator
+interface PageMetadataOptions {
+  title: string;
+  description: string;
+  keywords?: string[];
+  path?: string;
+  image?: string;
+}
+
+export function generatePageMetadata(options: PageMetadataOptions): Metadata {
+  const { title, description, keywords, path, image } = options;
+  
+  return {
+    title: `${title} | Wedzway`,
+    description,
+    keywords: keywords || [],
+    openGraph: {
+      title: `${title} | Wedzway`,
+      description,
+      type: 'website',
+      url: path ? `https://wedzway.com${path}` : undefined,
+      images: image ? [{ url: image }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} | Wedzway`,
+      description,
+      images: image ? [image] : undefined,
+    },
+  };
+}
