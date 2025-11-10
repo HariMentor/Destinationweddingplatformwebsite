@@ -195,7 +195,7 @@ export function VenuePage({ onViewDetails }: VenuePageProps) {
                   <SelectItem value="$$$">$$$ Luxury</SelectItem>
                 </SelectContent>
               </Select>
-              <Button className="bg-gradient-to-r from-[#DF6951] to-[#F1A501] hover:from-[#DF6951]/90 hover:to-[#F1A501]/90 h-12 px-8">
+              <Button className="hidden bg-gradient-to-r from-[#DF6951] to-[#F1A501] hover:from-[#DF6951]/90 hover:to-[#F1A501]/90 h-12 px-8">
                 <SlidersHorizontal className="size-5 mr-2" />
                 Filters
               </Button>

@@ -59,6 +59,8 @@ import {
   Satellite,
   Plane,
   Settings,
+  Shield,
+  Send,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
@@ -927,26 +929,254 @@ export function BrandGuidelinesPage({ onBack }: BrandGuidelinesPageProps) {
               </div>
             </Card>
 
-            {/* OTP Input */}
-            <Card className="p-6">
-              <h4 className="mb-4">OTP Input (Special)</h4>
+            {/* Phone Input with OTP */}
+            <Card className="p-6 mb-6">
+              <h4 className="mb-4">Phone Input with OTP Verification</h4>
               <div className="space-y-4 max-w-md">
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    Enter OTP
+                    Phone Number <span className="text-red-500">*</span>
                   </label>
                   <div className="flex gap-2">
-                    <input type="text" maxLength={1} className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent" />
-                    <input type="text" maxLength={1} className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent" />
-                    <input type="text" maxLength={1} className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent" />
-                    <input type="text" maxLength={1} className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent" />
-                    <input type="text" maxLength={1} className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent" />
-                    <input type="text" maxLength={1} className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent" />
+                    <input 
+                      type="tel" 
+                      placeholder="Enter your Phone Number" 
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent"
+                    />
+                    <Button className="bg-[#DF6951] hover:bg-[#DF6951]/90">
+                      Send OTP
+                    </Button>
                   </div>
                 </div>
                 
                 <code className="text-xs text-muted-foreground block">
-                  w-12 h-12 text-center for individual OTP digits
+                  Phone input with Send OTP button inline (orange button)
+                </code>
+              </div>
+            </Card>
+
+            {/* OTP Input */}
+            <Card className="p-6 mb-6">
+              <h4 className="mb-4">OTP Verification Input</h4>
+              <div className="space-y-4 max-w-md">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Enter OTP <span className="text-red-500">*</span>
+                  </label>
+                  <div className="flex gap-2">
+                    <input 
+                      type="text" 
+                      placeholder="Enter 6-digit OTP" 
+                      maxLength={6}
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent"
+                    />
+                    <Button className="bg-[#02542D] hover:bg-[#02542D]/90">
+                      <Shield className="mr-1 size-4" />
+                      Verify
+                    </Button>
+                  </div>
+                </div>
+                
+                <code className="text-xs text-muted-foreground block">
+                  OTP input with Verify button (teal color for verification)
+                </code>
+              </div>
+            </Card>
+
+            {/* Number Input */}
+            <Card className="p-6 mb-6">
+              <h4 className="mb-4">Number Inputs</h4>
+              <div className="space-y-4 max-w-md">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Number of People <span className="text-red-500">*</span>
+                  </label>
+                  <input 
+                    type="number" 
+                    placeholder="0" 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Budget <span className="text-red-500">*</span>
+                  </label>
+                  <input 
+                    type="number" 
+                    placeholder="0" 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent"
+                  />
+                </div>
+                
+                <code className="text-xs text-muted-foreground block">
+                  type="number" for numeric inputs
+                </code>
+              </div>
+            </Card>
+
+            {/* Email Input */}
+            <Card className="p-6">
+              <h4 className="mb-4">Email Input</h4>
+              <div className="space-y-4 max-w-md">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Email <span className="text-red-500">*</span>
+                  </label>
+                  <input 
+                    type="email" 
+                    placeholder="Enter your Email" 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent"
+                  />
+                </div>
+                
+                <code className="text-xs text-muted-foreground block">
+                  type="email" for email validation
+                </code>
+              </div>
+            </Card>
+          </div>
+
+          {/* Advanced Form Components */}
+          <div className="mb-12">
+            <h3 className="mb-6">Advanced Form Components (Venue Form)</h3>
+            
+            {/* Date Range Picker */}
+            <Card className="p-6 mb-6">
+              <h4 className="mb-4">Date Range Picker</h4>
+              <div className="space-y-4 max-w-md">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Dates <span className="text-red-500">*</span>
+                  </label>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-left h-10"
+                  >
+                    <Calendar className="mr-2 size-4" />
+                    <span className="text-muted-foreground">Pick a date range</span>
+                  </Button>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Uses Popover + Calendar components from shadcn/ui
+                  </p>
+                </div>
+                
+                <code className="text-xs text-muted-foreground block">
+                  {`<Popover>\n  <PopoverTrigger asChild>\n    <Button variant="outline">\n      <Calendar className="mr-2 size-4" />\n      {dateRange.from ? format(dateRange.from, "LLL dd, y") : "Pick date"}\n    </Button>\n  </PopoverTrigger>\n  <PopoverContent className="w-auto p-0" align="start">\n    <CalendarComponent mode="range" selected={dateRange} />\n  </PopoverContent>\n</Popover>`}
+                </code>
+              </div>
+            </Card>
+
+            {/* Select Dropdown (Package) */}
+            <Card className="p-6 mb-6">
+              <h4 className="mb-4">Select Dropdown (shadcn/ui)</h4>
+              <div className="space-y-4 max-w-md">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Select Package
+                  </label>
+                  <div className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-muted-foreground flex items-center justify-between">
+                    <span>Select Package</span>
+                    <ChevronDown className="size-4" />
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Uses Select, SelectTrigger, SelectContent, SelectItem from shadcn/ui
+                  </p>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Event Type <span className="text-red-500">*</span>
+                  </label>
+                  <div className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-muted-foreground flex items-center justify-between">
+                    <span>Select Event Type</span>
+                    <ChevronDown className="size-4" />
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Options: Wedding, Pre-Wedding, Engagement, Reception, Sangeet, Mehendi, Other
+                  </p>
+                </div>
+                
+                <code className="text-xs text-muted-foreground block">
+                  {`<Select value={value} onValueChange={setValue}>\n  <SelectTrigger className="mt-1">\n    <SelectValue placeholder="Select Package" />\n  </SelectTrigger>\n  <SelectContent>\n    <SelectItem value="option1">Option 1</SelectItem>\n  </SelectContent>\n</Select>`}
+                </code>
+              </div>
+            </Card>
+
+            {/* Checkbox with Label */}
+            <Card className="p-6 mb-6">
+              <h4 className="mb-4">Checkbox with Text Label</h4>
+              <div className="space-y-4 max-w-md">
+                <div className="flex items-center space-x-2">
+                  <input 
+                    type="checkbox" 
+                    id="flexible" 
+                    className="size-4 text-[#02542D] border-gray-300 rounded focus:ring-[#02542D]"
+                  />
+                  <label htmlFor="flexible" className="text-sm cursor-pointer">
+                    I have flexible dates
+                  </label>
+                </div>
+                
+                <code className="text-xs text-muted-foreground block">
+                  Checkbox with clickable label using htmlFor attribute
+                </code>
+              </div>
+            </Card>
+
+            {/* Multi-step Form Buttons */}
+            <Card className="p-6">
+              <h4 className="mb-4">Multi-step Form Actions</h4>
+              <div className="space-y-4">
+                <div className="flex gap-2">
+                  <Button variant="outline" className="flex-1">
+                    <ChevronLeft className="mr-2 size-4" />
+                    Back
+                  </Button>
+                  <Button className="flex-1 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80">
+                    Next
+                    <ChevronRight className="ml-2 size-4" />
+                  </Button>
+                </div>
+                
+                <div className="flex gap-2">
+                  <Button variant="outline" className="flex-1">
+                    <ChevronLeft className="mr-2 size-4" />
+                    Back
+                  </Button>
+                  <Button className="flex-1 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80">
+                    <Mail className="mr-2 size-5" />
+                    Submit Enquiry
+                  </Button>
+                </div>
+                
+                <code className="text-xs text-muted-foreground block">
+                  Back button (outline) + Primary action button with icons
+                </code>
+              </div>
+            </Card>
+          </div>
+
+          {/* Tab Components */}
+          <div className="mb-12">
+            <h3 className="mb-6">Tab Components (Venue Form)</h3>
+            
+            <Card className="p-6">
+              <h4 className="mb-4">Gradient Tab Switcher</h4>
+              <div className="space-y-4">
+                <div className="flex gap-2 p-1 bg-gray-100 rounded-full w-fit">
+                  <button className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D] to-[#DF6951] text-white transition-all duration-200">
+                    <Sparkles className="size-4" />
+                    <span className="text-sm">Concierge</span>
+                  </button>
+                  <button className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10 transition-all duration-200">
+                    <Send className="size-4" />
+                    <span className="text-sm">Venue</span>
+                  </button>
+                </div>
+                
+                <code className="text-xs text-muted-foreground block">
+                  {`Active: bg-gradient-to-r from-[#02542D] to-[#DF6951] text-white\nInactive: from-[#02542D]/10 to-[#DF6951]/10`}
                 </code>
               </div>
             </Card>
