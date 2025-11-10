@@ -694,6 +694,488 @@ export function BrandGuidelinesPage({ onBack }: BrandGuidelinesPageProps) {
 
         <Separator className="my-16" />
 
+        {/* UI Components & Styles */}
+        <section className="mb-16">
+          <div className="mb-8">
+            <h2 className="mb-2">UI Components & Styles</h2>
+            <p className="text-muted-foreground">
+              Comprehensive component styling guide for buttons, forms, cards, and other UI elements
+            </p>
+          </div>
+
+          {/* Button Styles */}
+          <div className="mb-12">
+            <h3 className="mb-6">Button Styles</h3>
+            
+            {/* Primary Buttons */}
+            <Card className="p-6 mb-6">
+              <h4 className="mb-4">Primary Buttons (CTAs)</h4>
+              <div className="space-y-4">
+                <div>
+                  <div className="flex items-center gap-4 mb-2">
+                    <Button className="bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80">
+                      Primary Button
+                    </Button>
+                    <Button className="bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80" size="sm">
+                      Small
+                    </Button>
+                    <Button className="bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80" size="lg">
+                      Large
+                    </Button>
+                  </div>
+                  <code className="text-xs text-muted-foreground block">
+                    className="bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
+                  </code>
+                </div>
+                
+                <div>
+                  <div className="flex items-center gap-4 mb-2">
+                    <Button className="bg-gradient-to-r from-[#DF6951] to-[#DF6951]/90 hover:from-[#DF6951]/90 hover:to-[#DF6951]/80">
+                      <Search className="mr-2 size-4" />
+                      Secondary CTA
+                    </Button>
+                    <Button className="bg-gradient-to-r from-[#DF6951] to-[#F1A501] hover:opacity-90">
+                      Warm Gradient
+                    </Button>
+                  </div>
+                  <code className="text-xs text-muted-foreground block">
+                    className="bg-gradient-to-r from-[#DF6951] to-[#DF6951]/90"
+                  </code>
+                </div>
+              </div>
+            </Card>
+
+            {/* Secondary Buttons */}
+            <Card className="p-6 mb-6">
+              <h4 className="mb-4">Secondary & Outline Buttons</h4>
+              <div className="space-y-4">
+                <div>
+                  <div className="flex items-center gap-4 mb-2">
+                    <Button variant="outline">
+                      Outline Default
+                    </Button>
+                    <Button variant="outline" className="border-[#02542D] text-[#02542D] hover:bg-[#02542D]/10">
+                      Outline Teal
+                    </Button>
+                    <Button variant="outline" className="border-[#DF6951] text-[#DF6951] hover:bg-[#DF6951]/10">
+                      Outline Orange
+                    </Button>
+                  </div>
+                  <code className="text-xs text-muted-foreground block">
+                    variant="outline" className="border-[#02542D] text-[#02542D] hover:bg-[#02542D]/10"
+                  </code>
+                </div>
+              </div>
+            </Card>
+
+            {/* Ghost & Icon Buttons */}
+            <Card className="p-6 mb-6">
+              <h4 className="mb-4">Ghost & Icon Buttons</h4>
+              <div className="space-y-4">
+                <div>
+                  <div className="flex items-center gap-4 mb-2">
+                    <Button variant="ghost">
+                      Ghost Button
+                    </Button>
+                    <Button variant="ghost" size="icon">
+                      <Heart className="size-5" />
+                    </Button>
+                    <Button variant="outline" size="icon">
+                      <Share2 className="size-5" />
+                    </Button>
+                    <Button variant="outline" size="icon" className="border-[#02542D] text-[#02542D] hover:bg-[#02542D]/10">
+                      <Search className="size-5" />
+                    </Button>
+                  </div>
+                  <code className="text-xs text-muted-foreground block">
+                    variant="ghost" | variant="outline" size="icon"
+                  </code>
+                </div>
+              </div>
+            </Card>
+
+            {/* Button States */}
+            <Card className="p-6">
+              <h4 className="mb-4">Button States</h4>
+              <div className="space-y-4">
+                <div>
+                  <div className="flex items-center gap-4 mb-2">
+                    <Button className="bg-gradient-to-r from-[#02542D] to-[#02542D]/90">
+                      Default
+                    </Button>
+                    <Button className="bg-gradient-to-r from-[#02542D] to-[#02542D]/90" disabled>
+                      Disabled
+                    </Button>
+                    <Button className="bg-gradient-to-r from-[#02542D] to-[#02542D]/90">
+                      <span className="animate-spin mr-2">⏳</span>
+                      Loading
+                    </Button>
+                  </div>
+                  <code className="text-xs text-muted-foreground block">
+                    disabled prop for disabled state
+                  </code>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Form Input Styles */}
+          <div className="mb-12">
+            <h3 className="mb-6">Form Input Styles</h3>
+            
+            {/* Text Inputs */}
+            <Card className="p-6 mb-6">
+              <h4 className="mb-4">Text Inputs & Labels</h4>
+              <div className="space-y-4 max-w-md">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Label Text
+                  </label>
+                  <input 
+                    type="text" 
+                    placeholder="Enter text..." 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Helper text goes here</p>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Required Field <span className="text-red-500">*</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    placeholder="Required input..." 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent"
+                    required
+                  />
+                </div>
+                
+                <code className="text-xs text-muted-foreground block">
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent"
+                </code>
+              </div>
+            </Card>
+
+            {/* Select & Dropdown */}
+            <Card className="p-6 mb-6">
+              <h4 className="mb-4">Select & Dropdown Inputs</h4>
+              <div className="space-y-4 max-w-md">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Select Option
+                  </label>
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent">
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                    <option>Option 3</option>
+                  </select>
+                </div>
+                
+                <code className="text-xs text-muted-foreground block">
+                  Same className as text inputs for consistency
+                </code>
+              </div>
+            </Card>
+
+            {/* Textarea */}
+            <Card className="p-6 mb-6">
+              <h4 className="mb-4">Textarea</h4>
+              <div className="space-y-4 max-w-md">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Message
+                  </label>
+                  <textarea 
+                    placeholder="Enter your message..." 
+                    rows={4}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent resize-none"
+                  />
+                </div>
+                
+                <code className="text-xs text-muted-foreground block">
+                  Add resize-none for fixed textarea height
+                </code>
+              </div>
+            </Card>
+
+            {/* Checkbox & Radio */}
+            <Card className="p-6 mb-6">
+              <h4 className="mb-4">Checkboxes & Radio Buttons</h4>
+              <div className="space-y-4 max-w-md">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <input type="checkbox" id="check1" className="size-4 text-[#02542D] border-gray-300 rounded focus:ring-[#02542D]" />
+                    <label htmlFor="check1" className="text-sm">Checkbox option 1</label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input type="checkbox" id="check2" className="size-4 text-[#02542D] border-gray-300 rounded focus:ring-[#02542D]" checked readOnly />
+                    <label htmlFor="check2" className="text-sm">Checkbox option 2 (checked)</label>
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <input type="radio" name="radio" id="radio1" className="size-4 text-[#02542D] border-gray-300 focus:ring-[#02542D]" />
+                    <label htmlFor="radio1" className="text-sm">Radio option 1</label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input type="radio" name="radio" id="radio2" className="size-4 text-[#02542D] border-gray-300 focus:ring-[#02542D]" checked readOnly />
+                    <label htmlFor="radio2" className="text-sm">Radio option 2 (selected)</label>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            {/* OTP Input */}
+            <Card className="p-6">
+              <h4 className="mb-4">OTP Input (Special)</h4>
+              <div className="space-y-4 max-w-md">
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Enter OTP
+                  </label>
+                  <div className="flex gap-2">
+                    <input type="text" maxLength={1} className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent" />
+                    <input type="text" maxLength={1} className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent" />
+                    <input type="text" maxLength={1} className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent" />
+                    <input type="text" maxLength={1} className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent" />
+                    <input type="text" maxLength={1} className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent" />
+                    <input type="text" maxLength={1} className="w-12 h-12 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent" />
+                  </div>
+                </div>
+                
+                <code className="text-xs text-muted-foreground block">
+                  w-12 h-12 text-center for individual OTP digits
+                </code>
+              </div>
+            </Card>
+          </div>
+
+          {/* Card Styles */}
+          <div className="mb-12">
+            <h3 className="mb-6">Card Styles</h3>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Basic Cards */}
+              <Card className="p-6">
+                <h4 className="mb-4">Basic Card</h4>
+                <div className="space-y-3">
+                  <div className="p-4 rounded-lg border bg-white shadow-sm">
+                    <h4 className="mb-2">White Card</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Default white background with border and subtle shadow
+                    </p>
+                  </div>
+                  <code className="text-xs text-muted-foreground block">
+                    className="p-4 rounded-lg border bg-white shadow-sm"
+                  </code>
+                </div>
+              </Card>
+
+              {/* Colored Cards */}
+              <Card className="p-6">
+                <h4 className="mb-4">Colored Cards</h4>
+                <div className="space-y-3">
+                  <div className="p-4 rounded-lg bg-purple-50 border border-purple-100">
+                    <h4 className="mb-2 text-purple-900">Purple Card</h4>
+                    <p className="text-sm text-purple-700">
+                      Pastel background with matching border
+                    </p>
+                  </div>
+                  <code className="text-xs text-muted-foreground block">
+                    bg-purple-50 border border-purple-100
+                  </code>
+                </div>
+              </Card>
+
+              {/* Gradient Cards */}
+              <Card className="p-6">
+                <h4 className="mb-4">Gradient Cards</h4>
+                <div className="space-y-3">
+                  <div className="p-4 rounded-lg bg-gradient-to-br from-[#02542D] to-[#034A26] text-white">
+                    <h4 className="mb-2 text-white">Gradient Card</h4>
+                    <p className="text-sm text-white/90">
+                      Used for featured content and highlights
+                    </p>
+                  </div>
+                  <code className="text-xs text-muted-foreground block">
+                    bg-gradient-to-br from-[#02542D] to-[#034A26]
+                  </code>
+                </div>
+              </Card>
+
+              {/* Hover Cards */}
+              <Card className="p-6">
+                <h4 className="mb-4">Interactive Cards</h4>
+                <div className="space-y-3">
+                  <div className="p-4 rounded-lg border bg-white shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-pointer">
+                    <h4 className="mb-2">Hover Card</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Hover to see lift effect
+                    </p>
+                  </div>
+                  <code className="text-xs text-muted-foreground block">
+                    hover:shadow-xl hover:scale-[1.02] transition-all
+                  </code>
+                </div>
+              </Card>
+            </div>
+          </div>
+
+          {/* Badge Styles */}
+          <div className="mb-12">
+            <h3 className="mb-6">Badge Styles</h3>
+            
+            <Card className="p-6">
+              <h4 className="mb-4">Badge Variants</h4>
+              <div className="space-y-4">
+                <div className="flex flex-wrap gap-2">
+                  <Badge>Default</Badge>
+                  <Badge variant="secondary">Secondary</Badge>
+                  <Badge variant="outline">Outline</Badge>
+                  <Badge variant="destructive">Destructive</Badge>
+                </div>
+                
+                <div className="flex flex-wrap gap-2">
+                  <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100">
+                    <Check className="mr-1 size-3" />
+                    Purple
+                  </Badge>
+                  <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">
+                    <Star className="mr-1 size-3" />
+                    Blue
+                  </Badge>
+                  <Badge className="bg-orange-100 text-orange-700 hover:bg-orange-100">
+                    <Crown className="mr-1 size-3" />
+                    Orange
+                  </Badge>
+                  <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
+                    <BadgeCheck className="mr-1 size-3" />
+                    Verified
+                  </Badge>
+                </div>
+                
+                <code className="text-xs text-muted-foreground block">
+                  Custom: className="bg-purple-100 text-purple-700 hover:bg-purple-100"
+                </code>
+              </div>
+            </Card>
+          </div>
+
+          {/* Special Components */}
+          <div className="mb-12">
+            <h3 className="mb-6">Special Components</h3>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Verified Badge */}
+              <Card className="p-6">
+                <h4 className="mb-4">Verified Badge</h4>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-md border border-gray-200 w-fit">
+                    <div className="bg-blue-500 rounded-full p-1 flex items-center justify-center">
+                      <Check className="size-3 text-white" strokeWidth={3} />
+                    </div>
+                    <span className="text-gray-800">Verified</span>
+                  </div>
+                  <code className="text-xs text-muted-foreground block">
+                    Blue checkmark with "Verified" text in white card
+                  </code>
+                </div>
+              </Card>
+
+              {/* Gradient Icons */}
+              <Card className="p-6">
+                <h4 className="mb-4">Gradient Icon Backgrounds</h4>
+                <div className="space-y-3">
+                  <div className="flex gap-3">
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10">
+                      <Sparkles className="size-4 text-[#DF6951]" />
+                      <span className="text-sm text-[#02542D]">Featured</span>
+                    </div>
+                  </div>
+                  <code className="text-xs text-muted-foreground block">
+                    bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10
+                  </code>
+                </div>
+              </Card>
+
+              {/* Progress Indicator */}
+              <Card className="p-6">
+                <h4 className="mb-4">Progress Steps</h4>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <div className="size-8 rounded-full bg-[#02542D] text-white flex items-center justify-center">
+                      1
+                    </div>
+                    <div className="h-0.5 w-12 bg-[#02542D]"></div>
+                    <div className="size-8 rounded-full bg-[#02542D] text-white flex items-center justify-center">
+                      2
+                    </div>
+                    <div className="h-0.5 w-12 bg-gray-200"></div>
+                    <div className="size-8 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center">
+                      3
+                    </div>
+                  </div>
+                  <code className="text-xs text-muted-foreground block">
+                    Circular steps with connecting lines
+                  </code>
+                </div>
+              </Card>
+
+              {/* Search Bar */}
+              <Card className="p-6">
+                <h4 className="mb-4">Search Bar</h4>
+                <div className="space-y-3">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-gray-400" />
+                    <input 
+                      type="text" 
+                      placeholder="Search destinations..." 
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent"
+                    />
+                  </div>
+                  <code className="text-xs text-muted-foreground block">
+                    Icon positioned with absolute left-3
+                  </code>
+                </div>
+              </Card>
+            </div>
+          </div>
+
+          {/* Shadow & Elevation */}
+          <div className="mb-12">
+            <h3 className="mb-6">Shadow & Elevation Scale</h3>
+            
+            <Card className="p-6">
+              <div className="grid md:grid-cols-4 gap-6">
+                <div>
+                  <div className="h-24 bg-white rounded-lg shadow-sm mb-3"></div>
+                  <h4 className="mb-1">Small</h4>
+                  <code className="text-xs text-muted-foreground">shadow-sm</code>
+                </div>
+                <div>
+                  <div className="h-24 bg-white rounded-lg shadow-md mb-3"></div>
+                  <h4 className="mb-1">Medium</h4>
+                  <code className="text-xs text-muted-foreground">shadow-md</code>
+                </div>
+                <div>
+                  <div className="h-24 bg-white rounded-lg shadow-lg mb-3"></div>
+                  <h4 className="mb-1">Large</h4>
+                  <code className="text-xs text-muted-foreground">shadow-lg</code>
+                </div>
+                <div>
+                  <div className="h-24 bg-white rounded-lg shadow-xl mb-3"></div>
+                  <h4 className="mb-1">Extra Large</h4>
+                  <code className="text-xs text-muted-foreground">shadow-xl</code>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </section>
+
+        <Separator className="my-16" />
+
         {/* Icon System */}
         <section>
           <div className="mb-8">
