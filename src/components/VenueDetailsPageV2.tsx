@@ -472,6 +472,7 @@ export function VenueDetailsPageV2({
   const [isDescriptionExpanded, setIsDescriptionExpanded] =
     useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [calendarMonths, setCalendarMonths] = useState(2);
 
   // Simulate data loading (images and venue details)
   useEffect(() => {
@@ -480,6 +481,19 @@ export function VenueDetailsPageV2({
     }, 2000); // Simulate 2s loading time for images and content
 
     return () => clearTimeout(timer);
+  }, []);
+
+  // Responsive calendar months
+  useEffect(() => {
+    const handleResize = () => {
+      setCalendarMonths(window.innerWidth >= 768 ? 2 : 1);
+    };
+    
+    // Set initial value
+    handleResize();
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const nextImage = () => {
@@ -657,47 +671,46 @@ export function VenueDetailsPageV2({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-rose-50/30 pt-20 pb-20 md:pb-0">
+    <div className="min-h-screen bg-gradient-to-b from-white to-rose-50/30 pt-20">
       {/* Back Button & Actions */}
-      <div className="container mx-auto px-4 md:px-8 py-4 md:py-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 md:mb-6">
+      <div className="container mx-auto px-4 md:px-8 py-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
           <Button
             variant="outline"
             onClick={onBack}
-            className="gap-2 w-full sm:w-auto"
+            className="gap-2"
           >
             <ArrowLeft className="size-4" />
             <span className="hidden sm:inline">Back to Venues</span>
             <span className="sm:hidden">Back</span>
           </Button>
-          <div className="flex gap-2 items-center w-full sm:w-auto justify-end">
-            <div className="flex items-center gap-2 bg-white px-2 sm:px-3 py-2 rounded-lg shadow-md border border-gray-200">
+          <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-md border border-gray-200">
               <div className="bg-blue-500 rounded-full p-1 flex items-center justify-center">
                 <Check
                   className="size-3 text-white"
                   strokeWidth={3}
                 />
               </div>
-              <span className="text-gray-800 text-sm sm:text-base">Verified</span>
+              <span className="text-gray-800">Verified</span>
             </div>
             <Button
               variant="outline"
               size="icon"
               onClick={() => setIsFavorite(!isFavorite)}
-              className="flex-shrink-0"
             >
               <Heart
-                className={`size-4 sm:size-5 ${isFavorite ? "fill-red-500 text-red-500" : ""}`}
+                className={`size-5 ${isFavorite ? "fill-red-500 text-red-500" : ""}`}
               />
             </Button>
-            <Button variant="outline" size="icon" className="flex-shrink-0">
-              <Share2 className="size-4 sm:size-5" />
+            <Button variant="outline" size="icon">
+              <Share2 className="size-5" />
             </Button>
           </div>
         </div>
 
         {/* Single Hero Banner */}
-        <div className="relative h-[250px] sm:h-[350px] md:h-[500px] lg:h-[600px] rounded-xl md:rounded-2xl overflow-hidden mb-6 md:mb-8 group">
+        <div className="relative h-[300px] sm:h-[400px] md:h-[500px] rounded-lg md:rounded-xl overflow-hidden mb-6 md:mb-8 group w-full">
           <div
             onClick={() => openLightbox(0)}
             className="w-full h-full cursor-pointer"
@@ -712,29 +725,27 @@ export function VenueDetailsPageV2({
           {/* View All Photos Button */}
           <button
             onClick={() => openLightbox(0)}
-            className="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg bg-white/95 hover:bg-white shadow-lg transition-all hover:scale-105 backdrop-blur-sm flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base"
+            className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 md:bottom-6 md:right-6 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg bg-white/95 hover:bg-white shadow-lg transition-all hover:scale-105 backdrop-blur-sm flex items-center gap-2 text-sm sm:text-base"
           >
             <Camera className="size-4 sm:size-5" />
-            <span className="font-medium">
-              <span className="hidden sm:inline">View All {venue.images.length} Photos</span>
-              <span className="sm:hidden">{venue.images.length} Photos</span>
-            </span>
+            <span className="font-medium hidden sm:inline">View All {venue.images.length} Photos</span>
+            <span className="font-medium sm:hidden">{venue.images.length} Photos</span>
           </button>
         </div>
 
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Column - Main Info */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6 lg:space-y-8 min-w-0 overflow-hidden">
             {/* Header */}
             <div>
               {/* Venue Tags */}
-              <div className="flex flex-wrap gap-2 sm:gap-3 mb-4">
+              <div className="flex flex-wrap gap-2 mb-4">
                 {venue.venueTags?.map((tag, index) => (
                   <Badge
                     key={index}
                     variant="secondary"
-                    className="px-4 py-2 bg-orange-50 text-orange-600 hover:bg-orange-100"
+                    className="px-3 py-1.5 bg-orange-50 text-orange-600 hover:bg-orange-100"
                     style={{ color: "#DF6951" }}
                   >
                     {tag}
@@ -742,34 +753,34 @@ export function VenueDetailsPageV2({
                 ))}
               </div>
 
-              <div className="mb-4 overflow-x-hidden">
-                <div className="min-w-0">
+              <div className="mb-4">
+                <div className="w-full min-w-0">
                   <h1
                     className="text-2xl sm:text-3xl md:text-4xl mb-2 break-words"
                     style={{ fontFamily: "Volkhov, serif" }}
                   >
                     {venue.name}
                   </h1>
-                  <div className="flex items-center gap-2 text-muted-foreground mb-3 text-sm sm:text-base min-w-0">
-                    <MapPin className="size-4 sm:size-5 flex-shrink-0" />
-                    <span className="truncate">{venue.location}</span>
+                  <div className="flex items-start sm:items-center gap-2 text-muted-foreground mb-3 min-w-0">
+                    <MapPin className="size-4 flex-shrink-0" />
+                    <span className="break-words min-w-0">{venue.location}</span>
                   </div>
-                  <div className="flex items-center gap-1 text-sm sm:text-base flex-wrap">
-                    <Star className="size-4 sm:size-5 fill-amber-400 text-amber-400 flex-shrink-0" />
+                  <div className="flex items-center gap-1 flex-wrap">
+                    <Star className="size-4 fill-amber-400 text-amber-400 flex-shrink-0" />
                     <span className="font-medium">
                       {venue.rating}
                     </span>
-                    <span className="text-muted-foreground whitespace-nowrap">
+                    <span className="text-muted-foreground">
                       ({venue.reviews} reviews)
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="relative">
+              <div className="relative mt-4">
                 <p
                   className={`text-muted-foreground leading-relaxed transition-all ${
-                    !isDescriptionExpanded ? "line-clamp-5" : ""
+                    !isDescriptionExpanded ? "line-clamp-4" : ""
                   }`}
                 >
                   {venue.description}
@@ -781,7 +792,7 @@ export function VenueDetailsPageV2({
                         !isDescriptionExpanded,
                       )
                     }
-                    className="mt-2 text-[#DF6951] hover:text-[#DF6951]/80 font-medium text-sm flex items-center gap-1 transition-colors"
+                    className="mt-2 text-[#DF6951] hover:text-[#DF6951]/80 font-medium flex items-center gap-1 transition-colors"
                   >
                     {isDescriptionExpanded ? (
                       <>
@@ -800,23 +811,23 @@ export function VenueDetailsPageV2({
             </div>
 
             {/* Destination & Weather Card */}
-            <Card className="overflow-hidden border-2">
-              <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x">
+            <Card className="overflow-hidden border-2 w-full min-w-0">
+              <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x w-full">
                 {/* Destination Info */}
-                <div className="p-4 sm:p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="p-2 rounded-lg bg-gradient-to-br from-[#02542D]/10 to-[#DF6951]/10">
-                      <MapPin className="size-5 text-[#DF6951]" />
+                <div className="p-3 sm:p-4 md:p-6">
+                  <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                    <div className="p-1.5 sm:p-2 rounded-lg bg-gradient-to-br from-[#02542D]/10 to-[#DF6951]/10">
+                      <MapPin className="size-4 sm:size-5 text-[#DF6951]" />
                     </div>
-                    <h3>Destination</h3>
+                    <h3 className="text-base sm:text-lg">Destination</h3>
                   </div>
-                  <div className="space-y-3">
-                    <div>
+                  <div className="space-y-3 min-w-0">
+                    <div className="min-w-0">
                       <p className="text-sm text-muted-foreground mb-1">
                         Location
                       </p>
                       <p
-                        className="text-lg"
+                        className="text-base sm:text-lg break-words"
                         style={{ fontFamily: "Volkhov, serif" }}
                       >
                         {venue.location}
@@ -834,43 +845,43 @@ export function VenueDetailsPageV2({
                 </div>
 
                 {/* Weather Info */}
-                <div className="p-4 sm:p-6">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="p-3 sm:p-4 md:p-6">
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
                     <div className="flex items-center gap-2">
-                      <div className="p-2 rounded-lg bg-gradient-to-br from-[#02542D]/10 to-[#DF6951]/10">
+                      <div className="p-1.5 sm:p-2 rounded-lg bg-gradient-to-br from-[#02542D]/10 to-[#DF6951]/10">
                         <CloudSun className="size-4 sm:size-5 text-[#DF6951]" />
                       </div>
-                      <h3 className="text-sm sm:text-base">Typical Weather</h3>
+                      <h3 className="text-sm sm:text-base">Weather</h3>
                     </div>
                     <ArrowRight className="size-4 sm:size-5 text-[#DF6951] hover:text-[#02542D] transition-colors cursor-pointer hover:translate-x-1 transition-transform" />
                   </div>
-                  <div className="grid grid-cols-3 gap-2 sm:gap-4">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4">
                     <div className="text-center">
-                      <div className="flex items-center justify-center gap-1 mb-1">
-                        <Thermometer className="size-4 text-orange-500" />
-                        <span className="text-xs text-muted-foreground">
+                      <div className="flex items-center justify-center gap-0.5 sm:gap-1 mb-0.5 sm:mb-1">
+                        <Thermometer className="size-3 sm:size-4 text-orange-500" />
+                        <span className="text-[10px] sm:text-xs text-muted-foreground">
                           Temp
                         </span>
                       </div>
-                      <p className="font-medium">22-28°C</p>
+                      <p className="font-medium text-xs sm:text-sm">22-28°C</p>
                     </div>
                     <div className="text-center">
-                      <div className="flex items-center justify-center gap-1 mb-1">
-                        <Droplets className="size-4 text-blue-500" />
-                        <span className="text-xs text-muted-foreground">
+                      <div className="flex items-center justify-center gap-0.5 sm:gap-1 mb-0.5 sm:mb-1">
+                        <Droplets className="size-3 sm:size-4 text-blue-500" />
+                        <span className="text-[10px] sm:text-xs text-muted-foreground">
                           Humidity
                         </span>
                       </div>
-                      <p className="font-medium">65%</p>
+                      <p className="font-medium text-xs sm:text-sm">65%</p>
                     </div>
                     <div className="text-center">
-                      <div className="flex items-center justify-center gap-1 mb-1">
-                        <Wind className="size-4 text-teal-500" />
-                        <span className="text-xs text-muted-foreground">
+                      <div className="flex items-center justify-center gap-0.5 sm:gap-1 mb-0.5 sm:mb-1">
+                        <Wind className="size-3 sm:size-4 text-teal-500" />
+                        <span className="text-[10px] sm:text-xs text-muted-foreground">
                           Wind
                         </span>
                       </div>
-                      <p className="font-medium">Light</p>
+                      <p className="font-medium text-xs sm:text-sm">Light</p>
                     </div>
                   </div>
                   {/* <p className="text-xs text-muted-foreground mt-3 text-center">
@@ -886,14 +897,14 @@ export function VenueDetailsPageV2({
             {venue.whyCouplesLove &&
               venue.whyCouplesLove.length > 0 && (
                 <>
-                  <div>
-                    <div className="flex items-center justify-between mb-6">
-                      <h2>Highlights</h2>
+                  <div className="w-full min-w-0">
+                    <div className="flex items-center justify-between mb-4 sm:mb-6">
+                      <h2 className="text-lg sm:text-xl">Highlights</h2>
                       <div className="flex gap-2">
                         <Button
                           variant="outline"
                           size="icon"
-                          className="size-8"
+                          className="size-7 sm:size-8"
                           onClick={() => {
                             const container = document.getElementById('highlights-carousel');
                             if (container) {
@@ -901,12 +912,12 @@ export function VenueDetailsPageV2({
                             }
                           }}
                         >
-                          <ChevronLeft className="size-4" />
+                          <ChevronLeft className="size-3 sm:size-4" />
                         </Button>
                         <Button
                           variant="outline"
                           size="icon"
-                          className="size-8"
+                          className="size-7 sm:size-8"
                           onClick={() => {
                             const container = document.getElementById('highlights-carousel');
                             if (container) {
@@ -914,13 +925,13 @@ export function VenueDetailsPageV2({
                             }
                           }}
                         >
-                          <ChevronRight className="size-4" />
+                          <ChevronRight className="size-3 sm:size-4" />
                         </Button>
                       </div>
                     </div>
                     <div 
                       id="highlights-carousel"
-                      className="flex gap-6 overflow-x-auto scroll-smooth pb-4 -mx-4 px-4 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden"
+                      className="flex gap-3 sm:gap-4 md:gap-6 overflow-x-auto scroll-smooth pb-3 sm:pb-4 -mx-3 px-3 sm:-mx-4 sm:px-4 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden"
                       style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                     >
                       {venue.whyCouplesLove.map(
@@ -940,13 +951,13 @@ export function VenueDetailsPageV2({
                           return (
                             <div
                               key={index}
-                              className="flex flex-col items-center text-center gap-3 flex-shrink-0 w-[calc(50%-12px)] md:w-[calc(25%-18px)]"
+                              className="flex flex-col items-center text-center gap-2 sm:gap-3 flex-shrink-0 w-[calc(50%-6px)] sm:w-[calc(50%-8px)] md:w-[calc(25%-18px)]"
                             >
                               <feature.icon
-                                className={`size-10 md:size-12 ${colors.iconColor}`}
+                                className={`size-8 sm:size-10 md:size-12 ${colors.iconColor}`}
                                 strokeWidth={1}
                               />
-                              <span className="font-medium text-[12px]">
+                              <span className="font-medium text-[11px] sm:text-xs leading-tight">
                                 {feature.name}
                               </span>
                             </div>
@@ -1057,16 +1068,16 @@ export function VenueDetailsPageV2({
               )}
 
             {/* Quick Info */}
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card className="p-6">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="p-3 rounded-xl bg-orange-50">
-                    <Users className="size-6 text-orange-600" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full">
+              <Card className="p-4 sm:p-6">
+                <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                  <div className="p-2 sm:p-3 rounded-xl bg-orange-50">
+                    <Users className="size-5 sm:size-6 text-orange-600" />
                   </div>
-                  <h3>Guest Capacity</h3>
+                  <h3 className="text-base sm:text-lg">Guest Capacity</h3>
                 </div>
                 <p
-                  className="text-2xl"
+                  className="text-xl sm:text-2xl"
                   style={{ fontFamily: "Volkhov, serif" }}
                 >
                   {venue.capacity.min} - {venue.capacity.max}
@@ -1076,15 +1087,15 @@ export function VenueDetailsPageV2({
                 </p>
               </Card>
 
-              <Card className="p-6">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="p-3 rounded-xl bg-orange-50">
-                    <Calendar className="size-6 text-orange-600" />
+              <Card className="p-4 sm:p-6">
+                <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                  <div className="p-2 sm:p-3 rounded-xl bg-orange-50">
+                    <Calendar className="size-5 sm:size-6 text-orange-600" />
                   </div>
-                  <h3>Starting Price</h3>
+                  <h3 className="text-base sm:text-lg">Starting Price</h3>
                 </div>
                 <p
-                  className="text-2xl"
+                  className="text-xl sm:text-2xl"
                   style={{ fontFamily: "Volkhov, serif" }}
                 >
                   {formatPrice(venue.pricing.starting)}
@@ -1098,17 +1109,17 @@ export function VenueDetailsPageV2({
             <Separator />
 
             {/* Packages */}
-            <div className="overflow-x-hidden">
-              <h2 className="mb-6">
+            <div className="w-full min-w-0">
+              <h2 className="mb-4 sm:mb-6 text-lg sm:text-xl">
                 Exclusive Wedding Packages
               </h2>
-              <div className="space-y-6 overflow-x-hidden">
+              <div className="space-y-4 sm:space-y-5 md:space-y-6 overflow-x-hidden">
                 {venue.packages.map((pkg, index) => (
                   <Card
                     key={index}
                     className="overflow-hidden hover:shadow-lg transition-shadow w-full"
                   >
-                    <div className="grid md:grid-cols-[280px,1fr] gap-4 sm:gap-6 p-4 sm:p-6 min-w-0">
+                    <div className="grid md:grid-cols-[280px,1fr] gap-3 sm:gap-4 md:gap-6 p-3 sm:p-4 md:p-6 w-full min-w-0">
                       {/* Package Image Gallery */}
                       <div
                         className="relative h-[200px] sm:h-[220px] md:h-[320px] rounded-lg overflow-hidden group cursor-pointer"
@@ -1287,7 +1298,7 @@ export function VenueDetailsPageV2({
                           </div>
 
                           {/* Package Specifications */}
-                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6 pb-4 sm:pb-6 border-b">
+                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6 pb-4 sm:pb-6 border-b w-full">
                             <div className="space-y-1 min-w-0">
                               <p className="text-xs text-muted-foreground uppercase tracking-wide">
                                 Duration
@@ -1332,7 +1343,7 @@ export function VenueDetailsPageV2({
                                 Included Services
                               </h4>
                             </div>
-                            <div className="grid md:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2 pb-4 sm:pb-6 border-b relative">
+                            <div className="grid md:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2 pb-4 sm:pb-6 border-b relative w-full">
                               {(expandedPackages.includes(index)
                                 ? pkg.features
                                 : pkg.features.slice(0, 4)
@@ -1394,8 +1405,8 @@ export function VenueDetailsPageV2({
                         </div>
 
                         {/* Price and CTA */}
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 pt-4 sm:pt-6 mt-auto min-w-0">
-                          <div className="min-w-0 w-full sm:w-auto">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 pt-4 sm:pt-6 mt-auto w-full min-w-0">
+                          <div className="min-w-0 w-full sm:w-auto overflow-hidden">
                             <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                               Starting from
                             </p>
@@ -1947,7 +1958,7 @@ export function VenueDetailsPageV2({
                                   });
                                 }}
                                 initialFocus
-                                numberOfMonths={window.innerWidth >= 768 ? 2 : 1}
+                                numberOfMonths={calendarMonths}
                                 disabled={(date) =>
                                   date <
                                   new Date(
@@ -2349,9 +2360,9 @@ export function VenueDetailsPageV2({
             <Separator />
 
             {/* Amenities */}
-            <div>
+            <div className="w-full min-w-0">
               <h2 className="mb-4 sm:mb-6 text-lg sm:text-xl">Amenities & Services</h2>
-              <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full">
                 {venue.amenities.map((amenity, index) => {
                   // Cycle through different color schemes for amenities
                   const colorSchemes = [
@@ -2392,19 +2403,19 @@ export function VenueDetailsPageV2({
                   return (
                     <div
                       key={index}
-                      className="flex items-center gap-3 p-3 rounded-lg"
+                      className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg min-w-0 w-full"
                       style={{
                         backgroundColor:
                           "rgba(223, 105, 81, 0.05)",
                       }}
                     >
-                      <div className="p-2 rounded-lg bg-white">
+                      <div className="p-1.5 sm:p-2 rounded-lg bg-white flex-shrink-0">
                         <amenity.icon
-                          className="size-5"
+                          className="size-4 sm:size-5"
                           style={{ color: "#DF6951" }}
                         />
                       </div>
-                      <span>{amenity.name}</span>
+                      <span className="text-sm sm:text-base truncate">{amenity.name}</span>
                     </div>
                   );
                 })}
@@ -2417,26 +2428,26 @@ export function VenueDetailsPageV2({
             {venue.goodToKnow &&
               venue.goodToKnow.length > 0 && (
                 <>
-                  <div>
-                    <h2 className="mb-6">
+                  <div className="w-full min-w-0">
+                    <h2 className="mb-4 sm:mb-6 text-lg sm:text-xl">
                       Good to Know Before You Book
                     </h2>
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 w-full">
                       {venue.goodToKnow.map((info, index) => (
-                        <Card key={index} className="p-6">
-                          <div className="flex items-start gap-4">
-                            <div className="p-2 rounded-lg bg-gray-100">
-                              <info.icon className="size-5 text-gray-600" />
+                        <Card key={index} className="p-4 sm:p-6 min-w-0">
+                          <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+                            <div className="p-1.5 sm:p-2 rounded-lg bg-gray-100 flex-shrink-0">
+                              <info.icon className="size-4 sm:size-5 text-gray-600" />
                             </div>
-                            <div className="flex-1">
-                              <h4 className="mb-2">
+                            <div className="flex-1 min-w-0">
+                              <h4 className="mb-1.5 sm:mb-2 text-sm sm:text-base">
                                 {info.title}
                               </h4>
                               {info.details.map(
                                 (detail, dIndex) => (
                                   <p
                                     key={dIndex}
-                                    className="text-sm text-muted-foreground mb-1"
+                                    className="text-xs sm:text-sm text-muted-foreground mb-1 leading-relaxed"
                                   >
                                     {detail}
                                   </p>
@@ -2455,8 +2466,8 @@ export function VenueDetailsPageV2({
 
             {/* Map */}
             <div>
-              <h2 className="mb-6">Location</h2>
-              <Card className="p-6">
+              <h2 className="mb-4 sm:mb-5 md:mb-6 text-lg sm:text-xl">Location</h2>
+              <Card className="p-3 sm:p-4 md:p-6 overflow-hidden">
                 <div className="aspect-video bg-gradient-to-br from-rose-100 to-amber-100 rounded-lg flex items-center justify-center relative overflow-hidden">
                   {/* Simple map placeholder */}
                   <div className="absolute inset-0 opacity-20">
@@ -2468,23 +2479,23 @@ export function VenueDetailsPageV2({
                       }}
                     />
                   </div>
-                  <div className="relative text-center">
-                    <MapPin className="size-16 text-[#DF6951] mx-auto mb-4" />
-                    <p className="font-medium">
+                  <div className="relative text-center p-4">
+                    <MapPin className="size-12 sm:size-14 md:size-16 text-[#DF6951] mx-auto mb-3 sm:mb-4" />
+                    <p className="font-medium text-sm sm:text-base">
                       {venue.location}
                     </p>
-                    <p className="text-sm text-muted-foreground mt-2">
+                    <p className="text-xs sm:text-sm text-muted-foreground mt-1.5 sm:mt-2">
                       {venue.coordinates.lat}°N,{" "}
                       {venue.coordinates.lng}°E
                     </p>
-                    <Button className="mt-4 bg-gradient-to-r from-[#DF6951] to-[#F1A501]">
+                    <Button className="mt-3 sm:mt-4 bg-gradient-to-r from-[#DF6951] to-[#F1A501] text-sm sm:text-base">
                       Open in Maps
                     </Button>
                   </div>
                 </div>
-                <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
-                  <Phone className="size-4" />
-                  <span>{venue.contact.phone}</span>
+                <div className="mt-3 sm:mt-4 flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+                  <Phone className="size-3.5 sm:size-4 flex-shrink-0" />
+                  <span className="truncate">{venue.contact.phone}</span>
                 </div>
               </Card>
             </div>
@@ -2493,16 +2504,16 @@ export function VenueDetailsPageV2({
 
             {/* Weather Details */}
             <div>
-              <h2 className="mb-6">Weather & Climate</h2>
-              <Card className="p-6">
+              <h2 className="mb-4 sm:mb-5 md:mb-6 text-lg sm:text-xl">Weather & Climate</h2>
+              <Card className="p-4 sm:p-5 md:p-6 overflow-hidden">
                 {/* Current Weather */}
-                <div className="mb-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                <div className="mb-4 sm:mb-5 md:mb-6">
+                  <div className="flex items-start justify-between mb-3 sm:mb-4 flex-wrap gap-3">
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm text-muted-foreground mb-1">
                         Current Weather
                       </p>
-                      <h3 className="mb-1 flex items-center gap-2">
+                      <h3 className="mb-1 flex items-center gap-2 text-base sm:text-lg">
                         <svg
                           className="size-8 text-blue-500"
                           fill="none"
@@ -2911,7 +2922,7 @@ export function VenueDetailsPageV2({
 
           {/* Right Column - Booking Form */}
           <div className="hidden lg:block lg:col-span-1">
-            <Card className="p-6 sticky top-24 z-10 border-2 self-start">
+            <Card className="p-6 sticky top-24 border-2">
               <Tabs value={enquiryType} onValueChange={(value) => setEnquiryType(value as "concierge" | "direct")} className="w-full">
                 <TabsList className="grid w-full grid-cols-2 mb-6 bg-transparent gap-3 p-0">
                   <TabsTrigger 
@@ -2994,7 +3005,7 @@ export function VenueDetailsPageV2({
                                 });
                               }}
                               initialFocus
-                              numberOfMonths={2}
+                              numberOfMonths={calendarMonths}
                               disabled={(date) =>
                                 date <
                                 new Date(
@@ -3461,7 +3472,7 @@ export function VenueDetailsPageV2({
                                 });
                               }}
                               initialFocus
-                              numberOfMonths={2}
+                              numberOfMonths={calendarMonths}
                               disabled={(date) =>
                                 date <
                                 new Date(
