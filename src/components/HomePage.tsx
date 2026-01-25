@@ -38,6 +38,7 @@ import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { VenueCarousel } from "./VenueCarousel";
+import { HighlightedDestinationsCarousel } from "./HighlightedDestinationsCarousel";
 import { motion } from "motion/react";
 import {
   DropdownMenu,
@@ -1053,6 +1054,9 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
   const [searchService, setSearchService] = useState("Looking for...");
   const [searchLocation, setSearchLocation] = useState("Select Location");
   const [searchBudget, setSearchBudget] = useState("Select Budget");
+  const [destinationBackgroundImage, setDestinationBackgroundImage] = useState(
+    "https://images.unsplash.com/photo-1625735263130-6ff46f244010?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1dHRhcmFraGFuZCUyMGhpbWFsYXlhJTIwbGFuZHNjYXBlfGVufDF8fHx8MTc2OTM1ODAzNHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+  ); // Default to Uttarakhand (index 2)
   const destinationsScrollRef = useRef<HTMLDivElement>(null);
   const venuesScrollRef = useRef<HTMLDivElement>(null);
 
@@ -1137,8 +1141,8 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
   return (
     <div className="min-h-screen bg-white">
       {/* New Hero Section - Large Image Card */}
-      <section className="relative pt-24 pb-8 px-4 md:px-8 bg-white">
-        <div className="container mx-auto max-w-7xl">
+      <section className="relative pt-24 pb-8 bg-white">
+        <div className="container mx-auto max-w-7xl px-4 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1242,8 +1246,8 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
       </section>
 
       {/* Popular Destinations - Mobile Only (appears above search) */}
-      <section className="md:hidden px-4 pt-2 pb-4 bg-white z-20">
-        <div className="container mx-auto max-w-5xl">
+      <section className="md:hidden pt-2 pb-4 bg-white z-20">
+        <div className="container mx-auto max-w-7xl px-4">
           <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
             {heroImages[currentHeroIndex].destinations.map((destination, index) => (
               <motion.div
@@ -1277,8 +1281,8 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
       </section>
 
       {/* Search Bar Section */}
-      <section className="relative mt-0 md:-mt-8 px-4 md:px-8 pb-8 bg-white z-20">
-        <div className="container mx-auto max-w-5xl">
+      <section className="relative mt-0 md:-mt-8 pb-8 bg-white z-20">
+        <div className="container mx-auto max-w-7xl px-4 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1461,7 +1465,7 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
 
       {/* Hero Section */}
       <section className="relative py-16 bg-gray-50">
-        <div className="container mx-auto px-4 md:px-8">
+        <div className="container mx-auto max-w-7xl px-4 md:px-8">
           {/* Main Heading with Country Selector */}
           <div className="mb-8">
             <motion.h1 
@@ -1584,18 +1588,28 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
 
           {/* Top Venues in Selected Country */}
           <div className="mb-12">
-            <div className="flex items-center justify-between mb-8">
-              <motion.h3
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="text-xl md:text-2xl text-gray-600"
-              >
-                Top Venues in {selectedCountry}
-              </motion.h3>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+              <div className="flex items-center justify-between md:justify-start gap-3 md:gap-4">
+                <motion.h3
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-lg md:text-2xl text-gray-600 flex-shrink-0"
+                >
+                  Top Venues in {selectedCountry}
+                </motion.h3>
+                
+                <a
+                  href="/venues"
+                  className="text-sm md:text-base text-[#DF6951] hover:text-[#02542D] transition-colors flex items-center gap-1 group whitespace-nowrap"
+                >
+                  View All
+                  <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
               
               {/* Navigation Arrows */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 self-end md:self-auto">
                 <button
                   onClick={() => scrollVenues('left')}
                   className="size-10 bg-white hover:bg-gray-50 border border-gray-200 rounded-full flex items-center justify-center transition-all shadow-sm hover:shadow-md"
@@ -1850,7 +1864,7 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
 
       {/* Trending Destinations */}
       <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4 md:px-8">
+        <div className="container mx-auto max-w-7xl px-4 md:px-8">
           {/* Header */}
           <div className="mb-6">
             <h2 className="text-3xl md:text-5xl mb-3">
@@ -1954,52 +1968,29 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-white to-rose-50/30">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl mb-4" style={{ fontFamily: 'Volkhov, serif' }}>
-              How Wedzway Works
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Your journey to the perfect destination wedding in three simple steps
-            </p>
-          </div>
+      {/* Highlighted Destinations Section */}
+      <section className="relative py-16 md:py-24 overflow-hidden">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0">
+          <ImageWithFallback
+            src={destinationBackgroundImage}
+            alt="Destination Background"
+            className="w-full h-full object-cover transition-all duration-700"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1929]/95 via-[#0a1929]/85 to-[#0a1929]/70" />
+        </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {howItWorks.map((step, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2 }}
-                className="relative"
-              >
-                <Card className="p-8 text-center hover:shadow-xl transition-all h-full">
-                  <div className={`w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center`}>
-                    <step.icon className="size-8 text-white" />
-                  </div>
-                  <div className={`text-5xl mb-4 bg-gradient-to-r ${step.color} bg-clip-text text-transparent`} style={{ fontFamily: 'Volkhov, serif' }}>
-                    {step.step}
-                  </div>
-                  <h3 className="mb-3">{step.title}</h3>
-                  <p className="text-muted-foreground">{step.description}</p>
-                </Card>
-                {index < howItWorks.length - 1 && (
-                  <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
-                    <ArrowRight className="size-8 text-[#DF6951]" />
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
+        <div className="container mx-auto max-w-7xl px-4 md:px-8 relative z-10">
+          <HighlightedDestinationsCarousel 
+            onNavigateToDestinations={onNavigateToDestinations}
+            onDestinationChange={setDestinationBackgroundImage}
+          />
         </div>
       </section>
 
-      {/* Explore Venues Carousel */}
+{/* Explore Venues Carousel */}
       <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4 md:px-8">
+        <div className="container mx-auto max-w-7xl px-4 md:px-8">
           <div className="flex items-center justify-between mb-12">
             <div>
               <h2 className="text-3xl md:text-5xl mb-3">
@@ -2120,21 +2111,65 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
             </Button>
           </div>
         </div>
+
+      {/* How It Works */}
+      <section className="py-16 md:py-24 bg-gradient-to-b from-white to-rose-50/30">
+        <div className="container mx-auto max-w-7xl px-4 md:px-8">
+          <div className="text-left mb-16">
+            <h2 className="text-3xl md:text-5xl mb-3">
+              How Wedzway Works
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Your journey to the perfect destination wedding in three simple steps
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {howItWorks.map((step, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.2 }}
+                className="relative"
+              >
+                <Card className="p-8 text-left hover:shadow-xl transition-all h-full">
+                  <div className={`w-16 h-16 mb-6 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center`}>
+                    <step.icon className="size-8 text-white" />
+                  </div>
+                  <div className={`text-5xl mb-4 bg-gradient-to-r ${step.color} bg-clip-text text-transparent`} style={{ fontFamily: 'Volkhov, serif' }}>
+                    {step.step}
+                  </div>
+                  <h3 className="mb-3">{step.title}</h3>
+                  <p className="text-muted-foreground">{step.description}</p>
+                </Card>
+                {index < howItWorks.length - 1 && (
+                  <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                    <ArrowRight className="size-8 text-[#DF6951]" />
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </section>
+
+            </section>
 
       {/* Services */}
       <section className="py-16 md:py-24 bg-gradient-to-b from-rose-50/30 to-white">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl mb-4" style={{ fontFamily: 'Volkhov, serif' }}>
+        <div className="container mx-auto max-w-7xl px-4 md:px-8">
+          <div className="text-left mb-16">
+            <h2 className="text-3xl md:text-5xl mb-3">
               Complete Wedding Services
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground">
               Everything you need for your perfect destination wedding, all in one place
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, index) => (
               <motion.div
                 key={index}
@@ -2143,8 +2178,8 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="p-6 text-center hover:shadow-xl transition-all h-full group cursor-pointer">
-                  <div className="size-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#02542D]/10 to-[#DF6951]/10 flex items-center justify-center group-hover:from-[#02542D]/20 group-hover:to-[#DF6951]/20 transition-all">
+                <Card className="p-6 text-left hover:shadow-xl transition-all h-full group cursor-pointer">
+                  <div className="size-16 mb-4 rounded-2xl bg-gradient-to-br from-[#02542D]/10 to-[#DF6951]/10 flex items-center justify-center group-hover:from-[#02542D]/20 group-hover:to-[#DF6951]/20 transition-all">
                     <service.icon className="size-8 text-[#02542D]" />
                   </div>
                   <h3 className="mb-2">{service.title}</h3>
@@ -2158,17 +2193,17 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
 
       {/* WedzZway Concierge */}
       <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl mb-4" style={{ fontFamily: 'Volkhov, serif' }}>
+        <div className="container mx-auto max-w-7xl px-4 md:px-8">
+          <div className="text-left mb-12">
+            <h2 className="text-3xl md:text-5xl mb-3">
               WedzZway Concierge
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground">
               Your personal destination team for managing every detail from selecting venues and planners, to handling budgets and guest experiences, for the wedding you've imagined.
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto">
+          <div>
             <div className="p-8 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200">
               <div className="grid md:grid-cols-2 gap-6">
                 <motion.div
@@ -2238,7 +2273,7 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
             </div>
           </div>
 
-          <div className="text-center mt-8">
+          <div className="text-left mt-8">
             <Button 
               size="lg"
               className="bg-[#F1A501] hover:bg-[#F1A501]/90 text-black gap-2"
@@ -2252,17 +2287,17 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
 
       {/* Travel Assurance - Handled */}
       <section className="py-16 md:py-24 bg-gradient-to-b from-rose-50/30 to-white">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl mb-4" style={{ fontFamily: 'Volkhov, serif' }}>
+        <div className="container mx-auto max-w-7xl px-4 md:px-8">
+          <div className="text-left mb-12">
+            <h2 className="text-3xl md:text-5xl mb-3">
               Travel Assurance—Handled
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground">
               We coordinate visas, flights, guest itineraries, and airport transfers with trusted global partners
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto">
+          <div>
             <div className="p-8 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200">
               <div className="grid md:grid-cols-2 gap-6">
                 <motion.div
@@ -2335,7 +2370,7 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
           <div className="text-center mt-8">
             <Button 
               size="lg"
-              className="bg-[#F1A501] hover:bg-[#F1A501]/90 text-black gap-2"
+              className="bg-[#F1A501] hover:bg-[#F1A501]/90 text-black gap-2 text-left"
             >
               Plan Destination weddings with Concierge
               <ArrowRight className="size-5" />
@@ -2346,16 +2381,15 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
 
       {/* FAQ Section */}
       <section className="py-16 md:py-24 bg-gray-50">
-        <div className="container mx-auto px-4 md:px-8">
+        <div className="container mx-auto max-w-7xl px-4 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-4xl mx-auto"
           >
             {/* Header */}
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-5xl mb-4">
+            <div className="text-left mb-12">
+              <h2 className="text-3xl md:text-5xl mb-3">
                 Frequently Asked Questions
               </h2>
               <p className="text-lg text-muted-foreground">
@@ -2456,8 +2490,8 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-[#02542D] to-[#DF6951] text-white">
-        <div className="container mx-auto px-4 md:px-8 text-center">
+      {/* <section className="py-16 md:py-24 bg-gradient-to-br from-[#02542D] to-[#DF6951] text-white">
+        <div className="container mx-auto max-w-7xl px-4 md:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -2490,7 +2524,7 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
             </div>
           </motion.div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }
