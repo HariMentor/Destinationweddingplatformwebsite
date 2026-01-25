@@ -60,6 +60,7 @@ import {
   Zap,
   Target,
   BarChart3,
+  Rocket,
 } from "lucide-react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
@@ -82,6 +83,8 @@ import { GiftRegistryEditor } from "./GiftRegistryEditor";
 import { PublicGiftRegistryPage } from "./PublicGiftRegistryPage";
 import { PaymentsTabContent } from "./PaymentsTabContent";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { DeliveryTimelinePage } from "./DeliveryTimelinePage";
+import { PlannerDashboardContent } from "./PlannerDashboardContent";
 import { toast } from "sonner";
 import { useCurrency } from "./CurrencyContext";
 
@@ -104,6 +107,12 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
   const [showPublicRegistry, setShowPublicRegistry] = useState(false);
   const [giftRegistryData, setGiftRegistryData] = useState<any>(data.giftRegistry);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  // Profile type switcher
+  const [profileType, setProfileType] = useState<"customer" | "planner">("customer");
+  
+  // Check if user is a wedding planner (in real app, this would come from auth/user context)
+  const isWeddingPlanner = true; // Mock - replace with actual auth check
   
   // Filter states
   const [inspirationFilter, setInspirationFilter] = useState<string>("all");
@@ -305,8 +314,8 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
       )
     : 0;
 
-  // Navigation items
-  const navItems = [
+  // Navigation items - Customer Profile
+  const customerNavItems = [
     { id: "overview", label: "Overview", icon: User },
     { id: "concierge", label: "Concierge Service", icon: Crown },
     { id: "plan", label: "Wedding Plan", icon: ListChecks },
@@ -320,7 +329,27 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
     { id: "visa", label: "Visa", icon: FileText },
     { id: "payments", label: "Payments", icon: CreditCard },
     { id: "saved", label: "Saved", icon: Heart },
+    { id: "timeline", label: "Delivery Timeline", icon: Rocket },
   ];
+
+  // Navigation items - Planner Profile
+  const plannerNavItems = [
+    { id: "overview", label: "Business Overview", icon: Briefcase },
+    { id: "profile", label: "Profile Settings", icon: User },
+    { id: "bookings", label: "Client Bookings", icon: Calendar },
+    { id: "clients", label: "My Clients", icon: Users },
+    { id: "portfolio", label: "Portfolio", icon: Star },
+    { id: "packages", label: "Service Packages", icon: Package },
+    { id: "quotes", label: "Quotes", icon: FileText },
+    { id: "reviews", label: "Reviews & Ratings", icon: Award },
+    { id: "earnings", label: "Earnings", icon: DollarSign },
+    { id: "analytics", label: "Analytics", icon: BarChart3 },
+    { id: "messages", label: "Messages", icon: MessageCircle },
+    { id: "calendar", label: "My Calendar", icon: Calendar },
+    { id: "resources", label: "Resources", icon: FileText },
+  ];
+
+  const navItems = profileType === "customer" ? customerNavItems : plannerNavItems;
 
   // Navigation Content Component
   const NavigationContent = ({ onItemClick }: { onItemClick?: () => void }) => (
@@ -357,7 +386,7 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
           className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-700 transition-all"
         >
           <LogOut className="size-5 shrink-0" />
-          <span className="text-sm">Exit</span>
+          <span className="text-sm">Logout</span>
         </button>
         <button
           className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-700 transition-all mt-1"
@@ -421,6 +450,55 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
       <div className="flex-1 lg:ml-64 pt-0 lg:pt-0">
         <div className="lg:hidden h-16" /> {/* Spacer for mobile header */}
         <div className="container mx-auto px-3 sm:px-4 md:px-8 py-4 sm:py-6 md:py-8">
+          {/* Profile Type Switcher - Only shown if user is a wedding planner */}
+          {isWeddingPlanner && (
+            <Card className="p-4 mb-6 bg-gradient-to-r from-[#02542D]/5 to-[#DF6951]/5 border-[#02542D]/20">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="size-10 rounded-full bg-gradient-to-br from-[#02542D] to-[#DF6951] flex items-center justify-center">
+                    <Briefcase className="size-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-base">Profile View Mode</h3>
+                    <p className="text-sm text-muted-foreground">Switch between customer and business dashboard</p>
+                  </div>
+                </div>
+                <div className="inline-flex rounded-lg border-2 border-gray-200 bg-white p-1.5 shadow-sm">
+                  <button
+                    onClick={() => {
+                      setProfileType("customer");
+                      setActiveTab("overview");
+                      toast.success("Switched to Customer View");
+                    }}
+                    className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${
+                      profileType === "customer"
+                        ? "bg-[#DF6951] text-white shadow-md"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    }`}
+                  >
+                    <Heart className="size-4" />
+                    Customer View
+                  </button>
+                  <button
+                    onClick={() => {
+                      setProfileType("planner");
+                      setActiveTab("overview");
+                      toast.success("Switched to Business View");
+                    }}
+                    className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${
+                      profileType === "planner"
+                        ? "bg-[#02542D] text-white shadow-md"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    }`}
+                  >
+                    <Briefcase className="size-4" />
+                    Business View
+                  </button>
+                </div>
+              </div>
+            </Card>
+          )}
+
           {/* Profile Card - Only shown in Overview */}
           {activeTab === "overview" && (
             <Card className="p-4 sm:p-6 mb-6 sm:mb-8 bg-gradient-to-r from-[#DF6951]/10 to-[#F1A501]/10 border-2 border-[#DF6951]/20">
@@ -443,13 +521,29 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
                       </h2>
                       <Badge className="bg-[#DF6951] mb-2">
                         <Sparkles className="size-3 mr-1" />
-                        Premium Member
+                        {isWeddingPlanner ? "Wedding Planner" : "Premium Member"}
                       </Badge>
                     </div>
-                    <Button variant="outline" size="sm" className="gap-2 w-full sm:w-auto">
-                      <Edit className="size-4" />
-                      <span className="sm:inline">Edit Profile</span>
-                    </Button>
+                    <div className="flex gap-2 w-full sm:w-auto">
+                      <Button variant="outline" size="sm" className="gap-2 flex-1 sm:flex-initial">
+                        <Edit className="size-4" />
+                        <span className="sm:inline">Edit Profile</span>
+                      </Button>
+                      {isWeddingPlanner && (
+                        <Button 
+                          size="sm" 
+                          className="gap-2 flex-1 sm:flex-initial bg-[#02542D] hover:bg-[#023a20]"
+                          onClick={() => {
+                            if (onNavigate) {
+                              onNavigate('planner-edit');
+                            }
+                          }}
+                        >
+                          <Briefcase className="size-4" />
+                          <span className="sm:inline">Manage Business</span>
+                        </Button>
+                      )}
+                    </div>
                   </div>
 
                   <div className="grid sm:grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm mb-4">
@@ -563,10 +657,88 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
 
           {/* Main Content */}
           <div className="mb-12">
+          
+          {/* Show Planner Dashboard when in planner profile mode */}
+          {profileType === "planner" ? (
+            <PlannerDashboardContent activeTab={activeTab} onNavigate={onNavigate} />
+          ) : (
+          <>
+          {/* Customer View Content Below */}
 
           {/* Overview Tab */}
           {activeTab === "overview" && (
             <div className="space-y-6">
+              {/* Wedding Planner Business Dashboard */}
+              {isWeddingPlanner && (
+                <Card className="p-4 sm:p-6 bg-gradient-to-r from-[#02542D]/10 to-[#02542D]/5 border-2 border-[#02542D]/20">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Briefcase className="size-5 text-[#02542D]" />
+                        <h3 className="text-xl" style={{ fontFamily: "Volkhov, serif" }}>
+                          Your Wedding Planning Business
+                        </h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Manage your profile, showcase your work, and connect with couples
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid sm:grid-cols-3 gap-4 mb-4">
+                    <div className="text-center p-3 bg-white rounded-lg border">
+                      <div className="text-2xl font-bold text-[#02542D]">4.9</div>
+                      <div className="text-xs text-muted-foreground">Average Rating</div>
+                    </div>
+                    <div className="text-center p-3 bg-white rounded-lg border">
+                      <div className="text-2xl font-bold text-[#02542D]">124</div>
+                      <div className="text-xs text-muted-foreground">Total Reviews</div>
+                    </div>
+                    <div className="text-center p-3 bg-white rounded-lg border">
+                      <div className="text-2xl font-bold text-[#02542D]">150</div>
+                      <div className="text-xs text-muted-foreground">Weddings Planned</div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button 
+                      size="sm"
+                      onClick={() => {
+                        if (onNavigate) {
+                          onNavigate('planner-edit');
+                        }
+                      }}
+                      className="gap-2 w-full sm:w-auto bg-[#02542D] hover:bg-[#023a20]"
+                    >
+                      <Edit className="size-4" />
+                      <span>Manage Profile</span>
+                    </Button>
+                    <Button 
+                      size="sm"
+                      variant="outline"
+                      onClick={() => {
+                        if (onNavigate) {
+                          onNavigate('planners');
+                        }
+                      }}
+                      className="gap-2 w-full sm:w-auto"
+                    >
+                      <Eye className="size-4" />
+                      <span>View Public Profile</span>
+                    </Button>
+                    <Button 
+                      size="sm"
+                      variant="outline"
+                      className="gap-2 w-full sm:w-auto"
+                      onClick={() => toast.info('Analytics dashboard coming soon!')}
+                    >
+                      <BarChart3 className="size-4" />
+                      <span>Analytics</span>
+                    </Button>
+                  </div>
+                </Card>
+              )}
+
               {/* Wedding Plan Quick Access */}
               {data.weddingPlan && (
                 <Card className="p-4 sm:p-6 bg-gradient-to-r from-[#DF6951]/10 to-[#F1A501]/10 border-2 border-[#DF6951]/20">
@@ -2250,6 +2422,11 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
             />
           )}
 
+          {/* Delivery Timeline Tab */}
+          {activeTab === "timeline" && (
+            <DeliveryTimelinePage />
+          )}
+
           {/* Invitations Tab */}
           {activeTab === "invitations" && (
             <div className="space-y-6">
@@ -2910,6 +3087,8 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
               )}
             </div>
           )}
+          </>
+          )}{/* End Customer View */}
         </div>
       </div>
 

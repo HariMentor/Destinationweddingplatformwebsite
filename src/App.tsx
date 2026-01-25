@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { AccessGate } from "./components/AccessGate";
+import { PackageComparePage } from "./components/PackageComparePage";
+import { HomePage } from "./components/HomePage";
+import { toast, Toaster } from "sonner@2.0.3";
 import { CurrencyProvider } from "./components/CurrencyContext";
 import { PackageCompareProvider } from "./components/PackageCompareContext";
 import { TravelNav } from "./components/TravelNav";
@@ -53,11 +55,13 @@ import { ProviderProfilePage } from "./components/ProviderProfilePage";
 import { BrandGuidelinesPage } from "./components/BrandGuidelinesPage";
 import { BlogPage } from "./components/BlogPage";
 import { BlogDetailPage } from "./components/BlogDetailPage";
-import { PackageComparePage } from "./components/PackageComparePage";
-import { Toaster } from "./components/ui/sonner";
+import { SortedByWedzwayPage } from "./components/SortedByWedzwayPage";
+import { AuthPage } from "./components/AuthPage";
+import { RegisterPage } from "./components/RegisterPage";
+import { PlannerProfileEditPage } from "./components/PlannerProfileEditPage";
 
 type VendorType = 'photographer' | 'videographer' | 'decorator';
-type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'venue-preview' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge' | 'payment' | 'booking-confirmation' | 'email-templates' | 'venue-brochure' | 'providers' | 'provider-profile' | 'brand-guidelines' | 'blog' | 'blog-detail' | 'package-compare';
+type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'venue-preview' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'planner-edit' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge' | 'payment' | 'booking-confirmation' | 'email-templates' | 'venue-brochure' | 'providers' | 'provider-profile' | 'brand-guidelines' | 'blog' | 'blog-detail' | 'package-compare' | 'sorted' | 'auth' | 'register';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('landing');
@@ -227,7 +231,7 @@ export default function App() {
     setCurrentPage('venue-preview');
   };
 
-  const handleNavigate = (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers' | 'brand-guidelines' | 'blog' | 'venue-preview') => {
+  const handleNavigate = (page: 'home' | 'landing' | 'venues' | 'destinations' | 'inspirations' | 'planners' | 'vendors' | 'tours' | 'visa-services' | 'builder' | 'expenses' | 'marketplace' | 'account' | 'concierge' | 'providers' | 'brand-guidelines' | 'blog' | 'venue-preview' | 'sorted' | 'auth' | 'register') => {
     setCurrentPage(page as PageType);
   };
 
@@ -241,6 +245,7 @@ export default function App() {
     if (currentPage === 'tourism-board') return 'destinations';
     if (currentPage === 'inspiration-detail') return 'inspirations';
     if (currentPage === 'planner-profile') return 'planners';
+    if (currentPage === 'planner-edit') return 'account';
     if (currentPage === 'vendor-profile') return 'vendors';
     if (currentPage === 'tour-details') return 'tours';
     if (currentPage === 'visa-request') return 'visa-services';
@@ -257,10 +262,9 @@ export default function App() {
   return (
     <CurrencyProvider>
       <PackageCompareProvider>
-        <AccessGate>
-          <div className="size-full">
-            <Toaster position="top-right" />
-            <TravelNav onNavigate={handleNavigate} currentPage={getCurrentNavPage()} />
+        <div className="size-full">
+          <Toaster position="top-right" />
+          <TravelNav onNavigate={handleNavigate} currentPage={getCurrentNavPage()} />
         
         {currentPage === 'landing' ? (
           <>
@@ -269,27 +273,22 @@ export default function App() {
           </>
         ) : currentPage === 'home' ? (
           <>
-            <TravelHero />
-            <TravelProblem />
-            <TravelSolution />
-            <TravelMarket />
-            <TravelFeatures />
-            <TravelBusiness />
-            <TravelEdge />
-            <TravelMVP />
-            <TravelFeatureRollout />
-            <TravelDemographics />
-            <TravelDestinationLocations />
-            <TravelFinancials />
-            <TravelRoadmap />
-            <TravelTeam />
-            <TravelCTA />
+            <HomePage 
+              onNavigateToVenues={() => handleNavigate('venues')}
+              onNavigateToVenueDetails={handleViewVenueDetails}
+              onNavigateToDestinations={() => handleNavigate('destinations')}
+            />
+            <TravelFooter onNavigate={handleNavigate} />
+          </>
+        ) : currentPage === 'sorted' ? (
+          <>
+            <SortedByWedzwayPage />
             <TravelFooter onNavigate={handleNavigate} />
           </>
         ) : currentPage === 'destinations' ? (
           <>
             <DestinationsPage onViewDetails={handleViewDestinationDetails} />
-            <TravelFooter onNavigate={handleNavigate} />
+            <TravelFooter />
           </>
         ) : currentPage === 'destination-details' ? (
           <>
@@ -371,6 +370,17 @@ export default function App() {
             <PlannerProfilePage 
               plannerId={selectedPlannerId || 1} 
               onBack={handleBackToPlanners} 
+            />
+            <TravelFooter />
+          </>
+        ) : currentPage === 'planner-edit' ? (
+          <>
+            <PlannerProfileEditPage 
+              plannerId={selectedPlannerId || 1} 
+              onBack={() => setCurrentPage('account')}
+              onPreview={() => {
+                setCurrentPage('planner-profile');
+              }}
             />
             <TravelFooter />
           </>
@@ -464,7 +474,16 @@ export default function App() {
           </>
         ) : currentPage === 'account' ? (
           <>
-            <CustomerAccountPage onBack={() => setCurrentPage('landing')} />
+            <CustomerAccountPage 
+              onBack={() => setCurrentPage('landing')} 
+              onNavigate={(page) => {
+                if (page === 'planner-edit') {
+                  setCurrentPage('planner-edit');
+                } else {
+                  handleNavigate(page as any);
+                }
+              }}
+            />
           </>
         ) : currentPage === 'concierge' ? (
           <>
@@ -507,10 +526,17 @@ export default function App() {
             />
             <TravelFooter />
           </>
+        ) : currentPage === 'auth' ? (
+          <>
+            <AuthPage onNavigate={handleNavigate} />
+          </>
+        ) : currentPage === 'register' ? (
+          <>
+            <RegisterPage onNavigate={handleNavigate} />
+          </>
         ) : null}
       </div>
-    </AccessGate>
-      </PackageCompareProvider>
+    </PackageCompareProvider>
     </CurrencyProvider>
   );
 }

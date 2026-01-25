@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Clock, Star, Users, Heart, Calendar, Filter, Search, X, ChevronDown } from "lucide-react";
+import { MapPin, Clock, Star, Users, Heart, Calendar, Filter, Search, X, ChevronDown, BadgeCheck, TrendingUp } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
@@ -52,6 +52,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
       highlights: ["Private boat", "Champagne included", "Sunset views"],
       maxGuests: 2,
       instantConfirmation: true,
+      verified: true,
     },
     {
       id: 2,
@@ -67,6 +68,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
       highlights: ["3 wineries", "Local lunch", "Expert guide"],
       maxGuests: 8,
       instantConfirmation: true,
+      verified: true,
     },
     {
       id: 3,
@@ -82,6 +84,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
       highlights: ["Sunrise flight", "Champagne breakfast", "Photos included"],
       maxGuests: 4,
       instantConfirmation: false,
+      verified: true,
     },
     {
       id: 4,
@@ -96,6 +99,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
       highlights: ["Market visit", "Hands-on cooking", "Take recipes home"],
       maxGuests: 2,
       instantConfirmation: true,
+      verified: true,
     },
     {
       id: 5,
@@ -112,6 +116,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
       highlights: ["Couples massage", "Flower bath", "Refreshments"],
       maxGuests: 2,
       instantConfirmation: true,
+      verified: true,
     },
     {
       id: 6,
@@ -127,6 +132,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
       highlights: ["Professional photos", "Hidden gems", "Personalized route"],
       maxGuests: 2,
       instantConfirmation: true,
+      verified: true,
     },
     {
       id: 7,
@@ -142,6 +148,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
       highlights: ["Aerial views", "Burj Khalifa", "Palm Jumeirah"],
       maxGuests: 4,
       instantConfirmation: false,
+      verified: true,
     },
     {
       id: 8,
@@ -156,6 +163,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
       highlights: ["Coral reef tour", "BBQ lunch", "Equipment included"],
       maxGuests: 10,
       instantConfirmation: true,
+      verified: true,
     },
     {
       id: 9,
@@ -171,6 +179,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
       highlights: ["Palace access", "Royal dinner", "Cultural performance"],
       maxGuests: 6,
       instantConfirmation: true,
+      verified: true,
     },
   ];
 
@@ -198,27 +207,27 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 pt-20">
+    <div className="min-h-screen bg-white pt-20">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-[#DF6951]/10 via-[#F1A501]/10 to-[#DF6951]/10">
+      <section className="relative py-16 md:py-20 bg-gradient-to-b from-rose-50/30 to-white">
         <div className="container mx-auto px-4 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-3xl mx-auto text-center"
+            className="max-w-4xl mx-auto text-center"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl mb-6">
-              Discover Unforgettable <span className="text-[#DF6951]">Experiences</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl mb-4" style={{ fontFamily: 'Volkhov, serif' }}>
+              Curated Wedding <span className="text-[#DF6951]">Experiences</span>
             </h1>
-            <p className="text-lg md:text-xl text-foreground/70 mb-8">
-              From romantic sunsets to thrilling adventures - make your wedding destination even more special
+            <p className="text-lg md:text-xl text-muted-foreground mb-8">
+              From romantic sunsets to thrilling adventures—make your destination wedding unforgettable
             </p>
 
             {/* Search Bar */}
-            <div className="bg-white rounded-2xl shadow-lg p-3 flex flex-col md:flex-row gap-3">
+            <div className="bg-white rounded-2xl shadow-lg p-4 flex flex-col md:flex-row gap-3">
               <div className="flex-1 relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-foreground/40" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-gray-400" />
                 <Input
                   placeholder="Search tours, activities, experiences..."
                   value={searchQuery}
@@ -230,7 +239,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
                 size="lg"
                 onClick={() => setShowFilters(!showFilters)}
                 variant="outline"
-                className="gap-2"
+                className="gap-2 h-12"
               >
                 <Filter className="size-4" />
                 Filters
@@ -238,7 +247,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
               </Button>
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-[#DF6951] to-[#F1A501]"
+                className="bg-gradient-to-r from-[#DF6951] to-[#F1A501] hover:from-[#DF6951]/90 hover:to-[#F1A501]/90 h-12"
               >
                 Search
               </Button>
@@ -287,7 +296,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
       </section>
 
       {/* Categories */}
-      <section className="py-8 bg-white border-b">
+      <section className="py-6 bg-white border-b">
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
             {categories.map((category) => (
@@ -297,7 +306,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
                 variant={selectedCategory === category.id ? "default" : "outline"}
                 className={`whitespace-nowrap gap-2 ${
                   selectedCategory === category.id
-                    ? "bg-gradient-to-r from-[#DF6951] to-[#F1A501]"
+                    ? "bg-gradient-to-r from-[#02542D] to-[#02542D]/80 hover:from-[#02542D]/90 hover:to-[#02542D]/70"
                     : ""
                 }`}
               >
@@ -310,14 +319,14 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
       </section>
 
       {/* Tours Grid */}
-      <section className="py-12">
+      <section className="py-16 md:py-20">
         <div className="container mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl md:text-3xl mb-2">
-                {filteredTours.length} Experience{filteredTours.length !== 1 ? "s" : ""} Found
+              <h2 className="text-2xl md:text-3xl mb-2" style={{ fontFamily: 'Volkhov, serif' }}>
+                {filteredTours.length} Experience{filteredTours.length !== 1 ? "s" : ""} Available
               </h2>
-              <p className="text-foreground/60">
+              <p className="text-muted-foreground">
                 {selectedCategory !== "all"
                   ? categories.find((c) => c.id === selectedCategory)?.name
                   : "All categories"}
@@ -325,7 +334,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredTours.map((tour, index) => (
               <motion.div
                 key={tour.id}
@@ -334,19 +343,26 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="group cursor-pointer overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all h-full flex flex-col">
+                <Card className="group cursor-pointer overflow-hidden hover:shadow-xl transition-all h-full flex flex-col">
                   <div className="relative aspect-[4/3]" onClick={() => onViewDetails(tour.id)}>
                     <ImageWithFallback
                       src={tour.image}
                       alt={tour.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
                     {/* Badge */}
                     {tour.badge && (
-                      <Badge className="absolute top-3 left-3 bg-white text-foreground border-0 shadow-md">
+                      <Badge className="absolute top-4 left-4 bg-[#02542D] hover:bg-[#02542D] border-0 text-white">
                         {tour.badge}
+                      </Badge>
+                    )}
+
+                    {/* Verified Badge */}
+                    {tour.verified && (
+                      <Badge className="absolute top-4 right-14 bg-white hover:bg-white border-0 text-[#02542D]">
+                        <BadgeCheck className="size-3 mr-1" />
+                        VERIFIED
                       </Badge>
                     )}
 
@@ -356,29 +372,30 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
                         e.stopPropagation();
                         toggleFavorite(tour.id);
                       }}
-                      className="absolute top-3 right-3 size-10 bg-white rounded-full flex items-center justify-center shadow-md hover:scale-110 transition-transform"
+                      className="absolute top-4 right-4 size-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-md"
                     >
                       <Heart
                         className={`size-5 ${
                           favorites.has(tour.id)
                             ? "fill-red-500 text-red-500"
-                            : "text-foreground"
+                            : "text-gray-700"
                         }`}
                       />
                     </button>
 
                     {/* Instant Confirmation Badge */}
                     {tour.instantConfirmation && (
-                      <div className="absolute bottom-3 left-3 bg-green-500 text-white text-xs px-3 py-1 rounded-full flex items-center gap-1">
-                        ⚡ Instant Confirmation
+                      <div className="absolute bottom-4 left-4 bg-green-500 text-white text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
+                        <TrendingUp className="size-3" />
+                        Instant Confirmation
                       </div>
                     )}
                   </div>
 
-                  <div className="p-5 flex-1 flex flex-col" onClick={() => onViewDetails(tour.id)}>
-                    <div className="flex items-start gap-2 mb-2">
+                  <div className="p-6 flex-1 flex flex-col" onClick={() => onViewDetails(tour.id)}>
+                    <div className="flex items-start gap-2 mb-3">
                       <MapPin className="size-4 text-[#DF6951] flex-shrink-0 mt-1" />
-                      <span className="text-sm text-foreground/60">{tour.location}</span>
+                      <span className="text-sm text-muted-foreground">{tour.location}</span>
                     </div>
 
                     <h3 className="mb-3 line-clamp-2">{tour.title}</h3>
@@ -386,47 +403,49 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
                     {/* Highlights */}
                     <div className="flex flex-wrap gap-2 mb-4">
                       {tour.highlights.slice(0, 2).map((highlight, idx) => (
-                        <span
+                        <Badge
                           key={idx}
-                          className="text-xs bg-muted px-2 py-1 rounded-full text-foreground/70"
+                          variant="outline"
+                          className="text-xs"
                         >
                           {highlight}
-                        </span>
+                        </Badge>
                       ))}
                     </div>
 
                     <div className="mt-auto">
                       {/* Rating & Duration */}
-                      <div className="flex items-center justify-between mb-3 text-sm">
+                      <div className="flex items-center justify-between mb-4 text-sm pb-4 border-b">
                         <div className="flex items-center gap-1">
-                          <Star className="size-4 fill-[#F1A501] text-[#F1A501]" />
-                          <span className="font-medium">{tour.rating}</span>
-                          <span className="text-foreground/60">({tour.reviews})</span>
+                          <Star className="size-4 fill-yellow-400 text-yellow-400" />
+                          <span>{tour.rating}</span>
+                          <span className="text-muted-foreground">({tour.reviews})</span>
                         </div>
-                        <div className="flex items-center gap-1 text-foreground/60">
+                        <div className="flex items-center gap-1 text-muted-foreground">
                           <Clock className="size-4" />
                           <span>{tour.duration}</span>
                         </div>
                       </div>
 
                       {/* Price */}
-                      <div className="flex items-end justify-between border-t pt-3">
+                      <div className="flex items-end justify-between">
                         <div>
                           {tour.originalPrice && (
-                            <div className="text-sm text-foreground/40 line-through">
+                            <div className="text-sm text-muted-foreground line-through">
                               ₹{tour.originalPrice.toLocaleString()}
                             </div>
                           )}
                           <div className="flex items-baseline gap-1">
+                            <span className="text-xs text-muted-foreground">From</span>
                             <span className="text-2xl text-[#DF6951]">
                               ₹{tour.price.toLocaleString()}
                             </span>
-                            <span className="text-sm text-foreground/60">/ person</span>
                           </div>
+                          <span className="text-xs text-muted-foreground">per person</span>
                         </div>
                         <Button
                           size="sm"
-                          className="bg-gradient-to-r from-[#DF6951] to-[#F1A501]"
+                          className="bg-gradient-to-r from-[#DF6951] to-[#F1A501] hover:from-[#DF6951]/90 hover:to-[#F1A501]/90"
                           onClick={(e) => {
                             e.stopPropagation();
                             onViewDetails(tour.id);
@@ -446,7 +465,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
             <div className="text-center py-20">
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-2xl mb-2">No tours found</h3>
-              <p className="text-foreground/60">
+              <p className="text-muted-foreground">
                 Try adjusting your filters or search query
               </p>
             </div>
@@ -455,7 +474,7 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-[#DF6951] to-[#F1A501] text-white">
+      <section className="py-16 md:py-24 bg-gradient-to-br from-[#02542D] to-[#DF6951] text-white">
         <div className="container mx-auto px-4 md:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -464,14 +483,15 @@ export function ToursPage({ onViewDetails }: ToursPageProps) {
             transition={{ duration: 0.6 }}
             className="max-w-2xl mx-auto"
           >
-            <h2 className="text-3xl md:text-4xl mb-4">Can't Find What You're Looking For?</h2>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl mb-4" style={{ fontFamily: 'Volkhov, serif' }}>
+              Can't Find What You're Looking For?
+            </h2>
             <p className="text-lg mb-8 text-white/90">
-              Let us create a custom experience tailored to your preferences
+              Let us create a custom experience tailored to your wedding celebration
             </p>
             <Button
               size="lg"
-              variant="secondary"
-              className="bg-white text-[#DF6951] hover:bg-white/90"
+              className="bg-white text-[#02542D] hover:bg-gray-100 px-8"
             >
               Request Custom Tour
             </Button>

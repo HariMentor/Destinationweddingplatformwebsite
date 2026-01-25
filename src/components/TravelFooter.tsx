@@ -23,7 +23,7 @@ export function TravelFooter({ onNavigate }: TravelFooterProps = {}) {
   const { currency, setCurrency } = useCurrency();
 
   return (
-    <footer className="bg-white pt-16 pb-8 relative overflow-hidden">
+    <footer className="bg-white pt-16 pb-8 relative overflow-hidden border-t border-gray-200">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12 max-w-7xl mx-auto">
           {/* Brand */}

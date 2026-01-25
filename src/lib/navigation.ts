@@ -21,6 +21,9 @@ export const NAVIGATION_ROUTES: Record<string, string> = {
   'brand-guidelines': '/brand-guidelines',
   'venue-preview': '/venue-preview', // Dedicated venue preview page
   'package-compare': '/packages/compare', // Wedding package comparison page
+  'sorted': '/sorted', // Sorted by Wedzway
+  'auth': '/auth', // Login page
+  'register': '/register', // Register page
 };
 
 // Helper function to navigate using the route map

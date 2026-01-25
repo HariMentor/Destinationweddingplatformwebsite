@@ -3,7 +3,6 @@ import { Volkhov, Poppins } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 import { CurrencyProvider } from '@/components/CurrencyContext';
 import { PackageCompareProvider } from '@/components/PackageCompareContext';
-import { AccessGateWrapper } from '@/components/AccessGateWrapper';
 import '@/styles/globals.css';
 
 const volkhov = Volkhov({
@@ -50,14 +49,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${volkhov.variable} ${poppins.variable}`}>
       <body>
-        <AccessGateWrapper>
-          <CurrencyProvider>
-            <PackageCompareProvider>
-              {children}
-              <Toaster position="top-right" />
-            </PackageCompareProvider>
-          </CurrencyProvider>
-        </AccessGateWrapper>
+        <CurrencyProvider>
+          <PackageCompareProvider>
+            {children}
+            <Toaster position="top-right" />
+          </PackageCompareProvider>
+        </CurrencyProvider>
       </body>
     </html>
   );

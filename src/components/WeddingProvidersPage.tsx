@@ -455,31 +455,43 @@ export function WeddingProvidersPage({ onViewProfile }: WeddingProvidersPageProp
                         </Link>
                       </div>
 
-                      <div className="grid md:grid-cols-3 gap-6">
+                      <div className="space-y-6">
                         {provider.featuredVenues.map((venue, vIdx) => (
                           <Card key={vIdx} className="overflow-hidden group hover:shadow-xl transition-all border-gray-200">
-                            <div className="relative h-48 overflow-hidden">
-                              <ImageWithFallback
-                                src={venue.image}
-                                alt={venue.name}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                              />
-                              <div className="absolute top-3 right-3">
-                                <div className="bg-white px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
-                                  <Star className="w-4 h-4 text-[#F1A501] fill-[#F1A501]" />
-                                  <span className="text-sm">{venue.rating}</span>
+                            <div className="grid md:grid-cols-5 gap-0">
+                              <div className="relative md:col-span-2 aspect-[4/3] md:aspect-auto overflow-hidden">
+                                <ImageWithFallback
+                                  src={venue.image}
+                                  alt={venue.name}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                />
+                                <div className="absolute top-3 right-3">
+                                  <div className="bg-white px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
+                                    <Star className="w-4 h-4 text-[#F1A501] fill-[#F1A501]" />
+                                    <span className="text-sm font-medium">{venue.rating}</span>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="p-4">
-                              <h4 className="mb-2 line-clamp-1">{venue.name}</h4>
-                              <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                                <MapPin className="w-4 h-4" />
-                                <span className="line-clamp-1">{venue.location}</span>
-                              </div>
-                              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                <Users className="w-3 h-3" />
-                                <span>{venue.reviews} reviews</span>
+                              
+                              <div className="md:col-span-3 p-6 flex flex-col justify-between">
+                                <div>
+                                  <h4 className="text-2xl mb-3">{venue.name}</h4>
+                                  <div className="flex items-center gap-2 text-base text-muted-foreground mb-4">
+                                    <MapPin className="w-5 h-5" />
+                                    <span>{venue.location}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+                                    <Users className="w-4 h-4" />
+                                    <span>{venue.reviews} reviews</span>
+                                  </div>
+                                </div>
+                                <div>
+                                  <Button 
+                                    className="bg-[#02542D] hover:bg-[#02542D]/90 text-white rounded-full px-8 h-11"
+                                  >
+                                    Book now
+                                  </Button>
+                                </div>
                               </div>
                             </div>
                           </Card>

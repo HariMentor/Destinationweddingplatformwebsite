@@ -842,6 +842,184 @@ const emailTemplates: EmailTemplate[] = [
 </body>
 </html>`
   },
+  {
+    id: "sorted-request-confirmation",
+    name: "Sorted by Wedzway - Request Confirmation",
+    description: "Sent when a user submits an event planning request through Sorted by Wedzway",
+    category: "Sorted",
+    variables: ["customerName", "customerEmail", "customerPhone", "eventType", "eventDate", "guestCount", "budget"],
+    html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Request Confirmation - Sorted by Wedzway</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f7f7f7;">
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #f7f7f7;">
+    <tr>
+      <td style="padding: 40px 20px;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="margin: 0 auto; background-color: #ffffff;">
+          
+          <!-- Logo -->
+          <tr>
+            <td style="padding: 40px 40px 20px;">
+              <h1 style="margin: 0 0 4px; color: #1a1a1a; font-family: Impact, Arial Black, sans-serif; font-size: 32px; letter-spacing: 0.1em;">SORTED</h1>
+              <p style="margin: 0; color: #6b7280; font-size: 11px; letter-spacing: 0.2em;">BY WEDZWAY</p>
+            </td>
+          </tr>
+          
+          <!-- Banner Image -->
+          <tr>
+            <td style="padding: 0; overflow: hidden; max-height: 350px;">
+              <img src="https://images.unsplash.com/photo-1613067532651-7075a620c900?w=600&q=80" alt="Sorted by Wedzway - Event Planning" width="600" style="display: block; width: 100%; max-width: 600px; height: 350px; object-fit: cover; object-position: center; border: 0;" />
+            </td>
+          </tr>
+          
+          <!-- Content -->
+          <tr>
+            <td style="padding: 40px 40px 40px;">
+              <p style="margin: 0 0 16px; color: #1a1a1a; font-size: 15px; line-height: 1.5;">Hi {{customerName}},</p>
+              
+              <p style="margin: 0 0 24px; color: #1a1a1a; font-size: 15px; line-height: 1.5;">
+                Thank you for choosing <strong>Sorted by Wedzway</strong>! We've received your event planning request and our team is already reviewing the details.
+              </p>
+              
+              <!-- Success Highlight Box -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: 24px 0; background-color: #f0fdf4; border-left: 4px solid #10b981; border-radius: 6px;">
+                <tr>
+                  <td style="padding: 16px;">
+                    <p style="margin: 0; color: #065f46; font-size: 14px; font-weight: 600;">✓ Request Received Successfully</p>
+                    <p style="margin: 4px 0 0; color: #047857; font-size: 13px;">Our team will reach out to you within 2 hours during business hours (9 AM - 9 PM IST)</p>
+                  </td>
+                </tr>
+              </table>
+              
+              <p style="margin: 24px 0 16px; color: #1a1a1a; font-size: 15px; line-height: 1.5; font-weight: 600;">
+                Your Event Details:
+              </p>
+              
+              <!-- Event Summary Table -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: 16px 0;">
+                <tr>
+                  <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td style="color: #6b7280; font-size: 13px; width: 45%; padding-right: 10px;">Event Type</td>
+                        <td align="right" style="color: #1a1a1a; font-size: 13px; text-transform: capitalize; font-weight: 500; width: 55%;">{{eventType}}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td style="color: #6b7280; font-size: 13px; width: 45%; padding-right: 10px;">Event Date</td>
+                        <td align="right" style="color: #1a1a1a; font-size: 13px; font-weight: 500; width: 55%;">{{eventDate}}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td style="color: #6b7280; font-size: 13px; width: 45%; padding-right: 10px;">Guest Count</td>
+                        <td align="right" style="color: #1a1a1a; font-size: 13px; font-weight: 500; width: 55%;">{{guestCount}} guests</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 0;">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                      <tr>
+                        <td style="color: #6b7280; font-size: 13px; width: 45%; padding-right: 10px;">Budget Range</td>
+                        <td align="right" style="color: #1a1a1a; font-size: 13px; font-weight: 500; width: 55%;">₹{{budget}} Lakhs</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              
+              <!-- Contact Info Box -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: 24px 0; background-color: #fffbeb; border-radius: 6px;">
+                <tr>
+                  <td style="padding: 16px;">
+                    <p style="margin: 0 0 8px; color: #92400e; font-size: 13px; font-weight: 600;">Confirmation Sent To:</p>
+                    <p style="margin: 0 0 4px; color: #78350f; font-size: 13px;">Email: {{customerEmail}}</p>
+                    <p style="margin: 0; color: #78350f; font-size: 13px;">Phone: {{customerPhone}}</p>
+                  </td>
+                </tr>
+              </table>
+              
+              <p style="margin: 24px 0 0; color: #1a1a1a; font-size: 15px; line-height: 1.5;">
+                Our specialized team is reviewing your requirements and will contact you shortly with:
+              </p>
+              
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 12px 0 24px 20px;">
+                <tr>
+                  <td style="padding: 4px 0;">
+                    <p style="margin: 0; color: #1a1a1a; font-size: 14px; line-height: 1.8;">• Venue recommendations that match your requirements</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 4px 0;">
+                    <p style="margin: 0; color: #1a1a1a; font-size: 14px; line-height: 1.8;">• Verified vendor options for your event</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 4px 0;">
+                    <p style="margin: 0; color: #1a1a1a; font-size: 14px; line-height: 1.8;">• Customized event planning timeline</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 4px 0;">
+                    <p style="margin: 0; color: #1a1a1a; font-size: 14px; line-height: 1.8;">• Detailed pricing and package options</p>
+                  </td>
+                </tr>
+              </table>
+              
+              <!-- CTA Button -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 32px 0;">
+                <tr>
+                  <td>
+                    <a href="https://wedzway.com/sorted" style="display: inline-block; padding: 12px 24px; background-color: #DF6951; color: #ffffff; text-decoration: none; border-radius: 6px; font-size: 14px;">Learn More About Sorted</a>
+                  </td>
+                </tr>
+              </table>
+              
+              <p style="margin: 32px 0 0; color: #1a1a1a; font-size: 15px; line-height: 1.5;">
+                Thanks for choosing Sorted by Wedzway,<br/>
+                <strong style="color: #DF6951;">The Sorted Team</strong>
+              </p>
+            </td>
+          </tr>
+          
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 24px 40px; border-top: 1px solid #e5e7eb;">
+              <p style="margin: 0 0 12px; color: #6b7280; font-size: 13px; line-height: 1.6;">
+                <strong style="color: #1a1a1a;">Need Help?</strong><br/>
+                Call us: +91 98765 43210<br/>
+                Email: sorted@wedzway.com<br/>
+                Location: Bangalore, India
+              </p>
+              <p style="margin: 12px 0 8px; color: #6b7280; font-size: 12px; line-height: 1.5;">
+                This email was sent to {{customerEmail}}. For questions, contact us at <a href="mailto:sorted@wedzway.com" style="color: #DF6951; text-decoration: none;">sorted@wedzway.com</a>.
+              </p>
+              <p style="margin: 8px 0 0; color: #9ca3af; font-size: 11px;">© 2025 Wedzway. All rights reserved.</p>
+            </td>
+          </tr>
+          
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
+  },
 ];
 
 export function EmailTemplatesPage({ onBack }: { onBack?: () => void }) {
