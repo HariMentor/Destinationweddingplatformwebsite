@@ -273,7 +273,7 @@ Create `.env.local`:
 
 ```env
 # Site Configuration
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_URL=http://localhost:5173
 NEXT_PUBLIC_SITE_NAME=Wedzway
 
 # Authentication

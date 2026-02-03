@@ -32,7 +32,7 @@ npm install
 npm run dev
 
 # 4. Open browser
-# http://localhost:3000
+# http://localhost:5173
 
 # 5. Login with password
 # wedzway2025
@@ -59,7 +59,7 @@ npm run dev
 
 - **Framework:** Next.js 14 (App Router)
 - **Dev Command:** `npm run dev` (NOT vite!)
-- **URL:** http://localhost:3000 (NOT 5173!)
+- **URL:** http://localhost:5173
 - **Password:** wedzway2025
 
 ---

@@ -54,7 +54,7 @@ npm install
 npm run dev
 
 # 3. Open browser and login
-# Visit: http://localhost:3000
+# Visit: http://localhost:5173
 # Password: wedzway2025
 ```
 

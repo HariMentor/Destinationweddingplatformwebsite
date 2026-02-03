@@ -190,7 +190,7 @@ vercel --prod        # Deploy to Vercel
 
 ### Essential Information
 - **Password:** wedzway2025
-- **Dev URL:** http://localhost:3000
+- **Dev URL:** http://localhost:5173
 - **Session:** 24 hours
 - **Node Version:** 18+
 

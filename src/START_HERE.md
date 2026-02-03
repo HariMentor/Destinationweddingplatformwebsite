@@ -19,7 +19,7 @@ npm run dev
 ```
 
 ### 3. Login
-- Open: **http://localhost:3000**
+- Open: **http://localhost:5173**
 - Password: **wedzway2025**
 
 **That's it! You're ready to explore.** 🎊
@@ -212,7 +212,7 @@ vercel --prod
 
 - [ ] Installed dependencies
 - [ ] Development server running
-- [ ] Can access http://localhost:3000
+- [ ] Can access http://localhost:5173
 - [ ] Successfully logged in
 - [ ] Explored key routes
 - [ ] Read relevant documentation

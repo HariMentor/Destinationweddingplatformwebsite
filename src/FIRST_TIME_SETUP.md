@@ -52,7 +52,7 @@ npm run dev
 You should see:
 ```
   ▲ Next.js 14.2.0
-  - Local:        http://localhost:3000
+  - Local:        http://localhost:5173
   - Ready in 2.5s
 ```
 
@@ -61,7 +61,7 @@ You should see:
 ## 🌐 Step 3: Access the Platform
 
 1. Open your browser
-2. Go to: **http://localhost:3000**
+2. Go to: **http://localhost:5173**
 3. You'll see the login page
 
 ### Login Credentials

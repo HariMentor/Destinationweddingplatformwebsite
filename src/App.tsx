@@ -64,7 +64,7 @@ type VendorType = 'photographer' | 'videographer' | 'decorator';
 type PageType = 'home' | 'landing' | 'venues' | 'venue-details' | 'venue-preview' | 'destinations' | 'destination-details' | 'inspirations' | 'inspiration-detail' | 'planners' | 'planner-profile' | 'planner-edit' | 'vendors' | 'vendor-profile' | 'tours' | 'tour-details' | 'visa-services' | 'visa-request' | 'flight-booking' | 'builder' | 'expenses' | 'marketplace' | 'product-detail' | 'brand-profile' | 'tourism-board' | 'account' | 'concierge' | 'payment' | 'booking-confirmation' | 'email-templates' | 'venue-brochure' | 'providers' | 'provider-profile' | 'brand-guidelines' | 'blog' | 'blog-detail' | 'package-compare' | 'sorted' | 'auth' | 'register';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<PageType>('landing');
+  const [currentPage, setCurrentPage] = useState<PageType>('home');
   const [selectedVenueId, setSelectedVenueId] = useState<number | null>(null);
   const [selectedDestinationId, setSelectedDestinationId] = useState<number | null>(null);
   const [selectedInspirationId, setSelectedInspirationId] = useState<number | null>(null);

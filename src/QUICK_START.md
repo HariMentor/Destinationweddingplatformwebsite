@@ -48,7 +48,7 @@ npm run dev
 You should see output like:
 ```
 ▲ Next.js 14.x.x
-- Local:        http://localhost:3000
+- Local:        http://localhost:5173
 - Network:      http://192.168.x.x:3000
 
 ✓ Ready in Xms
@@ -61,7 +61,7 @@ You should see output like:
 ### Step 3: Access the Platform
 
 1. Open your browser
-2. Navigate to: **http://localhost:3000**
+2. Navigate to: **http://localhost:5173**
 3. You'll see the login page
 4. Enter password: **wedzway2025**
 5. Click "Access Platform"

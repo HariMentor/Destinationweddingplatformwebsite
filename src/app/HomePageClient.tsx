@@ -19,6 +19,7 @@ import { TravelCTA } from '@/components/TravelCTA';
 import { TravelFooter } from '@/components/TravelFooter';
 import { useRouter } from 'next/navigation';
 import { NAVIGATION_ROUTES } from '@/lib/navigation';
+import { HomePage } from '@/components/HomePage';
 
 export default function HomePageClient() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function HomePageClient() {
   return (
     <div className="size-full">
       <TravelNav onNavigate={handleNavigate} currentPage="home" />
-      <TravelHero />
+      {/* <TravelHero />
       <TravelProblem />
       <TravelSolution />
       <TravelMarket />
@@ -48,7 +49,9 @@ export default function HomePageClient() {
       <TravelRoadmap />
       <TravelTeam />
       <TravelCTA />
-      <TravelFooter />
+      <TravelFooter /> */}
+
+      <HomePage />
     </div>
   );
 }

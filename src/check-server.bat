@@ -80,14 +80,14 @@ if %ERRORLEVEL% EQU 0 (
     echo   TO FIX:
     echo   1. Stop the current server ^(Ctrl+C^)
     echo   2. Run: npm run dev
-    echo   3. Open: http://localhost:3000
+    echo   3. Open: http://localhost:5173
 ) else (
     netstat -ano | findstr :3000 | findstr LISTENING >nul 2>nul
     if %ERRORLEVEL% EQU 0 (
         echo * LOOKS GOOD!
         echo   Next.js appears to be running on port 3000
         echo.
-        echo   Open your browser at: http://localhost:3000
+        echo   Open your browser at: http://localhost:5173
         echo   Password: wedzway2025
     ) else (
         echo i NO SERVER RUNNING
@@ -95,7 +95,7 @@ if %ERRORLEVEL% EQU 0 (
         echo   TO START:
         echo   1. Run: npm install ^(if you haven't^)
         echo   2. Run: npm run dev
-        echo   3. Open: http://localhost:3000
+        echo   3. Open: http://localhost:5173
     )
 )
 

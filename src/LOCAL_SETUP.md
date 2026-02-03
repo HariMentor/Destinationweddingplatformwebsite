@@ -52,7 +52,7 @@ npm run dev
 
 ### Step 5: Open Browser
 
-Navigate to: **http://localhost:3000**
+Navigate to: **http://localhost:5173**
 
 You should see a login page asking for an access code.
 
@@ -69,7 +69,7 @@ Password: **wedzway2025**
 **Terminal Output:**
 ```
   ▲ Next.js 14.2.0
-  - Local:        http://localhost:3000
+   - Local:        http://localhost:5173
   
   ✓ Ready in 2.5s
 ```

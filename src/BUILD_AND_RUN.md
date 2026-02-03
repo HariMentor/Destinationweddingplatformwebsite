@@ -72,7 +72,7 @@ npm run dev
 **Expected output:**
 ```
 ▲ Next.js 14.x.x
-- Local:        http://localhost:3000
+- Local:        http://localhost:5173
 - Network:      http://192.168.x.x:3000
 
 ✓ Ready in 2.5s
@@ -98,7 +98,7 @@ npm run dev
 ### Open Your Browser
 
 1. Open your web browser
-2. Navigate to: **http://localhost:3000**
+2. Navigate to: **http://localhost:5173**
 3. You'll see the login page
 
 ### Login
@@ -408,7 +408,7 @@ npm run dev --turbo
 
 **Solution - Create .env.local:**
 ```env
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_URL=http://localhost:5173
 NODE_ENV=development
 ```
 

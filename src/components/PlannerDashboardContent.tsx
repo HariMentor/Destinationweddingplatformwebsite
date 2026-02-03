@@ -58,9 +58,9 @@ import { toast } from "sonner";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Separator } from "./ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { PlannerCalendarView } from "./PlannerCalendarView";
-import { PlannerQuotesView } from "./PlannerQuotesView";
-import { QuoteCreatorPage } from "./QuoteCreatorPage";
+// import { PlannerCalendarView } from "./PlannerCalendarView";
+// import { PlannerQuotesView } from "./PlannerQuotesView";
+// import { QuoteCreatorPage } from "./QuoteCreatorPage";
 
 interface PlannerDashboardContentProps {
   activeTab: string;

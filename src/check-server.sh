@@ -87,12 +87,12 @@ if lsof -Pi :5173 -sTCP:LISTEN -t >/dev/null 2>&1; then
     echo "   TO FIX:"
     echo "   1. Stop the current server (Ctrl+C)"
     echo "   2. Run: npm run dev"
-    echo "   3. Open: http://localhost:3000"
+    echo "   3. Open: http://localhost:5173"
 elif lsof -Pi :3000 -sTCP:LISTEN -t >/dev/null 2>&1; then
     echo "✅ LOOKS GOOD!"
     echo "   Next.js appears to be running on port 3000"
     echo ""
-    echo "   Open your browser at: http://localhost:3000"
+    echo "   Open your browser at: http://localhost:5173"
     echo "   Password: wedzway2025"
 else
     echo "ℹ️  NO SERVER RUNNING"
@@ -100,7 +100,7 @@ else
     echo "   TO START:"
     echo "   1. Run: npm install (if you haven't)"
     echo "   2. Run: npm run dev"
-    echo "   3. Open: http://localhost:3000"
+    echo "   3. Open: http://localhost:5173"
 fi
 
 echo ""

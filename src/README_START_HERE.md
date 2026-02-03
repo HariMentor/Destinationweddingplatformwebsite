@@ -36,7 +36,7 @@ npm run dev
 
 ### 3️⃣ Open the Correct URL
 
-**Browser:** http://localhost:3000
+**Browser:** http://localhost:5173
 
 **NOT:**
 - ❌ `http://localhost:5173` (that's Vite)
@@ -62,11 +62,11 @@ npm run dev
 4. [ ] **Wait for this message:**
    ```
    ▲ Next.js 14.2.0
-   - Local:   http://localhost:3000
+   - Local:   http://localhost:5173
    ✓ Ready
    ```
 
-5. [ ] **Open browser at:** http://localhost:3000
+5. [ ] **Open browser at:** http://localhost:5173
 
 6. [ ] **Enter password:** `wedzway2025`
 
@@ -214,7 +214,7 @@ When working correctly:
 
 **Before contacting:**
 1. Try stopping all servers and running `npm run dev`
-2. Check you're on `localhost:3000` not `localhost:5173`
+2. Check you're on `localhost:5173`
 3. Run the diagnostic script: `check-server.sh` or `check-server.bat`
 4. Include screenshots of terminal output and browser console
 

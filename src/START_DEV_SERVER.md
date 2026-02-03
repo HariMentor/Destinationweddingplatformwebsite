@@ -37,7 +37,7 @@ This happens because **Next.js code cannot run in a Vite environment**.
 5. **Wait for this message:**
    ```
      ▲ Next.js 14.2.0
-     - Local:        http://localhost:3000
+   - Local:        http://localhost:5173
      - Environments: .env
    
      ✓ Ready in 2.5s
@@ -45,7 +45,7 @@ This happens because **Next.js code cannot run in a Vite environment**.
 
 6. **Open browser at:**
    ```
-   http://localhost:3000
+   http://localhost:5173
    ```
 
 7. **Enter password:** `wedzway2025`

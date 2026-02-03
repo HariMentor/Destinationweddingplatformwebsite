@@ -32,7 +32,7 @@ VITE v5.4.2  ready in 326 ms
 ### Terminal:
 ```
    ▲ Next.js 14.2.0
-   - Local:        http://localhost:3000
+   - Local:        http://localhost:5173
    - Environments: .env
 
  ✓ Ready in 2.1s
