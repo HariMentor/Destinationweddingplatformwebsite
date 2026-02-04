@@ -1,13 +1,34 @@
-'use client';
-
+import { useState, useEffect } from 'react';
 import { VenueDetailsPageV2 } from '@/components/VenueDetailsPageV2';
 import { TravelNav } from '@/components/TravelNav';
 import { TravelFooter } from '@/components/TravelFooter';
 import { useRouter } from 'next/navigation';
 import { NAVIGATION_ROUTES } from '@/lib/navigation';
+import { getVenues, Venue } from '@/components/DestinationServices/services/venueService';
+import { BrandedLoader } from '@/components/ui/loader';
 
 export function VenuePreviewClient() {
   const router = useRouter();
+  const [venue, setVenue] = useState<Venue | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchPreviewVenue() {
+      try {
+        setIsLoading(true);
+        // Fetch first available venue for preview
+        const venues = await getVenues();
+        if (venues && venues.length > 0) {
+          setVenue(venues[0]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch preview venue:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchPreviewVenue();
+  }, []);
 
   const handleNavigate = (page: string) => {
     const route = NAVIGATION_ROUTES[page];
@@ -20,10 +41,8 @@ export function VenuePreviewClient() {
     router.push('/landing');
   };
 
-  const handleProceedToPayment = (bookingData: any) => {
-    // Store booking data in sessionStorage for the payment page
-    sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
-    router.push('/payment');
+  const handleProceedToPayment = () => {
+    router.push('/checkout');
   };
 
   const handleComparePackages = () => {
@@ -33,14 +52,30 @@ export function VenuePreviewClient() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <BrandedLoader text="Loading preview..." />
+      </div>
+    );
+  }
+
+  if (!venue) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>No venues available for preview</p>
+      </div>
+    );
+  }
+
   return (
     <div className="size-full">
       <TravelNav onNavigate={handleNavigate} currentPage="venue-preview" />
-      <VenueDetailsPageV2 
-        venueId={1} 
+      <VenueDetailsPageV2
+        venue={venue}
         onBack={handleBack}
         onProceedToPayment={handleProceedToPayment}
-        onComparePackages={handleComparePackages}
+        onCompareClick={handleComparePackages}
       />
       <TravelFooter />
     </div>

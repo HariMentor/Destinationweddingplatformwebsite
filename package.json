@@ -33,6 +33,7 @@
             "class-variance-authority": "*",
             "clsx": "*",
             "cmdk": "*",
+            "country-to-currency": "^2.0.2",
             "date-fns": "*",
             "embla-carousel-react": "*",
             "framer-motion": "*",

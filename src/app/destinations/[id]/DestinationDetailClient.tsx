@@ -4,9 +4,43 @@ import { DestinationDetailsPage } from '@/components/DestinationDetailsPage';
 import { TravelNav } from '@/components/TravelNav';
 import { TravelFooter } from '@/components/TravelFooter';
 import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { Destination } from '@/components/DestinationServices/types/destination';
+import { Venue, getVenues } from '@/components/DestinationServices/services/venueService';
+import { getDestinationById } from '@/components/DestinationServices/services/destinationService';
+import { BannerSkeletonLoader, BrandedLoader, CardSkeletonLoader, Loader } from '@/components/ui/loader';
 
 export function DestinationDetailClient({ destinationId }: { destinationId: string }) {
   const router = useRouter();
+  const [destination, setDestination] = useState<Destination | null>(null);
+  const [venues, setVenues] = useState<Venue[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!destinationId) return;
+
+      try {
+        setIsLoading(true);
+        // Fetch destination details
+        const destData = await getDestinationById(destinationId);
+
+        if (destData) {
+          setDestination(destData);
+
+          // Fetch related venues
+          const venuesData = await getVenues({ destinationId: destinationId });
+          setVenues(venuesData || []);
+        }
+      } catch (error) {
+        console.error("Failed to fetch destination details", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [destinationId]);
 
   const handleNavigate = (page: string) => {
     const routeMap: Record<string, string> = {
@@ -35,7 +69,7 @@ export function DestinationDetailClient({ destinationId }: { destinationId: stri
     router.push('/destinations');
   };
 
-  const handleViewVenue = (venueId: number) => {
+  const handleViewVenue = (venueId: string) => {
     router.push(`/venues/${venueId}`);
   };
 
@@ -43,11 +77,37 @@ export function DestinationDetailClient({ destinationId }: { destinationId: stri
     router.push(`/destinations/${destinationId}/tourism-board/${encodeURIComponent(boardName)}`);
   };
 
+  if (isLoading) {
+    return (
+      <div className="size-full">
+        <TravelNav onNavigate={handleNavigate} currentPage="destinations" />
+        <div className="container mx-auto px-4 py-20">
+          <BannerSkeletonLoader />
+        </div>
+        <TravelFooter />
+      </div>
+    );
+  }
+
+  if (!destination) {
+    return (
+      <div className="size-full">
+        <TravelNav onNavigate={handleNavigate} currentPage="destinations" />
+        <div className="container mx-auto px-4 py-20 text-center">
+          <h2 className="text-2xl font-bold">Destination not found</h2>
+          <button onClick={handleBack} className="text-blue-500 hover:underline mt-4">Go back</button>
+        </div>
+        <TravelFooter />
+      </div>
+    );
+  }
+
   return (
     <div className="size-full">
       <TravelNav onNavigate={handleNavigate} currentPage="destinations" />
-      <DestinationDetailsPage 
-        destinationId={parseInt(destinationId)} 
+      <DestinationDetailsPage
+        destination={destination}
+        venues={venues}
         onBack={handleBack}
         onViewVenue={handleViewVenue}
         onViewTourismBoard={handleViewTourismBoard}

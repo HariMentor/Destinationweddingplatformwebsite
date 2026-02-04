@@ -7,7 +7,7 @@ interface SimpleDestinationMapProps {
   center: [number, number];
   destinationName: string;
   venues?: Array<{
-    id: number;
+    id: number | string;
     name: string;
     location: string;
     rating: number;

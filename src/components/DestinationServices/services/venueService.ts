@@ -16,6 +16,7 @@ export interface Venue {
         email?: string;
         phone?: string;
         address?: string;
+        website?: string;
         overview?: string;
         location?: {
           placeId?: string;
@@ -38,17 +39,26 @@ export interface Venue {
             amount: number;
             currency: string;
           };
+          totalPax?: number;
+          numberOfDays?: number;
+          roomTypes?: Array<{ type: string; roomCount: number }>;
+          venueArea?: string[];
+          includedServices?: string[];
+          packagePhotos?: Array<{ fileUrl: string }>;
         }>;
+      };
+      step4?: {
+        rulesPolicies?: Record<string, any>;
       };
     };
   };
 }
 
-export async function getVenues(filters: { country?: string; status?: string } = { status: "published" }): Promise<Venue[]> {
+export async function getVenues(filters: { countryId?: string; destinationId?: string; status?: string } = { status: "published" }): Promise<Venue[]> {
 
   try {
     const params = { status: "published", ...filters };
-    console.log(params, "params")
+
     const res = await apiClient.get("/destination/venues", { params });
 
     return res?.data?.data;
@@ -58,12 +68,42 @@ export async function getVenues(filters: { country?: string; status?: string } =
   }
 }
 
-export async function getVenueById(id: number): Promise<Venue | undefined> {
+export async function getVenueById(venueId: string): Promise<Venue | undefined> {
   try {
-    const res = await apiClient.get(`/destination/venues`, { params: { id, status: "published" } });
-    return res.data;
+    const res = await apiClient.get(`/destination/venues`, { params: { venueId, status: "published" } });
+
+    // The API response structure is { code, message, data: { venue: {...}, version: {...} } }
+    if (res.data?.data?.venue) {
+      return {
+        ...res.data.data.venue,
+        version: res.data.data.version
+      };
+    }
+
+    // Fallback: The API might return the venue directly or inside different structure
+    return res.data?.data?.[0] || res.data?.data || res.data;
   } catch (e) {
-    console.error(`getVenueById failed for id=${id}:`, e);
+    console.error(`getVenueById failed for id=${venueId}:`, e);
+    throw e;
+  }
+}
+
+export async function getVenueBySlug(slug: string): Promise<Venue | undefined> {
+  try {
+    // Assuming backend supports 'slug' query param. If not, we might need to use getVenues and filter, or ask backend dev.
+    // Based on user request, slug usage is expected.
+    const res = await apiClient.get(`/destination/venues`, { params: { slug, status: "published" } });
+
+    if (res.data?.data?.venue) {
+      return {
+        ...res.data.data.venue,
+        version: res.data.data.version
+      };
+    }
+
+    return res.data?.data?.[0] || res.data?.data || res.data;
+  } catch (e) {
+    console.error(`getVenueBySlug failed for slug=${slug}:`, e);
     throw e;
   }
 }

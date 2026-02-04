@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { DestinationDetailClient } from './DestinationDetailClient';
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 // This would typically fetch data from an API or database
@@ -16,8 +16,9 @@ const destinationNames: Record<string, string> = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const destinationName = destinationNames[params.id] || 'Destination';
-  
+  const { id } = await params;
+  const destinationName = destinationNames[id] || 'Destination';
+
   return {
     title: `${destinationName} Wedding Venues | Wedzway`,
     description: `Discover stunning wedding venues and services in ${destinationName}. Find planners, venues, photographers, and all wedding vendors.`,
@@ -30,6 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function DestinationDetailPage({ params }: Props) {
-  return <DestinationDetailClient destinationId={params.id} />;
+export default async function DestinationDetailPage({ params }: Props) {
+  const { id } = await params;
+  return <DestinationDetailClient destinationId={id} />;
 }

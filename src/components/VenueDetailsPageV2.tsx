@@ -1,22 +1,11 @@
 "use client";
 
-// Venue images
-const VENUE_IMAGE_1 = "https://images.unsplash.com/photo-1636925983153-1cfe10ab9516?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudWUlMjBzYW50b3Jpbml8ZW58MXx8fHwxNzYyNjk5NzQ4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
-const VENUE_IMAGE_2 = "https://images.unsplash.com/photo-1760888563092-17d79ae2703b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXN0aW5hdGlvbiUyMHdlZGRpbmclMjB2ZW51ZSUyMHRlcnJhY2V8ZW58MXx8fHwxNzYyNjk5NzQ4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
-const VENUE_IMAGE_3 = "https://images.unsplash.com/photo-1761120789207-c08a10afb864?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVnYW50JTIwd2VkZGluZyUyMGJhbnF1ZXQlMjBoYWxsfGVufDF8fHx8MTc2MjY5OTc0OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
-const VENUE_IMAGE_4 = "https://images.unsplash.com/photo-1613067532651-7075a620c900?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwcmVjZXB0aW9uJTIwdmVudWV8ZW58MXx8fHwxNzYyNjYwOTQzfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
-const VENUE_IMAGE_5 = "https://images.unsplash.com/photo-1731515672817-0491d19c9f19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvdXRkb29yJTIwd2VkZGluZyUyMGNlcmVtb255fGVufDF8fHx8MTc2MjY5OTc0OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
-
 import { useState, useEffect } from "react";
 import {
   MapPin,
   Star,
   Users,
   Calendar,
-  Clock,
-  Wifi,
-  Music,
-  Utensils,
   Camera,
   Sparkles,
   Wine,
@@ -40,64 +29,30 @@ import {
   X,
   ChevronDown,
   ChevronUp,
-  Trees,
   Building2,
-  Sunset,
-  Shield,
   CloudSun,
   Thermometer,
   Droplets,
   Wind,
-  Scale,
   ShoppingCart,
   ArrowLeftRight,
   Send,
   Info,
-  Waves,
-  Theater,
-  Tent,
-  Church,
-  Mountain,
-  Flower2,
-  Castle,
-  GlassWater,
+  Shield,
+  Search,
 } from "lucide-react";
+
+import { VenueEnquiryForm } from "./VenueEnquiryForm";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
-import { Checkbox } from "./ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
+import PackagePrice from "./ui/PackagePrice";
+
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { toast } from "sonner";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "./ui/tabs";
+
 import { Separator } from "./ui/separator";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-} from "./ui/dialog";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "./ui/popover";
-import { Calendar as CalendarComponent } from "./ui/calendar";
+
 import {
   Tooltip,
   TooltipContent,
@@ -106,314 +61,107 @@ import {
 import { VenueDetailSkeleton } from "./ui/venue-detail-skeleton";
 import { useCurrency } from "./CurrencyContext";
 import { usePackageCompare } from "./PackageCompareContext";
-import { format } from "date-fns";
+import { Venue } from "./DestinationServices/services/venueService";
+
+import { SimpleDestinationMap } from "./SimpleDestinationMap";
 
 interface VenueDetailsPageProps {
-  venueId: number;
+  venue: Venue;
   onBack: () => void;
   onProceedToPayment?: () => void;
   onCompareClick?: () => void;
 }
 
-const venueDetails = {
-  1: {
-    name: "Cliffside Resort & Spa",
-    location: "Santorini, Greece",
-    rating: 4.9,
-    reviews: 156,
-    venueTags: ["Beachfront Paradise", "Hilltop Retreats"],
-    description:
-      "Perched on the stunning cliffs of Santorini, our resort offers breathtaking views of the Aegean Sea and the iconic sunset. With world-class amenities and personalized service, we create unforgettable wedding experiences in one of the world's most romantic destinations. Our resort features multiple event spaces including elegant indoor banquet halls with crystal chandeliers, expansive outdoor terraces overlooking the caldera, and beautifully manicured lawns perfect for intimate ceremonies. Each venue space is thoughtfully designed to maximize the natural beauty of Santorini while providing modern comfort and luxury. Our experienced wedding planning team works closely with couples to bring their dream celebration to life, from intimate elopements to grand celebrations. The resort's exclusive partnership with local artisans, florists, and culinary experts ensures every detail is executed to perfection, creating memories that will last a lifetime.",
-    whyCouplesLove: [
-      { icon: Sparkles, name: "Fireworks Allowed" },
-      { icon: Volume2, name: "Sound Restrictions Apply" },
-      { icon: Dog, name: "Pet Friendly" },
-      { icon: Wine, name: "Open Bar" },
-      { icon: Camera, name: "Photography Friendly" },
-      { icon: Car, name: "Valet Parking" },
-      { icon: Bed, name: "Guest Accommodation" },
-    ],
-    areas: [
-      {
-        name: "Banquet (Indoor)",
-        seating: 50,
-        floating: 80,
-        icon: Building2,
-      },
-      {
-        name: "Terrace (Outdoor)",
-        seating: 150,
-        floating: 200,
-        icon: Sunset,
-      },
-      {
-        name: "Lawn (Outdoor)",
-        seating: 50,
-        floating: 80,
-        icon: Trees,
-      },
-      {
-        name: "Poolside (Outdoor)",
-        seating: 100,
-        floating: 150,
-        icon: Waves,
-      },
-      {
-        name: "Beach Front (Outdoor)",
-        seating: 200,
-        floating: 300,
-        icon: Mountain,
-      },
-      {
-        name: "Ballroom (Indoor)",
-        seating: 300,
-        floating: 400,
-        icon: Castle,
-      },
-      {
-        name: "Theatre (Indoor)",
-        seating: 150,
-        floating: 200,
-        icon: Theater,
-      },
-      {
-        name: "Garden (Outdoor)",
-        seating: 120,
-        floating: 180,
-        icon: Flower2,
-      },
-      {
-        name: "Rooftop (Outdoor)",
-        seating: 80,
-        floating: 120,
-        icon: Building2,
-      },
-      {
-        name: "Chapel (Indoor)",
-        seating: 100,
-        floating: 150,
-        icon: Church,
-      },
-      {
-        name: "Pavilion (Outdoor)",
-        seating: 150,
-        floating: 200,
-        icon: Tent,
-      },
-      {
-        name: "Courtyard (Outdoor)",
-        seating: 100,
-        floating: 150,
-        icon: Home,
-      },
-      {
-        name: "Conservatory (Indoor)",
-        seating: 80,
-        floating: 100,
-        icon: GlassWater,
-      },
-    ],
-    localPrices: [
-      { item: "Veg Per plate", price: 6000, unit: "per plate" },
-      {
-        item: "Non Veg Per Plate",
-        price: 7000,
-        unit: "per plate",
-      },
-      { item: "Deluxe Room", price: 10000, unit: "/ night" },
-      { item: "Standard Room", price: 80000, unit: "/ night" },
-    ],
-    goodToKnow: [
-      {
-        icon: Users,
-        title: "Minimum Pax less than 50 pax allowed",
-        details: ["Yes"],
-      },
-      {
-        icon: Home,
-        title:
-          "Venue requires complete buyout of all rooms to host a wedding",
-        details: ["Yes"],
-      },
-      {
-        icon: Wine,
-        title: "Alcohol Policy",
-        details: [
-          "in house alcohol available, outside alcohol permitted",
-          "in house alcohol not available, outside alcohol permitted",
-        ],
-      },
-      {
-        icon: Music,
-        title: "Dj policy",
-        details: [
-          "in house alcohol available, outside alcohol permitted",
-          "in house alcohol not available, outside alcohol permitted",
-        ],
-      },
-      {
-        icon: Home,
-        title: "Total room count",
-        details: ["27 Rooms"],
-      },
-      {
-        icon: Camera,
-        title: "Decor Policy",
-        details: [
-          "decorators should be chosen only from enlisted panel",
-          "inhouse decor available outside decors permitted",
-        ],
-      },
-      {
-        icon: Receipt,
-        title: "What are your payment terms?",
-        details: [
-          "approx 50 advance while booking",
-          "100 advance while booking",
-        ],
-      },
-      {
-        icon: Utensils,
-        title: "Catering policy",
-        details: [
-          "inhouse catering outside vendors not permitted",
-          "no inhouse service outside vendors allowed from panel",
-        ],
-      },
-    ],
-    images: [
-      VENUE_IMAGE_1,
-      VENUE_IMAGE_2,
-      VENUE_IMAGE_3,
-      VENUE_IMAGE_4,
-      VENUE_IMAGE_5,
-      "https://images.unsplash.com/photo-1578730169862-749bbdc763a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvdXRkb29yJTIwd2VkZGluZyUyMHZlbnVlfGVufDF8fHx8MTc2MTIzNTk3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      "https://images.unsplash.com/photo-1521543387600-c745f8e83d77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYyMjI5Mjg2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      "https://images.unsplash.com/photo-1761120789207-c08a10afb864?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVnYW50JTIwd2VkZGluZyUyMHJlY2VwdGlvbnxlbnwxfHx8fDE3NjIyMjg3Mzh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      "https://images.unsplash.com/photo-1761047726498-67eeb8b35d7c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvdXRkb29yJTIwd2VkZGluZyUyMHRlcnJhY2V8ZW58MXx8fHwxNzYyMjgyMzc4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      "https://images.unsplash.com/photo-1675247488725-22d1b78e75db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwYmFucXVldCUyMGhhbGx8ZW58MXx8fHwxNzYyMjgyMzcyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      "https://images.unsplash.com/photo-1641329386289-6221bb37ebf8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwbGF3biUyMGdhcmRlbnxlbnwxfHx8fDE3NjIyODIzNzh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      "https://images.unsplash.com/photo-1700062069869-0c59ff21fa3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwY2VyZW1vbnklMjBzZXR1cHxlbnwxfHx8fDE3NjIyMjk2MDB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      "https://images.unsplash.com/photo-1759954644796-0ed43f06715b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb21hbnRpYyUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjIyODIzNzV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      "https://images.unsplash.com/photo-1625619080917-7d6ff39e0675?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwdmVudWUlMjBiYWxscm9vbXxlbnwxfHx8fDE3NjIxNzk1MTh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      "https://images.unsplash.com/photo-1744805624952-dab790f6b3bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXN0aW5hdGlvbiUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjIyMjk2MDB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      "https://images.unsplash.com/photo-1721677337543-37b07e7e28b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwdmVudWUlMjBzdW5zZXR8ZW58MXx8fHwxNzYyMjgyMzgwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    ],
-    capacity: {
-      min: 50,
-      max: 200,
-    },
-    pricing: {
-      starting: 15000,
-      currency: "USD",
-    },
-    amenities: [
-      { icon: Wifi, name: "High-Speed WiFi" },
-      { icon: Music, name: "Sound System" },
-      { icon: Utensils, name: "In-House Catering" },
-      { icon: Camera, name: "Photography Spots" },
-      { icon: Sparkles, name: "Decor Services" },
-      { icon: Wine, name: "Bar & Beverages" },
-      { icon: Car, name: "Valet Parking" },
-      { icon: Clock, name: "24/7 Support" },
-    ],
-    packages: [
-      {
-        name: "Silver",
-        price: 200000,
-        tag: "Silver",
-        image: VENUE_IMAGE_5,
-        images: [
-          VENUE_IMAGE_5,
-          VENUE_IMAGE_4,
-          "https://images.unsplash.com/photo-1578730169862-749bbdc763a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvdXRkb29yJTIwd2VkZGluZyUyMHZlbnVlfGVufDF8fHx8MTc2MTIzNTk3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-        ],
-        numberOfDays: 2,
-        totalPax: 98,
-        numberOfRooms: "Standard Room (17)",
-        venueAreaAccess: "Lawn, Banquet",
-        features: [
-          "Basic Stage Decoration",
-          "DJ & Sound System",
-          "Welcome Drink for Guests",
-          "Standard Lighting Setup",
-          "Welcome Signage",
-          "Basic Floral Arrangements",
-        ],
-      },
-      {
-        name: "Gold",
-        price: 300000,
-        tag: "Gold",
-        image: VENUE_IMAGE_2,
-        images: [
-          VENUE_IMAGE_2,
-          VENUE_IMAGE_3,
-          VENUE_IMAGE_5,
-          "https://images.unsplash.com/photo-1578730169862-749bbdc763a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvdXRkb29yJTIwd2VkZGluZyUyMHZlbnVlfGVufDF8fHx8MTc2MTIzNTk3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-        ],
-        numberOfDays: 3,
-        totalPax: 150,
-        numberOfRooms: "Deluxe Room (20)",
-        venueAreaAccess: "Lawn, Banquet, Terrace",
-        features: [
-          "Premium Stage & Mandap Decoration",
-          "Professional Photographer (Full Day)",
-          "DJ & Premium Sound System",
-          "Designer Lighting & Effects",
-          "Welcome Drinks & Appetizers",
-          "Floral Centerpieces for Tables",
-          "Personalized Welcome Signage",
-          "Complimentary Valet Parking",
-        ],
-      },
-      {
-        name: "Platinum",
-        price: 450000,
-        tag: "Platinum",
-        image: VENUE_IMAGE_3,
-        images: [
-          VENUE_IMAGE_3,
-          VENUE_IMAGE_2,
-          VENUE_IMAGE_5,
-          VENUE_IMAGE_4,
-        ],
-        numberOfDays: 4,
-        totalPax: 200,
-        numberOfRooms: "Premium Suite (27)",
-        venueAreaAccess: "All Areas (Lawn, Banquet, Terrace)",
-        features: [
-          "Luxury Stage & Mandap with Custom Theme",
-          "Professional Photographer & Videographer",
-          "Cinematic Wedding Film",
-          "DJ, Live Band & Premium Sound System",
-          "Spectacular Lighting & Special Effects",
-          "Premium Bar Service with Signature Cocktails",
-          "Gourmet Multi-Cuisine Catering",
-          "Fireworks Display & Sparkler Send-off",
-        ],
-      },
-    ],
-    coordinates: {
-      lat: 36.4618,
-      lng: 25.3753,
-    },
-    contact: {
-      phone: "+30 22860 12345",
-      email: "weddings@cliffsideresort.gr",
-    },
-  },
-};
-
 export function VenueDetailsPageV2({
-  venueId,
+  venue: venueData,
   onBack,
   onProceedToPayment,
   onCompareClick,
 }: VenueDetailsPageProps) {
-  const venue =
-    venueDetails[venueId as keyof typeof venueDetails] ||
-    venueDetails[1];
+
+  // Map API data to UI structure
+  const venue = {
+    name: venueData.name,
+    location: venueData.version?.data?.step1?.location?.formattedAddress || venueData.destination || "Unknown Location",
+    rating: 4.8, // Placeholder as rating is not in API yet
+    reviews: 124, // Placeholder
+    venueTags: venueData.version?.data?.step1?.interests || [],
+    description: venueData.version?.data?.step1?.overview || "No description available.",
+    whyCouplesLove: Object.entries(venueData.version?.data?.step2?.dynamicServicesData?.["Venue Highlights"] || {})
+      .filter(([_, enabled]) => enabled)
+      .map(([key]) => {
+        const name = key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+        let Icon = Sparkles;
+        if (key.includes("sound")) Icon = Volume2;
+        if (key.includes("pet")) Icon = Dog;
+        if (key.includes("alcohol") || key.includes("bar")) Icon = Wine;
+        if (key.includes("photo")) Icon = Camera;
+        if (key.includes("parking")) Icon = Car;
+        if (key.includes("accommodation") || key.includes("room")) Icon = Bed;
+
+        return { icon: Icon, name };
+      }),
+    areas: (venueData.version?.data?.step2?.dynamicServicesData?.["Areas Available"] || []).map((area: any) => ({
+      name: area.area_name,
+      type: area.area_type,
+      seating: parseInt(area.seating_capacity) || 0,
+      floating: parseInt(area.floating_capacity) || 0,
+      icon: Building2
+    })),
+    localPrices: (venueData.version?.data?.step2?.dynamicServicesData?.["Rooms and Stay"] || []).map((room: any) => ({
+      item: room.room_type,
+      price: parseInt(room.room_rate_per_night) || 0,
+      unit: "/ night"
+    })),
+    goodToKnow: Object.entries(venueData.version?.data?.step4?.rulesPolicies || {}).map(([key, value]) => {
+      const details = Object.entries(value as Record<string, boolean>)
+        .filter(([_, enabled]) => enabled)
+        .map(([policyKey]) => policyKey.replace(/_/g, " ").replace(/([A-Z])/g, " $1").toLowerCase());
+
+      return {
+        icon: Info, // Default icon
+        title: key,
+        details: details.length > 0 ? details : ["Policy details available upon request"]
+      };
+    }),
+    images: venueData.version?.data?.step1?.coverPhotosWeb?.map((p: any) => p.fileUrl) || [],
+    capacity: {
+      min: parseInt(venueData.version?.data?.step2?.dynamicServicesData?.["Basic Details"]?.["maximum_seating_capacity"]) || 50,
+      max: parseInt(venueData.version?.data?.step2?.dynamicServicesData?.["Basic Details"]?.["max_pax_allowed_maximum_head_count"]) || 200
+    },
+    pricing: {
+      starting: venueData.version?.data?.step3?.packages?.[0]?.packagePrice?.amount || 0,
+      currency: venueData.version?.data?.step3?.packages?.[0]?.packagePrice?.currency || "USD"
+    },
+    amenities: Object.entries(venueData.version?.data?.step2?.dynamicServicesData?.["Services Available"] || {})
+      .filter(([_, enabled]) => enabled)
+      .map(([key]) => ({
+        icon: Sparkles, // Default icon
+        name: key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())
+      })),
+    packages: (venueData.version?.data?.step3?.packages || []).map((pkg: any) => ({
+      name: pkg.packageName,
+      price: pkg.packagePrice,
+      tag: pkg.packageName,
+      image: pkg.packagePhotos?.[0]?.fileUrl || venueData.version?.data?.step1?.coverPhotosWeb?.[0]?.fileUrl,
+      images: pkg.packagePhotos?.map((p: any) => p.fileUrl) || [],
+      numberOfDays: pkg.numberOfDays || 1,
+      totalPax: pkg.totalPax || 0,
+      numberOfRooms: pkg.roomTypes?.map((r: any) => `${r.type} (${r.roomCount})`).join(", ") || "N/A",
+      venueAreaAccess: pkg.venueArea?.join(", ") || "",
+      features: pkg.includedServices || []
+    })),
+    coordinates: {
+      lat: venueData.version?.data?.step1?.location?.lat || 0,
+      lng: venueData.version?.data?.step1?.location?.lng || 0
+    },
+    contact: {
+      phone: venueData.version?.data?.step1?.phone || "",
+      email: venueData.version?.data?.step1?.email || ""
+    }
+  };
+
+  const venueId = venueData._id;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<
@@ -444,35 +192,9 @@ export function VenueDetailsPageV2({
     comparePackages,
   } = usePackageCompare();
 
-  // Enquiry form state
-  const [enquiryStep, setEnquiryStep] = useState(1);
-  const [enquiryType, setEnquiryType] = useState<"concierge" | "direct">("concierge");
-  const [isConciergeInfoExpanded, setIsConciergeInfoExpanded] = useState(false);
-  const [dateRange, setDateRange] = useState<{
-    from: Date | undefined;
-    to: Date | undefined;
-  }>({
-    from: undefined,
-    to: undefined,
-  });
-  const [formData, setFormData] = useState({
-    people: "",
-    selectPackage: "",
-    eventType: "",
-    flexibleDates: false,
-    message: "",
-    budget: "",
-    name: "",
-    phone: "",
-    email: "",
-    otp: "",
-  });
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
   const [isDescriptionExpanded, setIsDescriptionExpanded] =
     useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [calendarMonths, setCalendarMonths] = useState(2);
 
   // Simulate data loading (images and venue details)
   useEffect(() => {
@@ -481,19 +203,6 @@ export function VenueDetailsPageV2({
     }, 2000); // Simulate 2s loading time for images and content
 
     return () => clearTimeout(timer);
-  }, []);
-
-  // Responsive calendar months
-  useEffect(() => {
-    const handleResize = () => {
-      setCalendarMonths(window.innerWidth >= 768 ? 2 : 1);
-    };
-    
-    // Set initial value
-    handleResize();
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const nextImage = () => {
@@ -591,79 +300,6 @@ export function VenueDetailsPageV2({
         venueType: venue.venueTags?.join(", "),
       });
     }
-  };
-
-  const handleSendOTP = () => {
-    if (!formData.phone || formData.phone.length < 10) {
-      toast.error("Please enter a valid phone number");
-      return;
-    }
-    // Simulate sending OTP
-    setOtpSent(true);
-    toast.success(`OTP sent to ${formData.phone}`);
-  };
-
-  const handleVerifyOTP = () => {
-    if (!formData.otp || formData.otp.length !== 6) {
-      toast.error("Please enter a valid 6-digit OTP");
-      return;
-    }
-    // Simulate OTP verification
-    setOtpVerified(true);
-    toast.success("Phone number verified successfully!");
-  };
-
-  const handleEnquirySubmit = () => {
-    if (!otpVerified) {
-      toast.error("Please verify your phone number first");
-      return;
-    }
-
-    // Validate required fields
-    if (!formData.name || !formData.email || !formData.phone) {
-      toast.error("Please fill in all required fields");
-      return;
-    }
-
-    const enquiryTypeMessage = enquiryType === "concierge" 
-      ? "Enquiry submitted successfully! Our wedding concierge will contact you within 24 hours." 
-      : "Enquiry sent directly to the venue! They will contact you within 24 hours.";
-
-    toast.success(enquiryTypeMessage);
-    
-    // Reset form
-    setEnquiryStep(1);
-    setEnquiryType("concierge");
-    setIsConciergeInfoExpanded(false);
-    setDateRange({ from: undefined, to: undefined });
-    setFormData({
-      people: "",
-      selectPackage: "",
-      eventType: "",
-      flexibleDates: false,
-      message: "",
-      budget: "",
-      name: "",
-      phone: "",
-      email: "",
-      otp: "",
-    });
-    setOtpSent(false);
-    setOtpVerified(false);
-  };
-
-  const handleStepOneNext = () => {
-    // Validate step 1
-    if (
-      !dateRange.from ||
-      !formData.people ||
-      !formData.selectPackage ||
-      !formData.eventType
-    ) {
-      toast.error("Please fill in all required fields");
-      return;
-    }
-    setEnquiryStep(2);
   };
 
   if (isLoading) {
@@ -779,9 +415,8 @@ export function VenueDetailsPageV2({
 
               <div className="relative mt-4">
                 <p
-                  className={`text-muted-foreground leading-relaxed transition-all ${
-                    !isDescriptionExpanded ? "line-clamp-4" : ""
-                  }`}
+                  className={`text-muted-foreground leading-relaxed transition-all ${!isDescriptionExpanded ? "line-clamp-4" : ""
+                    }`}
                 >
                   {venue.description}
                 </p>
@@ -929,7 +564,7 @@ export function VenueDetailsPageV2({
                         </Button>
                       </div>
                     </div>
-                    <div 
+                    <div
                       id="highlights-carousel"
                       className="flex gap-3 sm:gap-4 md:gap-6 overflow-x-auto scroll-smooth pb-3 sm:pb-4 -mx-3 px-3 sm:-mx-4 sm:px-4 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden"
                       style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
@@ -945,7 +580,7 @@ export function VenueDetailsPageV2({
                           ];
                           const colors =
                             colorSchemes[
-                              index % colorSchemes.length
+                            index % colorSchemes.length
                             ];
 
                           return (
@@ -979,7 +614,7 @@ export function VenueDetailsPageV2({
                     Area({venue.areas.length})
                   </h2>
                   <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
-                    {(areasExpanded ? venue.areas : venue.areas.slice(0, 4)).map((area, index) => {
+                    {(areasExpanded ? venue.areas : venue.areas.slice(0, 4)).map((area: any, index) => {
                       const IconComponent = area.icon || Home;
 
                       return (
@@ -992,7 +627,7 @@ export function VenueDetailsPageV2({
                           </div>
                           <div>
                             <h3 className="mb-1 text-sm sm:text-base">
-                              {area.name}
+                              {area.name} {area.type ? `(${area.type})` : ""}
                             </h3>
                             <p className="text-xs sm:text-sm text-muted-foreground">
                               Seating {area.seating} | Floating{" "}
@@ -1003,7 +638,7 @@ export function VenueDetailsPageV2({
                       );
                     })}
                   </div>
-                  
+
                   {venue.areas.length > 4 && (
                     <div className="flex justify-center mt-4 sm:mt-6">
                       <Button
@@ -1135,7 +770,7 @@ export function VenueDetailsPageV2({
                         <ImageWithFallback
                           src={
                             (pkg as any).images?.[
-                              packageImageIndices[index] || 0
+                            packageImageIndices[index] || 0
                             ] || pkg.image
                           }
                           alt={pkg.name}
@@ -1182,13 +817,12 @@ export function VenueDetailsPageV2({
                                 `${venueId}-${pkg.name}`,
                               );
                             }}
-                            className={`p-2 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all hover:scale-110 ${
-                              likedPackages.has(
-                                `${venueId}-${pkg.name}`,
-                              )
-                                ? "text-red-500"
-                                : ""
-                            }`}
+                            className={`p-2 rounded-full bg-white/90 hover:bg-white shadow-lg transition-all hover:scale-110 ${likedPackages.has(
+                              `${venueId}-${pkg.name}`,
+                            )
+                              ? "text-red-500"
+                              : ""
+                              }`}
                           >
                             <Heart
                               className={`size-5 ${likedPackages.has(`${venueId}-${pkg.name}`) ? "fill-current" : ""}`}
@@ -1204,13 +838,12 @@ export function VenueDetailsPageV2({
                                     index,
                                   );
                                 }}
-                                className={`relative p-2 rounded-full shadow-lg transition-all hover:scale-110 group-hover:animate-pulse ${
-                                  isInCompare(
-                                    `${venueId}-${pkg.name}`,
-                                  )
-                                    ? "bg-[#02542D] text-white hover:bg-[#02542D]/90"
-                                    : "bg-white/90 hover:bg-white group-hover:ring-2 group-hover:ring-[#DF6951] group-hover:ring-offset-2"
-                                }`}
+                                className={`relative p-2 rounded-full shadow-lg transition-all hover:scale-110 group-hover:animate-pulse ${isInCompare(
+                                  `${venueId}-${pkg.name}`,
+                                )
+                                  ? "bg-[#02542D] text-white hover:bg-[#02542D]/90"
+                                  : "bg-white/90 hover:bg-white group-hover:ring-2 group-hover:ring-[#DF6951] group-hover:ring-offset-2"
+                                  }`}
                               >
                                 {isInCompare(
                                   `${venueId}-${pkg.name}`,
@@ -1254,13 +887,12 @@ export function VenueDetailsPageV2({
                                         }),
                                       );
                                     }}
-                                    className={`h-1.5 rounded-full transition-all ${
-                                      (packageImageIndices[
-                                        index
-                                      ] || 0) === imgIndex
-                                        ? "w-6 bg-white"
-                                        : "w-1.5 bg-white/60 hover:bg-white/80"
-                                    }`}
+                                    className={`h-1.5 rounded-full transition-all ${(packageImageIndices[
+                                      index
+                                    ] || 0) === imgIndex
+                                      ? "w-6 bg-white"
+                                      : "w-1.5 bg-white/60 hover:bg-white/80"
+                                      }`}
                                   />
                                 ),
                               )}
@@ -1270,13 +902,12 @@ export function VenueDetailsPageV2({
                         <div className="absolute bottom-3 left-3">
                           <Badge
                             variant="secondary"
-                            className={`${
-                              pkg.tag === "Silver"
-                                ? "bg-gray-100/95 text-gray-900 border border-gray-300"
-                                : pkg.tag === "Gold"
-                                  ? "bg-amber-100/95 text-amber-900 border border-amber-300"
-                                  : "bg-purple-100/95 text-purple-900 border border-purple-300"
-                            } backdrop-blur-sm`}
+                            className={`${pkg.tag === "Silver"
+                              ? "bg-gray-100/95 text-gray-900 border border-gray-300"
+                              : pkg.tag === "Gold"
+                                ? "bg-amber-100/95 text-amber-900 border border-amber-300"
+                                : "bg-purple-100/95 text-purple-900 border border-purple-300"
+                              } backdrop-blur-sm`}
                           >
                             {pkg.tag} Package
                           </Badge>
@@ -1410,14 +1041,11 @@ export function VenueDetailsPageV2({
                             <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
                               Starting from
                             </p>
-                            <p
-                              className="text-2xl sm:text-3xl break-words"
-                              style={{
-                                fontFamily: "Volkhov, serif",
-                              }}
+                            <div
+                              className="break-words"
                             >
-                              {formatPrice(pkg.price)}
-                            </p>
+                              <PackagePrice price={pkg.price} size="3xl" />
+                            </div>
                             <p className="text-xs text-muted-foreground mt-1 break-words">
                               Price varies by season and
                               customization
@@ -1442,853 +1070,7 @@ export function VenueDetailsPageV2({
 
             {/* Mobile Enquiry Form - Shows only on mobile after packages */}
             <div className="lg:hidden">
-              <Card className="p-4 sm:p-6 border-2">
-                <Tabs value={enquiryType} onValueChange={(value) => setEnquiryType(value as "concierge" | "direct")} className="w-full">
-                  <TabsList className="grid w-full grid-cols-2 mb-6 bg-transparent gap-2 sm:gap-3 p-0">
-                    <TabsTrigger 
-                      value="concierge" 
-                      className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10 data-[state=active]:from-[#02542D] data-[state=active]:to-[#DF6951] data-[state=active]:text-white transition-all duration-200 border-0"
-                    >
-                      <Sparkles className="size-4" />
-                      <span className="text-sm sm:text-base">Concierge</span>
-                    </TabsTrigger>
-                    <TabsTrigger 
-                      value="direct" 
-                      className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10 data-[state=active]:from-[#02542D] data-[state=active]:to-[#DF6951] data-[state=active]:text-white transition-all duration-200 border-0"
-                    >
-                      <Send className="size-4" />
-                      <span className="text-sm sm:text-base">Venue</span>
-                    </TabsTrigger>
-                  </TabsList>
-
-                  <TabsContent
-                    value="concierge"
-                    className="space-y-4"
-                  >
-                    {enquiryStep === 1 ? (
-                      <>
-                        {/* Step 1: Event Details */}
-                        <div>
-                          <Label htmlFor="dates-mobile">
-                            Dates{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <Button
-                                variant="outline"
-                                className="w-full justify-start text-left mt-1 h-10"
-                              >
-                                <Calendar className="mr-2 size-4" />
-                                {dateRange.from ? (
-                                  dateRange.to ? (
-                                    <>
-                                      {format(
-                                        dateRange.from,
-                                        "LLL dd, y",
-                                      )}{" "}
-                                      ~{" "}
-                                      {format(
-                                        dateRange.to,
-                                        "LLL dd, y",
-                                      )}
-                                    </>
-                                  ) : (
-                                    format(
-                                      dateRange.from,
-                                      "LLL dd, y",
-                                    )
-                                  )
-                                ) : (
-                                  <span className="text-muted-foreground">
-                                    Pick a date range
-                                  </span>
-                                )}
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent
-                              className="w-auto p-0"
-                              align="start"
-                            >
-                              <CalendarComponent
-                                mode="range"
-                                selected={dateRange}
-                                onSelect={(range) =>
-                                  setDateRange(
-                                    range || {
-                                      from: undefined,
-                                      to: undefined,
-                                    },
-                                  )
-                                }
-                                numberOfMonths={1}
-                                className="rounded-md border"
-                              />
-                            </PopoverContent>
-                          </Popover>
-                        </div>
-
-                        <div>
-                          <Label htmlFor="people-mobile">
-                            Number of People{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <Input
-                            id="people-mobile"
-                            type="number"
-                            placeholder="0"
-                            value={formData.people}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                people: e.target.value,
-                              })
-                            }
-                            className="mt-1"
-                          />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="selectPackage-mobile">
-                            Select Package
-                          </Label>
-                          <Select
-                            value={formData.selectPackage}
-                            onValueChange={(value) =>
-                              setFormData({
-                                ...formData,
-                                selectPackage: value,
-                              })
-                            }
-                          >
-                            <SelectTrigger className="mt-1">
-                              <SelectValue placeholder="Select Package" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {venue.packages.map((pkg) => (
-                                <SelectItem
-                                  key={pkg.name}
-                                  value={pkg.name}
-                                >
-                                  {pkg.name} -{" "}
-                                  {formatPrice(pkg.price)}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-
-                        <div>
-                          <Label htmlFor="eventType-mobile">
-                            Event Type{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <Select
-                            value={formData.eventType}
-                            onValueChange={(value) =>
-                              setFormData({
-                                ...formData,
-                                eventType: value,
-                              })
-                            }
-                          >
-                            <SelectTrigger className="mt-1">
-                              <SelectValue placeholder="Select Event Type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="wedding">
-                                Wedding
-                              </SelectItem>
-                              <SelectItem value="pre-wedding">
-                                Pre-Wedding
-                              </SelectItem>
-                              <SelectItem value="engagement">
-                                Engagement
-                              </SelectItem>
-                              <SelectItem value="reception">
-                                Reception
-                              </SelectItem>
-                              <SelectItem value="sangeet">
-                                Sangeet
-                              </SelectItem>
-                              <SelectItem value="mehendi">
-                                Mehendi
-                              </SelectItem>
-                              <SelectItem value="other">
-                                Other
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="flexibleDates-mobile"
-                            checked={formData.flexibleDates}
-                            onCheckedChange={(checked) =>
-                              setFormData({
-                                ...formData,
-                                flexibleDates:
-                                  checked as boolean,
-                              })
-                            }
-                          />
-                          <Label
-                            htmlFor="flexibleDates-mobile"
-                            className="text-sm cursor-pointer"
-                          >
-                            I have flexible dates
-                          </Label>
-                        </div>
-
-                        <Button
-                          className="w-full bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
-                          onClick={handleStepOneNext}
-                        >
-                          Next Step
-                          <ArrowRight className="ml-2 size-4" />
-                        </Button>
-
-                        {/* Concierge Info - Expandable */}
-                        <div className="space-y-2 mt-6">
-                              <button
-                                type="button"
-                                onClick={() => setIsConciergeInfoExpanded(!isConciergeInfoExpanded)}
-                                className="w-full flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-[#02542D]/5 to-[#DF6951]/5 border border-[#02542D]/20 hover:border-[#02542D]/40 transition-all"
-                              >
-                                <div className="flex items-center gap-2">
-                                  <Info className="size-4 text-[#DF6951]" />
-                                  <span className="text-sm font-medium text-[#02542D]">
-                                    What is Concierge Service?
-                                  </span>
-                                </div>
-                                {isConciergeInfoExpanded ? (
-                                  <ChevronUp className="size-4 text-[#02542D]" />
-                                ) : (
-                                  <ChevronDown className="size-4 text-[#02542D]" />
-                                )}
-                              </button>
-
-                              {isConciergeInfoExpanded && (
-                                <div className="p-4 rounded-lg bg-white border border-gray-200 space-y-3 animate-in slide-in-from-top-2">
-                                  <p className="text-sm text-muted-foreground">
-                                    Our wedding concierge team acts as your personal wedding planning assistant, coordinating with the venue and all vendors to ensure your dream wedding comes to life.
-                                  </p>
-                                  <div className="space-y-2">
-                                    <div className="flex items-start gap-2">
-                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                      <div>
-                                        <p className="text-sm font-medium">Expert Guidance</p>
-                                        <p className="text-xs text-muted-foreground">Professional advice on venue selection, packages, and planning</p>
-                                      </div>
-                                    </div>
-                                    <div className="flex items-start gap-2">
-                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                      <div>
-                                        <p className="text-sm font-medium">Price Negotiation</p>
-                                        <p className="text-xs text-muted-foreground">We negotiate the best rates and packages on your behalf</p>
-                                      </div>
-                                    </div>
-                                    <div className="flex items-start gap-2">
-                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                      <div>
-                                        <p className="text-sm font-medium">End-to-End Planning</p>
-                                        <p className="text-xs text-muted-foreground">Complete support from enquiry to your special day</p>
-                                      </div>
-                                    </div>
-                                    <div className="flex items-start gap-2">
-                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                      <div>
-                                        <p className="text-sm font-medium">Single Point of Contact</p>
-                                        <p className="text-xs text-muted-foreground">Coordinated communication with all vendors and venue</p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        {/* Step 2: Contact Details */}
-                        <div>
-                          <Label htmlFor="message-mobile">
-                            Message to the venue{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <Textarea
-                            id="message-mobile"
-                            placeholder="Type here..."
-                            value={formData.message}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                message: e.target.value,
-                              })
-                            }
-                            rows={3}
-                            className="mt-1"
-                          />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="budget-mobile">
-                            Budget{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <Input
-                            id="budget-mobile"
-                            type="number"
-                            placeholder="0"
-                            value={formData.budget}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                budget: e.target.value,
-                              })
-                            }
-                            className="mt-1"
-                          />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="name-mobile">
-                            Name{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <Input
-                            id="name-mobile"
-                            placeholder="Enter your Name"
-                            value={formData.name}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                name: e.target.value,
-                              })
-                            }
-                            className="mt-1"
-                          />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="email-mobile">
-                            Email{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <Input
-                            id="email-mobile"
-                            type="email"
-                            placeholder="Enter your Email"
-                            value={formData.email}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                email: e.target.value,
-                              })
-                            }
-                            className="mt-1"
-                          />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="phone-mobile">
-                            Phone Number{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <div className="flex gap-2 mt-1">
-                            <Input
-                              id="phone-mobile"
-                              type="tel"
-                              placeholder="Enter your Phone Number"
-                              value={formData.phone}
-                              onChange={(e) =>
-                                setFormData({
-                                  ...formData,
-                                  phone: e.target.value,
-                                })
-                              }
-                              className="flex-1"
-                            />
-                            <Button
-                              onClick={handleSendOTP}
-                              disabled={otpSent}
-                              className="bg-[#DF6951] hover:bg-[#DF6951]/90"
-                            >
-                              {otpSent ? "Sent" : "Send OTP"}
-                            </Button>
-                          </div>
-                        </div>
-
-                        {otpSent && !otpVerified && (
-                          <div>
-                            <Label htmlFor="otp-mobile">
-                              Enter OTP{" "}
-                              <span className="text-red-500">
-                                *
-                              </span>
-                            </Label>
-                            <div className="flex gap-2 mt-1">
-                              <Input
-                                id="otp-mobile"
-                                type="text"
-                                placeholder="Enter 6-digit OTP"
-                                value={formData.otp}
-                                onChange={(e) =>
-                                  setFormData({
-                                    ...formData,
-                                    otp: e.target.value,
-                                  })
-                                }
-                                maxLength={6}
-                                className="flex-1"
-                              />
-                              <Button
-                                onClick={handleVerifyOTP}
-                                className="bg-[#02542D] hover:bg-[#02542D]/90"
-                              >
-                                <Shield className="mr-1 size-4" />
-                                Verify
-                              </Button>
-                            </div>
-                          </div>
-                        )}
-
-                        <div className="flex gap-2">
-                          <Button
-                            variant="outline"
-                            className="flex-1"
-                            onClick={() => setEnquiryStep(1)}
-                          >
-                            <ChevronLeft className="mr-1 size-4" />
-                            Back
-                          </Button>
-                          <Button
-                            className="flex-1 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
-                            onClick={handleEnquirySubmit}
-                            disabled={!otpVerified}
-                          >
-                            <Mail className="mr-2 size-5" />
-                            Submit Enquiry
-                          </Button>
-                        </div>
-
-                        <p className="text-xs text-center text-muted-foreground">
-                          We'll respond within 24 hours
-                        </p>
-                      </>
-                    )}
-                  </TabsContent>
-
-                  <TabsContent
-                    value="direct"
-                    className="space-y-4"
-                  >
-                    {enquiryStep === 1 ? (
-                      <>\n                        {/* Step 1: Event Details */}
-                        <div>
-                          <Label htmlFor="dates-mobile-direct">
-                            Dates{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <Button
-                                variant="outline"
-                                className="w-full justify-start text-left mt-1 h-10"
-                              >
-                                <Calendar className="mr-2 size-4" />
-                                {dateRange.from ? (
-                                  dateRange.to ? (
-                                    <>
-                                      {format(
-                                        dateRange.from,
-                                        "LLL dd, y",
-                                      )}{" "}
-                                      ~{" "}
-                                      {format(
-                                        dateRange.to,
-                                        "LLL dd, y",
-                                      )}
-                                    </>
-                                  ) : (
-                                    format(
-                                      dateRange.from,
-                                      "LLL dd, y",
-                                    )
-                                  )
-                                ) : (
-                                  <span className="text-muted-foreground">
-                                    Pick a date range
-                                  </span>
-                                )}
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent
-                              className="w-auto p-0"
-                              align="start"
-                            >
-                              <CalendarComponent
-                                mode="range"
-                                selected={{
-                                  from: dateRange.from,
-                                  to: dateRange.to,
-                                }}
-                                onSelect={(range) => {
-                                  setDateRange({
-                                    from: range?.from,
-                                    to: range?.to,
-                                  });
-                                }}
-                                initialFocus
-                                numberOfMonths={calendarMonths}
-                                disabled={(date) =>
-                                  date <
-                                  new Date(
-                                    new Date().setHours(
-                                      0,
-                                      0,
-                                      0,
-                                      0,
-                                    ),
-                                  )
-                                }
-                              />
-                            </PopoverContent>
-                          </Popover>
-                        </div>
-
-                        <div>
-                          <Label htmlFor="people-mobile-direct">
-                            People{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <Input
-                            id="people-mobile-direct"
-                            type="number"
-                            placeholder="Number of guests"
-                            value={formData.people}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                people: e.target.value,
-                              })
-                            }
-                            className="mt-1"
-                          />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="message-mobile-direct">
-                            Message{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <Textarea
-                            id="message-mobile-direct"
-                            placeholder="Tell us about your dream wedding..."
-                            value={formData.message}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                message: e.target.value,
-                              })
-                            }
-                            className="mt-1 min-h-[100px]"
-                          />
-                        </div>
-
-                        <div>
-                          <Button
-                            className="w-full bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
-                            onClick={handleStepOneNext}
-                          >
-                            Continue
-                            <ArrowRight className="ml-2 size-4" />
-                          </Button>
-                        </div>
-
-                        {/* Concierge Info - Expandable */}
-                        <div className="space-y-2 mt-6">
-                              <button
-                                type="button"
-                                onClick={() => setIsConciergeInfoExpanded(!isConciergeInfoExpanded)}
-                                className="w-full flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-[#02542D]/5 to-[#DF6951]/5 border border-[#02542D]/20 hover:border-[#02542D]/40 transition-all"
-                              >
-                                <div className="flex items-center gap-2">
-                                  <Info className="size-4 text-[#DF6951]" />
-                                  <span className="text-sm font-medium text-[#02542D]">
-                                    What is Concierge Service?
-                                  </span>
-                                </div>
-                                {isConciergeInfoExpanded ? (
-                                  <ChevronUp className="size-4 text-[#02542D]" />
-                                ) : (
-                                  <ChevronDown className="size-4 text-[#02542D]" />
-                                )}
-                              </button>
-
-                              {isConciergeInfoExpanded && (
-                                <div className="p-4 rounded-lg bg-white border border-gray-200 space-y-3 animate-in slide-in-from-top-2">
-                                  <p className="text-sm text-muted-foreground">
-                                    Our wedding concierge team acts as your personal wedding planning assistant, coordinating with the venue and all vendors to ensure your dream wedding comes to life.
-                                  </p>
-                                  <div className="space-y-2">
-                                    <div className="flex items-start gap-2">
-                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                      <div>
-                                        <p className="text-sm font-medium">Expert Guidance</p>
-                                        <p className="text-xs text-muted-foreground">Professional advice on venue selection, packages, and planning</p>
-                                      </div>
-                                    </div>
-                                    <div className="flex items-start gap-2">
-                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                      <div>
-                                        <p className="text-sm font-medium">Price Negotiation</p>
-                                        <p className="text-xs text-muted-foreground">We negotiate the best rates and packages on your behalf</p>
-                                      </div>
-                                    </div>
-                                    <div className="flex items-start gap-2">
-                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                      <div>
-                                        <p className="text-sm font-medium">End-to-End Planning</p>
-                                        <p className="text-xs text-muted-foreground">Complete support from enquiry to your special day</p>
-                                      </div>
-                                    </div>
-                                    <div className="flex items-start gap-2">
-                                      <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                      <div>
-                                        <p className="text-sm font-medium">Single Point of Contact</p>
-                                        <p className="text-xs text-muted-foreground">Coordinated communication with all vendors and venue</p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        {/* Step 2: Contact Details */}
-                        <div>
-                          <Label htmlFor="message-mobile-direct">
-                            Message to the venue{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <Textarea
-                            id="message-mobile-direct"
-                            placeholder="Type here..."
-                            value={formData.message}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                message: e.target.value,
-                              })
-                            }
-                            rows={3}
-                            className="mt-1"
-                          />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="budget-mobile-direct">
-                            Budget{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <Input
-                            id="budget-mobile-direct"
-                            type="number"
-                            placeholder="0"
-                            value={formData.budget}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                budget: e.target.value,
-                              })
-                            }
-                            className="mt-1"
-                          />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="name-mobile-direct">
-                            Name{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <Input
-                            id="name-mobile-direct"
-                            placeholder="Enter your Name"
-                            value={formData.name}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                name: e.target.value,
-                              })
-                            }
-                            className="mt-1"
-                          />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="email-mobile-direct">
-                            Email{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <Input
-                            id="email-mobile-direct"
-                            type="email"
-                            placeholder="your@email.com"
-                            value={formData.email}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                email: e.target.value,
-                              })
-                            }
-                            className="mt-1"
-                          />
-                        </div>
-
-                        <div>
-                          <Label htmlFor="phone-mobile-direct">
-                            Phone{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <div className="flex gap-2 mt-1">
-                            <Input
-                              id="phone-mobile-direct"
-                              type="tel"
-                              placeholder="+1 (555) 000-0000"
-                              value={formData.phone}
-                              onChange={(e) =>
-                                setFormData({
-                                  ...formData,
-                                  phone: e.target.value,
-                                })
-                              }
-                              className="flex-1"
-                              disabled={otpVerified}
-                            />
-                            {!otpSent ? (
-                              <Button
-                                onClick={handleSendOTP}
-                                variant="outline"
-                                className="whitespace-nowrap"
-                              >
-                                Send OTP
-                              </Button>
-                            ) : !otpVerified ? (
-                              <Button
-                                onClick={handleSendOTP}
-                                variant="outline"
-                                className="whitespace-nowrap"
-                              >
-                                Resend
-                              </Button>
-                            ) : (
-                              <Button
-                                variant="outline"
-                                className="whitespace-nowrap gap-1 text-green-600 border-green-600"
-                                disabled
-                              >
-                                <Check className="size-4" />
-                                Verified
-                              </Button>
-                            )}
-                          </div>
-                        </div>
-
-                        {otpSent && !otpVerified && (
-                          <div>
-                            <Label htmlFor="otp-mobile-direct">
-                              Enter OTP{" "}
-                              <span className="text-red-500">
-                                *
-                              </span>
-                            </Label>
-                            <div className="flex gap-2 mt-1">
-                              <Input
-                                id="otp-mobile-direct"
-                                type="text"
-                                placeholder="Enter 6-digit OTP"
-                                value={formData.otp}
-                                onChange={(e) =>
-                                  setFormData({
-                                    ...formData,
-                                    otp: e.target.value,
-                                  })
-                                }
-                                maxLength={6}
-                                className="flex-1"
-                              />
-                              <Button
-                                onClick={handleVerifyOTP}
-                                className="bg-[#02542D] hover:bg-[#02542D]/90"
-                              >
-                                <Shield className="mr-1 size-4" />
-                                Verify
-                              </Button>
-                            </div>
-                          </div>
-                        )}
-
-                        <div className="flex gap-2">
-                          <Button
-                            variant="outline"
-                            className="flex-1"
-                            onClick={() => setEnquiryStep(1)}
-                          >
-                            <ChevronLeft className="mr-1 size-4" />
-                            Back
-                          </Button>
-                          <Button
-                            className="flex-1 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
-                            onClick={handleEnquirySubmit}
-                            disabled={!otpVerified}
-                          >
-                            <Mail className="mr-2 size-5" />
-                            Submit Enquiry
-                          </Button>
-                        </div>
-
-                        <p className="text-xs text-center text-muted-foreground">
-                          We'll respond within 24 hours
-                        </p>
-                      </>
-                    )}
-                  </TabsContent>
-                </Tabs>
-              </Card>
+              <VenueEnquiryForm packages={venue.packages} formatPrice={formatPrice} venueId={venueData._id} />
             </div>
 
             <Separator />
@@ -2467,37 +1249,10 @@ export function VenueDetailsPageV2({
             {/* Map */}
             <div>
               <h2 className="mb-4 sm:mb-5 md:mb-6 text-lg sm:text-xl">Location</h2>
-              <Card className="p-3 sm:p-4 md:p-6 overflow-hidden">
-                <div className="aspect-video bg-gradient-to-br from-rose-100 to-amber-100 rounded-lg flex items-center justify-center relative overflow-hidden">
-                  {/* Simple map placeholder */}
-                  <div className="absolute inset-0 opacity-20">
-                    <div
-                      className="absolute inset-0"
-                      style={{
-                        backgroundImage: `repeating-linear-gradient(0deg, #e5e7eb 0px, #e5e7eb 1px, transparent 1px, transparent 20px),
-                                       repeating-linear-gradient(90deg, #e5e7eb 0px, #e5e7eb 1px, transparent 1px, transparent 20px)`,
-                      }}
-                    />
-                  </div>
-                  <div className="relative text-center p-4">
-                    <MapPin className="size-12 sm:size-14 md:size-16 text-[#DF6951] mx-auto mb-3 sm:mb-4" />
-                    <p className="font-medium text-sm sm:text-base">
-                      {venue.location}
-                    </p>
-                    <p className="text-xs sm:text-sm text-muted-foreground mt-1.5 sm:mt-2">
-                      {venue.coordinates.lat}°N,{" "}
-                      {venue.coordinates.lng}°E
-                    </p>
-                    <Button className="mt-3 sm:mt-4 bg-gradient-to-r from-[#DF6951] to-[#F1A501] text-sm sm:text-base">
-                      Open in Maps
-                    </Button>
-                  </div>
-                </div>
-                <div className="mt-3 sm:mt-4 flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
-                  <Phone className="size-3.5 sm:size-4 flex-shrink-0" />
-                  <span className="truncate">{venue.contact.phone}</span>
-                </div>
-              </Card>
+              <SimpleDestinationMap
+                center={[venue.coordinates.lat || 0, venue.coordinates.lng || 0]}
+                destinationName={venue.name}
+              />
             </div>
 
             <Separator />
@@ -2922,1145 +1677,23 @@ export function VenueDetailsPageV2({
 
           {/* Right Column - Booking Form */}
           <div className="hidden lg:block lg:col-span-1">
-            <Card className="p-6 sticky top-24 border-2">
-              <Tabs value={enquiryType} onValueChange={(value) => setEnquiryType(value as "concierge" | "direct")} className="w-full">
-                <TabsList className="grid w-full grid-cols-2 mb-6 bg-transparent gap-3 p-0">
-                  <TabsTrigger 
-                    value="concierge" 
-                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10 data-[state=active]:from-[#02542D] data-[state=active]:to-[#DF6951] data-[state=active]:text-white transition-all duration-200 border-0"
-                  >
-                    <Sparkles className="size-4" />
-                    Concierge
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="direct" 
-                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#02542D]/10 to-[#DF6951]/10 data-[state=active]:from-[#02542D] data-[state=active]:to-[#DF6951] data-[state=active]:text-white transition-all duration-200 border-0"
-                  >
-                    <Send className="size-4" />
-                    Venue
-                  </TabsTrigger>
-                </TabsList>
-
-                <TabsContent
-                  value="concierge"
-                  className="space-y-4"
-                >
-                  {enquiryStep === 1 ? (
-                    <>
-                      {/* Step 1: Event Details */}
-                      <div>
-                        <Label htmlFor="dates">
-                          Dates{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className="w-full justify-start text-left mt-1 h-10"
-                            >
-                              <Calendar className="mr-2 size-4" />
-                              {dateRange.from ? (
-                                dateRange.to ? (
-                                  <>
-                                    {format(
-                                      dateRange.from,
-                                      "LLL dd, y",
-                                    )}{" "}
-                                    ~{" "}
-                                    {format(
-                                      dateRange.to,
-                                      "LLL dd, y",
-                                    )}
-                                  </>
-                                ) : (
-                                  format(
-                                    dateRange.from,
-                                    "LLL dd, y",
-                                  )
-                                )
-                              ) : (
-                                <span className="text-muted-foreground">
-                                  Pick a date range
-                                </span>
-                              )}
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent
-                            className="w-auto p-0"
-                            align="start"
-                          >
-                            <CalendarComponent
-                              mode="range"
-                              selected={{
-                                from: dateRange.from,
-                                to: dateRange.to,
-                              }}
-                              onSelect={(range) => {
-                                setDateRange({
-                                  from: range?.from,
-                                  to: range?.to,
-                                });
-                              }}
-                              initialFocus
-                              numberOfMonths={calendarMonths}
-                              disabled={(date) =>
-                                date <
-                                new Date(
-                                  new Date().setHours(
-                                    0,
-                                    0,
-                                    0,
-                                    0,
-                                  ),
-                                )
-                              }
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      </div>
-
-                      <div>
-                        <Label htmlFor="people">
-                          People{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Input
-                          id="people"
-                          type="number"
-                          placeholder="Enter number of people"
-                          value={formData.people}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              people: e.target.value,
-                            })
-                          }
-                          className="mt-1"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="selectPackage">
-                          Select Package{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Select
-                          value={formData.selectPackage}
-                          onValueChange={(value) =>
-                            setFormData({
-                              ...formData,
-                              selectPackage: value,
-                            })
-                          }
-                        >
-                          <SelectTrigger className="mt-1">
-                            <SelectValue placeholder="Select Package" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {venue.packages.map((pkg) => (
-                              <SelectItem
-                                key={pkg.name}
-                                value={pkg.name}
-                              >
-                                {pkg.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div>
-                        <Label htmlFor="eventType">
-                          Event Type{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Select
-                          value={formData.eventType}
-                          onValueChange={(value) =>
-                            setFormData({
-                              ...formData,
-                              eventType: value,
-                            })
-                          }
-                        >
-                          <SelectTrigger className="mt-1">
-                            <SelectValue placeholder="Select Event Type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="wedding">
-                              Wedding
-                            </SelectItem>
-                            <SelectItem value="pre-wedding">
-                              Pre-Wedding
-                            </SelectItem>
-                            <SelectItem value="engagement">
-                              Engagement
-                            </SelectItem>
-                            <SelectItem value="reception">
-                              Reception
-                            </SelectItem>
-                            <SelectItem value="sangeet">
-                              Sangeet
-                            </SelectItem>
-                            <SelectItem value="mehendi">
-                              Mehendi
-                            </SelectItem>
-                            <SelectItem value="other">
-                              Other
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="flexibleDates"
-                          checked={formData.flexibleDates}
-                          onCheckedChange={(checked) =>
-                            setFormData({
-                              ...formData,
-                              flexibleDates: checked as boolean,
-                            })
-                          }
-                        />
-                        <Label
-                          htmlFor="flexibleDates"
-                          className="text-sm cursor-pointer"
-                        >
-                          I have flexible dates
-                        </Label>
-                      </div>
-
-                      <Button
-                        className="w-full bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
-                        onClick={handleStepOneNext}
-                      >
-                        Next Step
-                        <ArrowRight className="ml-2 size-4" />
-                      </Button>
-
-                      {/* Concierge Info - Expandable */}
-                      <div className="space-y-2 mt-6">
-                            <button
-                              type="button"
-                              onClick={() => setIsConciergeInfoExpanded(!isConciergeInfoExpanded)}
-                              className="w-full flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-[#02542D]/5 to-[#DF6951]/5 border border-[#02542D]/20 hover:border-[#02542D]/40 transition-all"
-                            >
-                              <div className="flex items-center gap-2">
-                                <Info className="size-4 text-[#DF6951]" />
-                                <span className="text-sm font-medium text-[#02542D]">
-                                  What is Concierge Service?
-                                </span>
-                              </div>
-                              {isConciergeInfoExpanded ? (
-                                <ChevronUp className="size-4 text-[#02542D]" />
-                              ) : (
-                                <ChevronDown className="size-4 text-[#02542D]" />
-                              )}
-                            </button>
-
-                            {isConciergeInfoExpanded && (
-                              <div className="p-4 rounded-lg bg-white border border-gray-200 space-y-3 animate-in slide-in-from-top-2">
-                                <p className="text-sm text-muted-foreground">
-                                  Our wedding concierge team acts as your personal wedding planning assistant, coordinating with the venue and all vendors to ensure your dream wedding comes to life.
-                                </p>
-                                <div className="space-y-2">
-                                  <div className="flex items-start gap-2">
-                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                    <div>
-                                      <p className="text-sm font-medium">Expert Guidance</p>
-                                      <p className="text-xs text-muted-foreground">Professional advice on venue selection, packages, and planning</p>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-start gap-2">
-                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                    <div>
-                                      <p className="text-sm font-medium">Price Negotiation</p>
-                                      <p className="text-xs text-muted-foreground">We negotiate the best rates and packages on your behalf</p>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-start gap-2">
-                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                    <div>
-                                      <p className="text-sm font-medium">End-to-End Planning</p>
-                                      <p className="text-xs text-muted-foreground">Complete support from enquiry to your special day</p>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-start gap-2">
-                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                    <div>
-                                      <p className="text-sm font-medium">Single Point of Contact</p>
-                                      <p className="text-xs text-muted-foreground">Coordinated communication with all vendors and venue</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      {/* Step 2: Contact Details */}
-                      <div>
-                        <Label htmlFor="message">
-                          Message to the venue{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Textarea
-                          id="message"
-                          placeholder="Type here..."
-                          value={formData.message}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              message: e.target.value,
-                            })
-                          }
-                          rows={3}
-                          className="mt-1"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="budget">
-                          Budget{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Input
-                          id="budget"
-                          type="number"
-                          placeholder="0"
-                          value={formData.budget}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              budget: e.target.value,
-                            })
-                          }
-                          className="mt-1"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="name">
-                          Name{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Input
-                          id="name"
-                          placeholder="Enter your Name"
-                          value={formData.name}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              name: e.target.value,
-                            })
-                          }
-                          className="mt-1"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="email">
-                          Email{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          placeholder="Enter your Email"
-                          value={formData.email}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              email: e.target.value,
-                            })
-                          }
-                          className="mt-1"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="phone">
-                          Phone Number{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <div className="flex gap-2 mt-1">
-                          <Input
-                            id="phone"
-                            type="tel"
-                            placeholder="+91"
-                            value={formData.phone}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                phone: e.target.value,
-                              })
-                            }
-                            className="flex-1"
-                            disabled={otpVerified}
-                          />
-                          {!otpSent ? (
-                            <Button
-                              onClick={handleSendOTP}
-                              variant="outline"
-                              className="whitespace-nowrap"
-                            >
-                              Send OTP
-                            </Button>
-                          ) : !otpVerified ? (
-                            <Button
-                              onClick={handleSendOTP}
-                              variant="outline"
-                              className="whitespace-nowrap"
-                            >
-                              Resend
-                            </Button>
-                          ) : (
-                            <Button
-                              variant="outline"
-                              className="whitespace-nowrap gap-1 text-green-600 border-green-600"
-                              disabled
-                            >
-                              <Check className="size-4" />
-                              Verified
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-
-                      {otpSent && !otpVerified && (
-                        <div>
-                          <Label htmlFor="otp">
-                            Enter OTP{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <div className="flex gap-2 mt-1">
-                            <Input
-                              id="otp"
-                              type="text"
-                              placeholder="Enter 6-digit OTP"
-                              value={formData.otp}
-                              onChange={(e) =>
-                                setFormData({
-                                  ...formData,
-                                  otp: e.target.value,
-                                })
-                              }
-                              maxLength={6}
-                              className="flex-1"
-                            />
-                            <Button
-                              onClick={handleVerifyOTP}
-                              className="bg-[#02542D] hover:bg-[#02542D]/90"
-                            >
-                              <Shield className="mr-1 size-4" />
-                              Verify
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-
-                      <div className="flex gap-2">
-                        <Button
-                          variant="outline"
-                          className="flex-1"
-                          onClick={() => setEnquiryStep(1)}
-                        >
-                          <ChevronLeft className="mr-1 size-4" />
-                          Back
-                        </Button>
-                        <Button
-                          className="flex-1 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
-                          onClick={handleEnquirySubmit}
-                          disabled={!otpVerified}
-                        >
-                          <Mail className="mr-2 size-5" />
-                          Submit Enquiry
-                        </Button>
-                      </div>
-
-                      <p className="text-xs text-center text-muted-foreground">
-                        We'll respond within 24 hours
-                      </p>
-                    </>
-                  )}
-                </TabsContent>
-
-                <TabsContent
-                  value="direct"
-                  className="space-y-4"
-                >
-                  {enquiryStep === 1 ? (
-                    <>
-                      {/* Step 1: Event Details */}
-                      <div>
-                        <Label htmlFor="dates">
-                          Dates{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className="w-full justify-start text-left mt-1 h-10"
-                            >
-                              <Calendar className="mr-2 size-4" />
-                              {dateRange.from ? (
-                                dateRange.to ? (
-                                  <>
-                                    {format(
-                                      dateRange.from,
-                                      "LLL dd, y",
-                                    )}{" "}
-                                    ~{" "}
-                                    {format(
-                                      dateRange.to,
-                                      "LLL dd, y",
-                                    )}
-                                  </>
-                                ) : (
-                                  format(
-                                    dateRange.from,
-                                    "LLL dd, y",
-                                  )
-                                )
-                              ) : (
-                                <span className="text-muted-foreground">
-                                  Pick a date range
-                                </span>
-                              )}
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent
-                            className="w-auto p-0"
-                            align="start"
-                          >
-                            <CalendarComponent
-                              mode="range"
-                              selected={{
-                                from: dateRange.from,
-                                to: dateRange.to,
-                              }}
-                              onSelect={(range) => {
-                                setDateRange({
-                                  from: range?.from,
-                                  to: range?.to,
-                                });
-                              }}
-                              initialFocus
-                              numberOfMonths={calendarMonths}
-                              disabled={(date) =>
-                                date <
-                                new Date(
-                                  new Date().setHours(
-                                    0,
-                                    0,
-                                    0,
-                                    0,
-                                  ),
-                                )
-                              }
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      </div>
-
-                      <div>
-                        <Label htmlFor="people">
-                          People{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Input
-                          id="people"
-                          type="number"
-                          placeholder="Enter number of people"
-                          value={formData.people}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              people: e.target.value,
-                            })
-                          }
-                          className="mt-1"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="selectPackage-direct">
-                          Select Package{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Select
-                          value={formData.selectPackage}
-                          onValueChange={(value) =>
-                            setFormData({
-                              ...formData,
-                              selectPackage: value,
-                            })
-                          }
-                        >
-                          <SelectTrigger className="mt-1">
-                            <SelectValue placeholder="Select Package" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {venue.packages.map((pkg) => (
-                              <SelectItem
-                                key={pkg.name}
-                                value={pkg.name}
-                              >
-                                {pkg.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div>
-                        <Label htmlFor="eventType-direct">
-                          Event Type{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Select
-                          value={formData.eventType}
-                          onValueChange={(value) =>
-                            setFormData({
-                              ...formData,
-                              eventType: value,
-                            })
-                          }
-                        >
-                          <SelectTrigger className="mt-1">
-                            <SelectValue placeholder="Select Event Type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="wedding">
-                              Wedding
-                            </SelectItem>
-                            <SelectItem value="pre-wedding">
-                              Pre-Wedding
-                            </SelectItem>
-                            <SelectItem value="engagement">
-                              Engagement
-                            </SelectItem>
-                            <SelectItem value="reception">
-                              Reception
-                            </SelectItem>
-                            <SelectItem value="sangeet">
-                              Sangeet
-                            </SelectItem>
-                            <SelectItem value="mehendi">
-                              Mehendi
-                            </SelectItem>
-                            <SelectItem value="other">
-                              Other
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="flexibleDates-direct"
-                          checked={formData.flexibleDates}
-                          onCheckedChange={(checked) =>
-                            setFormData({
-                              ...formData,
-                              flexibleDates: checked as boolean,
-                            })
-                          }
-                        />
-                        <Label
-                          htmlFor="flexibleDates-direct"
-                          className="text-sm cursor-pointer"
-                        >
-                          I have flexible dates
-                        </Label>
-                      </div>
-
-                      <Button
-                        className="w-full bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
-                        onClick={handleStepOneNext}
-                      >
-                        Next Step
-                        <ArrowRight className="ml-2 size-4" />
-                      </Button>
-
-                      {/* Concierge Info - Expandable */}
-                      <div className="space-y-2 mt-6">
-                            <button
-                              type="button"
-                              onClick={() => setIsConciergeInfoExpanded(!isConciergeInfoExpanded)}
-                              className="w-full flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-[#02542D]/5 to-[#DF6951]/5 border border-[#02542D]/20 hover:border-[#02542D]/40 transition-all"
-                            >
-                              <div className="flex items-center gap-2">
-                                <Info className="size-4 text-[#DF6951]" />
-                                <span className="text-sm font-medium text-[#02542D]">
-                                  What is Concierge Service?
-                                </span>
-                              </div>
-                              {isConciergeInfoExpanded ? (
-                                <ChevronUp className="size-4 text-[#02542D]" />
-                              ) : (
-                                <ChevronDown className="size-4 text-[#02542D]" />
-                              )}
-                            </button>
-
-                            {isConciergeInfoExpanded && (
-                              <div className="p-4 rounded-lg bg-white border border-gray-200 space-y-3 animate-in slide-in-from-top-2">
-                                <p className="text-sm text-muted-foreground">
-                                  Our wedding concierge team acts as your personal wedding planning assistant, coordinating with the venue and all vendors to ensure your dream wedding comes to life.
-                                </p>
-                                <div className="space-y-2">
-                                  <div className="flex items-start gap-2">
-                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                    <div>
-                                      <p className="text-sm font-medium">Expert Guidance</p>
-                                      <p className="text-xs text-muted-foreground">Professional advice on venue selection, packages, and planning</p>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-start gap-2">
-                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                    <div>
-                                      <p className="text-sm font-medium">Price Negotiation</p>
-                                      <p className="text-xs text-muted-foreground">We negotiate the best rates and packages on your behalf</p>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-start gap-2">
-                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                    <div>
-                                      <p className="text-sm font-medium">End-to-End Planning</p>
-                                      <p className="text-xs text-muted-foreground">Complete support from enquiry to your special day</p>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-start gap-2">
-                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                    <div>
-                                      <p className="text-sm font-medium">Single Point of Contact</p>
-                                      <p className="text-xs text-muted-foreground">Coordinated communication with all vendors and venue</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      {/* Step 2: Contact Details */}
-                      <div>
-                        <Label htmlFor="message-direct">
-                          Message to the venue{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Textarea
-                          id="message-direct"
-                          placeholder="Type here..."
-                          value={formData.message}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              message: e.target.value,
-                            })
-                          }
-                          rows={3}
-                          className="mt-1"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="budget-direct">
-                          Budget{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Input
-                          id="budget-direct"
-                          type="number"
-                          placeholder="0"
-                          value={formData.budget}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              budget: e.target.value,
-                            })
-                          }
-                          className="mt-1"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="name-direct">
-                          Name{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Input
-                          id="name-direct"
-                          placeholder="Enter your Name"
-                          value={formData.name}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              name: e.target.value,
-                            })
-                          }
-                          className="mt-1"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="email-direct">
-                          Email{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <Input
-                          id="email-direct"
-                          type="email"
-                          placeholder="your@email.com"
-                          value={formData.email}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              email: e.target.value,
-                            })
-                          }
-                          className="mt-1"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="phone">
-                          Phone{" "}
-                          <span className="text-red-500">
-                            *
-                          </span>
-                        </Label>
-                        <div className="flex gap-2 mt-1">
-                          <Input
-                            id="phone"
-                            type="tel"
-                            placeholder="+1 (555) 000-0000"
-                            value={formData.phone}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                phone: e.target.value,
-                              })
-                            }
-                            className="flex-1"
-                            disabled={otpVerified}
-                          />
-                          {!otpSent ? (
-                            <Button
-                              onClick={handleSendOTP}
-                              variant="outline"
-                              className="whitespace-nowrap"
-                            >
-                              Send OTP
-                            </Button>
-                          ) : !otpVerified ? (
-                            <Button
-                              onClick={handleSendOTP}
-                              variant="outline"
-                              className="whitespace-nowrap"
-                            >
-                              Resend
-                            </Button>
-                          ) : (
-                            <Button
-                              variant="outline"
-                              className="whitespace-nowrap gap-1 text-green-600 border-green-600"
-                              disabled
-                            >
-                              <Check className="size-4" />
-                              Verified
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-
-                      {otpSent && !otpVerified && (
-                        <div>
-                          <Label htmlFor="otp-direct">
-                            Enter OTP{" "}
-                            <span className="text-red-500">
-                              *
-                            </span>
-                          </Label>
-                          <div className="flex gap-2 mt-1">
-                            <Input
-                              id="otp-direct"
-                              type="text"
-                              placeholder="Enter 6-digit OTP"
-                              value={formData.otp}
-                              onChange={(e) =>
-                                setFormData({
-                                  ...formData,
-                                  otp: e.target.value,
-                                })
-                              }
-                              maxLength={6}
-                              className="flex-1"
-                            />
-                            <Button
-                              onClick={handleVerifyOTP}
-                              className="bg-[#02542D] hover:bg-[#02542D]/90"
-                            >
-                              <Shield className="mr-1 size-4" />
-                              Verify
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-
-                      <div className="flex gap-2">
-                        <Button
-                          variant="outline"
-                          className="flex-1"
-                          onClick={() => setEnquiryStep(1)}
-                        >
-                          <ChevronLeft className="mr-1 size-4" />
-                          Back
-                        </Button>
-                        <Button
-                          className="flex-1 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
-                          onClick={handleEnquirySubmit}
-                          disabled={!otpVerified}
-                        >
-                          <Mail className="mr-2 size-5" />
-                          Submit Enquiry
-                        </Button>
-                      </div>
-
-                      <p className="text-xs text-center text-muted-foreground">
-                        We'll respond within 24 hours
-                      </p>
-                    </>
-                  )}
-                </TabsContent>
-
-                {/* Book Now Tab - Hidden for now, can be enabled later */}
-                {/* <TabsContent value="book" className="space-y-4">
-                  <div>
-                    <Label>Select Package</Label>
-                    <div className="space-y-2 mt-2">
-                      {venue.packages.map((pkg) => (
-                        <button
-                          key={pkg.name}
-                          onClick={() =>
-                            setSelectedPackage(pkg.name)
-                          }
-                          className={`w-full p-3 rounded-lg border-2 text-left transition-all ${
-                            selectedPackage === pkg.name
-                              ? "border-[#DF6951] bg-rose-50"
-                              : "border-border hover:border-[#DF6951]/50"
-                          }`}
-                        >
-                          <div className="flex items-center justify-between">
-                            <span className="font-medium">
-                              {pkg.name}
-                            </span>
-                            <span className="text-sm">
-                              {formatPrice(pkg.price)}
-                            </span>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="book-name">Full Name</Label>
-                    <Input
-                      id="book-name"
-                      placeholder="John Doe"
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="book-email">Email</Label>
-                    <Input
-                      id="book-email"
-                      type="email"
-                      placeholder="john@example.com"
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="book-phone">
-                      Phone Number
-                    </Label>
-                    <Input
-                      id="book-phone"
-                      type="tel"
-                      placeholder="+1 (555) 000-0000"
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="book-date">
-                      Event Date
-                    </Label>
-                    <Input
-                      id="book-date"
-                      type="date"
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="book-guests">
-                      Number of Guests
-                    </Label>
-                    <Input
-                      id="book-guests"
-                      type="number"
-                      placeholder="100"
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <Separator />
-
-                  <div className="p-4 bg-amber-50 rounded-lg">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-muted-foreground">
-                        Selected Package
-                      </span>
-                      <span className="font-medium">
-                        {selectedPackage || "None"}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium">Total</span>
-                      <span
-                        className="text-2xl"
-                        style={{ fontFamily: "Volkhov, serif" }}
-                      >
-                        {selectedPackage
-                          ? formatPrice(
-                              venue.packages.find(
-                                (p) =>
-                                  p.name === selectedPackage,
-                              )?.price || 0,
-                            )
-                          : formatPrice(0)}
-                      </span>
-                    </div>
-                  </div>
-
-                  <Button
-                    className="w-full bg-gradient-to-r from-[#DF6951] to-[#F1A501] hover:from-[#DF6951]/90 hover:to-[#F1A501]/90"
-                    onClick={onProceedToPayment}
-                  >
-                    <Calendar className="mr-2 size-5" />
-                    Proceed to Payment
-                  </Button>
-
-                  <p className="text-xs text-center text-muted-foreground">
-                    Secure payment • Instant confirmation
-                  </p>
-                </TabsContent> */}
-              </Tabs>
-
-              {/* <Separator className="my-6" />
-
-              <div className="space-y-3">
-                <Button
-                  variant="outline"
-                  className="w-full gap-2"
-                >
-                  <Phone className="size-4" />
-                  Call Us
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full gap-2"
-                >
-                  <MessageSquare className="size-4" />
-                  Live Chat
-                </Button>
-              </div> */}
-            </Card>
+            <div className="sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto">
+              <VenueEnquiryForm packages={venue.packages} formatPrice={formatPrice} venueId={venueData._id} />
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Floating Compare Cart Button */}
-      {comparePackages.length > 0 && (
-        <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50">
-          {onCompareClick ? (
-            <Button
-              size="lg"
-              onClick={onCompareClick}
-              className="bg-gradient-to-r from-[#02542D] to-[#DF6951] hover:from-[#02542D]/90 hover:to-[#DF6951]/90 shadow-2xl gap-2 md:gap-3 text-white pr-4 md:pr-6 py-3 md:py-4"
-            >
-              <div className="relative">
-                <ArrowLeftRight className="size-5 md:size-6" />
-                <Badge className="absolute -top-2 -right-2 size-5 p-0 flex items-center justify-center bg-white text-[#02542D] hover:bg-white border-2 border-[#02542D] text-xs">
-                  {comparePackages.length}
-                </Badge>
-              </div>
-              <div className="flex flex-col items-start">
-                <span className="text-xs md:text-sm font-medium">
-                  Compare Packages
-                </span>
-                <span className="text-[10px] md:text-xs opacity-90">
-                  {comparePackages.length}{" "}
-                  {comparePackages.length === 1
-                    ? "package"
-                    : "packages"}{" "}
-                  added
-                </span>
-              </div>
-            </Button>
-          ) : (
-            <a href="/packages/compare">
+        {/* Floating Compare Cart Button */}
+        {comparePackages.length > 0 && (
+          <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50">
+            {onCompareClick ? (
               <Button
                 size="lg"
+                onClick={onCompareClick}
                 className="bg-gradient-to-r from-[#02542D] to-[#DF6951] hover:from-[#02542D]/90 hover:to-[#DF6951]/90 shadow-2xl gap-2 md:gap-3 text-white pr-4 md:pr-6 py-3 md:py-4"
               >
                 <div className="relative">
-                  <ShoppingCart className="size-5 md:size-6" />
+                  <ArrowLeftRight className="size-5 md:size-6" />
                   <Badge className="absolute -top-2 -right-2 size-5 p-0 flex items-center justify-center bg-white text-[#02542D] hover:bg-white border-2 border-[#02542D] text-xs">
                     {comparePackages.length}
                   </Badge>
@@ -4078,81 +1711,107 @@ export function VenueDetailsPageV2({
                   </span>
                 </div>
               </Button>
-            </a>
-          )}
-        </div>
-      )}
-
-      {/* Full-Screen Image Lightbox */}
-      {isLightboxOpen && (
-        <div
-          className="fixed inset-0 z-[9999] w-screen h-screen"
-          onClick={() => setIsLightboxOpen(false)}
-        >
-          {/* Close Button - Fixed to Screen Top Right Edge */}
-          <button
-            onClick={() => setIsLightboxOpen(false)}
-            className="fixed top-4 right-4 z-[10002] p-2.5 rounded-full bg-gray-800/80 hover:bg-gray-700 text-white transition-colors"
-            aria-label="Close lightbox"
-          >
-            <X className="size-7" />
-          </button>
-
-          {/* Image Counter - Top Center */}
-          <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[10001] text-white text-sm">
-            {lightboxImageIndex + 1} / {lightboxImages.length}
-          </div>
-
-          {/* Image Container - Centered */}
-          <div className="fixed inset-0 w-full h-full flex items-center justify-center p-0 m-0 bg-[rgba(164,164,164,0.84)]">
-            {lightboxImages[lightboxImageIndex] && (
-              <div className="relative bg-white rounded-lg shadow-2xl p-2">
-                {/* Previous Button - On left side of image */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    prevLightboxImage();
-                  }}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 -translate-x-full mr-4 z-50 p-3 rounded-full bg-gray-800/80 hover:bg-gray-700 text-white transition-colors"
-                  aria-label="Previous image"
+            ) : (
+              <a href="/packages/compare">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-[#02542D] to-[#DF6951] hover:from-[#02542D]/90 hover:to-[#DF6951]/90 shadow-2xl gap-2 md:gap-3 text-white pr-4 md:pr-6 py-3 md:py-4"
                 >
-                  <ChevronLeft className="size-6" />
-                </button>
-
-                <img
-                  src={lightboxImages[lightboxImageIndex]}
-                  alt={`${venue.name} - Image ${lightboxImageIndex + 1}`}
-                  className="rounded object-contain"
-                  style={{
-                    maxWidth: "calc(90vw - 1rem)",
-                    maxHeight: "calc(85vh - 1rem)",
-                  }}
-                  onError={(e) => {
-                    console.error(
-                      "Image failed to load:",
-                      lightboxImages[lightboxImageIndex],
-                    );
-                    e.currentTarget.src =
-                      "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzLjciPjxyZWN0IHg9IjE2IiB5PSIxNiIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNiIvPjxwYXRoIGQ9Im0xNiA1OCAxNi0xOCAzMiAzMiIvPjxjaXJjbGUgY3g9IjUzIiBjeT0iMzUiIHI9IjciLz48L3N2Zz4=";
-                  }}
-                />
-
-                {/* Next Button - On right side of image */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    nextLightboxImage();
-                  }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 translate-x-full ml-4 z-50 p-3 rounded-full bg-gray-800/80 hover:bg-gray-700 text-white transition-colors"
-                  aria-label="Next image"
-                >
-                  <ChevronRight className="size-6" />
-                </button>
-              </div>
+                  <div className="relative">
+                    <ShoppingCart className="size-5 md:size-6" />
+                    <Badge className="absolute -top-2 -right-2 size-5 p-0 flex items-center justify-center bg-white text-[#02542D] hover:bg-white border-2 border-[#02542D] text-xs">
+                      {comparePackages.length}
+                    </Badge>
+                  </div>
+                  <div className="flex flex-col items-start">
+                    <span className="text-xs md:text-sm font-medium">
+                      Compare Packages
+                    </span>
+                    <span className="text-[10px] md:text-xs opacity-90">
+                      {comparePackages.length}{" "}
+                      {comparePackages.length === 1
+                        ? "package"
+                        : "packages"}{" "}
+                      added
+                    </span>
+                  </div>
+                </Button>
+              </a>
             )}
           </div>
-        </div>
-      )}
+        )}
+
+        {/* Full-Screen Image Lightbox */}
+        {isLightboxOpen && (
+          <div
+            className="fixed inset-0 z-[9999] w-screen h-screen"
+            onClick={() => setIsLightboxOpen(false)}
+          >
+            {/* Close Button - Fixed to Screen Top Right Edge */}
+            <button
+              onClick={() => setIsLightboxOpen(false)}
+              className="fixed top-4 right-4 z-[10002] p-2.5 rounded-full bg-gray-800/80 hover:bg-gray-700 text-white transition-colors"
+              aria-label="Close lightbox"
+            >
+              <X className="size-7" />
+            </button>
+
+            {/* Image Counter - Top Center */}
+            <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[10001] text-white text-sm">
+              {lightboxImageIndex + 1} / {lightboxImages.length}
+            </div>
+
+            {/* Image Container - Centered */}
+            <div className="fixed inset-0 w-full h-full flex items-center justify-center p-0 m-0 bg-[rgba(164,164,164,0.84)]">
+              {lightboxImages[lightboxImageIndex] && (
+                <div className="relative bg-white rounded-lg shadow-2xl p-2">
+                  {/* Previous Button - On left side of image */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      prevLightboxImage();
+                    }}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 -translate-x-full mr-4 z-50 p-3 rounded-full bg-gray-800/80 hover:bg-gray-700 text-white transition-colors"
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft className="size-6" />
+                  </button>
+
+                  <img
+                    src={lightboxImages[lightboxImageIndex]}
+                    alt={`${venue.name} - Image ${lightboxImageIndex + 1}`}
+                    className="rounded object-contain"
+                    style={{
+                      maxWidth: "calc(90vw - 1rem)",
+                      maxHeight: "calc(85vh - 1rem)",
+                    }}
+                    onError={(e) => {
+                      console.error(
+                        "Image failed to load:",
+                        lightboxImages[lightboxImageIndex],
+                      );
+                      e.currentTarget.src =
+                        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzLjciPjxyZWN0IHg9IjE2IiB5PSIxNiIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNiIvPjxwYXRoIGQ9Im0xNiA1OCAxNi0xOCAzMiAzMiIvPjxjaXJjbGUgY3g9IjUzIiBjeT0iMzUiIHI9IjciLz48L3N2Zz4=";
+                    }}
+                  />
+
+                  {/* Next Button - On right side of image */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      nextLightboxImage();
+                    }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 translate-x-full ml-4 z-50 p-3 rounded-full bg-gray-800/80 hover:bg-gray-700 text-white transition-colors"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight className="size-6" />
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

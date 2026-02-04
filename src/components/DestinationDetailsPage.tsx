@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useMemo } from "react";
 import {
   MapPin,
   Star,
@@ -15,17 +15,6 @@ import {
   Share2,
   ChevronLeft,
   ChevronRight,
-  Music,
-  Sparkles,
-  Building2,
-  Users,
-  TrendingUp,
-  Phone,
-  Mail,
-  MessageSquare,
-  BadgeCheck,
-  Globe,
-  Navigation,
   CloudSun,
   Thermometer,
   Droplets,
@@ -33,584 +22,75 @@ import {
   ArrowRight,
   Send,
   Shield,
+  Phone,
+  Users,
+  Sparkles,
 } from "lucide-react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "./ui/tabs";
-import { Separator } from "./ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "./ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar as CalendarComponent } from "./ui/calendar";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import { Destination } from "./DestinationServices/types/destination";
+import { Venue } from "./DestinationServices/services/venueService";
+import { calculateDestinationStats } from "./DestinationServices/utils/destinationUtils";
+import { Separator } from "./ui/separator";
 import { SimpleDestinationMap } from "./SimpleDestinationMap";
+import { DestinationEnquiryForm } from "./DestinationEnquiryForm";
+import PackagePrice from "./ui/PackagePrice";
 
 interface DestinationDetailsPageProps {
-  destinationId: number;
+  destination: Destination;
+  venues: Venue[];
   onBack: () => void;
   onViewVenue?: (venueId: number) => void;
   onViewTourismBoard?: (boardName: string) => void;
 }
 
-const destinationDetails = {
-  1: {
-    name: "Tuscany",
-    country: "Italy",
-    tagline: "Where Romance Meets Renaissance",
-    description:
-      "Tuscany embodies the essence of Italian romance with its rolling hills, sun-drenched vineyards, and historic villas. This enchanting region offers an unparalleled backdrop for destination weddings, combining rustic charm with sophisticated elegance. From medieval hilltop towns to Renaissance art and world-class cuisine, Tuscany creates unforgettable wedding experiences steeped in culture and natural beauty.",
-    tourismBoard: "Visit Florence",
-    images: [
-      "https://images.unsplash.com/photo-1523906630133-f6934a1ab2b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0dXNjYW55JTIwaXRhbHklMjBjb3VudHJ5c2lkZXxlbnwxfHx8fDE3NjAzNzUzMjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1698616596895-71e43af05b70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0dXNjYW55JTIwaXRhbHklMjB3ZWRkaW5nfGVufDF8fHx8MTc2MDM2Mzk0OHww&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1583844056361-4418a8f2a985?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhbWFsZmklMjBjb2FzdCUyMGl0YWx5fGVufDF8fHx8MTc2MDI1NjgxMnww&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1510076857177-7470076d4098?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aW5leWFyZCUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjAzNjQzMTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    ],
-    rating: 4.9,
-    reviews: 342,
-    stats: {
-      venues: 156,
-      avgCost: "$25K - $50K",
-      bestTime: "May - October",
-      avgGuests: "80-150",
-    },
-    quickFacts: [
-      {
-        label: "Language",
-        value: "Italian, English widely spoken",
-      },
-      { label: "Currency", value: "Euro (€)" },
-      { label: "Weather", value: "Mediterranean climate" },
-      { label: "Time Zone", value: "CET (GMT+1)" },
-    ],
-    thingsToDo: [
-      {
-        icon: Wine,
-        title: "Wine Tasting Tours",
-        description: "Explore world-renowned Chianti vineyards",
-        image:
-          "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0dXNjYW55JTIwd2luZSUyMHRhc3Rpbmd8ZW58MXx8fHwxNzYwMzc1MzI3fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        icon: Utensils,
-        title: "Cooking Classes",
-        description: "Learn traditional Italian cuisine",
-        image:
-          "https://images.unsplash.com/photo-1556909190-3163d2b35637?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0dXNjYW55JTIwY29va2luZyUyMGNsYXNzfGVufDF8fHx8MTc2MDM3NTMyN3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        icon: Camera,
-        title: "Historic Tours",
-        description:
-          "Visit Florence, Siena, and medieval towns",
-        image:
-          "https://images.unsplash.com/photo-1529260830199-42c24126f198?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmbG9yZW5jZSUyMGl0YWx5JTIwY2F0aGVkcmFsfGVufDF8fHx8MTc2MDM3NTMyN3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-      {
-        icon: Palmtree,
-        title: "Countryside Drives",
-        description: "Scenic routes through rolling hills",
-        image:
-          "https://images.unsplash.com/photo-1523906630133-f6934a1ab2b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0dXNjYW55JTIwaXRhbHklMjBjb3VudHJ5c2lkZXxlbnwxfHx8fDE3NjAzNzUzMjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      },
-    ],
-    venues: [
-      {
-        id: 3,
-        name: "Royal Gardens Estate",
-        location: "Siena",
-        image:
-          "https://images.unsplash.com/photo-1698616596895-71e43af05b70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYXJkZW4lMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYwMzY0MzA5fDA&ixlib=rb-4.1.0&q=80&w=1080",
-        rating: 4.9,
-        capacity: "100-300",
-        price: "$$$",
-      },
-      {
-        id: 5,
-        name: "Vineyard Villa",
-        location: "Chianti",
-        image:
-          "https://images.unsplash.com/photo-1510076857177-7470076d4098?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aW5leWFyZCUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjAzNjQzMTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-        rating: 4.8,
-        capacity: "60-180",
-        price: "$$",
-      },
-      {
-        id: 7,
-        name: "Castle di Amore",
-        location: "Val d'Orcia",
-        image:
-          "https://images.unsplash.com/photo-1663185776079-33231c5242eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXN0bGUlMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYwMzc0MjQ2fDA&ixlib=rb-4.1.0&q=80&w=1080",
-        rating: 4.9,
-        capacity: "80-250",
-        price: "$$$",
-      },
-    ],
-    coordinates: {
-      lat: 43.7711,
-      lng: 11.2486,
-    },
-  },
-};
-
-// Wedding Concierge Enquiry Form Component
-function DestinationEnquiryForm({
-  destination,
-}: {
-  destination: any;
-}) {
-  const [enquiryStep, setEnquiryStep] = useState(1);
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
-  const [dateRange, setDateRange] = useState<{
-    from?: Date;
-    to?: Date;
-  }>({});
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    countryCode: "+1",
-    guestCount: "",
-    eventType: "",
-    budget: "",
-    message: "",
-    flexibleDates: false,
-    needAccommodation: false,
-    otp: "",
-  });
-
-  const handleSendOTP = () => {
-    if (!formData.phone) {
-      toast.error("Please enter your phone number");
-      return;
-    }
-    setOtpSent(true);
-    toast.success("OTP sent successfully!");
-  };
-
-  const handleVerifyOTP = () => {
-    if (formData.otp.length === 6) {
-      setOtpVerified(true);
-      toast.success("Phone number verified!");
-    } else {
-      toast.error("Please enter a valid 6-digit OTP");
-    }
-  };
-
-  const handleEnquirySubmit = () => {
-    if (
-      !formData.fullName ||
-      !formData.email ||
-      !formData.phone
-    ) {
-      toast.error("Please fill in all required fields");
-      return;
-    }
-    if (!otpVerified) {
-      toast.error("Please verify your phone number");
-      return;
-    }
-
-    toast.success(
-      "Enquiry submitted successfully! Our team will contact you within 24 hours.",
-    );
-
-    // Reset form
-    setEnquiryStep(1);
-    setOtpSent(false);
-    setOtpVerified(false);
-    setFormData({
-      fullName: "",
-      email: "",
-      phone: "",
-      countryCode: "+1",
-      guestCount: "",
-      eventType: "",
-      budget: "",
-      message: "",
-      flexibleDates: false,
-      needAccommodation: false,
-      otp: "",
-    });
-    setDateRange({});
-  };
-
-  return (
-    <div className="space-y-4">
-      {enquiryStep === 1 ? (
-        <>
-          {/* Step 1: Event Details */}
-          <div>
-            <Label htmlFor="destination-dates">
-              Dates <span className="text-red-500">*</span>
-            </Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="w-full justify-start text-left mt-1 h-10"
-                >
-                  <Calendar className="mr-2 size-4" />
-                  {dateRange.from ? (
-                    dateRange.to ? (
-                      <>
-                        {format(dateRange.from, "LLL dd, y")} -{" "}
-                        {format(dateRange.to, "LLL dd, y")}
-                      </>
-                    ) : (
-                      format(dateRange.from, "LLL dd, y")
-                    )
-                  ) : (
-                    <span>Select dates</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent
-                className="w-auto p-0"
-                align="start"
-              >
-                <CalendarComponent
-                  mode="range"
-                  selected={{
-                    from: dateRange.from,
-                    to: dateRange.to,
-                  }}
-                  onSelect={(range: any) => {
-                    setDateRange({
-                      from: range?.from,
-                      to: range?.to,
-                    });
-                  }}
-                  numberOfMonths={2}
-                  disabled={(date) => date < new Date()}
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
-
-          <div>
-            <Label htmlFor="destination-guests">
-              Number of Guests{" "}
-              <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="destination-guests"
-              type="number"
-              placeholder="e.g. 150"
-              value={formData.guestCount}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  guestCount: e.target.value,
-                })
-              }
-              className="mt-1"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="destination-eventType">
-              Event Type <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="destination-eventType"
-              placeholder="e.g. Wedding, Pre-Wedding"
-              value={formData.eventType}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  eventType: e.target.value,
-                })
-              }
-              className="mt-1"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="destination-budget">
-              Budget Range (Optional)
-            </Label>
-            <Input
-              id="destination-budget"
-              placeholder="e.g. $25,000 - $50,000"
-              value={formData.budget}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  budget: e.target.value,
-                })
-              }
-              className="mt-1"
-            />
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="destination-flexibleDates"
-              checked={formData.flexibleDates}
-              onCheckedChange={(checked) =>
-                setFormData({
-                  ...formData,
-                  flexibleDates: checked === true,
-                })
-              }
-            />
-            <Label
-              htmlFor="destination-flexibleDates"
-              className="text-sm font-normal cursor-pointer"
-            >
-              I'm flexible with dates
-            </Label>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="destination-needAccommodation"
-              checked={formData.needAccommodation}
-              onCheckedChange={(checked) =>
-                setFormData({
-                  ...formData,
-                  needAccommodation: checked === true,
-                })
-              }
-            />
-            <Label
-              htmlFor="destination-needAccommodation"
-              className="text-sm font-normal cursor-pointer"
-            >
-              Need accommodation assistance
-            </Label>
-          </div>
-
-          <div>
-            <Label htmlFor="destination-message">
-              Special Requirements (Optional)
-            </Label>
-            <Textarea
-              id="destination-message"
-              placeholder="Tell us about your vision, special requirements, or any questions you have..."
-              value={formData.message}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  message: e.target.value,
-                })
-              }
-              className="mt-1 min-h-[80px]"
-            />
-          </div>
-
-          <Button
-            className="w-full bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
-            onClick={() => setEnquiryStep(2)}
-          >
-            Continue
-            <ArrowRight className="ml-2 size-4" />
-          </Button>
-        </>
-      ) : (
-        <>
-          {/* Step 2: Contact Details */}
-          <div>
-            <Label htmlFor="destination-fullName">
-              Full Name <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="destination-fullName"
-              placeholder="John Doe"
-              value={formData.fullName}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  fullName: e.target.value,
-                })
-              }
-              className="mt-1"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="destination-email">
-              Email <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="destination-email"
-              type="email"
-              placeholder="john@example.com"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  email: e.target.value,
-                })
-              }
-              className="mt-1"
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="destination-phone">
-              Phone Number{" "}
-              <span className="text-red-500">*</span>
-            </Label>
-            <div className="flex gap-2 mt-1">
-              <Input
-                placeholder="+1"
-                value={formData.countryCode}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    countryCode: e.target.value,
-                  })
-                }
-                className="w-20"
-              />
-              <Input
-                id="destination-phone"
-                type="tel"
-                placeholder="(555) 000-0000"
-                value={formData.phone}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    phone: e.target.value,
-                  })
-                }
-                className="flex-1"
-              />
-            </div>
-          </div>
-
-          {/* OTP Verification */}
-          {!otpSent ? (
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={handleSendOTP}
-            >
-              <Phone className="mr-2 size-4" />
-              Send OTP
-            </Button>
-          ) : (
-            <div className="space-y-2">
-              <Label htmlFor="destination-otp">Enter OTP</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="destination-otp"
-                  placeholder="000000"
-                  value={formData.otp}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      otp: e.target.value,
-                    })
-                  }
-                  maxLength={6}
-                  className="flex-1"
-                />
-                <Button
-                  onClick={handleVerifyOTP}
-                  className="bg-[#02542D] hover:bg-[#02542D]/90"
-                >
-                  <Shield className="mr-1 size-4" />
-                  Verify
-                </Button>
-              </div>
-            </div>
-          )}
-
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={() => setEnquiryStep(1)}
-            >
-              <ChevronLeft className="mr-1 size-4" />
-              Back
-            </Button>
-            <Button
-              className="flex-1 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
-              onClick={handleEnquirySubmit}
-              disabled={!otpVerified}
-            >
-              <Send className="mr-2 size-4" />
-              Submit
-            </Button>
-          </div>
-
-          <p className="text-xs text-center text-muted-foreground">
-            Our destination experts will contact you within 24
-            hours
-          </p>
-        </>
-      )}
-    </div>
-  );
-}
 
 export function DestinationDetailsPage({
-  destinationId,
+  destination,
+  venues,
   onBack,
   onViewVenue,
   onViewTourismBoard,
 }: DestinationDetailsPageProps) {
-  const destination =
-    destinationDetails[
-      destinationId as keyof typeof destinationDetails
-    ] || destinationDetails[1];
+  console.log(venues, "venues")
+  console.log(destination, "destiantion")
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [currentMapIndex, setCurrentMapIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  // Map gallery images
-  const mapGalleryImages = [
-    "https://images.unsplash.com/photo-1664834681908-7ee473dfdec4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b3JsZCUyMHRyYXZlbCUyMGRlc3RpbmF0aW9ufGVufDF8fHx8MTc2MjI2NDY3MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    "https://images.unsplash.com/photo-1558117338-aa433feb1c62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cm9waWNhbCUyMGJlYWNoJTIwcmVzb3J0fGVufDF8fHx8MTc2MjI1NTYwN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    "https://images.unsplash.com/photo-1759343824708-c861a5996dfb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMGxhbmRzY2FwZSUyMGRlc3RpbmF0aW9ufGVufDF8fHx8MTc2MjI5MjQ0N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    "https://images.unsplash.com/photo-1517144447511-aebb25bbc5fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaXR5JTIwc2t5bGluZSUyMHRyYXZlbHxlbnwxfHx8fDE3NjIyNjg3NjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    "https://images.unsplash.com/photo-1744805624954-a6686543c3ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwdmVudWUlMjBkZXN0aW5hdGlvbnxlbnwxfHx8fDE3NjIyOTI0NDh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    "https://images.unsplash.com/photo-1759794308020-1757b1ae2722?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb21hbnRpYyUyMGdldGF3YXklMjBsb2NhdGlvbnxlbnwxfHx8fDE3NjIyOTI0NDl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    "https://images.unsplash.com/photo-1760548814600-2ca1a3f70c81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpc2xhbmQlMjBwYXJhZGlzZSUyMGRlc3RpbmF0aW9ufGVufDF8fHx8MTc2MjI5MjQ0OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    "https://images.unsplash.com/photo-1758762937651-9661a09ade06?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjdWx0dXJhbCUyMGhlcml0YWdlJTIwc2l0ZXxlbnwxfHx8fDE3NjIyOTI0NDl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    "https://images.unsplash.com/photo-1716801408923-c2149294dad2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjByZXNvcnQlMjB2aWV3fGVufDF8fHx8MTc2MjI5MjQ0OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    "https://images.unsplash.com/photo-1758181826950-d0cf754afaf5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzY2VuaWMlMjBsYW5kc2NhcGUlMjB0cmF2ZWx8ZW58MXx8fHwxNzYyMjkyNDUwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+  // Calculate stats
+  const stats = useMemo(() => calculateDestinationStats(destination._id, venues), [destination._id, venues]);
+
+  // Aggregate images from destination and venues
+  const destinationImages = (destination.coverPhotosWeb || []).map(photo => photo.fileUrl);
+  // Default images if none available
+  const images = destinationImages.length > 0 ? destinationImages : [
+    "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1523906630133-f6934a1ab2b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0dXNjYW55JTIwaXRhbHklMjBjb3VudHJ5c2lkZXxlbnwxfHx8fDE3NjAzNzUzMjV8MA&ixlib=rb-4.1.0&q=80&w=1080"
   ];
 
   const nextImage = () => {
     setCurrentImageIndex(
-      (prev) => (prev + 1) % destination.images.length,
+      (prev) => (prev + 1) % images.length,
     );
   };
 
   const prevImage = () => {
     setCurrentImageIndex(
       (prev) =>
-        (prev - 1 + destination.images.length) %
-        destination.images.length,
+        (prev - 1 + images.length) %
+        images.length,
     );
-  };
-
-  const nextMapImage = () => {
-    setCurrentMapIndex((prev) => (prev + 1) % mapGalleryImages.length);
-  };
-
-  const prevMapImage = () => {
-    setCurrentMapIndex((prev) => (prev - 1 + mapGalleryImages.length) % mapGalleryImages.length);
   };
 
   return (
@@ -645,44 +125,47 @@ export function DestinationDetailsPage({
         {/* Hero Image Gallery */}
         <div className="relative h-[400px] md:h-[500px] rounded-xl overflow-hidden group mb-8">
           <ImageWithFallback
-            src={destination.images[currentImageIndex]}
+            src={images[currentImageIndex]}
             alt={destination.name}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
           {/* Navigation Arrows */}
-          <button
-            onClick={prevImage}
-            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <ChevronLeft className="size-6" />
-          </button>
-          <button
-            onClick={nextImage}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <ChevronRight className="size-6" />
-          </button>
+          {images.length > 1 && (
+            <>
+              <button
+                onClick={prevImage}
+                className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <ChevronLeft className="size-6" />
+              </button>
+              <button
+                onClick={nextImage}
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <ChevronRight className="size-6" />
+              </button>
+            </>
+          )}
 
           {/* Image Counter */}
           <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-black/60 text-white text-sm backdrop-blur-sm">
             {currentImageIndex + 1} /{" "}
-            {destination.images.length}
+            {images.length}
           </div>
         </div>
 
         {/* Thumbnail Strip */}
         <div className="flex gap-4 mb-8 overflow-x-auto pb-4">
-          {destination.images.map((image, index) => (
+          {images.map((image, index) => (
             <button
               key={index}
               onClick={() => setCurrentImageIndex(index)}
-              className={`relative flex-shrink-0 w-32 h-24 rounded-lg overflow-hidden hover:opacity-90 transition-opacity ${
-                currentImageIndex === index
-                  ? "ring-2 ring-[#DF6951]"
-                  : ""
-              }`}
+              className={`relative flex-shrink-0 w-32 h-24 rounded-lg overflow-hidden hover:opacity-90 transition-opacity ${currentImageIndex === index
+                ? "ring-2 ring-[#DF6951]"
+                : ""
+                }`}
             >
               <ImageWithFallback
                 src={image}
@@ -699,11 +182,11 @@ export function DestinationDetailsPage({
             className="text-5xl mb-2"
             style={{ fontFamily: "Volkhov, serif" }}
           >
-            {destination.name}, {destination.country}
+            {destination.name}, {destination.country?.countryName}
           </h1>
-          <p className="text-xl text-muted-foreground">
-            {destination.tagline}
-          </p>
+          {/* <p className="text-xl text-muted-foreground">
+            {destination.description ? destination.description.substring(0, 100) + (destination.description.length > 100 ? "..." : "") : "Explore this beautiful destination"}
+          </p> */}
         </div>
 
         {/* Main Content */}
@@ -716,17 +199,20 @@ export function DestinationDetailsPage({
                 <div className="flex items-center gap-1">
                   <Star className="size-5 fill-amber-400 text-amber-400" />
                   <span className="font-medium">
-                    {destination.rating}
+                    {/* Placeholder Rating */}
+                    4.8
                   </span>
                   <span className="text-muted-foreground">
-                    ({destination.reviews} reviews)
+                    (200 reviews)
                   </span>
                 </div>
-                <Badge className="bg-emerald-500 text-white">
-                  Popular
-                </Badge>
+                {destination.isFeatured && (
+                  <Badge className="bg-emerald-500 text-white">
+                    Popular
+                  </Badge>
+                )}
                 <Badge variant="outline">
-                  {destination.stats.venues}+ Venues
+                  {stats.venueCount}+ Venues
                 </Badge>
               </div>
 
@@ -734,7 +220,7 @@ export function DestinationDetailsPage({
                 {destination.description}
               </p>
 
-              {/* Weather Summary Widget */}
+              {/* Weather Summary Widget - Using Static Data for Now */}
               <Card className="mt-6 overflow-hidden border-2 border-blue-100">
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
@@ -782,219 +268,6 @@ export function DestinationDetailsPage({
               </Card>
             </div>
 
-            {/* <Separator /> */}
-
-            {/* Tourism Board Section */}
-            {destination.tourismBoard && (
-              <>
-                {/* <Card className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-full bg-blue-500 text-white">
-                      <Globe className="size-6" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h3
-                          className="text-xl"
-                          style={{
-                            fontFamily: "Volkhov, serif",
-                          }}
-                        >
-                          Created by {destination.tourismBoard}
-                        </h3>
-                        <Badge className="bg-blue-500 gap-1">
-                          <BadgeCheck className="size-3" />
-                          Official Tourism Board
-                        </Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        This destination is curated by the
-                        official tourism board. Access exclusive
-                        coupons, promotions, museum bookings,
-                        and specially designed tour packages.
-                      </p>
-                      <div className="flex flex-wrap gap-3">
-                        <Button
-                          onClick={() =>
-                            onViewTourismBoard?.(
-                              destination.tourismBoard!,
-                            )
-                          }
-                          className="gap-2"
-                        >
-                          View Tourism Board Profile
-                          <BadgeCheck className="size-4" />
-                        </Button>
-                        <Badge
-                          variant="secondary"
-                          className="px-3 py-2"
-                        >
-                          🎫 Exclusive Coupons Available
-                        </Badge>
-                        <Badge
-                          variant="secondary"
-                          className="px-3 py-2"
-                        >
-                          🏛️ Museum Bookings
-                        </Badge>
-                        <Badge
-                          variant="secondary"
-                          className="px-3 py-2"
-                        >
-                          📦 Tour Packages
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-                </Card> */}
-                {/* <Separator /> */}
-              </>
-            )}
-
-            {/* Quick Stats */}
-            {/* <div className="grid md:grid-cols-4 gap-4">
-              <Card className="p-4 text-center">
-                <Building2 className="size-6 text-[#DF6951] mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground mb-1">
-                  Venues
-                </p>
-                <p className="font-medium">
-                  {destination.stats.venues}+
-                </p>
-              </Card>
-              <Card className="p-4 text-center">
-                <Calendar className="size-6 text-[#DF6951] mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground mb-1">
-                  Best Time
-                </p>
-                <p className="font-medium text-sm">
-                  {destination.stats.bestTime}
-                </p>
-              </Card>
-              <Card className="p-4 text-center">
-                <Users className="size-6 text-[#DF6951] mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground mb-1">
-                  Avg. Guests
-                </p>
-                <p className="font-medium">
-                  {destination.stats.avgGuests}
-                </p>
-              </Card>
-              <Card className="p-4 text-center">
-                <TrendingUp className="size-6 text-[#DF6951] mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground mb-1">
-                  Avg. Cost
-                </p>
-                <p className="font-medium text-sm">
-                  {destination.stats.avgCost}
-                </p>
-              </Card>
-              <Card className="p-4 text-center">
-                <Building2 className="size-6 text-[#DF6951] mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground mb-1">
-                  Venues
-                </p>
-                <p className="font-medium">
-                  {destination.stats.venues}+
-                </p>
-              </Card>
-            </div> */}
-
-            {/* <Separator /> */}
-
-            {/* Things To Do */}
-            {/* <div>
-              <h2 className="mb-6">Things to Do</h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                {destination.thingsToDo.map(
-                  (activity, index) => (
-                    <Card
-                      key={index}
-                      className="overflow-hidden hover:shadow-lg transition-shadow"
-                    >
-                      <div className="relative h-48">
-                        <ImageWithFallback
-                          src={activity.image}
-                          alt={activity.title}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                        <div className="absolute bottom-4 left-4">
-                          <activity.icon className="size-6 text-white mb-2" />
-                        </div>
-                      </div>
-                      <div className="p-4">
-                        <h3 className="mb-2">
-                          {activity.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {activity.description}
-                        </p>
-                      </div>
-                    </Card>
-                  ),
-                )}
-              </div>
-            </div> */}
-
-            <Separator />
-
-            {/* Venues in Destination */}
-            <div className="hidden">
-              <div className="flex items-center justify-between mb-6">
-                <h2>Top Venues in {destination.name}</h2>
-                <Button variant="outline">
-                  View All {destination.stats.venues}
-                </Button>
-              </div>
-              <div className="grid md:grid-cols-2 gap-6">
-                {destination.venues.map((venue) => (
-                  <Card
-                    key={venue.id}
-                    className="group overflow-hidden hover:shadow-lg transition-all cursor-pointer"
-                    onClick={() => onViewVenue?.(venue.id)}
-                  >
-                    <div className="relative h-48 overflow-hidden">
-                      <ImageWithFallback
-                        src={venue.image}
-                        alt={venue.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                      <div className="absolute top-4 right-4">
-                        <Badge className="bg-white/90 text-foreground">
-                          <Star className="size-3 mr-1 fill-amber-400 text-amber-400" />
-                          {venue.rating}
-                        </Badge>
-                      </div>
-                      <div className="absolute bottom-4 left-4">
-                        <h3 className="text-white mb-1">
-                          {venue.name}
-                        </h3>
-                        <div className="flex items-center gap-2 text-white/90 text-sm">
-                          <MapPin className="size-3" />
-                          <span>{venue.location}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-sm">
-                          <Users className="size-4 text-muted-foreground" />
-                          <span>{venue.capacity}</span>
-                        </div>
-                        <span className="font-medium">
-                          {venue.price}
-                        </span>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            <Separator />
-
             {/* Top Venues Section */}
             <div>
               <div className="mb-8">
@@ -1007,189 +280,84 @@ export function DestinationDetailsPage({
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
-                {/* Venue 1 */}
-                <Card className="overflow-hidden hover:shadow-xl transition-all group cursor-pointer">
-                  <div className="relative h-48 overflow-hidden">
-                    <ImageWithFallback
-                      src="https://images.unsplash.com/photo-1698616596895-71e43af05b70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYXJkZW4lMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYwMzY0MzA5fDA&ixlib=rb-4.1.0&q=80&w=1080"
-                      alt="Royal Gardens Estate"
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                    <Badge className="absolute top-3 left-3 bg-[#F1A501] border-0">
-                      Featured
-                    </Badge>
-                    <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      4.9
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="mb-2">Royal Gardens Estate</h3>
-                    <div className="flex items-center gap-2 text-gray-600 mb-3">
-                      <MapPin className="w-4 h-4" />
-                      <span className="text-sm">Tuscany, Italy</span>
-                    </div>
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-sm text-gray-600">178 reviews</span>
-                      <span className="text-sm text-gray-600">
-                        <Users className="w-4 h-4 inline mr-1" />
-                        Up to 300
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="text-sm text-gray-600">From</div>
-                        <div className="text-xl text-[#DF6951]">£32,000</div>
-                      </div>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => onViewVenue && onViewVenue(3)}
-                      >
-                        View Details
-                        <ChevronRight className="w-4 h-4 ml-1" />
-                      </Button>
-                    </div>
-                  </div>
-                </Card>
+                {venues.map((venue) => {
+                  const priceData = venue.version?.data?.step3?.packages?.[0]?.packagePrice;
+                  const priceDisplay = priceData ? `${priceData.currency} ${priceData.amount}` : "Price TBD";
+                  const capacity = venue.version?.data?.step3?.packages?.[0]?.totalPax;
 
-                {/* Venue 2 */}
-                <Card className="overflow-hidden hover:shadow-xl transition-all group cursor-pointer">
-                  <div className="relative h-48 overflow-hidden">
-                    <ImageWithFallback
-                      src="https://images.unsplash.com/photo-1464207687429-7505649dae38?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0dXNjYW55JTIwdmlsbGF8ZW58MXx8fHwxNzYwMzY0MzEyfDA&ixlib=rb-4.1.0&q=80&w=1080"
-                      alt="Villa Medici Tuscany"
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                    <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      4.8
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="mb-2">Villa Medici Tuscany</h3>
-                    <div className="flex items-center gap-2 text-gray-600 mb-3">
-                      <MapPin className="w-4 h-4" />
-                      <span className="text-sm">Florence, Italy</span>
-                    </div>
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-sm text-gray-600">142 reviews</span>
-                      <span className="text-sm text-gray-600">
-                        <Users className="w-4 h-4 inline mr-1" />
-                        Up to 250
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="text-sm text-gray-600">From</div>
-                        <div className="text-xl text-[#DF6951]">£28,500</div>
-                      </div>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => onViewVenue && onViewVenue(1)}
-                      >
-                        View Details
-                        <ChevronRight className="w-4 h-4 ml-1" />
-                      </Button>
-                    </div>
-                  </div>
-                </Card>
+                  return (
+                    <Card
+                      key={venue._id}
+                      className="overflow-hidden hover:shadow-xl transition-all group cursor-pointer"
+                      onClick={() => onViewVenue && onViewVenue(parseInt(venue._id))}
+                    >
+                      <div className="relative h-48 overflow-hidden">
+                        <ImageWithFallback
+                          src={venue.version?.data?.step1?.coverPhotosWeb?.[0]?.fileUrl || "https://images.unsplash.com/photo-1510076857177-7470076d4098?q=80&w=2069&auto=format&fit=crop"}
+                          alt={venue.name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        />
+                        {venue.isFeatured && (
+                          <Badge className="absolute top-3 left-3 bg-[#F1A501] border-0">
+                            Featured
+                          </Badge>
+                        )}
 
-                {/* Venue 3 */}
-                <Card className="overflow-hidden hover:shadow-xl transition-all group cursor-pointer">
-                  <div className="relative h-48 overflow-hidden">
-                    <ImageWithFallback
-                      src="https://images.unsplash.com/photo-1510076857177-7470076d4098?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aW5leWFyZCUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjAzNjQzMTB8MA&ixlib=rb-4.1.0&q=80&w=1080"
-                      alt="Chianti Vineyard Estate"
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                    <Badge className="absolute top-3 left-3 bg-[#F1A501] border-0">
-                      Featured
-                    </Badge>
-                    <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      4.9
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="mb-2">Chianti Vineyard Estate</h3>
-                    <div className="flex items-center gap-2 text-gray-600 mb-3">
-                      <MapPin className="w-4 h-4" />
-                      <span className="text-sm">Chianti, Italy</span>
-                    </div>
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-sm text-gray-600">189 reviews</span>
-                      <span className="text-sm text-gray-600">
-                        <Users className="w-4 h-4 inline mr-1" />
-                        Up to 180
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="text-sm text-gray-600">From</div>
-                        <div className="text-xl text-[#DF6951]">£24,500</div>
+                        <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
+                          <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                          {/* Randomize slightly or use actual rating if available */}
+                          {4.5}
+                        </div>
                       </div>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => onViewVenue && onViewVenue(5)}
-                      >
-                        View Details
-                        <ChevronRight className="w-4 h-4 ml-1" />
-                      </Button>
-                    </div>
-                  </div>
-                </Card>
-
-                {/* Venue 4 */}
-                <Card className="overflow-hidden hover:shadow-xl transition-all group cursor-pointer">
-                  <div className="relative h-48 overflow-hidden">
-                    <ImageWithFallback
-                      src="https://images.unsplash.com/photo-1717995045676-83ad2eb2a7b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoaXN0b3JpYyUyMGNhc3RsZSUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjI0MDU3MjJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                      alt="Castello di Montalcino"
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                    <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      4.7
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="mb-2">Castello di Montalcino</h3>
-                    <div className="flex items-center gap-2 text-gray-600 mb-3">
-                      <MapPin className="w-4 h-4" />
-                      <span className="text-sm">Montalcino, Italy</span>
-                    </div>
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-sm text-gray-600">156 reviews</span>
-                      <span className="text-sm text-gray-600">
-                        <Users className="w-4 h-4 inline mr-1" />
-                        Up to 200
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="text-sm text-gray-600">From</div>
-                        <div className="text-xl text-[#DF6951]">£30,000</div>
+                      <div className="p-6">
+                        <h3 className="mb-2">{venue.name}</h3>
+                        <div className="flex items-center gap-2 text-gray-600 mb-3">
+                          <MapPin className="w-4 h-4" />
+                          <span className="text-sm">
+                            {venue.version?.data?.step1?.location?.formattedAddress || venue.destination || "Location"}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between mb-4">
+                          <span className="text-sm text-gray-600">
+                            {/* Placeholder reviews count */}
+                            (24 reviews)
+                          </span>
+                          <span className="text-sm text-gray-600">
+                            <Users className="w-4 h-4 inline mr-1" />
+                            {capacity}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <div className="text-sm text-gray-600">From</div>
+                            <div className="text-xl text-[#DF6951]">
+                              {priceData ? (
+                                <PackagePrice price={priceData} size="xl" />
+                              ) : "Price TBD"}
+                            </div>
+                          </div>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onViewVenue && onViewVenue(Number(venue._id));
+                            }}
+                          >
+                            View Details
+                            <ChevronRight className="w-4 h-4 ml-1" />
+                          </Button>
+                        </div>
                       </div>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => onViewVenue && onViewVenue(2)}
-                      >
-                        View Details
-                        <ChevronRight className="w-4 h-4 ml-1" />
-                      </Button>
-                    </div>
-                  </div>
-                </Card>
+                    </Card>
+                  )
+                })}
               </div>
 
               {/* View All Venues Button */}
               <div className="text-center mt-8">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="lg"
                   onClick={() => onViewVenue && onViewVenue(0)}
                   className="px-8"
@@ -1208,11 +376,19 @@ export function DestinationDetailsPage({
               <Card className="p-6">
                 <SimpleDestinationMap
                   center={[
-                    destination.coordinates.lat,
-                    destination.coordinates.lng,
+                    destination.location?.[0]?.location?.lat || 0,
+                    destination.location?.[0]?.location?.lng || 0,
                   ]}
                   destinationName={destination.name}
-                  venues={destination.venues}
+                  venues={venues.map((v) => ({
+                    id: v._id,
+                    name: v.name,
+                    location:
+                      (v as any).location ||
+                      v.version?.data?.step1?.location?.formattedAddress ||
+                      "",
+                    rating: (v as any).rating || 0,
+                  }))}
                 />
               </Card>
             </div>

@@ -1,51 +1,77 @@
-'use client';
+"use client";
 
-import { VenueDetailsPage } from '@/components/VenueDetailsPage';
+import { useState, useEffect } from 'react';
 import { TravelNav } from '@/components/TravelNav';
 import { TravelFooter } from '@/components/TravelFooter';
 import { useRouter } from 'next/navigation';
+import { VenueDetailsPageV2 } from '@/components/VenueDetailsPageV2';
+import { getVenueBySlug, Venue } from '@/components/DestinationServices/services/venueService';
+import { BrandedLoader } from '@/components/ui/loader';
 
 export function VenueDetailClient({ venueId }: { venueId: string }) {
   const router = useRouter();
+  const [venue, setVenue] = useState<Venue | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleNavigate = (page: string) => {
-    const routeMap: Record<string, string> = {
-      'landing': '/landing',
-      'venues': '/venues',
-      'destinations': '/destinations',
-      'inspirations': '/inspirations',
-      'planners': '/planners',
-      'vendors': '/vendors',
-      'tours': '/tours',
-      'visa-services': '/travel/visa',
-      'builder': '/wedding-builder',
-      'expenses': '/expenses',
-      'marketplace': '/marketplace',
-      'account': '/account',
-      'home': '/',
-    };
-
-    const route = routeMap[page];
-    if (route) {
-      router.push(route);
+  useEffect(() => {
+    async function fetchVenue() {
+      try {
+        setIsLoading(true);
+        const data = await getVenueBySlug(venueId);
+        setVenue(data || null);
+      } catch (error) {
+        console.error("Failed to fetch venue:", error);
+      } finally {
+        setIsLoading(false);
+      }
     }
-  };
+    fetchVenue();
+  }, [venueId]);
 
   const handleBack = () => {
-    router.push('/venues');
+    router.back();
+  };
+
+  const handleNavigate = (path: string) => {
+    router.push(path);
   };
 
   const handleProceedToPayment = () => {
-    router.push('/booking/payment?type=venue');
+    router.push('/checkout');
   };
+
+  const handleCompareClick = () => {
+    // Scroll to compare section or open compare modal
+    const compareSection = document.getElementById('compare-section');
+    if (compareSection) {
+      compareSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <BrandedLoader text="Loading venue details..." />
+      </div>
+    );
+  }
+
+  if (!venue) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>Venue not found</p>
+      </div>
+    );
+  }
 
   return (
     <div className="size-full">
       <TravelNav onNavigate={handleNavigate} currentPage="venues" />
-      <VenueDetailsPage 
-        venueId={parseInt(venueId)} 
+      <VenueDetailsPageV2
+        venue={venue}
         onBack={handleBack}
         onProceedToPayment={handleProceedToPayment}
+        onCompareClick={handleCompareClick}
       />
       <TravelFooter />
     </div>

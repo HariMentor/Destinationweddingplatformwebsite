@@ -41,6 +41,7 @@ import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import PackagePrice from "./ui/PackagePrice";
 import { VenueCarousel } from "./VenueCarousel";
 import { HighlightedDestinationsCarousel } from "./HighlightedDestinationsCarousel";
 import { motion } from "motion/react";
@@ -346,7 +347,7 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
       if (countryId) {
         setVenuesLoading(true);
         try {
-          const venues = await getVenues({ country: countryId });
+          const venues = await getVenues({ countryId: countryId });
           setFetchedVenues(venues);
         } catch (error) {
           console.error("Failed to fetch venues for country", selectedCountry, error);
@@ -1426,9 +1427,7 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
                 const venueData = venue.version?.data;
                 const step1 = venueData?.step1;
                 const coverImage = step1?.coverPhotosWeb?.[0]?.fileUrl || step1?.coverPhotosMobile?.[0]?.fileUrl || "/placeholder-venue.jpg";
-                const price = venueData?.step3?.packages?.[0]?.packagePrice?.amount
-                  ? `₹${venueData.step3.packages[0].packagePrice.amount.toLocaleString()}`
-                  : "Price on Request";
+                const priceData = venueData?.step3?.packages?.[0]?.packagePrice;
                 const location = step1?.location?.formattedAddress || step1?.address || venue.name;
                 const tags = step1?.interests || [];
                 const rating = 4.8;
@@ -1480,7 +1479,9 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
                           </div>
                           <div className="text-right">
                             <div className="text-xs text-muted-foreground">From</div>
-                            <div className="text-[#DF6951]">{price}</div>
+                            <div className="text-[#DF6951]">
+                              {priceData ? <PackagePrice price={priceData} size="lg" /> : "Price on Request"}
+                            </div>
                           </div>
                         </div>
                       </div>

@@ -15,7 +15,7 @@ if (process.env.NODE_ENV !== "production") {
 const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL || undefined,
   withCredentials: true,
-  timeout: 10000,
+  timeout: 30000,
 });
 
 apiClient.interceptors.request.use(

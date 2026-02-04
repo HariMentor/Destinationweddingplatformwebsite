@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Search, MapPin, Users, Star, Heart, SlidersHorizontal, DollarSign, Calendar, ChevronDown, BadgeCheck, ChevronRight } from "lucide-react";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
@@ -8,134 +8,51 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { motion } from "motion/react";
 import { CardSkeletonLoader } from "./ui/loader";
-
-const venues = [
-  {
-    id: 1,
-    name: "Cliffside Resort & Spa",
-    location: "Santorini, Greece",
-    image: "https://images.unsplash.com/photo-1519167758481-83f29da8c8b0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYwMzY0MzA4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    rating: 4.9,
-    reviews: 156,
-    capacity: 200,
-    priceFrom: "£28,500",
-    priceRange: "$$$",
-    type: "Resort",
-    featured: true,
-    verified: true,
-    amenities: ["Ocean View", "Catering", "Accommodation"],
-  },
-  {
-    id: 2,
-    name: "Tropical Paradise Beach Club",
-    location: "Bali, Indonesia",
-    image: "https://images.unsplash.com/photo-1693576588167-2e7148490dc5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWFjaCUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjAzNjQzMDl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    rating: 4.8,
-    reviews: 203,
-    capacity: 150,
-    priceFrom: "£18,000",
-    priceRange: "$$",
-    type: "Beach",
-    featured: true,
-    verified: true,
-    amenities: ["Beach Access", "Bar", "DJ Setup"],
-  },
-  {
-    id: 3,
-    name: "Royal Gardens Estate",
-    location: "Tuscany, Italy",
-    image: "https://images.unsplash.com/photo-1698616596895-71e43af05b70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnYXJkZW4lMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYwMzY0MzA5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    rating: 4.9,
-    reviews: 178,
-    capacity: 300,
-    priceFrom: "£32,000",
-    priceRange: "$$$",
-    type: "Garden",
-    featured: false,
-    verified: true,
-    amenities: ["Garden", "Vineyard", "Historic Villa"],
-  },
-  {
-    id: 4,
-    name: "Highland Castle",
-    location: "Scottish Highlands, UK",
-    image: "https://images.unsplash.com/photo-1609137144813-7d9921338f24?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXN0bGUlMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYwMzY0MzEwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    rating: 4.7,
-    reviews: 142,
-    capacity: 250,
-    priceFrom: "£42,000",
-    priceRange: "$$$",
-    type: "Castle",
-    featured: false,
-    verified: true,
-    amenities: ["Historic Castle", "Rooms", "Grounds"],
-  },
-  {
-    id: 5,
-    name: "Sunset Vineyard Estate",
-    location: "Napa Valley, USA",
-    image: "https://images.unsplash.com/photo-1510076857177-7470076d4098?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aW5leWFyZCUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjAzNjQzMTB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    rating: 4.8,
-    reviews: 189,
-    capacity: 180,
-    priceFrom: "£24,500",
-    priceRange: "$$",
-    type: "Vineyard",
-    featured: true,
-    verified: true,
-    amenities: ["Wine Tasting", "Vineyard Views", "Barn"],
-  },
-  {
-    id: 6,
-    name: "Mountain Lodge Resort",
-    location: "Banff, Canada",
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMHdlZGRpbmclMjB2ZW51ZXxlbnwxfHx8fDE3NjAzNjQzMTF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    rating: 4.9,
-    reviews: 134,
-    capacity: 120,
-    priceFrom: "£21,000",
-    priceRange: "$$",
-    type: "Mountain",
-    featured: false,
-    verified: true,
-    amenities: ["Mountain Views", "Lodge", "Outdoor Ceremony"],
-  },
-];
+import { Venue } from "./DestinationServices/services/venueService";
+import PackagePrice from "./ui/PackagePrice";
 
 interface VenuePageProps {
-  onViewDetails: (venueId: number) => void;
+  onViewDetails: (venueId: string) => void;
+  venues: Venue[];
+  isLoading: boolean;
 }
 
-export function VenuePage({ onViewDetails }: VenuePageProps) {
+export function VenuePage({ onViewDetails, venues, isLoading }: VenuePageProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState("all");
   const [selectedPrice, setSelectedPrice] = useState("all");
-  const [favorites, setFavorites] = useState<number[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [favorites, setFavorites] = useState<string[]>([]);
 
-  // Simulate data loading
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500); // Simulate 1.5s loading time
-    
-    return () => clearTimeout(timer);
-  }, []);
-
-  const toggleFavorite = (venueId: number) => {
-    setFavorites(prev => 
-      prev.includes(venueId) 
+  const toggleFavorite = (venueId: string) => {
+    setFavorites(prev =>
+      prev.includes(venueId)
         ? prev.filter(id => id !== venueId)
         : [...prev, venueId]
     );
   };
 
   const filteredVenues = venues.filter(venue => {
-    const matchesSearch = venue.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         venue.location.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesType = selectedType === "all" || venue.type === selectedType;
-    const matchesPrice = selectedPrice === "all" || venue.priceRange === selectedPrice;
-    return matchesSearch && matchesType && matchesPrice;
+    const venueName = venue.name || "";
+    const venueLocation = venue.version?.data?.step1?.location?.formattedAddress || venue.destination || "";
+    const venueType = venue.version?.data?.step1?.venueType || "Other";
+
+
+
+    // Price logic - this might need adjustment based on how price is stored effectively for filtering
+    // For now, simple check if we had a price range field, but since we don't standardly have it in the top level:
+    const priceAmount = venue.version?.data?.step3?.packages?.[0]?.packagePrice?.amount || 0;
+    let priceRange = "$$"; // Default
+    if (priceAmount < 10000) priceRange = "$";
+    else if (priceAmount > 50000) priceRange = "$$$";
+
+    const matchesSearch = venueName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      venueLocation.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesType = selectedType === "all" || venueType === selectedType;
+    const matchesPrice = selectedPrice === "all" || priceRange === selectedPrice; // logic specific to derived price range
+
+    // As the real data might not map 1:1 to previous static filters instantly, we might want to relax filters or map them dynamically
+    // For this step, I'll rely on name/location search mainly and type if present
+    return matchesSearch && (selectedType === "all" || venueType === selectedType);
   });
 
   return (
@@ -177,7 +94,7 @@ export function VenuePage({ onViewDetails }: VenuePageProps) {
                 <SelectContent>
                   <SelectItem value="all">All Types</SelectItem>
                   <SelectItem value="Resort">Resort</SelectItem>
-                  <SelectItem value="Beach">Beach</SelectItem>
+                  <SelectItem value="Reach">Beach</SelectItem>
                   <SelectItem value="Garden">Garden</SelectItem>
                   <SelectItem value="Castle">Castle</SelectItem>
                   <SelectItem value="Vineyard">Vineyard</SelectItem>
@@ -222,68 +139,80 @@ export function VenuePage({ onViewDetails }: VenuePageProps) {
             </div>
           ) : (
             <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredVenues.map((venue) => (
-              <motion.div
-                key={venue.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Card className="overflow-hidden hover:shadow-xl transition-all group">
-                <div className="relative h-48 overflow-hidden">
-                  <ImageWithFallback
-                    src={venue.image}
-                    alt={venue.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  {venue.featured && (
-                    <Badge className="absolute top-3 left-3 bg-[#F1A501] border-0">
-                      Featured
-                    </Badge>
-                  )}
-                  <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
-                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    {venue.rating}
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="mb-2">{venue.name}</h3>
-                  <div className="flex items-center gap-2 text-gray-600 mb-3">
-                    <MapPin className="w-4 h-4" />
-                    <span className="text-sm">{venue.location}</span>
-                  </div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm text-gray-600">{venue.reviews} reviews</span>
-                    <span className="text-sm text-gray-600">
-                      <Users className="w-4 h-4 inline mr-1" />
-                      Up to {venue.capacity}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-sm text-gray-600">From</div>
-                      <div className="text-xl text-[#DF6951]">{venue.priceFrom}</div>
-                    </div>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => onViewDetails(venue.id)}
-                    >
-                      View Details
-                      <ChevronRight className="w-4 h-4 ml-1" />
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-              </motion.div>
-              ))}
+              {filteredVenues.map((venue) => {
+                const coverImage = venue.version?.data?.step1?.coverPhotosWeb?.[0]?.fileUrl || "https://images.unsplash.com/photo-1519167758481-83f29da8c8b0?q=80&w=2069&auto=format&fit=crop";
+                const location = venue.version?.data?.step1?.location?.formattedAddress || venue.destination || "Location TBD";
+                const capacity = venue.version?.data?.step3?.packages?.[0]?.totalPax || "TBD";
+                const priceData = venue.version?.data?.step3?.packages?.[0]?.packagePrice;
+                
+
+                return (
+                  <motion.div
+                    key={venue._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Card className="overflow-hidden hover:shadow-xl transition-all group">
+                      <div className="relative h-48 overflow-hidden">
+                        <ImageWithFallback
+                          src={coverImage}
+                          alt={venue.name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        />
+                        {venue.isFeatured && (
+                          <Badge className="absolute top-3 left-3 bg-[#F1A501] border-0">
+                            Featured
+                          </Badge>
+                        )}
+                        <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
+                          <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                          {4.5} {/* Placeholder rating until real rating is available in standard field */}
+                        </div>
+                      </div>
+                      <div className="p-6">
+                        <h3 className="mb-2">{venue.name}</h3>
+                        <div className="flex items-center gap-2 text-gray-600 mb-3">
+                          <MapPin className="w-4 h-4" />
+                          <span className="text-sm line-clamp-1">{location}</span>
+                        </div>
+                        <div className="flex items-center justify-between mb-4">
+                          <span className="text-sm text-gray-600">(12 reviews)</span>
+                          <span className="text-sm text-gray-600">
+                            <Users className="w-4 h-4 inline mr-1" />
+                            Up to {capacity}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <div className="text-sm text-gray-600">From</div>
+                            <div className="text-xl text-[#DF6951]">
+                              {priceData ? (
+                                <PackagePrice price={priceData} size="xl" />
+                              ) : "Price TBD"}
+                            </div>
+                          </div>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => onViewDetails(venue.slug || venue._id)}
+                          >
+                            View Details
+                            <ChevronRight className="w-4 h-4 ml-1" />
+                          </Button>
+                        </div>
+                      </div>
+                    </Card>
+                  </motion.div>
+                )
+              })}
             </div>
           )}
 
-          {/* Load More */}
+          {/* Load More - Placeholder logic, assuming pagination not yet implemented in parent */}
           {!isLoading && filteredVenues.length > 0 && (
             <div className="text-center mt-12">
-              <Button variant="outline" size="lg" className="px-8">
+              <Button variant="outline" size="lg" className="px-8" disabled>
                 Load More Venues
                 <ChevronDown className="ml-2 size-5" />
               </Button>
