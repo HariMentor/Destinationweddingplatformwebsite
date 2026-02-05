@@ -19,6 +19,7 @@ import { TravelCTA } from '@/components/TravelCTA';
 import { TravelFooter } from '@/components/TravelFooter';
 import { useRouter } from 'next/navigation';
 import { NAVIGATION_ROUTES } from '@/lib/navigation';
+import { SortedByWedzwayPage } from '@/components/SortedByWedzwayPage';
 
 export default function SortedPageClient() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function SortedPageClient() {
   return (
     <div className="size-full">
       <TravelNav onNavigate={handleNavigate} currentPage="sorted" />
-      <TravelHero />
+      {/* <TravelHero />
       <TravelProblem />
       <TravelSolution />
       <TravelMarket />
@@ -47,7 +48,8 @@ export default function SortedPageClient() {
       <TravelFinancials />
       <TravelRoadmap />
       <TravelTeam />
-      <TravelCTA />
+      <TravelCTA /> */}
+      <SortedByWedzwayPage />
       <TravelFooter />
     </div>
   );

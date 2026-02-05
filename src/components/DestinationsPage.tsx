@@ -7,6 +7,7 @@ import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { CardSkeletonLoader } from "./ui/loader";
+import PackagePrice from "./ui/PackagePrice";
 import { getDestinations } from "./DestinationServices/services/destinationService";
 import { getVenues, Venue } from "./DestinationServices/services/venueService";
 import { calculateDestinationStats } from "./DestinationServices/utils/destinationUtils";
@@ -19,10 +20,13 @@ interface DestinationsPageProps {
 interface DestinationWithStats extends Destination {
   stats: {
     venueCount: number;
-    averageCost: string;
+    startingPrice: {
+      amount: number;
+      currency: string;
+    } | null;
   };
-  rating: number; // Placeholder as API doesn't have it
-  trending: boolean; // Placeholder
+  rating: number;
+  trending: boolean;
 }
 
 export function DestinationsPage({ onViewDetails }: DestinationsPageProps) {
@@ -205,7 +209,13 @@ export function DestinationsPage({ onViewDetails }: DestinationsPageProps) {
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground mb-1">Avg. Cost</p>
-                        <p className="font-medium">{destination.stats.averageCost}</p>
+                        <p className="font-medium">
+                          {destination.stats.startingPrice ? (
+                            <PackagePrice price={destination.stats.startingPrice} size="base" inline />
+                          ) : (
+                            "Price on request"
+                          )}
+                        </p>
                       </div>
                     </div>
 
@@ -275,7 +285,13 @@ export function DestinationsPage({ onViewDetails }: DestinationsPageProps) {
 
                     <div className="flex items-center justify-between text-sm mb-4">
                       <span className="text-muted-foreground">{destination.stats.venueCount}+ venues</span>
-                      <span className="font-medium">{destination.stats.averageCost}</span>
+                      <span className="font-medium">
+                        {destination.stats.startingPrice ? (
+                          <PackagePrice price={destination.stats.startingPrice} size="sm" inline />
+                        ) : (
+                          "Price on request"
+                        )}
+                      </span>
                     </div>
 
                     <Button variant="outline" className="w-full border-[#DF6951] text-[#DF6951] hover:bg-rose-50">

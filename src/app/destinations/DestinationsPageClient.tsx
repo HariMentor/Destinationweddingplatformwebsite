@@ -16,7 +16,7 @@ export function DestinationsPageClient() {
     }
   };
 
-  const handleViewDetails = (destinationId: number) => {
+  const handleViewDetails = (destinationId: string) => {
     router.push(`/destinations/${destinationId}`);
   };
 

@@ -32,7 +32,31 @@ export function VenueDetailClient({ venueId }: { venueId: string }) {
     router.back();
   };
 
-  const handleNavigate = (path: string) => {
+  const handleNavigate = (page: string) => {
+    // Map page names to absolute paths to avoid relative path issues
+    const routeMap: Record<string, string> = {
+      'home': '/',
+      'destinations': '/destinations',
+      'sorted': '/sorted',
+      'venues': '/venues',
+      'vendors': '/vendors',
+      'planners': '/planners',
+      'tours': '/tours',
+      'visa-services': '/travel/visa',
+      'inspirations': '/inspirations',
+      'blog': '/blog',
+      'marketplace': '/marketplace',
+      'concierge': '/concierge',
+      'providers': '/providers',
+      'builder': '/wedding-builder',
+      'expenses': '/expenses',
+      'account': '/account',
+      'auth': '/auth',
+      'register': '/register',
+      'landing': '/landing',
+    };
+
+    const path = routeMap[page] || page;
     router.push(path);
   };
 

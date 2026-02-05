@@ -333,7 +333,7 @@ export function DestinationDetailsPage({
                             <div className="text-xl text-[#DF6951]">
                               {priceData ? (
                                 <PackagePrice price={priceData} size="xl" />
-                              ) : "Price TBD"}
+                              ) : "Price on Request"}
                             </div>
                           </div>
                           <Button

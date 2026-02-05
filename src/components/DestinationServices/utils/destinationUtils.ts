@@ -2,7 +2,7 @@ import { Venue } from "../services/venueService";
 
 interface DestinationStats {
     venueCount: number;
-    averageCost: string;
+    startingPrice: { amount: number; currency: string } | null;
 }
 
 export function calculateDestinationStats(destinationId: string, venues: Venue[]): DestinationStats {
@@ -16,12 +16,13 @@ export function calculateDestinationStats(destinationId: string, venues: Venue[]
     if (venueCount === 0) {
         return {
             venueCount: 0,
-            averageCost: "N/A",
+            startingPrice: null,
         };
     }
 
     // Calculate minimum cost (cheapest package)
     let minCost = Infinity;
+    let currency = "INR"; // Default currency
     let hasPackages = false;
 
     destinationVenues.forEach((venue) => {
@@ -31,6 +32,7 @@ export function calculateDestinationStats(destinationId: string, venues: Venue[]
                 if (pkg.packagePrice && pkg.packagePrice.amount) {
                     if (pkg.packagePrice.amount < minCost) {
                         minCost = pkg.packagePrice.amount;
+                        currency = pkg.packagePrice.currency || "INR";
                         hasPackages = true;
                     }
                 }
@@ -38,18 +40,8 @@ export function calculateDestinationStats(destinationId: string, venues: Venue[]
         }
     });
 
-    let averageCostString = "N/A";
-    if (hasPackages) {
-        // Format to currency (e.g., ₹XX,XXX)
-        averageCostString = new Intl.NumberFormat('en-IN', {
-            style: 'currency',
-            currency: 'INR',
-            maximumFractionDigits: 0
-        }).format(minCost);
-    }
-
     return {
         venueCount,
-        averageCost: averageCostString,
+        startingPrice: hasPackages ? { amount: minCost, currency } : null,
     };
 }

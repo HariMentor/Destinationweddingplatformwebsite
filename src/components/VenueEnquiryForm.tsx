@@ -188,15 +188,27 @@ export function VenueEnquiryForm({ packages, formatPrice, venueId }: VenueEnquir
     };
 
     const handleStepOneNext = () => {
-        // Validate step 1
-        if (
-            !dateRange.from ||
-            !formData.people ||
-            !formData.selectPackage ||
-            !formData.eventType
-        ) {
-            toast.error("Please fill in all required fields");
-            return;
+        // Validate step 1 - different fields for concierge vs venue
+        if (enquiryType === "concierge") {
+            if (
+                !dateRange.from ||
+                !formData.people ||
+                !formData.selectPackage ||
+                !formData.eventType
+            ) {
+                toast.error("Please fill in all required fields");
+                return;
+            }
+        } else {
+            // venue enquiry only requires dates, people, and message in step 1
+            if (
+                !dateRange.from ||
+                !formData.people ||
+                !formData.message
+            ) {
+                toast.error("Please fill in all required fields");
+                return;
+            }
         }
         setEnquiryStep(2);
     };
@@ -654,7 +666,7 @@ export function VenueEnquiryForm({ packages, formatPrice, venueId }: VenueEnquir
                 </TabsContent>
 
                 <TabsContent
-                    value="direct"
+                    value="venue"
                     className="space-y-4"
                 >
                     {enquiryStep === 1 ? (
@@ -788,63 +800,65 @@ export function VenueEnquiryForm({ packages, formatPrice, venueId }: VenueEnquir
                             </div>
 
                             {/* Concierge Info - Expandable */}
-                            <div className="space-y-2 mt-6">
-                                <button
-                                    type="button"
-                                    onClick={() => setIsConciergeInfoExpanded(!isConciergeInfoExpanded)}
-                                    className="w-full flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-[#02542D]/5 to-[#DF6951]/5 border border-[#02542D]/20 hover:border-[#02542D]/40 transition-all"
-                                >
-                                    <div className="flex items-center gap-2">
-                                        <Info className="size-4 text-[#DF6951]" />
-                                        <span className="text-sm font-medium text-[#02542D]">
-                                            What is Concierge Service?
-                                        </span>
-                                    </div>
-                                    {isConciergeInfoExpanded ? (
-                                        <ChevronUp className="size-4 text-[#02542D]" />
-                                    ) : (
-                                        <ChevronDown className="size-4 text-[#02542D]" />
-                                    )}
-                                </button>
+                            {enquiryType === "concierge" && (
+                                <div className="space-y-2 mt-6">
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsConciergeInfoExpanded(!isConciergeInfoExpanded)}
+                                        className="w-full flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-[#02542D]/5 to-[#DF6951]/5 border border-[#02542D]/20 hover:border-[#02542D]/40 transition-all"
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <Info className="size-4 text-[#DF6951]" />
+                                            <span className="text-sm font-medium text-[#02542D]">
+                                                What is Concierge Service?
+                                            </span>
+                                        </div>
+                                        {isConciergeInfoExpanded ? (
+                                            <ChevronUp className="size-4 text-[#02542D]" />
+                                        ) : (
+                                            <ChevronDown className="size-4 text-[#02542D]" />
+                                        )}
+                                    </button>
 
-                                {isConciergeInfoExpanded && (
-                                    <div className="p-4 rounded-lg bg-white border border-gray-200 space-y-3 animate-in slide-in-from-top-2">
-                                        <p className="text-sm text-muted-foreground">
-                                            Our wedding concierge team acts as your personal wedding planning assistant, coordinating with the venue and all vendors to ensure your dream wedding comes to life.
-                                        </p>
-                                        <div className="space-y-2">
-                                            <div className="flex items-start gap-2">
-                                                <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                                <div>
-                                                    <p className="text-sm font-medium">Expert Guidance</p>
-                                                    <p className="text-xs text-muted-foreground">Professional advice on venue selection, packages, and planning</p>
+                                    {isConciergeInfoExpanded && (
+                                        <div className="p-4 rounded-lg bg-white border border-gray-200 space-y-3 animate-in slide-in-from-top-2">
+                                            <p className="text-sm text-muted-foreground">
+                                                Our wedding concierge team acts as your personal wedding planning assistant, coordinating with the venue and all vendors to ensure your dream wedding comes to life.
+                                            </p>
+                                            <div className="space-y-2">
+                                                <div className="flex items-start gap-2">
+                                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                                    <div>
+                                                        <p className="text-sm font-medium">Expert Guidance</p>
+                                                        <p className="text-xs text-muted-foreground">Professional advice on venue selection, packages, and planning</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="flex items-start gap-2">
-                                                <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                                <div>
-                                                    <p className="text-sm font-medium">Price Negotiation</p>
-                                                    <p className="text-xs text-muted-foreground">We negotiate the best rates and packages on your behalf</p>
+                                                <div className="flex items-start gap-2">
+                                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                                    <div>
+                                                        <p className="text-sm font-medium">Price Negotiation</p>
+                                                        <p className="text-xs text-muted-foreground">We negotiate the best rates and packages on your behalf</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="flex items-start gap-2">
-                                                <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                                <div>
-                                                    <p className="text-sm font-medium">End-to-End Planning</p>
-                                                    <p className="text-xs text-muted-foreground">Complete support from enquiry to your special day</p>
+                                                <div className="flex items-start gap-2">
+                                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                                    <div>
+                                                        <p className="text-sm font-medium">End-to-End Planning</p>
+                                                        <p className="text-xs text-muted-foreground">Complete support from enquiry to your special day</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="flex items-start gap-2">
-                                                <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
-                                                <div>
-                                                    <p className="text-sm font-medium">Single Point of Contact</p>
-                                                    <p className="text-xs text-muted-foreground">Coordinated communication with all vendors and venue</p>
+                                                <div className="flex items-start gap-2">
+                                                    <Check className="size-4 text-[#02542D] mt-0.5 flex-shrink-0" />
+                                                    <div>
+                                                        <p className="text-sm font-medium">Single Point of Contact</p>
+                                                        <p className="text-xs text-muted-foreground">Coordinated communication with all vendors and venue</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                )}
-                            </div>
+                                    )}
+                                </div>
+                            )}
                         </>
                     ) : (
                         <>
@@ -987,7 +1001,7 @@ export function VenueEnquiryForm({ packages, formatPrice, venueId }: VenueEnquir
                                 </div>
                             </div>
 
-                            {otpSent && !otpVerified && (
+                            {otpSent && (
                                 <div>
                                     <Label htmlFor="otp-direct">
                                         Enter OTP{" "}
@@ -995,29 +1009,20 @@ export function VenueEnquiryForm({ packages, formatPrice, venueId }: VenueEnquir
                                             *
                                         </span>
                                     </Label>
-                                    <div className="flex gap-2 mt-1">
-                                        <Input
-                                            id="otp-direct"
-                                            type="text"
-                                            placeholder="Enter 6-digit OTP"
-                                            value={formData.otp}
-                                            onChange={(e) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    otp: e.target.value,
-                                                })
-                                            }
-                                            maxLength={6}
-                                            className="flex-1"
-                                        />
-                                        <Button
-                                            onClick={handleVerifyOTP}
-                                            className="bg-[#02542D] hover:bg-[#02542D]/90"
-                                        >
-                                            <Shield className="mr-1 size-4" />
-                                            Verify
-                                        </Button>
-                                    </div>
+                                    <Input
+                                        id="otp-direct"
+                                        type="text"
+                                        placeholder="Enter 6-digit OTP"
+                                        value={formData.otp}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                otp: e.target.value,
+                                            })
+                                        }
+                                        maxLength={6}
+                                        className="mt-1"
+                                    />
                                 </div>
                             )}
 
@@ -1033,10 +1038,16 @@ export function VenueEnquiryForm({ packages, formatPrice, venueId }: VenueEnquir
                                 <Button
                                     className="flex-1 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
                                     onClick={handleEnquirySubmit}
-                                    disabled={!otpVerified}
+                                    disabled={!otpSent || !formData.otp || isSubmitting}
                                 >
-                                    <Mail className="mr-2 size-5" />
-                                    Submit Enquiry
+                                    {isSubmitting ? (
+                                        "Submitting..."
+                                    ) : (
+                                        <>
+                                            <Mail className="mr-2 size-5" />
+                                            Submit Enquiry
+                                        </>
+                                    )}
                                 </Button>
                             </div>
 

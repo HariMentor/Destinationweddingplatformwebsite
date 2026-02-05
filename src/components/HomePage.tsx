@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { getDestinations } from "@/components/DestinationServices/services/destinationService";
 import { getVenues, Venue } from "@/components/DestinationServices/services/venueService";
 import type { Destination } from "@/components/DestinationServices/types/destination";
+import { calculateDestinationStats } from "@/components/DestinationServices/utils/destinationUtils";
 import Link from "next/link";
 import {
   MapPin,
@@ -279,6 +280,15 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
   }, [destinationsList]);
 
 
+  const heroCountryName = heroImages[currentHeroIndex].country;
+
+  const heroDestinations = useMemo(() => {
+    if (!destinationsList || destinationsList.length === 0) return [];
+    return destinationsList.filter((d) => {
+      return d.country?.countryName === heroCountryName;
+    });
+  }, [destinationsList, heroCountryName]);
+
   const countryDestinations = useMemo(() => {
     if (!destinationsList || destinationsList.length === 0) return [];
     return destinationsList.filter((d) => {
@@ -286,9 +296,8 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
     });
   }, [destinationsList, selectedCountry]);
 
-  const countryForIndicator = countryDestinations[0]?.country;
-  const flagEmoji = countryForIndicator?.countryCode ? countryCodeToFlag(countryForIndicator.countryCode) : heroImages[currentHeroIndex].flag;
-  const countryLabel = countryForIndicator?.countryName ?? selectedCountry;
+  const flagEmoji = heroImages[currentHeroIndex].flag;
+  const countryLabel = heroImages[currentHeroIndex].country;
 
   const visibleVenues = allVenues.length > 0 ? [
     allVenues[currentVenueIndex % allVenues.length],
@@ -303,13 +312,14 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
   }
 
   // ==================== Effects ====================
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
     }, 5000);
+
     return () => clearInterval(interval);
-  }, [currentHeroIndex]);
+  }, []); // ✅ only once
+
 
   useEffect(() => {
     if (availableCountries.length > 0 && !availableCountries.includes(selectedCountry)) {
@@ -461,14 +471,14 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
 
             {/* Destination Cards - Bottom Right (served from API) */}
             <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8 hidden md:flex flex-row gap-3 pointer-events-auto z-20">
-              {countryDestinations.length > 0 &&
-                countryDestinations.slice(0, 4).map((destination, index) => {
+              {heroDestinations.length > 0 &&
+                heroDestinations.slice(0, 4).map((destination, index) => {
                   const imageUrl =
                     destination.coverPhotosWeb && destination.coverPhotosWeb.length > 0
                       ? destination.coverPhotosWeb[0].fileUrl
                       : destination.coverPhotosMobile && destination.coverPhotosMobile.length > 0
                         ? destination.coverPhotosMobile[0].fileUrl
-                        : destination.image || "";
+                        : "";
 
                   return (
                     <motion.div
@@ -545,8 +555,8 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
       <section className="md:hidden pt-2 pb-4 bg-white z-20">
         <div className="container mx-auto max-w-7xl px-4">
           <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
-            {countryDestinations.length > 0 &&
-              countryDestinations.slice(0, 12).map((destination, index) => {
+            {heroDestinations.length > 0 &&
+              heroDestinations.slice(0, 12).map((destination, index) => {
                 const imageUrl =
                   destination.coverPhotosWeb && destination.coverPhotosWeb.length > 0
                     ? destination.coverPhotosWeb[0].fileUrl
@@ -1298,6 +1308,7 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
                   destination.coverPhotosMobile?.[0]?.fileUrl ||
                   "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80";
                 const countryName = destination.country?.countryName || "Unknown";
+                const stats = calculateDestinationStats(destination._id, allVenues);
 
                 return (
                   <motion.div
@@ -1340,7 +1351,18 @@ export function HomePage({ onNavigateToVenues, onNavigateToVenueDetails, onNavig
                             <span>{countryName}</span>
                           </div>
                           <div className="text-[#DF6951] font-semibold">
-                            From $1,200
+                            {stats.startingPrice ? (
+                              <div className="flex items-center gap-1">
+                                <span>From</span>
+                                <PackagePrice
+                                  price={stats.startingPrice}
+                                  size="base"
+                                  inline
+                                />
+                              </div>
+                            ) : (
+                              "Price on Request"
+                            )}
                           </div>
                         </div>
                       </div>
