@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { TravelNav } from '@/components/TravelNav';
-import { TravelFooter } from '@/components/TravelFooter';
-import { useRouter } from 'next/navigation';
-import { VenueDetailsPageV2 } from '@/components/VenueDetailsPageV2';
-import { getVenueBySlug, Venue } from '@/components/DestinationServices/services/venueService';
-import { BrandedLoader } from '@/components/ui/loader';
+import { useState, useEffect } from "react";
+import { TravelNav } from "@/components/TravelNav";
+import { TravelFooter } from "@/components/TravelFooter";
+import { useRouter } from "next/navigation";
+import { VenueDetailsPageV2 } from "@/components/VenueDetailsPageV2";
+import {
+  getVenueBySlug,
+  Venue,
+} from "@/components/DestinationServices/services/venueService";
+import { BrandedLoader } from "@/components/ui/loader";
 
 export function VenueDetailClient({ venueId }: { venueId: string }) {
   const router = useRouter();
@@ -35,25 +38,25 @@ export function VenueDetailClient({ venueId }: { venueId: string }) {
   const handleNavigate = (page: string) => {
     // Map page names to absolute paths to avoid relative path issues
     const routeMap: Record<string, string> = {
-      'home': '/',
-      'destinations': '/destinations',
-      'sorted': '/sorted',
-      'venues': '/venues',
-      'vendors': '/vendors',
-      'planners': '/planners',
-      'tours': '/tours',
-      'visa-services': '/travel/visa',
-      'inspirations': '/inspirations',
-      'blog': '/blog',
-      'marketplace': '/marketplace',
-      'concierge': '/concierge',
-      'providers': '/providers',
-      'builder': '/wedding-builder',
-      'expenses': '/expenses',
-      'account': '/account',
-      'auth': '/auth',
-      'register': '/register',
-      'landing': '/landing',
+      home: "/",
+      destinations: "/destinations",
+      sorted: "/sorted",
+      venues: "/venues",
+      vendors: "/vendors",
+      planners: "/planners",
+      tours: "/tours",
+      "visa-services": "/travel/visa",
+      inspirations: "/inspirations",
+      blog: "/blog",
+      marketplace: "/marketplace",
+      concierge: "/concierge",
+      providers: "/providers",
+      builder: "/wedding-builder",
+      expenses: "/expenses",
+      account: "/account",
+      auth: "/auth",
+      register: "/register",
+      landing: "/landing",
     };
 
     const path = routeMap[page] || page;
@@ -61,14 +64,14 @@ export function VenueDetailClient({ venueId }: { venueId: string }) {
   };
 
   const handleProceedToPayment = () => {
-    router.push('/checkout');
+    router.push("/checkout");
   };
 
   const handleCompareClick = () => {
     // Scroll to compare section or open compare modal
-    const compareSection = document.getElementById('compare-section');
+    const compareSection = document.getElementById("compare-section");
     if (compareSection) {
-      compareSection.scrollIntoView({ behavior: 'smooth' });
+      compareSection.scrollIntoView({ behavior: "smooth" });
     }
   };
 

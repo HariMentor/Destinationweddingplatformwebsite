@@ -1,11 +1,29 @@
 import { useState } from "react";
-import { Search, MapPin, Users, Star, Heart, SlidersHorizontal, DollarSign, Calendar, ChevronDown, BadgeCheck, ChevronRight } from "lucide-react";
+import {
+  Search,
+  MapPin,
+  Users,
+  Star,
+  Heart,
+  SlidersHorizontal,
+  DollarSign,
+  Calendar,
+  ChevronDown,
+  BadgeCheck,
+  ChevronRight,
+} from "lucide-react";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import { motion } from "motion/react";
 import { CardSkeletonLoader } from "./ui/loader";
 import { Venue } from "./DestinationServices/services/venueService";
@@ -17,42 +35,49 @@ interface VenuePageProps {
   isLoading: boolean;
 }
 
-export function VenuePage({ onViewDetails, venues, isLoading }: VenuePageProps) {
+export function VenuePage({
+  onViewDetails,
+  venues,
+  isLoading,
+}: VenuePageProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState("all");
   const [selectedPrice, setSelectedPrice] = useState("all");
   const [favorites, setFavorites] = useState<string[]>([]);
 
   const toggleFavorite = (venueId: string) => {
-    setFavorites(prev =>
+    setFavorites((prev) =>
       prev.includes(venueId)
-        ? prev.filter(id => id !== venueId)
-        : [...prev, venueId]
+        ? prev.filter((id) => id !== venueId)
+        : [...prev, venueId],
     );
   };
 
-  const filteredVenues = venues.filter(venue => {
+  const filteredVenues = venues.filter((venue) => {
     const venueName = venue.name || "";
-    const venueLocation = venue.version?.data?.step1?.location?.formattedAddress || venue.destination || "";
+    const venueLocation =
+      venue.version?.data?.step1?.location?.formattedAddress ||
+      venue.destination ||
+      "";
     const venueType = venue.version?.data?.step1?.venueType || "Other";
-
-
 
     // Price logic - this might need adjustment based on how price is stored effectively for filtering
     // For now, simple check if we had a price range field, but since we don't standardly have it in the top level:
-    const priceAmount = venue.version?.data?.step3?.packages?.[0]?.packagePrice?.amount || 0;
+    const priceAmount =
+      venue.version?.data?.step3?.packages?.[0]?.packagePrice?.amount || 0;
     let priceRange = "$$"; // Default
     if (priceAmount < 10000) priceRange = "$";
     else if (priceAmount > 50000) priceRange = "$$$";
 
-    const matchesSearch = venueName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const matchesSearch =
+      venueName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       venueLocation.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesType = selectedType === "all" || venueType === selectedType;
-    const matchesPrice = selectedPrice === "all" || priceRange === selectedPrice; // logic specific to derived price range
 
     // As the real data might not map 1:1 to previous static filters instantly, we might want to relax filters or map them dynamically
     // For this step, I'll rely on name/location search mainly and type if present
-    return matchesSearch && (selectedType === "all" || venueType === selectedType);
+    return (
+      matchesSearch && (selectedType === "all" || venueType === selectedType)
+    );
   });
 
   return (
@@ -61,12 +86,18 @@ export function VenuePage({ onViewDetails, venues, isLoading }: VenuePageProps) 
       <section className="pt-24 pb-16 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-20 w-72 h-72 bg-rose-300 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-amber-300 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <div
+            className="absolute bottom-20 right-20 w-96 h-96 bg-amber-300 rounded-full blur-3xl animate-pulse"
+            style={{ animationDelay: "1s" }}
+          />
         </div>
 
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-6xl mb-6" style={{ fontFamily: 'Volkhov, serif' }}>
+            <h1
+              className="text-5xl md:text-6xl mb-6"
+              style={{ fontFamily: "Volkhov, serif" }}
+            >
               Find Your Perfect Venue
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -140,11 +171,18 @@ export function VenuePage({ onViewDetails, venues, isLoading }: VenuePageProps) 
           ) : (
             <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredVenues.map((venue) => {
-                const coverImage = venue.version?.data?.step1?.coverPhotosWeb?.[0]?.fileUrl || "https://images.unsplash.com/photo-1519167758481-83f29da8c8b0?q=80&w=2069&auto=format&fit=crop";
-                const location = venue.version?.data?.step1?.location?.formattedAddress || venue.destination || "Location TBD";
-                const capacity = venue.version?.data?.step3?.packages?.[0]?.totalPax || "TBD";
-                const priceData = venue.version?.data?.step3?.packages?.[0]?.packagePrice;
-                
+                const coverImage =
+                  venue.version?.data?.step1?.coverPhotosWeb?.[0]?.fileUrl ||
+                  "https://images.unsplash.com/photo-1519167758481-83f29da8c8b0?q=80&w=2069&auto=format&fit=crop";
+                const location =
+                  venue.version?.data?.step1?.location?.formattedAddress ||
+                  venue.destination ||
+                  "Location TBD";
+                const capacity =
+                  venue.version?.data?.step3?.packages?.[0]?.totalPax || "TBD";
+                const priceData =
+                  venue.version?.data?.step3?.packages?.[0]?.packagePrice;
+                const hasSlug = Boolean(venue.slug);
 
                 return (
                   <motion.div
@@ -167,17 +205,22 @@ export function VenuePage({ onViewDetails, venues, isLoading }: VenuePageProps) 
                         )}
                         <div className="absolute top-3 right-3 bg-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
                           <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                          {4.5} {/* Placeholder rating until real rating is available in standard field */}
+                          {4.5}{" "}
+                          {/* Placeholder rating until real rating is available in standard field */}
                         </div>
                       </div>
                       <div className="p-6">
                         <h3 className="mb-2">{venue.name}</h3>
                         <div className="flex items-center gap-2 text-gray-600 mb-3">
                           <MapPin className="w-4 h-4" />
-                          <span className="text-sm line-clamp-1">{location}</span>
+                          <span className="text-sm line-clamp-1">
+                            {location}
+                          </span>
                         </div>
                         <div className="flex items-center justify-between mb-4">
-                          <span className="text-sm text-gray-600">(12 reviews)</span>
+                          <span className="text-sm text-gray-600">
+                            (12 reviews)
+                          </span>
                           <span className="text-sm text-gray-600">
                             <Users className="w-4 h-4 inline mr-1" />
                             Up to {capacity}
@@ -189,13 +232,16 @@ export function VenuePage({ onViewDetails, venues, isLoading }: VenuePageProps) 
                             <div className="text-xl text-[#DF6951]">
                               {priceData ? (
                                 <PackagePrice price={priceData} size="xl" />
-                              ) : "Price TBD"}
+                              ) : (
+                                "Price on request"
+                              )}
                             </div>
                           </div>
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => onViewDetails(venue.slug || venue._id)}
+                            disabled={!hasSlug}
+                            onClick={() => onViewDetails(venue.slug)}
                           >
                             View Details
                             <ChevronRight className="w-4 h-4 ml-1" />
@@ -204,7 +250,7 @@ export function VenuePage({ onViewDetails, venues, isLoading }: VenuePageProps) 
                       </div>
                     </Card>
                   </motion.div>
-                )
+                );
               })}
             </div>
           )}

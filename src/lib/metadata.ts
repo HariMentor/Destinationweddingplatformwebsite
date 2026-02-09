@@ -253,6 +253,8 @@ export const brandGuidelinesMetadata: Metadata = {
   },
 };
 
+
+
 // Generate dynamic metadata for individual pages
 export function generateVenueMetadata(venueName: string, location: string): Metadata {
   return {

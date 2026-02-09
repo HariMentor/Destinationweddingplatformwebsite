@@ -21,6 +21,7 @@ const apiClient: AxiosInstance = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     const accessToken = TokenService.getLocalAccessToken();
+    console.log(accessToken, "access token in interceptor");
     if (accessToken) {
       if (!config.headers) config.headers = {} as any;
       // @ts-ignore
