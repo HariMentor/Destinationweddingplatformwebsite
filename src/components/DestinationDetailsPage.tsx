@@ -4,12 +4,6 @@ import { useState, useMemo } from "react";
 import {
   MapPin,
   Star,
-  Calendar,
-  Clock,
-  Camera,
-  Wine,
-  Utensils,
-  Palmtree,
   ArrowLeft,
   Heart,
   Share2,
@@ -20,9 +14,6 @@ import {
   Droplets,
   Wind,
   ArrowRight,
-  Send,
-  Shield,
-  Phone,
   Users,
   Sparkles,
 } from "lucide-react";
@@ -30,15 +21,6 @@ import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
-import { Checkbox } from "./ui/checkbox";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Calendar as CalendarComponent } from "./ui/calendar";
-import { format } from "date-fns";
-import { toast } from "sonner";
 import { Destination } from "./DestinationServices/types/destination";
 import { Venue } from "./DestinationServices/services/venueService";
 import { calculateDestinationStats } from "./DestinationServices/utils/destinationUtils";
@@ -51,7 +33,7 @@ interface DestinationDetailsPageProps {
   destination: Destination;
   venues: Venue[];
   onBack: () => void;
-  onViewVenue?: (venueId: number) => void;
+  onViewVenue?: (slug: string) => void;
   onViewTourismBoard?: (boardName: string) => void;
 }
 
@@ -63,6 +45,8 @@ export function DestinationDetailsPage({
   onViewVenue,
   onViewTourismBoard,
 }: DestinationDetailsPageProps) {
+
+
   console.log(venues, "venues")
   console.log(destination, "destiantion")
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -341,7 +325,7 @@ export function DestinationDetailsPage({
                             size="sm"
                             onClick={(e) => {
                               e.stopPropagation();
-                              onViewVenue && onViewVenue(Number(venue._id));
+                              onViewVenue && onViewVenue(Number(venue?.slug));
                             }}
                           >
                             View Details

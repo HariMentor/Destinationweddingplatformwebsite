@@ -1,25 +1,26 @@
 import apiClient from "./httpClient";
 
 export interface InitiateEnquiryPayload {
-    venueId: string;
-    dateRange: {
+    venueId?: string; // Optional - not needed for "sorted" type
+    dateRange?: { // Optional - can use eventDate instead
         start: string;
         end: string;
     };
+    eventDate?: string; // New - single date for sorted enquiries
     peopleCount: number;
-    package: string;
-    isFlexible: boolean;
+    package?: string; // Optional - not needed for sorted enquiries
+    isFlexible?: boolean; // Optional
     message: string;
     name: string;
     phone: string;
     eventType: string;
-    budget: number;
+    budget?: number; // Optional
 }
 
 export interface SubmitEnquiryPayload extends InitiateEnquiryPayload {
     otp: string;
-    enquiryType: "concierge" | "venue";
-    email?: string; // Optional in init example, present in submit form usually
+    enquiryType: "concierge" | "venue" | "sorted";
+    email?: string; // Optional
 }
 
 export const initiateEnquiry = async (data: InitiateEnquiryPayload) => {

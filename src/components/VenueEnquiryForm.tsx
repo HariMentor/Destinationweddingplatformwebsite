@@ -1038,16 +1038,10 @@ export function VenueEnquiryForm({ packages, formatPrice, venueId }: VenueEnquir
                                 <Button
                                     className="flex-1 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80"
                                     onClick={handleEnquirySubmit}
-                                    disabled={!otpSent || !formData.otp || isSubmitting}
+                                    disabled={!otpVerified}
                                 >
-                                    {isSubmitting ? (
-                                        "Submitting..."
-                                    ) : (
-                                        <>
-                                            <Mail className="mr-2 size-5" />
-                                            Submit Enquiry
-                                        </>
-                                    )}
+                                    <Mail className="mr-2 size-5" />
+                                    Submit Enquiry
                                 </Button>
                             </div>
 

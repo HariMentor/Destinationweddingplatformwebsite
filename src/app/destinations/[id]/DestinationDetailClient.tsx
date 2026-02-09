@@ -69,8 +69,8 @@ export function DestinationDetailClient({ destinationId }: { destinationId: stri
     router.push('/destinations');
   };
 
-  const handleViewVenue = (venueId: string) => {
-    router.push(`/venues/${venueId}`);
+  const handleViewVenue = (slug: string) => {
+    router.push(`/venues/${slug}`);
   };
 
   const handleViewTourismBoard = (boardName: string) => {

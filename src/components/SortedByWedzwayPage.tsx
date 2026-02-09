@@ -33,6 +33,7 @@ import {
 import { toast } from "sonner";
 import { motion } from "motion/react";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import { initiateEnquiry, submitEnquiry } from "./DestinationServices/services/enquiryService";
 
 const serviceBangaloreImages = [
   "https://images.unsplash.com/photo-1519167758481-83f29da1a14a?w=1080&q=80",
@@ -207,24 +208,58 @@ export function SortedByWedzwayPage() {
     message: "",
     otp: "",
   });
-  
+
   const [enquiryStep, setEnquiryStep] = useState(1);
   const [otpSent, setOtpSent] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSendingOTP, setIsSendingOTP] = useState(false);
+  const [isVerifyingOTP, setIsVerifyingOTP] = useState(false);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSendOTP = () => {
+  const handleSendOTP = async () => {
     if (!formData.phone || formData.phone.length < 10) {
       toast.error("Please enter a valid phone number");
       return;
     }
-    // Simulate sending OTP
-    setOtpSent(true);
-    toast.success(`OTP sent to ${formData.phone}`);
+
+    if (!formData.name || !formData.email) {
+      toast.error("Please enter your name and email first");
+      return;
+    }
+
+    setIsSendingOTP(true);
+    try {
+      // Convert single eventDate to dateRange for API compatibility
+      const payload = {
+        venueId: "68ee5044879d558c674ab331", // Placeholder for sorted enquiries (must match submit call)
+        dateRange: {
+          start: formData.eventDate,
+          end: formData.eventDate,
+        },
+        peopleCount: parseInt(formData.guestCount),
+        package: "Custom", // Default for sorted enquiries
+        isFlexible: true, // Default for sorted enquiries
+        message: formData.message || "Event planning request from Sorted by Wedzway",
+        name: formData.name,
+        phone: formData.phone,
+        eventType: formData.eventType,
+        budget: formData.budget ? parseFloat(formData.budget.split("-")[0]) * 100000 : undefined,
+      };
+
+      await initiateEnquiry(payload);
+      setOtpSent(true);
+      toast.success(`OTP sent to ${formData.phone}`);
+    } catch (error: any) {
+      console.error("Failed to send OTP:", error);
+      toast.error(error?.response?.data?.message || "Failed to send OTP. Please try again.");
+    } finally {
+      setIsSendingOTP(false);
+    }
   };
 
   const handleVerifyOTP = () => {
@@ -232,7 +267,7 @@ export function SortedByWedzwayPage() {
       toast.error("Please enter a valid 6-digit OTP");
       return;
     }
-    // Simulate OTP verification
+    // OTP verification happens during final submission
     setOtpVerified(true);
     toast.success("Phone number verified successfully!");
   };
@@ -246,7 +281,7 @@ export function SortedByWedzwayPage() {
     setEnquiryStep(2);
   };
 
-  const handleSubmitRequest = () => {
+  const handleSubmitRequest = async () => {
     if (!otpVerified) {
       toast.error("Please verify your phone number first");
       return;
@@ -257,12 +292,42 @@ export function SortedByWedzwayPage() {
       toast.error("Please fill in all required fields");
       return;
     }
-    
-    // Show success state in the form
-    setFormSubmitted(true);
-    setEnquiryStep(1);
-    setOtpSent(false);
-    setOtpVerified(false);
+
+    setIsSubmitting(true);
+    try {
+      // Convert single eventDate to dateRange for API compatibility
+      const payload = {
+        venueId: "68ee5044879d558c674ab331",
+        dateRange: {
+          start: formData.eventDate,
+          end: formData.eventDate,
+        },
+        peopleCount: parseInt(formData.guestCount),
+        package: "Custom",
+        isFlexible: true,
+        message: formData.message || "Event planning request from Sorted by Wedzway",
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        eventType: formData.eventType,
+        budget: formData.budget ? parseFloat(formData.budget.split("-")[0]) * 100000 : undefined,
+        otp: formData.otp,
+        enquiryType: "concierge" as const,
+      };
+
+      await submitEnquiry(payload);
+      // Show success state in the form
+      setFormSubmitted(true);
+      setEnquiryStep(1);
+      setOtpSent(false);
+      setOtpVerified(false);
+      toast.success("Your request has been submitted successfully!");
+    } catch (error: any) {
+      console.error("Failed to submit enquiry:", error);
+      toast.error(error?.response?.data?.message || "Failed to submit request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -282,10 +347,10 @@ export function SortedByWedzwayPage() {
               alt="Sorted by Wedzway"
               className="w-full h-full object-cover"
             />
-            
+
             {/* Subtle Gradient Overlay for text readability */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent" />
-            
+
             {/* Service Badge - Top Right */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -311,7 +376,7 @@ export function SortedByWedzwayPage() {
                 {/* Brand Name with Creative Typography */}
                 <div className="mb-6">
                   {/* Option 1: Gradient Text with Shadow */}
-                  <h1 
+                  <h1
                     className="text-7xl md:text-8xl lg:text-9xl font-black mb-3 tracking-tight leading-none text-white"
                     style={{
                       fontFamily: '"Bebas Neue", "Impact", "Arial Black", sans-serif',
@@ -321,7 +386,7 @@ export function SortedByWedzwayPage() {
                   >
                     SORTED
                   </h1>
-                  
+
                   {/* Styled "by Wedzway" with accent */}
                   <div className="flex items-center gap-3">
                     <div className="h-0.5 w-12 bg-gradient-to-r from-[#DF6951] to-transparent"></div>
@@ -335,8 +400,8 @@ export function SortedByWedzwayPage() {
                   Your Dream Event, Planned & Executed in Just 24 Hours
                 </p>
 
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="bg-[#DF6951] hover:bg-[#DF6951]/90 text-white px-10 py-6 text-lg font-semibold shadow-lg shadow-[#DF6951]/30"
                   onClick={() => document.getElementById('request-form')?.scrollIntoView({ behavior: 'smooth' })}
                 >
@@ -380,7 +445,7 @@ export function SortedByWedzwayPage() {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                    
+
                     {/* Icon Badge */}
                     <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-2xl shadow-lg">
                       <event.icon className="size-6 stroke-[1.5]" style={{ color: event.iconColor }} />
@@ -390,8 +455,8 @@ export function SortedByWedzwayPage() {
                     <div className="absolute bottom-0 left-0 right-0 p-6">
                       <h3 className="text-2xl font-bold text-white mb-2">{event.title}</h3>
                       <p className="text-white/90 text-sm mb-4">{event.description}</p>
-                      <Button 
-                        size="sm" 
+                      <Button
+                        size="sm"
                         className="bg-[#DF6951] hover:bg-[#DF6951]/90 text-white opacity-0 group-hover:opacity-100 transition-opacity"
                         onClick={() => document.getElementById('request-form')?.scrollIntoView({ behavior: 'smooth' })}
                       >
@@ -471,12 +536,12 @@ export function SortedByWedzwayPage() {
                   <div className={`${item.iconBg} w-16 h-16 rounded-2xl flex items-center justify-center mb-4`}>
                     <item.icon className="size-8 stroke-[1.5]" style={{ color: item.iconColor }} />
                   </div>
-                  
+
                   {/* Time badge */}
                   <div className="inline-block bg-gray-50 px-3 py-1 rounded-full mb-3">
                     <span className="text-xs text-gray-600">{item.time}</span>
                   </div>
-                  
+
                   {/* Title and description */}
                   <h3 className="text-xl font-semibold mb-2 text-gray-900">{item.title}</h3>
                   <p className="text-gray-600 text-sm leading-relaxed">{item.description}</p>
@@ -523,7 +588,7 @@ export function SortedByWedzwayPage() {
                         alt={item.title}
                         className="w-full h-auto object-cover"
                       />
-                      
+
                       {/* Hover Overlay - Pinterest Style */}
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4">
                         <h3 className="text-white text-lg font-semibold mb-1 text-center">{item.title}</h3>
@@ -556,8 +621,8 @@ export function SortedByWedzwayPage() {
 
           {/* Call to Action */}
           <div className="text-center mt-12">
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="bg-[#DF6951] hover:bg-[#DF6951]/90 text-white px-8"
               onClick={() => document.getElementById('request-form')?.scrollIntoView({ behavior: 'smooth' })}
             >
@@ -856,256 +921,261 @@ export function SortedByWedzwayPage() {
                 </div>
               </motion.div>
             ) : (
-            <div className="space-y-6">
-              {/* Step Indicator */}
-              <div className="flex items-center justify-center gap-4 mb-6">
-                <div className="flex items-center gap-2">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-                    enquiryStep === 1 
-                      ? 'bg-[#DF6951] text-white' 
+              <div className="space-y-6">
+                {/* Step Indicator */}
+                <div className="flex items-center justify-center gap-4 mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${enquiryStep === 1
+                      ? 'bg-[#DF6951] text-white'
                       : 'bg-green-500 text-white'
-                  }`}>
-                    {enquiryStep === 1 ? '1' : <CheckCircle2 className="size-5" />}
+                      }`}>
+                      {enquiryStep === 1 ? '1' : <CheckCircle2 className="size-5" />}
+                    </div>
+                    <span className={`text-sm font-medium ${enquiryStep === 1 ? 'text-[#DF6951]' : 'text-gray-600'}`}>
+                      Event Details
+                    </span>
                   </div>
-                  <span className={`text-sm font-medium ${enquiryStep === 1 ? 'text-[#DF6951]' : 'text-gray-600'}`}>
-                    Event Details
-                  </span>
-                </div>
-                <div className={`h-0.5 w-12 ${enquiryStep === 2 ? 'bg-[#DF6951]' : 'bg-gray-300'}`} />
-                <div className="flex items-center gap-2">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-                    enquiryStep === 2 
-                      ? 'bg-[#DF6951] text-white' 
+                  <div className={`h-0.5 w-12 ${enquiryStep === 2 ? 'bg-[#DF6951]' : 'bg-gray-300'}`} />
+                  <div className="flex items-center gap-2">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${enquiryStep === 2
+                      ? 'bg-[#DF6951] text-white'
                       : 'bg-gray-200 text-gray-500'
-                  }`}>
-                    2
+                      }`}>
+                      2
+                    </div>
+                    <span className={`text-sm font-medium ${enquiryStep === 2 ? 'text-[#DF6951]' : 'text-gray-500'}`}>
+                      Contact Info
+                    </span>
                   </div>
-                  <span className={`text-sm font-medium ${enquiryStep === 2 ? 'text-[#DF6951]' : 'text-gray-500'}`}>
-                    Contact Info
-                  </span>
                 </div>
-              </div>
 
-              {enquiryStep === 1 ? (
-                <>
-                  {/* Step 1: Event Details */}
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="eventType" className="text-sm font-medium mb-2 block">
-                        Event Type <span className="text-red-500">*</span>
-                      </Label>
-                      <Select value={formData.eventType} onValueChange={(value) => handleInputChange("eventType", value)}>
-                        <SelectTrigger className="h-12">
-                          <SelectValue placeholder="Select event type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="wedding">Wedding</SelectItem>
-                          <SelectItem value="engagement">Engagement</SelectItem>
-                          <SelectItem value="reception">Reception</SelectItem>
-                          <SelectItem value="birthday">Birthday Party</SelectItem>
-                          <SelectItem value="anniversary">Anniversary</SelectItem>
-                          <SelectItem value="corporate">Corporate Event</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
+                {enquiryStep === 1 ? (
+                  <>
+                    {/* Step 1: Event Details */}
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <Label htmlFor="eventType" className="text-sm font-medium mb-2 block">
+                          Event Type <span className="text-red-500">*</span>
+                        </Label>
+                        <Select value={formData.eventType} onValueChange={(value) => handleInputChange("eventType", value)}>
+                          <SelectTrigger className="h-12">
+                            <SelectValue placeholder="Select event type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="wedding">Wedding</SelectItem>
+                            <SelectItem value="engagement">Engagement</SelectItem>
+                            <SelectItem value="reception">Reception</SelectItem>
+                            <SelectItem value="birthday">Birthday Party</SelectItem>
+                            <SelectItem value="anniversary">Anniversary</SelectItem>
+                            <SelectItem value="corporate">Corporate Event</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label htmlFor="eventDate" className="text-sm font-medium mb-2 block">
+                          Preferred Event Date <span className="text-red-500">*</span>
+                        </Label>
+                        <Input
+                          id="eventDate"
+                          type="date"
+                          value={formData.eventDate}
+                          onChange={(e) => handleInputChange("eventDate", e.target.value)}
+                          className="h-12"
+                        />
+                      </div>
                     </div>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <Label htmlFor="guestCount" className="text-sm font-medium mb-2 block">
+                          Expected Guest Count <span className="text-red-500">*</span>
+                        </Label>
+                        <Input
+                          id="guestCount"
+                          type="number"
+                          placeholder="e.g., 150"
+                          value={formData.guestCount}
+                          onChange={(e) => handleInputChange("guestCount", e.target.value)}
+                          className="h-12"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="budget" className="text-sm font-medium mb-2 block">
+                          Budget Range
+                        </Label>
+                        <Select value={formData.budget} onValueChange={(value) => handleInputChange("budget", value)}>
+                          <SelectTrigger className="h-12">
+                            <SelectValue placeholder="Select your budget range" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="1-2">₹1-2 Lakhs</SelectItem>
+                            <SelectItem value="2-4">₹2-4 Lakhs</SelectItem>
+                            <SelectItem value="4-7">₹4-7 Lakhs</SelectItem>
+                            <SelectItem value="7-10">₹7-10 Lakhs</SelectItem>
+                            <SelectItem value="10+">₹10+ Lakhs</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
                     <div>
-                      <Label htmlFor="eventDate" className="text-sm font-medium mb-2 block">
-                        Preferred Event Date <span className="text-red-500">*</span>
+                      <Label htmlFor="message" className="text-sm font-medium mb-2 block">
+                        Additional Details
                       </Label>
-                      <Input
-                        id="eventDate"
-                        type="date"
-                        value={formData.eventDate}
-                        onChange={(e) => handleInputChange("eventDate", e.target.value)}
-                        className="h-12"
+                      <Textarea
+                        id="message"
+                        placeholder="Tell us about your event, special requirements, preferences, etc."
+                        rows={4}
+                        value={formData.message}
+                        onChange={(e) => handleInputChange("message", e.target.value)}
                       />
                     </div>
-                  </div>
 
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="guestCount" className="text-sm font-medium mb-2 block">
-                        Expected Guest Count <span className="text-red-500">*</span>
-                      </Label>
-                      <Input
-                        id="guestCount"
-                        type="number"
-                        placeholder="e.g., 150"
-                        value={formData.guestCount}
-                        onChange={(e) => handleInputChange("guestCount", e.target.value)}
-                        className="h-12"
-                      />
+                    <Button
+                      size="lg"
+                      className="w-full bg-[#DF6951] hover:bg-[#DF6951]/90 text-white h-12"
+                      onClick={handleStepOneNext}
+                    >
+                      Continue to Contact Info
+                      <ArrowRight className="ml-2 size-5" />
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    {/* Step 2: Contact Details */}
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <Label htmlFor="name" className="text-sm font-medium mb-2 block">
+                          Full Name <span className="text-red-500">*</span>
+                        </Label>
+                        <Input
+                          id="name"
+                          placeholder="Enter your name"
+                          value={formData.name}
+                          onChange={(e) => handleInputChange("name", e.target.value)}
+                          className="h-12"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="email" className="text-sm font-medium mb-2 block">
+                          Email Address <span className="text-red-500">*</span>
+                        </Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="your@email.com"
+                          value={formData.email}
+                          onChange={(e) => handleInputChange("email", e.target.value)}
+                          className="h-12"
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <Label htmlFor="budget" className="text-sm font-medium mb-2 block">
-                        Budget Range
-                      </Label>
-                      <Select value={formData.budget} onValueChange={(value) => handleInputChange("budget", value)}>
-                        <SelectTrigger className="h-12">
-                          <SelectValue placeholder="Select your budget range" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="1-2">₹1-2 Lakhs</SelectItem>
-                          <SelectItem value="2-4">₹2-4 Lakhs</SelectItem>
-                          <SelectItem value="4-7">₹4-7 Lakhs</SelectItem>
-                          <SelectItem value="7-10">₹7-10 Lakhs</SelectItem>
-                          <SelectItem value="10+">₹10+ Lakhs</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
 
-                  <div>
-                    <Label htmlFor="message" className="text-sm font-medium mb-2 block">
-                      Additional Details
-                    </Label>
-                    <Textarea
-                      id="message"
-                      placeholder="Tell us about your event, special requirements, preferences, etc."
-                      rows={4}
-                      value={formData.message}
-                      onChange={(e) => handleInputChange("message", e.target.value)}
-                    />
-                  </div>
-
-                  <Button 
-                    size="lg" 
-                    className="w-full bg-[#DF6951] hover:bg-[#DF6951]/90 text-white h-12"
-                    onClick={handleStepOneNext}
-                  >
-                    Continue to Contact Info
-                    <ArrowRight className="ml-2 size-5" />
-                  </Button>
-                </>
-              ) : (
-                <>
-                  {/* Step 2: Contact Details */}
-                  <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <Label htmlFor="name" className="text-sm font-medium mb-2 block">
-                        Full Name <span className="text-red-500">*</span>
-                      </Label>
-                      <Input
-                        id="name"
-                        placeholder="Enter your name"
-                        value={formData.name}
-                        onChange={(e) => handleInputChange("name", e.target.value)}
-                        className="h-12"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="email" className="text-sm font-medium mb-2 block">
-                        Email Address <span className="text-red-500">*</span>
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="your@email.com"
-                        value={formData.email}
-                        onChange={(e) => handleInputChange("email", e.target.value)}
-                        className="h-12"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="phone" className="text-sm font-medium mb-2 block">
-                      Phone Number <span className="text-red-500">*</span>
-                    </Label>
-                    <div className="flex gap-2">
-                      <Input
-                        id="phone"
-                        placeholder="+91 98765 43210"
-                        value={formData.phone}
-                        onChange={(e) => handleInputChange("phone", e.target.value)}
-                        className="h-12 flex-1"
-                      />
-                      <Button
-                        onClick={handleSendOTP}
-                        disabled={otpSent}
-                        className="bg-[#DF6951] hover:bg-[#DF6951]/90 h-12"
-                      >
-                        {otpSent ? "Sent" : "Send OTP"}
-                      </Button>
-                    </div>
-                  </div>
-
-                  {otpSent && !otpVerified && (
-                    <div>
-                      <Label htmlFor="otp" className="text-sm font-medium mb-2 block">
-                        Enter OTP <span className="text-red-500">*</span>
+                      <Label htmlFor="phone" className="text-sm font-medium mb-2 block">
+                        Phone Number <span className="text-red-500">*</span>
                       </Label>
                       <div className="flex gap-2">
                         <Input
-                          id="otp"
-                          type="text"
-                          placeholder="Enter 6-digit OTP"
-                          value={formData.otp}
-                          onChange={(e) => handleInputChange("otp", e.target.value)}
-                          maxLength={6}
+                          id="phone"
+                          placeholder="+91 98765 43210"
+                          value={formData.phone}
+                          onChange={(e) => handleInputChange("phone", e.target.value)}
                           className="h-12 flex-1"
                         />
                         <Button
-                          onClick={handleVerifyOTP}
-                          className="bg-[#02542D] hover:bg-[#02542D]/90 h-12"
+                          onClick={handleSendOTP}
+                          disabled={otpSent || isSendingOTP}
+                          className="bg-[#DF6951] hover:bg-[#DF6951]/90 h-12"
                         >
-                          <Shield className="mr-1 size-4" />
-                          Verify
+                          {isSendingOTP ? "Sending..." : otpSent ? "Sent" : "Send OTP"}
                         </Button>
                       </div>
                     </div>
-                  )}
 
-                  {otpVerified && (
-                    <div className="bg-green-50 border border-green-200 rounded-xl p-4">
-                      <div className="flex gap-3 items-center">
-                        <CheckCircle2 className="size-5 text-green-600 flex-shrink-0" />
-                        <p className="text-sm text-green-700 font-medium">
-                          Phone number verified successfully!
-                        </p>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-                    <div className="flex gap-3">
-                      <Clock className="size-5 text-[#DF6951] flex-shrink-0 mt-0.5" />
+                    {otpSent && !otpVerified && (
                       <div>
-                        <h4 className="font-semibold mb-1 text-sm">Quick Response Guarantee</h4>
-                        <p className="text-sm text-gray-600">
-                          Our team will contact you within 2 hours during business hours (9 AM - 9 PM IST)
-                        </p>
+                        <Label htmlFor="otp" className="text-sm font-medium mb-2 block">
+                          Enter OTP <span className="text-red-500">*</span>
+                        </Label>
+                        <div className="flex gap-2">
+                          <Input
+                            id="otp"
+                            type="text"
+                            placeholder="Enter 6-digit OTP"
+                            value={formData.otp}
+                            onChange={(e) => handleInputChange("otp", e.target.value)}
+                            maxLength={6}
+                            className="h-12 flex-1"
+                          />
+                          <Button
+                            onClick={handleVerifyOTP}
+                            disabled={isVerifyingOTP}
+                            className="bg-[#02542D] hover:bg-[#02542D]/90 h-12"
+                          >
+                            <Shield className="mr-1 size-4" />
+                            {isVerifyingOTP ? "Verifying..." : "Verify"}
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+
+                    {otpVerified && (
+                      <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+                        <div className="flex gap-3 items-center">
+                          <CheckCircle2 className="size-5 text-green-600 flex-shrink-0" />
+                          <p className="text-sm text-green-700 font-medium">
+                            Phone number verified successfully!
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                      <div className="flex gap-3">
+                        <Clock className="size-5 text-[#DF6951] flex-shrink-0 mt-0.5" />
+                        <div>
+                          <h4 className="font-semibold mb-1 text-sm">Quick Response Guarantee</h4>
+                          <p className="text-sm text-gray-600">
+                            Our team will contact you within 2 hours during business hours (9 AM - 9 PM IST)
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="flex gap-3">
-                    <Button
-                      variant="outline"
-                      className="flex-1 h-12"
-                      onClick={() => setEnquiryStep(1)}
-                    >
-                      <ChevronLeft className="mr-1 size-4" />
-                      Back
-                    </Button>
-                    <Button 
-                      size="lg" 
-                      className="flex-1 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80 text-white h-12"
-                      onClick={handleSubmitRequest}
-                      disabled={!otpVerified}
-                    >
-                      <Mail className="mr-2 size-5" />
-                      Submit Request
-                    </Button>
-                  </div>
+                    <div className="flex gap-3">
+                      <Button
+                        variant="outline"
+                        className="flex-1 h-12"
+                        onClick={() => setEnquiryStep(1)}
+                      >
+                        <ChevronLeft className="mr-1 size-4" />
+                        Back
+                      </Button>
+                      <Button
+                        size="lg"
+                        className="flex-1 bg-gradient-to-r from-[#02542D] to-[#02542D]/90 hover:from-[#02542D]/90 hover:to-[#02542D]/80 text-white h-12"
+                        onClick={handleSubmitRequest}
+                        disabled={!otpVerified || isSubmitting}
+                      >
+                        {isSubmitting ? (
+                          "Submitting..."
+                        ) : (
+                          <>
+                            <Mail className="mr-2 size-5" />
+                            Submit Request
+                          </>
+                        )}
+                      </Button>
+                    </div>
 
-                  <p className="text-xs text-center text-muted-foreground">
-                    We'll respond within 24 hours
-                  </p>
-                </>
-              )}
-            </div>
+                    <p className="text-xs text-center text-muted-foreground">
+                      We'll respond within 24 hours
+                    </p>
+                  </>
+                )}
+              </div>
             )}
           </Card>
 
