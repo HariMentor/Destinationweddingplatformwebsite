@@ -67,14 +67,23 @@ function normalizeOgType(type?: string): OpenGraphType {
 
 /* ---------- MAPPER ---------- */
 
+const isUAT =
+  process.env.NEXT_PUBLIC_APP_ENV === "UAT" ||
+  process.env.NEXT_PUBLIC_APP_ENV === "STAGING";
+
 export function apiSeoToMetadata(seo?: ApiSeo): Metadata {
-  if (!seo) return {};
+  if (!seo)
+    return {
+      robots: isUAT ? { index: false, follow: false } : undefined,
+    };
 
   return {
     title: seo.title,
     description: seo.metaDescription,
     keywords: seo.keywords,
-    robots: seo.robots,
+    robots: isUAT
+      ? { index: false, follow: false }
+      : (seo.robots ?? { index: true, follow: true }),
 
     alternates: seo.canonical ? { canonical: seo.canonical } : undefined,
 

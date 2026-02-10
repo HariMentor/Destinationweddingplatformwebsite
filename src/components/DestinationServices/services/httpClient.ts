@@ -9,6 +9,8 @@ const API_BASE_URL = (process.env.NEXT_PUBLIC_API_BASE_URL as string) || "";
 if (process.env.NODE_ENV !== "production") {
   // show where requests will be sent during development
   // eslint-disable-next-line no-console
+  console.log(process.env.NODE_ENV,"Node env");
+  console.log(process.env.NEXT_PUBLIC_APP_ENV,'app env');
   console.debug("API base URL:", API_BASE_URL || "(relative) ");
 }
 
@@ -21,7 +23,6 @@ const apiClient: AxiosInstance = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     const accessToken = TokenService.getLocalAccessToken();
-    console.log(accessToken, "access token in interceptor");
     if (accessToken) {
       if (!config.headers) config.headers = {} as any;
       // @ts-ignore
@@ -41,7 +42,7 @@ apiClient.interceptors.request.use(
 
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 export default apiClient;

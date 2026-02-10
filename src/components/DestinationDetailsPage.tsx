@@ -37,7 +37,6 @@ interface DestinationDetailsPageProps {
   onViewTourismBoard?: (boardName: string) => void;
 }
 
-
 export function DestinationDetailsPage({
   destination,
   venues,
@@ -45,36 +44,34 @@ export function DestinationDetailsPage({
   onViewVenue,
   onViewTourismBoard,
 }: DestinationDetailsPageProps) {
-
-
-  console.log(venues, "venues")
-  console.log(destination, "destiantion")
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 
   // Calculate stats
-  const stats = useMemo(() => calculateDestinationStats(destination._id, venues), [destination._id, venues]);
+  const stats = useMemo(
+    () => calculateDestinationStats(destination._id, venues),
+    [destination._id, venues],
+  );
 
   // Aggregate images from destination and venues
-  const destinationImages = (destination.coverPhotosWeb || []).map(photo => photo.fileUrl);
+  const destinationImages = (destination.coverPhotosWeb || []).map(
+    (photo) => photo.fileUrl,
+  );
   // Default images if none available
-  const images = destinationImages.length > 0 ? destinationImages : [
-    "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1523906630133-f6934a1ab2b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0dXNjYW55JTIwaXRhbHklMjBjb3VudHJ5c2lkZXxlbnwxfHx8fDE3NjAzNzUzMjV8MA&ixlib=rb-4.1.0&q=80&w=1080"
-  ];
+  const images =
+    destinationImages.length > 0
+      ? destinationImages
+      : [
+          "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1523906630133-f6934a1ab2b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0dXNjYW55JTIwaXRhbHklMjBjb3VudHJ5c2lkZXxlbnwxfHx8fDE3NjAzNzUzMjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+        ];
 
   const nextImage = () => {
-    setCurrentImageIndex(
-      (prev) => (prev + 1) % images.length,
-    );
+    setCurrentImageIndex((prev) => (prev + 1) % images.length);
   };
 
   const prevImage = () => {
-    setCurrentImageIndex(
-      (prev) =>
-        (prev - 1 + images.length) %
-        images.length,
-    );
+    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
   return (
@@ -82,11 +79,7 @@ export function DestinationDetailsPage({
       {/* Back Button & Actions */}
       <div className="container mx-auto px-4 md:px-8 py-6">
         <div className="flex items-center justify-between mb-6">
-          <Button
-            variant="outline"
-            onClick={onBack}
-            className="gap-2"
-          >
+          <Button variant="outline" onClick={onBack} className="gap-2">
             <ArrowLeft className="size-4" />
             Back to Destinations
           </Button>
@@ -135,8 +128,7 @@ export function DestinationDetailsPage({
 
           {/* Image Counter */}
           <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-black/60 text-white text-sm backdrop-blur-sm">
-            {currentImageIndex + 1} /{" "}
-            {images.length}
+            {currentImageIndex + 1} / {images.length}
           </div>
         </div>
 
@@ -146,10 +138,9 @@ export function DestinationDetailsPage({
             <button
               key={index}
               onClick={() => setCurrentImageIndex(index)}
-              className={`relative flex-shrink-0 w-32 h-24 rounded-lg overflow-hidden hover:opacity-90 transition-opacity ${currentImageIndex === index
-                ? "ring-2 ring-[#DF6951]"
-                : ""
-                }`}
+              className={`relative flex-shrink-0 w-32 h-24 rounded-lg overflow-hidden hover:opacity-90 transition-opacity ${
+                currentImageIndex === index ? "ring-2 ring-[#DF6951]" : ""
+              }`}
             >
               <ImageWithFallback
                 src={image}
@@ -186,18 +177,12 @@ export function DestinationDetailsPage({
                     {/* Placeholder Rating */}
                     4.8
                   </span>
-                  <span className="text-muted-foreground">
-                    (200 reviews)
-                  </span>
+                  <span className="text-muted-foreground">(200 reviews)</span>
                 </div>
                 {destination.isFeatured && (
-                  <Badge className="bg-emerald-500 text-white">
-                    Popular
-                  </Badge>
+                  <Badge className="bg-emerald-500 text-white">Popular</Badge>
                 )}
-                <Badge variant="outline">
-                  {stats.venueCount}+ Venues
-                </Badge>
+                <Badge variant="outline">{stats.venueCount}+ Venues</Badge>
               </div>
 
               <p className="text-lg text-muted-foreground leading-relaxed">
@@ -265,19 +250,27 @@ export function DestinationDetailsPage({
 
               <div className="grid md:grid-cols-2 gap-6">
                 {venues.map((venue) => {
-                  const priceData = venue.version?.data?.step3?.packages?.[0]?.packagePrice;
-                  const priceDisplay = priceData ? `${priceData.currency} ${priceData.amount}` : "Price TBD";
-                  const capacity = venue.version?.data?.step3?.packages?.[0]?.totalPax;
+                  const priceData =
+                    venue.version?.data?.step3?.packages?.[0]?.packagePrice;
+                  const priceDisplay = priceData
+                    ? `${priceData.currency} ${priceData.amount}`
+                    : "Price TBD";
+                  const capacity =
+                    venue.version?.data?.step3?.packages?.[0]?.totalPax;
 
                   return (
                     <Card
                       key={venue._id}
                       className="overflow-hidden hover:shadow-xl transition-all group cursor-pointer"
-                      onClick={() => onViewVenue && onViewVenue(parseInt(venue._id))}
+                      onClick={() => onViewVenue && onViewVenue(venue.slug)}
                     >
                       <div className="relative h-48 overflow-hidden">
                         <ImageWithFallback
-                          src={venue.version?.data?.step1?.coverPhotosWeb?.[0]?.fileUrl || "https://images.unsplash.com/photo-1510076857177-7470076d4098?q=80&w=2069&auto=format&fit=crop"}
+                          src={
+                            venue.version?.data?.step1?.coverPhotosWeb?.[0]
+                              ?.fileUrl ||
+                            "https://images.unsplash.com/photo-1510076857177-7470076d4098?q=80&w=2069&auto=format&fit=crop"
+                          }
                           alt={venue.name}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                         />
@@ -298,7 +291,10 @@ export function DestinationDetailsPage({
                         <div className="flex items-center gap-2 text-gray-600 mb-3">
                           <MapPin className="w-4 h-4" />
                           <span className="text-sm">
-                            {venue.version?.data?.step1?.location?.formattedAddress || venue.destination || "Location"}
+                            {venue.version?.data?.step1?.location
+                              ?.formattedAddress ||
+                              venue.destination ||
+                              "Location"}
                           </span>
                         </div>
                         <div className="flex items-center justify-between mb-4">
@@ -317,7 +313,9 @@ export function DestinationDetailsPage({
                             <div className="text-xl text-[#DF6951]">
                               {priceData ? (
                                 <PackagePrice price={priceData} size="xl" />
-                              ) : "Price on Request"}
+                              ) : (
+                                "Price on Request"
+                              )}
                             </div>
                           </div>
                           <Button
@@ -325,7 +323,7 @@ export function DestinationDetailsPage({
                             size="sm"
                             onClick={(e) => {
                               e.stopPropagation();
-                              onViewVenue && onViewVenue(Number(venue?.slug));
+                              onViewVenue && onViewVenue(venue?.slug);
                             }}
                           >
                             View Details
@@ -334,7 +332,7 @@ export function DestinationDetailsPage({
                         </div>
                       </div>
                     </Card>
-                  )
+                  );
                 })}
               </div>
 
@@ -485,9 +483,7 @@ export function DestinationDetailsPage({
                           />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">
-                        Humidity
-                      </p>
+                      <p className="text-sm text-muted-foreground">Humidity</p>
                     </div>
                     <p
                       className="text-xl"
@@ -518,9 +514,7 @@ export function DestinationDetailsPage({
                           />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">
-                        Wind
-                      </p>
+                      <p className="text-sm text-muted-foreground">Wind</p>
                     </div>
                     <p
                       className="text-xl"
@@ -551,9 +545,7 @@ export function DestinationDetailsPage({
                           />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">
-                        Pressure
-                      </p>
+                      <p className="text-sm text-muted-foreground">Pressure</p>
                     </div>
                     <p
                       className="text-xl"
@@ -600,9 +592,7 @@ export function DestinationDetailsPage({
                     >
                       10 km
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Clear
-                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">Clear</p>
                   </div>
 
                   {/* Cloud Coverage */}
@@ -623,9 +613,7 @@ export function DestinationDetailsPage({
                           />
                         </svg>
                       </div>
-                      <p className="text-sm text-muted-foreground">
-                        Clouds
-                      </p>
+                      <p className="text-sm text-muted-foreground">Clouds</p>
                     </div>
                     <p
                       className="text-xl"
@@ -675,8 +663,7 @@ export function DestinationDetailsPage({
                   <div
                     className="flex items-center gap-3 p-3 rounded-lg"
                     style={{
-                      backgroundColor:
-                        "rgba(223, 105, 81, 0.05)",
+                      backgroundColor: "rgba(223, 105, 81, 0.05)",
                     }}
                   >
                     <div className="p-2 rounded-lg bg-white">
@@ -724,9 +711,7 @@ export function DestinationDetailsPage({
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">
-                        Sunrise
-                      </p>
+                      <p className="text-sm text-muted-foreground">Sunrise</p>
                       <p className="font-medium">7:13 AM</p>
                     </div>
                   </div>
@@ -734,8 +719,7 @@ export function DestinationDetailsPage({
                   <div
                     className="flex items-center gap-3 p-3 rounded-lg"
                     style={{
-                      backgroundColor:
-                        "rgba(223, 105, 81, 0.05)",
+                      backgroundColor: "rgba(223, 105, 81, 0.05)",
                     }}
                   >
                     <div className="p-2 rounded-lg bg-white">
@@ -754,9 +738,7 @@ export function DestinationDetailsPage({
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">
-                        Sunset
-                      </p>
+                      <p className="text-sm text-muted-foreground">Sunset</p>
                       <p className="font-medium">7:36 PM</p>
                     </div>
                   </div>
@@ -783,12 +765,10 @@ export function DestinationDetailsPage({
                         Best Time to Visit
                       </p>
                       <p className="text-sm text-blue-800">
-                        Weather data shows current conditions.
-                        For weddings, we recommend checking the
-                        7-day forecast and considering the
-                        destination's seasonal patterns. Contact
-                        our concierge for personalized
-                        recommendations.
+                        Weather data shows current conditions. For weddings, we
+                        recommend checking the 7-day forecast and considering
+                        the destination's seasonal patterns. Contact our
+                        concierge for personalized recommendations.
                       </p>
                     </div>
                   </div>
@@ -799,7 +779,6 @@ export function DestinationDetailsPage({
 
           {/* Right Column - Maps & Enquiry */}
           <div className="lg:col-span-1 space-y-6">
-
             {/* Wedding Concierge Enquiry Card */}
             <Card className="p-6 border-2 sticky top-24">
               <div className="mb-6">
@@ -813,15 +792,12 @@ export function DestinationDetailsPage({
                   Plan Your Dream Wedding
                 </h3>
                 <p className="text-sm text-center text-muted-foreground">
-                  Let our destination experts create your
-                  perfect wedding experience in{" "}
-                  {destination.name}
+                  Let our destination experts create your perfect wedding
+                  experience in {destination.name}
                 </p>
               </div>
 
-              <DestinationEnquiryForm
-                destination={destination}
-              />
+              <DestinationEnquiryForm destination={destination} />
             </Card>
           </div>
         </div>
