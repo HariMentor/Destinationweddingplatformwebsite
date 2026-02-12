@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { FlightBookingPage } from '@/components/FlightBookingPage';
-import { TravelNav } from '@/components/TravelNav';
-import { TravelFooter } from '@/components/TravelFooter';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { FlightBookingPage } from "@/components/FlightBookingPage";
+import { TravelNav } from "@/components/TravelNav";
+import { TravelFooter } from "@/components/TravelFooter";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export function FlightBookingClient() {
   const router = useRouter();
@@ -12,30 +12,30 @@ export function FlightBookingClient() {
 
   useEffect(() => {
     // Retrieve booking data from sessionStorage
-    const data = sessionStorage.getItem('flightBookingData');
+    const data = sessionStorage.getItem("flightBookingData");
     if (data) {
       setBookingData(JSON.parse(data));
     } else {
       // If no booking data, redirect back to visa services
-      router.push('/travel/visa');
+      router.push("/travel/visa");
     }
   }, [router]);
 
   const handleNavigate = (page: string) => {
     const routeMap: Record<string, string> = {
-      'landing': '/landing',
-      'venues': '/venues',
-      'destinations': '/destinations',
-      'inspirations': '/inspirations',
-      'planners': '/planners',
-      'vendors': '/vendors',
-      'tours': '/tours',
-      'visa-services': '/travel/visa',
-      'builder': '/wedding-builder',
-      'expenses': '/expenses',
-      'marketplace': '/marketplace',
-      'account': '/account',
-      'home': '/',
+      landing: "/landing",
+      venues: "/venues",
+      destinations: "/destinations",
+      inspirations: "/inspirations",
+      planners: "/planners",
+      vendors: "/vendors",
+      tours: "/tours",
+      "visa-services": "/travel/visa",
+      builder: "/wedding-builder",
+      expenses: "/expenses",
+      marketplace: "/marketplace",
+      account: "/account",
+      home: "/",
     };
 
     const route = routeMap[page];
@@ -45,7 +45,7 @@ export function FlightBookingClient() {
   };
 
   const handleBack = () => {
-    router.push('/travel/visa');
+    router.push("/travel/visa");
   };
 
   if (!bookingData) {
@@ -55,7 +55,7 @@ export function FlightBookingClient() {
   return (
     <div className="size-full">
       <TravelNav onNavigate={handleNavigate} currentPage="visa-services" />
-      <FlightBookingPage 
+      <FlightBookingPage
         flight={bookingData.flight}
         passengers={bookingData.passengers}
         tripType={bookingData.tripType}

@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from 'react';
 import { VenueDetailsPageV2 } from '@/components/VenueDetailsPageV2';
 import { TravelNav } from '@/components/TravelNav';

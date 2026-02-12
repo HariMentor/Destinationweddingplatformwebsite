@@ -15,7 +15,7 @@ import { Checkbox } from "./ui/checkbox";
 import { Separator } from "./ui/separator";
 import { Badge } from "./ui/badge";
 import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "./ui/alert-dialog";
-import { useCurrency } from "./CurrencyContext";
+// import { useCurrency } from "./CurrencyContext";
 
 interface PaymentPageProps {
   onBack: () => void;
@@ -48,7 +48,7 @@ export function PaymentPage({
   onPaymentComplete,
   bookingType = 'venue'
 }: PaymentPageProps) {
-  const { formatPrice } = useCurrency();
+  // const { formatPrice } = useCurrency();
   
   // Mock vendor and customer countries - in real app, this would come from booking data
   const vendorCountry = 'GB'; // Vendor is in Great Britain
@@ -566,7 +566,7 @@ export function PaymentPage({
                     ) : (
                       <>
                         <Lock className="mr-2 size-5" />
-                        Pay {formatPrice(bookingData.pricing.total)}
+                        {/* Pay {formatPrice(bookingData.pricing.total)} */}
                       </>
                     )}
                   </Button>
@@ -595,7 +595,7 @@ export function PaymentPage({
                       <div className="flex-1">
                         <h4 className="font-medium mb-2">Transfer the Amount</h4>
                         <p className="text-sm text-muted-foreground mb-3">
-                          Please transfer <strong>{formatPrice(bookingData.pricing.total)}</strong> to the following bank account:
+                          {/* Please transfer <strong>{formatPrice(bookingData.pricing.total)}</strong> to the following bank account: */}
                         </p>
                         <div className="p-4 bg-gray-50 rounded-lg border space-y-2">
                           <div className="grid grid-cols-2 gap-2 text-sm">
@@ -800,20 +800,20 @@ export function PaymentPage({
                 <div className="space-y-3 text-sm">
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">Venue Package</span>
-                    <span>{formatPrice(bookingData.pricing.subtotal)}</span>
+                    {/* <span>{formatPrice(bookingData.pricing.subtotal)}</span> */}
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">Service Fee</span>
-                    <span>{formatPrice(bookingData.pricing.serviceFee)}</span>
+                    {/* <span>{formatPrice(bookingData.pricing.serviceFee)}</span> */}
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">Tax</span>
-                    <span>{formatPrice(bookingData.pricing.tax)}</span>
+                    {/* <span>{formatPrice(bookingData.pricing.tax)}</span> */}
                   </div>
                   {bookingData.pricing.discount > 0 && (
                     <div className="flex items-center justify-between text-green-600">
                       <span>Discount</span>
-                      <span>-{formatPrice(bookingData.pricing.discount)}</span>
+                      {/* <span>-{formatPrice(bookingData.pricing.discount)}</span> */}
                     </div>
                   )}
 
@@ -822,7 +822,7 @@ export function PaymentPage({
                   <div className="flex items-center justify-between">
                     <span className="font-medium text-lg">Total</span>
                     <span className="font-medium text-2xl" style={{ fontFamily: 'Volkhov, serif' }}>
-                      {formatPrice(bookingData.pricing.total)}
+                      {/* {formatPrice(bookingData.pricing.total)} */}
                     </span>
                   </div>
                 </div>

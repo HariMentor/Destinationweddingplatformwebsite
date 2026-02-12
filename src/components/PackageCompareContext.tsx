@@ -6,7 +6,7 @@ import { toast } from "sonner";
 export interface ComparePackage {
   id: string;
   venueName: string;
-  venueId: number;
+  venueId: string;
   packageName: string;
   price: number;
   currency: string;
@@ -27,9 +27,15 @@ interface PackageCompareContextType {
   isInCompare: (id: string) => boolean;
 }
 
-const PackageCompareContext = createContext<PackageCompareContextType | undefined>(undefined);
+const PackageCompareContext = createContext<
+  PackageCompareContextType | undefined
+>(undefined);
 
-export function PackageCompareProvider({ children }: { children: React.ReactNode }) {
+export function PackageCompareProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [comparePackages, setComparePackages] = useState<ComparePackage[]>([]);
 
   // Load from localStorage on mount
@@ -46,7 +52,10 @@ export function PackageCompareProvider({ children }: { children: React.ReactNode
 
   // Save to localStorage whenever comparePackages changes
   useEffect(() => {
-    localStorage.setItem("wedzway-package-compare", JSON.stringify(comparePackages));
+    localStorage.setItem(
+      "wedzway-package-compare",
+      JSON.stringify(comparePackages),
+    );
   }, [comparePackages]);
 
   const addToCompare = (pkg: ComparePackage) => {
@@ -105,7 +114,9 @@ export function PackageCompareProvider({ children }: { children: React.ReactNode
 export function usePackageCompare() {
   const context = useContext(PackageCompareContext);
   if (context === undefined) {
-    throw new Error("usePackageCompare must be used within a PackageCompareProvider");
+    throw new Error(
+      "usePackageCompare must be used within a PackageCompareProvider",
+    );
   }
   return context;
 }

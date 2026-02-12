@@ -20,7 +20,13 @@ export function SimpleDestinationMap({
   venues = [],
 }: SimpleDestinationMapProps) {
   const [lat, lng] = center;
-  const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.1},${lat - 0.1},${lng + 0.1},${lat + 0.1}&layer=mapnik&marker=${lat},${lng}`;
+  // const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.1},${lat - 0.1},${lng + 0.1},${lat + 0.1}&layer=mapnik&marker=${lat},${lng}`;
+  // const mapUrl = `https://www.openstreetmap.org/export/embed.html?layer=mapnik&marker=${lat},${lng}&zoom=13`;
+  const DELTA = 3;
+
+  const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${
+    lng - DELTA
+  },${lat - DELTA},${lng + DELTA},${lat + DELTA}&layer=mapnik&marker=${lat},${lng}`;
 
   return (
     <div className="space-y-4">
@@ -48,17 +54,13 @@ export function SimpleDestinationMap({
           <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#DF6951] to-[#F1A501] flex items-center justify-center text-white text-xs">
             📍
           </div>
-          <span className="text-sm font-medium">
-            Main Destination
-          </span>
+          <span className="text-sm font-medium">Main Destination</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full bg-white border-2 border-[#DF6951] flex items-center justify-center text-[#DF6951] text-xs">
             1
           </div>
-          <span className="text-sm font-medium">
-            Wedding Venues
-          </span>
+          <span className="text-sm font-medium">Wedding Venues</span>
         </div>
         <div className="flex items-center gap-2 ml-auto">
           <Navigation className="size-4 text-[#DF6951]" />

@@ -53,11 +53,13 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
-import { useCurrency } from "./CurrencyContext";
+// import { useCurrency } from "./CurrencyContext";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Separator } from "./ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import PlannerQuotesView from "./PlannerQuotesView";
+import PlannerCalendarView from "./PlannerCalendarView";
 // import { PlannerCalendarView } from "./PlannerCalendarView";
 // import { PlannerQuotesView } from "./PlannerQuotesView";
 // import { QuoteCreatorPage } from "./QuoteCreatorPage";
@@ -147,7 +149,7 @@ interface Quote {
 }
 
 export function PlannerDashboardContent({ activeTab, onNavigate }: PlannerDashboardContentProps) {
-  const { formatPrice } = useCurrency();
+  // const { formatPrice } = useCurrency();
 
   // Mock planner business data
   const plannerStats = {
@@ -626,7 +628,7 @@ export function PlannerDashboardContent({ activeTab, onNavigate }: PlannerDashbo
           >
             <Card className="p-3 sm:p-4 text-center hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
               <DollarSign className="size-6 sm:size-8 mx-auto mb-1 sm:mb-2 text-purple-600" />
-              <p className="text-xl sm:text-2xl mb-0.5 sm:mb-1 font-bold">{formatPrice(plannerStats.monthlyEarnings)}</p>
+              {/* <p className="text-xl sm:text-2xl mb-0.5 sm:mb-1 font-bold">{formatPrice(plannerStats.monthlyEarnings)}</p> */}
               <p className="text-xs sm:text-sm text-muted-foreground">This Month</p>
             </Card>
           </motion.div>
@@ -1203,39 +1205,39 @@ export function PlannerDashboardContent({ activeTab, onNavigate }: PlannerDashbo
   }
 
   // Quotes Tab
-  if (activeTab === "quotes") {
-    if (showQuoteCreator) {
-      return (
-        <QuoteCreatorPage
-          existingQuote={editingQuote || undefined}
-          onSave={(quote) => {
-            if (editingQuote) {
-              setQuotesData(quotesData.map(q => q.id === quote.id ? quote : q));
-            } else {
-              setQuotesData([...quotesData, quote]);
-            }
-            setShowQuoteCreator(false);
-            setEditingQuote(null);
-          }}
-          onBack={() => {
-            setShowQuoteCreator(false);
-            setEditingQuote(null);
-          }}
-        />
-      );
-    }
+  // if (activeTab === "quotes") {
+  //   if (showQuoteCreator) {
+  //     return (
+  //       <QuoteCreatorPage
+  //         existingQuote={editingQuote || undefined}
+  //         onSave={(quote) => {
+  //           if (editingQuote) {
+  //             setQuotesData(quotesData.map(q => q.id === quote.id ? quote : q));
+  //           } else {
+  //             setQuotesData([...quotesData, quote]);
+  //           }
+  //           setShowQuoteCreator(false);
+  //           setEditingQuote(null);
+  //         }}
+  //         onBack={() => {
+  //           setShowQuoteCreator(false);
+  //           setEditingQuote(null);
+  //         }}
+  //       />
+  //     );
+  //   }
 
-    return (
-      <PlannerQuotesView
-        quotes={quotesData}
-        onUpdate={setQuotesData}
-        onNavigateToCreate={(quote) => {
-          setEditingQuote(quote || null);
-          setShowQuoteCreator(true);
-        }}
-      />
-    );
-  }
+  //   return (
+  //     // <PlannerQuotesView
+  //     //   quotes={quotesData}
+  //     //   onUpdate={setQuotesData}
+  //     //   onNavigateToCreate={(quote) => {
+  //     //     setEditingQuote(quote || null);
+  //     //     setShowQuoteCreator(true);
+  //     //   }}
+  //     // />
+  //   );
+  // }
 
   // Render planner-specific content for other tabs
   return (

@@ -36,7 +36,7 @@ import { Badge } from "./ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Separator } from "./ui/separator";
 import { Progress } from "./ui/progress";
-import { useCurrency } from "./CurrencyContext";
+// import { useCurrency } from "./CurrencyContext";
 
 interface ConciergeTier {
   id: string;
@@ -168,7 +168,8 @@ const conciergeTiers: ConciergeTier[] = [
     priceINR: 150000,
     adjustableINR: 50000,
     tagline: "Platinum Membership + 3 Weddings + Max Coins + VIP Perks",
-    ideal: "₹1Cr+ weddings, NRI families, destination weddings, multiple family weddings planned",
+    ideal:
+      "₹1Cr+ weddings, NRI families, destination weddings, multiple family weddings planned",
     elite: true,
     weddingCoverage: "3 Weddings",
     membershipType: "Wedzway Platinum Membership",
@@ -283,28 +284,26 @@ const coreServices = [
   {
     icon: Palette,
     title: "Fashion Stylist",
-    description:
-      "Personal styling services for the couple and wedding party.",
+    description: "Personal styling services for the couple and wedding party.",
   },
   {
     icon: Heart,
     title: "Pre-Wedding & Proposal",
-    description:
-      "Plan unforgettable pre-wedding shoots and proposal moments.",
+    description: "Plan unforgettable pre-wedding shoots and proposal moments.",
   },
 ];
 
 export function ConciergePage() {
   const [selectedTier, setSelectedTier] = useState<string>("pro");
   const [activeTab, setActiveTab] = useState("overview");
-  const { formatPrice, currency } = useCurrency();
+  // const { formatPrice, currency } = useCurrency();
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-rose-50/30 to-amber-50/30">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#DF6951]/5 via-transparent to-[#F1A501]/5" />
-        
+
         <div className="container mx-auto px-4 md:px-8 relative">
           <div className="text-center max-w-4xl mx-auto mb-16">
             <Badge className="mb-4 bg-gradient-to-r from-[#DF6951] to-[#F1A501] text-white border-0">
@@ -380,8 +379,8 @@ export function ConciergePage() {
                   tier.popular
                     ? "border-[#DF6951] border-2 shadow-xl scale-105"
                     : tier.elite
-                    ? "border-[#F1A501] border-2 shadow-lg"
-                    : "border-2 hover:border-gray-300"
+                      ? "border-[#F1A501] border-2 shadow-lg"
+                      : "border-2 hover:border-gray-300"
                 }`}
               >
                 {tier.popular && (
@@ -401,14 +400,16 @@ export function ConciergePage() {
                   <div className="mb-6">
                     <h3 className="text-2xl mb-2">{tier.name}</h3>
                     <div className="flex items-baseline gap-2 mb-2">
-                      <span className="text-4xl" style={{ fontFamily: "Volkhov, serif" }}>
-                        {formatPrice(tier.priceINR)}
+                      <span
+                        className="text-4xl"
+                        style={{ fontFamily: "Volkhov, serif" }}
+                      >
+                        {tier.priceINR}
                       </span>
                       <Badge variant="outline" className="text-xs">
-                        {tier.adjustableINR === tier.priceINR 
-                          ? "Fully Adjustable" 
-                          : `${formatPrice(tier.adjustableINR)} Adjustable`
-                        }
+                        {tier.adjustableINR === tier.priceINR
+                          ? "Fully Adjustable"
+                          : `${tier.adjustableINR} Adjustable`}
                       </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground mb-4">
@@ -632,9 +633,7 @@ export function ConciergePage() {
             <TabsContent value="mid">
               <Card className="p-8">
                 <div className="text-center mb-8">
-                  <h3 className="text-3xl mb-2">
-                    Look How Much You Saved!
-                  </h3>
+                  <h3 className="text-3xl mb-2">Look How Much You Saved!</h3>
                   <p className="text-muted-foreground">
                     Celebratory, explicit, proud
                   </p>
@@ -644,8 +643,11 @@ export function ConciergePage() {
                   <Card className="p-6 bg-gradient-to-br from-emerald-50 to-green-50 border-emerald-200">
                     <div className="text-center">
                       <TrendingDown className="size-12 text-emerald-600 mx-auto mb-3" />
-                      <p className="text-4xl mb-2" style={{ fontFamily: "Volkhov, serif" }}>
-                        {formatPrice(850000)}
+                      <p
+                        className="text-4xl mb-2"
+                        style={{ fontFamily: "Volkhov, serif" }}
+                      >
+                        {/* {formatPrice(850000)} */}
                       </p>
                       <p className="text-sm text-muted-foreground">
                         Total Savings
@@ -655,7 +657,10 @@ export function ConciergePage() {
                   <Card className="p-6 bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
                     <div className="text-center">
                       <BarChart3 className="size-12 text-blue-600 mx-auto mb-3" />
-                      <p className="text-4xl mb-2" style={{ fontFamily: "Volkhov, serif" }}>
+                      <p
+                        className="text-4xl mb-2"
+                        style={{ fontFamily: "Volkhov, serif" }}
+                      >
                         18%
                       </p>
                       <p className="text-sm text-muted-foreground">
@@ -666,8 +671,11 @@ export function ConciergePage() {
                   <Card className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200">
                     <div className="text-center">
                       <Award className="size-12 text-purple-600 mx-auto mb-3" />
-                      <p className="text-4xl mb-2" style={{ fontFamily: "Volkhov, serif" }}>
-                        {formatPrice(500000)}
+                      <p
+                        className="text-4xl mb-2"
+                        style={{ fontFamily: "Volkhov, serif" }}
+                      >
+                        {/* {formatPrice(500000)} */}
                       </p>
                       <p className="text-sm text-muted-foreground">
                         Venue Savings
@@ -680,21 +688,31 @@ export function ConciergePage() {
                   <div>
                     <div className="flex justify-between mb-2">
                       <span className="text-sm font-medium">Venue Savings</span>
-                      <span className="text-sm text-emerald-600">{formatPrice(500000)}</span>
+                      <span className="text-sm text-emerald-600">
+                        {/* {formatPrice(500000)}  */}
+                      </span>
                     </div>
                     <Progress value={60} className="h-2" />
                   </div>
                   <div>
                     <div className="flex justify-between mb-2">
-                      <span className="text-sm font-medium">Planner Savings</span>
-                      <span className="text-sm text-emerald-600">{formatPrice(150000)}</span>
+                      <span className="text-sm font-medium">
+                        Planner Savings
+                      </span>
+                      <span className="text-sm text-emerald-600">
+                        {/* {formatPrice(150000)} */}
+                      </span>
                     </div>
                     <Progress value={40} className="h-2" />
                   </div>
                   <div>
                     <div className="flex justify-between mb-2">
-                      <span className="text-sm font-medium">Vendor Savings</span>
-                      <span className="text-sm text-emerald-600">{formatPrice(200000)}</span>
+                      <span className="text-sm font-medium">
+                        Vendor Savings
+                      </span>
+                      <span className="text-sm text-emerald-600">
+                        {/* {formatPrice(200000)} */}
+                      </span>
                     </div>
                     <Progress value={50} className="h-2" />
                   </div>
@@ -702,9 +720,9 @@ export function ConciergePage() {
 
                 <div className="mt-8 p-4 bg-gradient-to-r from-emerald-50 to-green-50 rounded-lg border border-emerald-200">
                   <p className="text-center text-sm">
-                    <strong>Why this works:</strong> Mid-tier clients are budget-conscious. 
-                    Savings validate their Wedzway decision. They share dashboard with family 
-                    ("See? We saved ₹8.5L!")
+                    <strong>Why this works:</strong> Mid-tier clients are
+                    budget-conscious. Savings validate their Wedzway decision.
+                    They share dashboard with family ("See? We saved ₹8.5L!")
                   </p>
                 </div>
               </Card>
@@ -727,8 +745,13 @@ export function ConciergePage() {
                     <div className="flex items-center gap-3 mb-4">
                       <Target className="size-8 text-[#DF6951]" />
                       <div>
-                        <p className="text-sm text-muted-foreground">Market Position</p>
-                        <p className="text-2xl" style={{ fontFamily: "Volkhov, serif" }}>
+                        <p className="text-sm text-muted-foreground">
+                          Market Position
+                        </p>
+                        <p
+                          className="text-2xl"
+                          style={{ fontFamily: "Volkhov, serif" }}
+                        >
                           Lower Quartile
                         </p>
                       </div>
@@ -742,9 +765,14 @@ export function ConciergePage() {
                     <div className="flex items-center gap-3 mb-4">
                       <BarChart3 className="size-8 text-[#DF6951]" />
                       <div>
-                        <p className="text-sm text-muted-foreground">Total Investment</p>
-                        <p className="text-2xl" style={{ fontFamily: "Volkhov, serif" }}>
-                          {formatPrice(18000000)}
+                        <p className="text-sm text-muted-foreground">
+                          Total Investment
+                        </p>
+                        <p
+                          className="text-2xl"
+                          style={{ fontFamily: "Volkhov, serif" }}
+                        >
+                          {/* {formatPrice(18000000)} */}
                         </p>
                       </div>
                     </div>
@@ -758,19 +786,25 @@ export function ConciergePage() {
                   <div className="p-4 bg-gray-50 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-medium">Venue Cost Per Guest</span>
-                      <span className="text-[#DF6951]">{formatPrice(25000)}</span>
+                      <span className="text-[#DF6951]">
+                        {/* {formatPrice(25000)} */}
+                      </span>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      vs. {formatPrice(32000)} market average (22% optimization)
+                      {/* vs. {formatPrice(32000)} market average (22% optimization) */}
                     </p>
                   </div>
                   <div className="p-4 bg-gray-50 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium">Photography Cost Per Hour</span>
-                      <span className="text-[#DF6951]">{formatPrice(35000)}</span>
+                      <span className="font-medium">
+                        Photography Cost Per Hour
+                      </span>
+                      <span className="text-[#DF6951]">
+                        {/* {formatPrice(35000)} */}
+                      </span>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      vs. {formatPrice(45000)} market average (22% optimization)
+                      {/* vs. {formatPrice(45000)} market average (22% optimization) */}
                     </p>
                   </div>
                   <div className="p-4 bg-gray-50 rounded-lg">
@@ -786,9 +820,10 @@ export function ConciergePage() {
 
                 <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
                   <p className="text-center text-sm">
-                    <strong>Why this works:</strong> Luxury clients don't want to look "cheap". 
-                    But they DO want to know they didn't overpay. "Optimization" and "benchmarking" 
-                    = smart stewardship, not penny-pinching
+                    <strong>Why this works:</strong> Luxury clients don't want
+                    to look "cheap". But they DO want to know they didn't
+                    overpay. "Optimization" and "benchmarking" = smart
+                    stewardship, not penny-pinching
                   </p>
                 </div>
               </Card>
@@ -798,9 +833,7 @@ export function ConciergePage() {
             <TabsContent value="ultra">
               <Card className="p-8 bg-gradient-to-br from-white to-amber-50/20">
                 <div className="text-center mb-8">
-                  <h3 className="text-3xl mb-2">
-                    Exclusive Access Report
-                  </h3>
+                  <h3 className="text-3xl mb-2">Exclusive Access Report</h3>
                   <p className="text-muted-foreground">
                     Exclusive, access-focused, prestige-driven
                   </p>
@@ -831,14 +864,18 @@ export function ConciergePage() {
                     <h4 className="mb-2">Scarcity Metrics</h4>
                     <div className="space-y-3">
                       <div>
-                        <p className="text-sm text-muted-foreground">Booking Window</p>
+                        <p className="text-sm text-muted-foreground">
+                          Booking Window
+                        </p>
                         <p className="font-medium">14 months advance</p>
                         <p className="text-xs text-muted-foreground">
                           vs. 8 months average
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">Planner Availability</p>
+                        <p className="text-sm text-muted-foreground">
+                          Planner Availability
+                        </p>
                         <p className="font-medium">1 of 12 slots/year</p>
                         <p className="text-xs text-muted-foreground">
                           Only 12 weddings/year
@@ -859,9 +896,7 @@ export function ConciergePage() {
                     </div>
                     <div className="flex items-start gap-3">
                       <Check className="size-5 text-[#F1A501] flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">
-                        2 sold-out venue dates
-                      </span>
+                      <span className="text-sm">2 sold-out venue dates</span>
                     </div>
                     <div className="flex items-start gap-3">
                       <Check className="size-5 text-[#F1A501] flex-shrink-0 mt-0.5" />
@@ -875,28 +910,43 @@ export function ConciergePage() {
                 <div className="p-6 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg border-2 border-[#F1A501]/30">
                   <div className="grid md:grid-cols-3 gap-4 mb-4">
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">Investment</p>
-                      <p className="text-2xl" style={{ fontFamily: "Volkhov, serif" }}>
-                        {formatPrice(42000000)}
+                      <p className="text-sm text-muted-foreground mb-1">
+                        Investment
+                      </p>
+                      <p
+                        className="text-2xl"
+                        style={{ fontFamily: "Volkhov, serif" }}
+                      >
+                        {/* {formatPrice(42000000)} */}
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">Market Position</p>
+                      <p className="text-sm text-muted-foreground mb-1">
+                        Market Position
+                      </p>
                       <p className="text-lg font-medium">Premium Tier</p>
-                      <p className="text-xs text-muted-foreground">Top 2% of Indian weddings</p>
+                      <p className="text-xs text-muted-foreground">
+                        Top 2% of Indian weddings
+                      </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">Value Equivalency</p>
+                      <p className="text-sm text-muted-foreground mb-1">
+                        Value Equivalency
+                      </p>
                       <p className="text-sm font-medium">Celebrity-level</p>
-                      <p className="text-xs text-muted-foreground">Comparable to celebrity weddings</p>
+                      <p className="text-xs text-muted-foreground">
+                        Comparable to celebrity weddings
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
                   <p className="text-center text-sm">
-                    <strong>Why this works:</strong> Ultra-HNW clients care about exclusivity &gt; savings. 
-                    They want to know they got access others couldn't. Price is secondary to &quot;did I get the best?&quot;
+                    <strong>Why this works:</strong> Ultra-HNW clients care
+                    about exclusivity &gt; savings. They want to know they got
+                    access others couldn't. Price is secondary to &quot;did I
+                    get the best?&quot;
                   </p>
                 </div>
               </Card>

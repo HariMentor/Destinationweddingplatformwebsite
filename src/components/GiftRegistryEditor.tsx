@@ -21,8 +21,20 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Badge } from "./ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
@@ -50,8 +62,14 @@ const categoryColors = {
   other: "text-gray-600 bg-gray-50 border-gray-200",
 };
 
-export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegistryEditorProps) {
-  const [items, setItems] = useState<GiftRegistryItem[]>(registryData.items || []);
+export function GiftRegistryEditor({
+  registryData,
+  onSave,
+  onCancel,
+}: GiftRegistryEditorProps) {
+  const [items, setItems] = useState<GiftRegistryItem[]>(
+    registryData.items || [],
+  );
   const [settings, setSettings] = useState({
     title: registryData.title || "",
     welcomeMessage: registryData.welcomeMessage || "",
@@ -97,14 +115,14 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
     setItemFormData({
       name: item.name,
       description: item.description,
-      category: item.category,
+      category: "home",
       price: item.price,
       currency: item.currency,
       image: item.image,
       storeLink: item.storeLink || "",
       storeName: item.storeName || "",
       quantity: item.quantity,
-      priority: item.priority,
+      priority: "medium",
     });
     setShowItemDialog(true);
   };
@@ -119,10 +137,8 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
       // Update existing item
       setItems(
         items.map((item) =>
-          item.id === editingItem.id
-            ? { ...item, ...itemFormData }
-            : item
-        )
+          item.id === editingItem.id ? { ...item, ...itemFormData } : item,
+        ),
       );
       toast.success("Item updated successfully");
     } else {
@@ -150,7 +166,10 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
   };
 
   const handleSave = () => {
-    const totalValue = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const totalValue = items.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0,
+    );
     const purchasedItems = items.filter((item) => item.purchased > 0).length;
     const honeymoonFundRaised = items
       .filter((item) => item.category === "honeymoon" && item.purchased > 0)
@@ -167,9 +186,10 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
     });
   };
 
-  const filteredItems = categoryFilter === "all"
-    ? items
-    : items.filter((item) => item.category === categoryFilter);
+  const filteredItems =
+    categoryFilter === "all"
+      ? items
+      : items.filter((item) => item.category === categoryFilter);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 p-6">
@@ -177,7 +197,10 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl mb-2" style={{ fontFamily: "Volkhov, serif" }}>
+            <h1
+              className="text-3xl mb-2"
+              style={{ fontFamily: "Volkhov, serif" }}
+            >
               Edit Gift Registry
             </h1>
             <p className="text-muted-foreground">
@@ -189,7 +212,10 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
               <X className="size-4" />
               Cancel
             </Button>
-            <Button onClick={handleSave} className="bg-[#DF6951] hover:bg-[#c5573d] gap-2">
+            <Button
+              onClick={handleSave}
+              className="bg-[#DF6951] hover:bg-[#c5573d] gap-2"
+            >
               <Save className="size-4" />
               Save Changes
             </Button>
@@ -198,7 +224,9 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
 
         <Tabs defaultValue="items" className="space-y-6">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="items">Registry Items ({items.length})</TabsTrigger>
+            <TabsTrigger value="items">
+              Registry Items ({items.length})
+            </TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
 
@@ -215,12 +243,15 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                     All Items ({items.length})
                   </Badge>
                   <Badge
-                    variant={categoryFilter === "honeymoon" ? "default" : "outline"}
+                    variant={
+                      categoryFilter === "honeymoon" ? "default" : "outline"
+                    }
                     className={`cursor-pointer ${categoryFilter === "honeymoon" ? "bg-[#DF6951]" : ""}`}
                     onClick={() => setCategoryFilter("honeymoon")}
                   >
                     <Plane className="size-3 mr-1" />
-                    Honeymoon ({items.filter((i) => i.category === "honeymoon").length})
+                    Honeymoon (
+                    {items.filter((i) => i.category === "honeymoon").length})
                   </Badge>
                   <Badge
                     variant={categoryFilter === "home" ? "default" : "outline"}
@@ -231,12 +262,15 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                     Home ({items.filter((i) => i.category === "home").length})
                   </Badge>
                   <Badge
-                    variant={categoryFilter === "experience" ? "default" : "outline"}
+                    variant={
+                      categoryFilter === "experience" ? "default" : "outline"
+                    }
                     className={`cursor-pointer ${categoryFilter === "experience" ? "bg-blue-600" : ""}`}
                     onClick={() => setCategoryFilter("experience")}
                   >
                     <Heart className="size-3 mr-1" />
-                    Experience ({items.filter((i) => i.category === "experience").length})
+                    Experience (
+                    {items.filter((i) => i.category === "experience").length})
                   </Badge>
                   <Badge
                     variant={categoryFilter === "cash" ? "default" : "outline"}
@@ -247,7 +281,10 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                     Cash ({items.filter((i) => i.category === "cash").length})
                   </Badge>
                 </div>
-                <Button onClick={handleAddItem} className="bg-[#DF6951] hover:bg-[#c5573d] gap-2">
+                <Button
+                  onClick={handleAddItem}
+                  className="bg-[#DF6951] hover:bg-[#c5573d] gap-2"
+                >
                   <Plus className="size-4" />
                   Add Item
                 </Button>
@@ -281,14 +318,14 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                         )}
                       </div>
                       <div className="p-4">
-                        <h4 className="font-semibold mb-1 line-clamp-1">{item.name}</h4>
+                        <h4 className="font-semibold mb-1 line-clamp-1">
+                          {item.name}
+                        </h4>
                         <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
                           {item.description}
                         </p>
                         <div className="flex items-center justify-between mb-3">
-                          <p className="text-lg">
-                            ${item.price.toFixed(2)}
-                          </p>
+                          <p className="text-lg">${item.price.toFixed(2)}</p>
                           <Badge variant="outline">
                             {item.purchased} / {item.quantity} purchased
                           </Badge>
@@ -326,9 +363,13 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                 <div className="text-center py-12">
                   <Gift className="size-12 mx-auto mb-4 text-muted-foreground" />
                   <p className="text-muted-foreground mb-4">
-                    No {categoryFilter !== "all" ? categoryFilter : ""} items in your registry yet
+                    No {categoryFilter !== "all" ? categoryFilter : ""} items in
+                    your registry yet
                   </p>
-                  <Button onClick={handleAddItem} className="bg-[#DF6951] hover:bg-[#c5573d] gap-2">
+                  <Button
+                    onClick={handleAddItem}
+                    className="bg-[#DF6951] hover:bg-[#c5573d] gap-2"
+                  >
                     <Plus className="size-4" />
                     Add First Item
                   </Button>
@@ -340,7 +381,10 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
           {/* Settings */}
           <TabsContent value="settings" className="space-y-6">
             <Card className="p-6">
-              <h3 className="text-xl mb-4" style={{ fontFamily: "Volkhov, serif" }}>
+              <h3
+                className="text-xl mb-4"
+                style={{ fontFamily: "Volkhov, serif" }}
+              >
                 Registry Information
               </h3>
               <div className="space-y-6">
@@ -349,7 +393,9 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                   <Input
                     id="title"
                     value={settings.title}
-                    onChange={(e) => setSettings({ ...settings, title: e.target.value })}
+                    onChange={(e) =>
+                      setSettings({ ...settings, title: e.target.value })
+                    }
                   />
                 </div>
                 <div className="space-y-2">
@@ -357,7 +403,12 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                   <Textarea
                     id="welcomeMessage"
                     value={settings.welcomeMessage}
-                    onChange={(e) => setSettings({ ...settings, welcomeMessage: e.target.value })}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        welcomeMessage: e.target.value,
+                      })
+                    }
                     rows={4}
                   />
                 </div>
@@ -366,7 +417,12 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                   <Textarea
                     id="shippingAddress"
                     value={settings.shippingAddress}
-                    onChange={(e) => setSettings({ ...settings, shippingAddress: e.target.value })}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        shippingAddress: e.target.value,
+                      })
+                    }
                     rows={2}
                   />
                 </div>
@@ -374,7 +430,10 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
             </Card>
 
             <Card className="p-6">
-              <h3 className="text-xl mb-4" style={{ fontFamily: "Volkhov, serif" }}>
+              <h3
+                className="text-xl mb-4"
+                style={{ fontFamily: "Volkhov, serif" }}
+              >
                 Cash Gifts & Honeymoon Fund
               </h3>
               <div className="space-y-4">
@@ -389,7 +448,10 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                     type="checkbox"
                     checked={settings.allowCashGifts}
                     onChange={(e) =>
-                      setSettings({ ...settings, allowCashGifts: e.target.checked })
+                      setSettings({
+                        ...settings,
+                        allowCashGifts: e.target.checked,
+                      })
                     }
                     className="size-4"
                   />
@@ -406,7 +468,10 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                         type="number"
                         value={settings.honeymoonFundGoal}
                         onChange={(e) =>
-                          setSettings({ ...settings, honeymoonFundGoal: Number(e.target.value) })
+                          setSettings({
+                            ...settings,
+                            honeymoonFundGoal: Number(e.target.value),
+                          })
                         }
                         className="pl-8"
                       />
@@ -438,7 +503,9 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                   <Input
                     id="itemName"
                     value={itemFormData.name}
-                    onChange={(e) => setItemFormData({ ...itemFormData, name: e.target.value })}
+                    onChange={(e) =>
+                      setItemFormData({ ...itemFormData, name: e.target.value })
+                    }
                     placeholder="e.g., Espresso Machine"
                   />
                 </div>
@@ -448,7 +515,10 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                     id="itemDescription"
                     value={itemFormData.description}
                     onChange={(e) =>
-                      setItemFormData({ ...itemFormData, description: e.target.value })
+                      setItemFormData({
+                        ...itemFormData,
+                        description: e.target.value,
+                      })
                     }
                     placeholder="Brief description of the item"
                     rows={2}
@@ -485,7 +555,10 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                       type="number"
                       value={itemFormData.price}
                       onChange={(e) =>
-                        setItemFormData({ ...itemFormData, price: Number(e.target.value) })
+                        setItemFormData({
+                          ...itemFormData,
+                          price: Number(e.target.value),
+                        })
                       }
                       className="pl-8"
                       placeholder="0.00"
@@ -499,7 +572,10 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                     type="number"
                     value={itemFormData.quantity}
                     onChange={(e) =>
-                      setItemFormData({ ...itemFormData, quantity: Number(e.target.value) })
+                      setItemFormData({
+                        ...itemFormData,
+                        quantity: Number(e.target.value),
+                      })
                     }
                     min="1"
                   />
@@ -527,7 +603,12 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                   <Input
                     id="itemImage"
                     value={itemFormData.image}
-                    onChange={(e) => setItemFormData({ ...itemFormData, image: e.target.value })}
+                    onChange={(e) =>
+                      setItemFormData({
+                        ...itemFormData,
+                        image: e.target.value,
+                      })
+                    }
                     placeholder="https://example.com/image.jpg"
                   />
                   {itemFormData.image && (
@@ -545,7 +626,12 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                   <Input
                     id="itemStore"
                     value={itemFormData.storeName}
-                    onChange={(e) => setItemFormData({ ...itemFormData, storeName: e.target.value })}
+                    onChange={(e) =>
+                      setItemFormData({
+                        ...itemFormData,
+                        storeName: e.target.value,
+                      })
+                    }
                     placeholder="e.g., Williams Sonoma"
                   />
                 </div>
@@ -554,14 +640,22 @@ export function GiftRegistryEditor({ registryData, onSave, onCancel }: GiftRegis
                   <Input
                     id="itemLink"
                     value={itemFormData.storeLink}
-                    onChange={(e) => setItemFormData({ ...itemFormData, storeLink: e.target.value })}
+                    onChange={(e) =>
+                      setItemFormData({
+                        ...itemFormData,
+                        storeLink: e.target.value,
+                      })
+                    }
                     placeholder="https://store.com/product"
                   />
                 </div>
               </div>
             </div>
             <div className="flex gap-3 justify-end">
-              <Button variant="outline" onClick={() => setShowItemDialog(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setShowItemDialog(false)}
+              >
                 Cancel
               </Button>
               <Button

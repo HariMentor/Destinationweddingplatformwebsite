@@ -1,8 +1,25 @@
 import { useState } from "react";
-import { 
-  ArrowLeft, Star, MapPin, Award, Calendar, Camera, Video, Palette,
-  Heart, Share2, MessageCircle, Send, CheckCircle, Phone, Clock,
-  TrendingUp, Image as ImageIcon, Download, Package, Briefcase
+import {
+  ArrowLeft,
+  Star,
+  MapPin,
+  Award,
+  Calendar,
+  Camera,
+  Video,
+  Palette,
+  Heart,
+  Share2,
+  MessageCircle,
+  Send,
+  CheckCircle,
+  Phone,
+  Clock,
+  TrendingUp,
+  Image as ImageIcon,
+  Download,
+  Package,
+  Briefcase,
 } from "lucide-react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
@@ -14,9 +31,16 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 
-type VendorType = 'photographer' | 'videographer' | 'decorator';
+type VendorType = "photographer" | "videographer" | "decorator";
 
 interface VendorProfilePageProps {
   vendorType: VendorType;
@@ -24,13 +48,131 @@ interface VendorProfilePageProps {
   onBack: () => void;
 }
 
-const vendorData = {
+// Define interfaces for each vendor type
+interface PhotographerVendor {
+  name: string;
+  tagline: string;
+  description: string;
+  coverImage: string;
+  profileImage: string;
+  location: string;
+  rating: number;
+  reviewCount: number;
+  experience: string;
+  projectsCompleted: number;
+  verified: boolean;
+  startingPrice: string;
+  gallery: string[];
+  specialties: string[];
+  style: string;
+  equipment: string[];
+  deliveryFormat: string;
+  turnaroundTime: string;
+  editedPhotos: string;
+  packages: Package[];
+  reviews: Review[];
+  operatingRegions: string[];
+  languages: string[];
+  responseTime: string;
+  bookingRate: string;
+}
+
+interface VideographerVendor {
+  name: string;
+  tagline: string;
+  description: string;
+  coverImage: string;
+  profileImage: string;
+  location: string;
+  rating: number;
+  reviewCount: number;
+  experience: string;
+  projectsCompleted: number;
+  verified: boolean;
+  startingPrice: string;
+  gallery: string[];
+  specialties: string[];
+  style: string;
+  equipment: string[];
+  deliveryFormat: string;
+  turnaroundTime: string;
+  videoDuration: string;
+  droneFootage: string;
+  packages: Package[];
+  reviews: Review[];
+  operatingRegions: string[];
+  languages: string[];
+  responseTime: string;
+  bookingRate: string;
+}
+
+interface DecoratorVendor {
+  name: string;
+  tagline: string;
+  description: string;
+  coverImage: string;
+  profileImage: string;
+  location: string;
+  rating: number;
+  reviewCount: number;
+  experience: string;
+  projectsCompleted: number;
+  verified: boolean;
+  startingPrice: string;
+  gallery: string[];
+  specialties: string[];
+  style: string;
+  materials: string[];
+  venueTypes: string[];
+  setupTime: string;
+  customization: string;
+  packages: Package[];
+  reviews: Review[];
+  operatingRegions: string[];
+  languages: string[];
+  responseTime: string;
+  bookingRate: string;
+}
+
+interface Package {
+  name: string;
+  price: string;
+  features: string[];
+  popular?: boolean;
+}
+
+interface Review {
+  id: number;
+  name: string;
+  rating: number;
+  date: string;
+  avatar: string;
+  verified: boolean;
+  comment: string;
+  event: string;
+}
+
+type VendorData = {
+  photographer: {
+    1: PhotographerVendor;
+  };
+  videographer: {
+    1: VideographerVendor;
+  };
+  decorator: {
+    1: DecoratorVendor;
+  };
+};
+
+const vendorData: VendorData = {
   photographer: {
     1: {
       name: "Capture Moments Studio",
       tagline: "Freezing Time, Creating Memories",
-      description: "With over 10 years of experience in wedding photography, we specialize in capturing the authentic emotions and candid moments that make your day unique. Our artistic approach combines photojournalistic style with creative portraits, ensuring every precious memory is beautifully preserved.",
-      coverImage: "https://images.unsplash.com/photo-1606800052052-c96147d1f0b5?w=1200",
+      description:
+        "With over 10 years of experience in wedding photography, we specialize in capturing the authentic emotions and candid moments that make your day unique. Our artistic approach combines photojournalistic style with creative portraits, ensuring every precious memory is beautifully preserved.",
+      coverImage:
+        "https://images.unsplash.com/photo-1606800052052-c96147d1f0b5?w=1200",
       profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=CaptureM",
       location: "Mumbai, India",
       rating: 4.9,
@@ -39,7 +181,7 @@ const vendorData = {
       projectsCompleted: 250,
       verified: true,
       startingPrice: "₹35,000",
-      
+
       gallery: [
         "https://images.unsplash.com/photo-1606800052052-c96147d1f0b5?w=800",
         "https://images.unsplash.com/photo-1519741497674-611481863552?w=800",
@@ -48,14 +190,25 @@ const vendorData = {
         "https://images.unsplash.com/photo-1530047625168-4b29bfbbe1fc?w=800",
         "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800",
       ],
-      
-      specialties: ["Candid Photography", "Traditional Shoots", "Drone Photography", "Pre-wedding", "Portraits"],
+
+      specialties: [
+        "Candid Photography",
+        "Traditional Shoots",
+        "Drone Photography",
+        "Pre-wedding",
+        "Portraits",
+      ],
       style: "Candid & Artistic",
-      equipment: ["Canon EOS R5", "Sony A7III", "DJI Mavic Pro", "Profoto Lighting"],
+      equipment: [
+        "Canon EOS R5",
+        "Sony A7III",
+        "DJI Mavic Pro",
+        "Profoto Lighting",
+      ],
       deliveryFormat: "Online Gallery, USB Drive, Prints",
       turnaroundTime: "7-10 working days",
       editedPhotos: "200-300 edited images",
-      
+
       packages: [
         {
           name: "Essential",
@@ -66,8 +219,8 @@ const vendorData = {
             "150 edited photos",
             "Online gallery",
             "USB delivery",
-            "Basic retouching"
-          ]
+            "Basic retouching",
+          ],
         },
         {
           name: "Premium",
@@ -80,9 +233,9 @@ const vendorData = {
             "Drone photography",
             "Online gallery + USB",
             "Premium album (20 pages)",
-            "Advanced retouching"
+            "Advanced retouching",
           ],
-          popular: true
+          popular: true,
         },
         {
           name: "Luxury",
@@ -96,11 +249,11 @@ const vendorData = {
             "Multiple albums",
             "Canvas prints",
             "Same day teaser",
-            "Dedicated coordinator"
-          ]
-        }
+            "Dedicated coordinator",
+          ],
+        },
       ],
-      
+
       reviews: [
         {
           id: 1,
@@ -109,8 +262,9 @@ const vendorData = {
           date: "2 weeks ago",
           avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
           verified: true,
-          comment: "Absolutely stunning work! They captured every emotion beautifully. The candid shots are our favorites. Highly professional and creative team.",
-          event: "Wedding, Goa"
+          comment:
+            "Absolutely stunning work! They captured every emotion beautifully. The candid shots are our favorites. Highly professional and creative team.",
+          event: "Wedding, Goa",
         },
         {
           id: 2,
@@ -119,24 +273,28 @@ const vendorData = {
           date: "1 month ago",
           avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Riya",
           verified: true,
-          comment: "The photos exceeded our expectations! They made us feel so comfortable throughout the shoot. The drone shots were spectacular!",
-          event: "Pre-wedding, Udaipur"
-        }
+          comment:
+            "The photos exceeded our expectations! They made us feel so comfortable throughout the shoot. The drone shots were spectacular!",
+          event: "Pre-wedding, Udaipur",
+        },
       ],
-      
+
       operatingRegions: ["Mumbai", "Goa", "Udaipur", "Bangalore", "Delhi"],
       languages: ["English", "Hindi", "Marathi"],
       responseTime: "Within 2 hours",
       bookingRate: "95%",
-    }
+    },
   },
   videographer: {
     1: {
       name: "Cinematic Dreams",
       tagline: "Your Story, Our Passion",
-      description: "Creating cinematic wedding films that tell your unique love story. With 9+ years of experience and state-of-the-art equipment, we craft emotional, artistic films that you'll treasure forever. Our documentary-style approach captures genuine moments with Hollywood-level production quality.",
-      coverImage: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1200",
-      profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=CinematicD",
+      description:
+        "Creating cinematic wedding films that tell your unique love story. With 9+ years of experience and state-of-the-art equipment, we craft emotional, artistic films that you'll treasure forever. Our documentary-style approach captures genuine moments with Hollywood-level production quality.",
+      coverImage:
+        "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1200",
+      profileImage:
+        "https://api.dicebear.com/7.x/avataaars/svg?seed=CinematicD",
       location: "Mumbai, India",
       rating: 4.9,
       reviewCount: 142,
@@ -144,7 +302,7 @@ const vendorData = {
       projectsCompleted: 200,
       verified: true,
       startingPrice: "₹50,000",
-      
+
       gallery: [
         "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800",
         "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
@@ -153,15 +311,26 @@ const vendorData = {
         "https://images.unsplash.com/photo-1519741497674-611481863552?w=800",
         "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800",
       ],
-      
-      specialties: ["Cinematic Films", "Drone Videography", "Same Day Edit", "Documentary Style", "Highlight Reels"],
+
+      specialties: [
+        "Cinematic Films",
+        "Drone Videography",
+        "Same Day Edit",
+        "Documentary Style",
+        "Highlight Reels",
+      ],
       style: "Cinematic & Emotional",
-      equipment: ["Sony FX3", "DJI Ronin 4D", "DJI Inspire 3", "4K Cinema Cameras"],
+      equipment: [
+        "Sony FX3",
+        "DJI Ronin 4D",
+        "DJI Inspire 3",
+        "4K Cinema Cameras",
+      ],
       deliveryFormat: "4K Digital Files, YouTube Link, USB Drive",
       turnaroundTime: "2-3 weeks",
       videoDuration: "3-5 min teaser, 20-30 min feature film",
       droneFootage: "Yes",
-      
+
       packages: [
         {
           name: "Basic",
@@ -172,8 +341,8 @@ const vendorData = {
             "3-4 min highlight video",
             "4K resolution",
             "Color grading",
-            "Online delivery"
-          ]
+            "Online delivery",
+          ],
         },
         {
           name: "Premium",
@@ -186,9 +355,9 @@ const vendorData = {
             "Cinematic color grading",
             "Same day edit",
             "Multi-camera setup",
-            "USB + online delivery"
+            "USB + online delivery",
           ],
-          popular: true
+          popular: true,
         },
         {
           name: "Elite",
@@ -202,11 +371,11 @@ const vendorData = {
             "4K cinema cameras",
             "Same day edit",
             "Raw footage backup",
-            "Custom music licensing"
-          ]
-        }
+            "Custom music licensing",
+          ],
+        },
       ],
-      
+
       reviews: [
         {
           id: 1,
@@ -215,8 +384,9 @@ const vendorData = {
           date: "3 weeks ago",
           avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Neha",
           verified: true,
-          comment: "Our wedding film is absolutely breathtaking! They captured every emotion and the cinematic quality is outstanding. Worth every penny!",
-          event: "Wedding, Jaipur"
+          comment:
+            "Our wedding film is absolutely breathtaking! They captured every emotion and the cinematic quality is outstanding. Worth every penny!",
+          event: "Wedding, Jaipur",
         },
         {
           id: 2,
@@ -225,23 +395,26 @@ const vendorData = {
           date: "1 month ago",
           avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Aisha",
           verified: true,
-          comment: "The same day edit brought tears to everyone's eyes! Professional, creative, and so easy to work with. The drone shots were incredible!",
-          event: "Destination Wedding, Goa"
-        }
+          comment:
+            "The same day edit brought tears to everyone's eyes! Professional, creative, and so easy to work with. The drone shots were incredible!",
+          event: "Destination Wedding, Goa",
+        },
       ],
-      
+
       operatingRegions: ["Mumbai", "Goa", "Udaipur", "Jaipur", "International"],
       languages: ["English", "Hindi", "Gujarati"],
       responseTime: "Within 3 hours",
       bookingRate: "92%",
-    }
+    },
   },
   decorator: {
     1: {
       name: "Bloom & Bliss Decor",
       tagline: "Designing Dreams",
-      description: "Creating magical spaces for over 13 years. We specialize in luxury wedding decor with fresh flowers, elegant fabrics, and stunning lighting. Our team transforms venues into breathtaking experiences that reflect your unique style and vision. From intimate gatherings to grand celebrations, we bring your dreams to life.",
-      coverImage: "https://images.unsplash.com/photo-1606800052052-c96147d1f0b5?w=1200",
+      description:
+        "Creating magical spaces for over 13 years. We specialize in luxury wedding decor with fresh flowers, elegant fabrics, and stunning lighting. Our team transforms venues into breathtaking experiences that reflect your unique style and vision. From intimate gatherings to grand celebrations, we bring your dreams to life.",
+      coverImage:
+        "https://images.unsplash.com/photo-1606800052052-c96147d1f0b5?w=1200",
       profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=BloomB",
       location: "Mumbai, India",
       rating: 4.9,
@@ -250,7 +423,7 @@ const vendorData = {
       projectsCompleted: 350,
       verified: true,
       startingPrice: "₹1,50,000",
-      
+
       gallery: [
         "https://images.unsplash.com/photo-1519741497674-611481863552?w=800",
         "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800",
@@ -259,14 +432,26 @@ const vendorData = {
         "https://images.unsplash.com/photo-1530047625168-4b29bfbbe1fc?w=800",
         "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800",
       ],
-      
-      specialties: ["Floral Decor", "Royal Themes", "Destination Weddings", "Stage Design", "Mandap Decoration"],
+
+      specialties: [
+        "Floral Decor",
+        "Royal Themes",
+        "Destination Weddings",
+        "Stage Design",
+        "Mandap Decoration",
+      ],
       style: "Elegant & Luxurious",
-      materials: ["Fresh Flowers", "Premium Fabrics", "Crystal Chandeliers", "LED Lighting", "Custom Props"],
+      materials: [
+        "Fresh Flowers",
+        "Premium Fabrics",
+        "Crystal Chandeliers",
+        "LED Lighting",
+        "Custom Props",
+      ],
       venueTypes: ["Indoor", "Outdoor", "Banquet Halls", "Beach", "Palace"],
       setupTime: "4-6 hours",
       customization: "Full theme personalization, logo decor, custom backdrops",
-      
+
       packages: [
         {
           name: "Classic",
@@ -278,8 +463,8 @@ const vendorData = {
             "Basic lighting",
             "Entry decor",
             "Guest seating setup",
-            "Up to 200 guests"
-          ]
+            "Up to 200 guests",
+          ],
         },
         {
           name: "Royal",
@@ -293,9 +478,9 @@ const vendorData = {
             "Thematic decor",
             "Crystal chandeliers",
             "Custom props",
-            "Up to 500 guests"
+            "Up to 500 guests",
           ],
-          popular: true
+          popular: true,
         },
         {
           name: "Grand",
@@ -310,11 +495,11 @@ const vendorData = {
             "Water features",
             "Custom furniture",
             "Unlimited guests",
-            "Destination support"
-          ]
-        }
+            "Destination support",
+          ],
+        },
       ],
-      
+
       reviews: [
         {
           id: 1,
@@ -323,8 +508,9 @@ const vendorData = {
           date: "2 weeks ago",
           avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Meera",
           verified: true,
-          comment: "They transformed our venue into a fairytale! The floral arrangements were stunning and every detail was perfect. Our guests couldn't stop talking about the decor!",
-          event: "Wedding, Mumbai"
+          comment:
+            "They transformed our venue into a fairytale! The floral arrangements were stunning and every detail was perfect. Our guests couldn't stop talking about the decor!",
+          event: "Wedding, Mumbai",
         },
         {
           id: 2,
@@ -333,17 +519,18 @@ const vendorData = {
           date: "3 weeks ago",
           avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sanjana",
           verified: true,
-          comment: "Absolutely magical! The team understood our vision and executed it flawlessly. The lighting and floral ceiling were breathtaking!",
-          event: "Reception, Udaipur"
-        }
+          comment:
+            "Absolutely magical! The team understood our vision and executed it flawlessly. The lighting and floral ceiling were breathtaking!",
+          event: "Reception, Udaipur",
+        },
       ],
-      
+
       operatingRegions: ["Mumbai", "Pune", "Goa", "Udaipur", "Jaipur", "Delhi"],
       languages: ["English", "Hindi", "Marathi"],
       responseTime: "Within 4 hours",
       bookingRate: "97%",
-    }
-  }
+    },
+  },
 };
 
 const vendorConfig = {
@@ -364,12 +551,38 @@ const vendorConfig = {
   },
 };
 
-export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfilePageProps) {
-  const vendor = vendorData[vendorType][vendorId as keyof typeof vendorData[typeof vendorType]] || vendorData[vendorType][1];
+type VendorTypeMap = {
+  photographer: PhotographerVendor;
+  videographer: VideographerVendor;
+  decorator: DecoratorVendor;
+};
+
+export function VendorProfilePage({
+  vendorType,
+  vendorId,
+  onBack,
+}: VendorProfilePageProps) {
+  const vendor =
+    vendorData[vendorType][
+      vendorId as keyof (typeof vendorData)[typeof vendorType]
+    ] || vendorData[vendorType][1];
   const config = vendorConfig[vendorType];
   const Icon = config.icon;
   const [isSaved, setIsSaved] = useState(false);
   const [showEnquiryForm, setShowEnquiryForm] = useState(false);
+
+  // Type guard functions
+  const isPhotographer = (vendor: any): vendor is PhotographerVendor => {
+    return vendorType === "photographer";
+  };
+
+  const isVideographer = (vendor: any): vendor is VideographerVendor => {
+    return vendorType === "videographer";
+  };
+
+  const isDecorator = (vendor: any): vendor is DecoratorVendor => {
+    return vendorType === "decorator";
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-rose-50/30 pt-20">
@@ -389,10 +602,12 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-        
+
         {/* Service Badge on Cover */}
         <div className="absolute top-6 right-6">
-          <Badge className={`${config.badge} text-white gap-2 px-4 py-2 text-sm`}>
+          <Badge
+            className={`${config.badge} text-white gap-2 px-4 py-2 text-sm`}
+          >
             <Icon className="size-4" />
             {vendorType.charAt(0).toUpperCase() + vendorType.slice(1)}
           </Badge>
@@ -412,12 +627,15 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                   alt={vendor.name}
                   className="size-24 rounded-full border-4 border-white shadow-lg"
                 />
-                
+
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <h1 className="text-3xl" style={{ fontFamily: 'Volkhov, serif' }}>
+                        <h1
+                          className="text-3xl"
+                          style={{ fontFamily: "Volkhov, serif" }}
+                        >
                           {vendor.name}
                         </h1>
                         {vendor.verified && (
@@ -427,14 +645,18 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                           </Badge>
                         )}
                       </div>
-                      <p className="text-lg text-muted-foreground mb-3">{vendor.tagline}</p>
+                      <p className="text-lg text-muted-foreground mb-3">
+                        {vendor.tagline}
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex flex-wrap gap-4 mb-4">
                     <div className="flex items-center gap-2">
                       <Star className="size-5 text-amber-500 fill-amber-500" />
-                      <span>{vendor.rating} ({vendor.reviewCount} reviews)</span>
+                      <span>
+                        {vendor.rating} ({vendor.reviewCount} reviews)
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <MapPin className="size-5 text-[#DF6951]" />
@@ -456,7 +678,9 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                       size="icon"
                       onClick={() => setIsSaved(!isSaved)}
                     >
-                      <Heart className={`size-5 ${isSaved ? "fill-red-500 text-red-500" : ""}`} />
+                      <Heart
+                        className={`size-5 ${isSaved ? "fill-red-500 text-red-500" : ""}`}
+                      />
                     </Button>
                     <Button variant="outline" size="icon">
                       <Share2 className="size-5" />
@@ -516,7 +740,9 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                       <h3 className="mb-3">Specialties</h3>
                       <div className="flex flex-wrap gap-2">
                         {vendor.specialties.map((specialty, index) => (
-                          <Badge key={index} variant="outline">{specialty}</Badge>
+                          <Badge key={index} variant="outline">
+                            {specialty}
+                          </Badge>
                         ))}
                       </div>
                     </div>
@@ -528,43 +754,56 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                       </Badge>
                     </div>
 
-                    {vendorType === 'photographer' && (
+                    {isPhotographer(vendor) && (
                       <>
                         <div>
                           <h3 className="mb-3">Equipment</h3>
                           <div className="grid md:grid-cols-2 gap-2">
                             {vendor.equipment.map((item, index) => (
-                              <div key={index} className="flex items-center gap-2">
+                              <div
+                                key={index}
+                                className="flex items-center gap-2"
+                              >
                                 <CheckCircle className="size-4 text-green-500" />
                                 <span className="text-sm">{item}</span>
                               </div>
                             ))}
                           </div>
                         </div>
+
                         <div className="grid md:grid-cols-2 gap-6">
                           <div>
-                            <h4 className="text-sm text-muted-foreground mb-1">Delivery Format</h4>
+                            <h4 className="text-sm text-muted-foreground mb-1">
+                              Delivery Format
+                            </h4>
                             <p>{vendor.deliveryFormat}</p>
                           </div>
                           <div>
-                            <h4 className="text-sm text-muted-foreground mb-1">Turnaround</h4>
+                            <h4 className="text-sm text-muted-foreground mb-1">
+                              Turnaround
+                            </h4>
                             <p>{vendor.turnaroundTime}</p>
                           </div>
                           <div>
-                            <h4 className="text-sm text-muted-foreground mb-1">Edited Photos</h4>
+                            <h4 className="text-sm text-muted-foreground mb-1">
+                              Edited Photos
+                            </h4>
                             <p>{vendor.editedPhotos}</p>
                           </div>
                         </div>
                       </>
                     )}
 
-                    {vendorType === 'videographer' && (
+                    {isVideographer(vendor) && (
                       <>
                         <div>
                           <h3 className="mb-3">Equipment</h3>
                           <div className="grid md:grid-cols-2 gap-2">
                             {vendor.equipment.map((item, index) => (
-                              <div key={index} className="flex items-center gap-2">
+                              <div
+                                key={index}
+                                className="flex items-center gap-2"
+                              >
                                 <CheckCircle className="size-4 text-green-500" />
                                 <span className="text-sm">{item}</span>
                               </div>
@@ -573,32 +812,42 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                         </div>
                         <div className="grid md:grid-cols-2 gap-6">
                           <div>
-                            <h4 className="text-sm text-muted-foreground mb-1">Video Duration</h4>
+                            <h4 className="text-sm text-muted-foreground mb-1">
+                              Video Duration
+                            </h4>
                             <p>{vendor.videoDuration}</p>
                           </div>
                           <div>
-                            <h4 className="text-sm text-muted-foreground mb-1">Drone Footage</h4>
+                            <h4 className="text-sm text-muted-foreground mb-1">
+                              Drone Footage
+                            </h4>
                             <p>{vendor.droneFootage}</p>
                           </div>
                           <div>
-                            <h4 className="text-sm text-muted-foreground mb-1">Delivery Format</h4>
+                            <h4 className="text-sm text-muted-foreground mb-1">
+                              Delivery Format
+                            </h4>
                             <p>{vendor.deliveryFormat}</p>
                           </div>
                           <div>
-                            <h4 className="text-sm text-muted-foreground mb-1">Turnaround</h4>
+                            <h4 className="text-sm text-muted-foreground mb-1">
+                              Turnaround
+                            </h4>
                             <p>{vendor.turnaroundTime}</p>
                           </div>
                         </div>
                       </>
                     )}
 
-                    {vendorType === 'decorator' && (
+                    {isDecorator(vendor) && (
                       <>
                         <div>
                           <h3 className="mb-3">Materials Used</h3>
                           <div className="flex flex-wrap gap-2">
                             {vendor.materials.map((material, index) => (
-                              <Badge key={index} variant="outline">{material}</Badge>
+                              <Badge key={index} variant="outline">
+                                {material}
+                              </Badge>
                             ))}
                           </div>
                         </div>
@@ -606,17 +855,23 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                           <h3 className="mb-3">Venue Types</h3>
                           <div className="flex flex-wrap gap-2">
                             {vendor.venueTypes.map((venue, index) => (
-                              <Badge key={index} variant="outline">{venue}</Badge>
+                              <Badge key={index} variant="outline">
+                                {venue}
+                              </Badge>
                             ))}
                           </div>
                         </div>
                         <div className="grid md:grid-cols-2 gap-6">
                           <div>
-                            <h4 className="text-sm text-muted-foreground mb-1">Setup Time</h4>
+                            <h4 className="text-sm text-muted-foreground mb-1">
+                              Setup Time
+                            </h4>
                             <p>{vendor.setupTime}</p>
                           </div>
                           <div>
-                            <h4 className="text-sm text-muted-foreground mb-1">Customization</h4>
+                            <h4 className="text-sm text-muted-foreground mb-1">
+                              Customization
+                            </h4>
                             <p>{vendor.customization}</p>
                           </div>
                         </div>
@@ -629,7 +884,10 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                       <h3 className="mb-3">Operating Regions</h3>
                       <div className="flex flex-wrap gap-2">
                         {vendor.operatingRegions.map((region, index) => (
-                          <Badge key={index} className="bg-rose-50 text-foreground border-[#DF6951]">
+                          <Badge
+                            key={index}
+                            className="bg-rose-50 text-foreground border-[#DF6951]"
+                          >
                             {region}
                           </Badge>
                         ))}
@@ -640,7 +898,9 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                       <h3 className="mb-3">Languages</h3>
                       <div className="flex flex-wrap gap-2">
                         {vendor.languages.map((lang, index) => (
-                          <Badge key={index} variant="outline">{lang}</Badge>
+                          <Badge key={index} variant="outline">
+                            {lang}
+                          </Badge>
                         ))}
                       </div>
                     </div>
@@ -654,7 +914,10 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                   <h2 className="mb-4">Portfolio Gallery</h2>
                   <div className="grid md:grid-cols-3 gap-4">
                     {vendor.gallery.map((image, index) => (
-                      <div key={index} className="relative aspect-square rounded-lg overflow-hidden group cursor-pointer">
+                      <div
+                        key={index}
+                        className="relative aspect-square rounded-lg overflow-hidden group cursor-pointer"
+                      >
                         <ImageWithFallback
                           src={image}
                           alt={`Portfolio ${index + 1}`}
@@ -673,9 +936,9 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
               <TabsContent value="packages" className="space-y-6">
                 <div className="grid md:grid-cols-3 gap-6">
                   {vendor.packages.map((pkg, index) => (
-                    <Card 
-                      key={index} 
-                      className={`p-6 relative ${pkg.popular ? 'border-[#DF6951] border-2 shadow-xl' : ''}`}
+                    <Card
+                      key={index}
+                      className={`p-6 relative ${pkg.popular ? "border-[#DF6951] border-2 shadow-xl" : ""}`}
                     >
                       {pkg.popular && (
                         <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#DF6951] to-[#F1A501]">
@@ -686,12 +949,18 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                         <Icon className="size-5 text-[#DF6951]" />
                         <h3>{pkg.name}</h3>
                       </div>
-                      <p className="text-3xl mb-6" style={{ fontFamily: 'Volkhov, serif' }}>
+                      <p
+                        className="text-3xl mb-6"
+                        style={{ fontFamily: "Volkhov, serif" }}
+                      >
                         {pkg.price}
                       </p>
                       <ul className="space-y-3">
                         {pkg.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-sm">
+                          <li
+                            key={idx}
+                            className="flex items-start gap-2 text-sm"
+                          >
                             <CheckCircle className="size-4 text-green-500 mt-0.5 flex-shrink-0" />
                             <span>{feature}</span>
                           </li>
@@ -711,10 +980,16 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                       <div className="flex items-center gap-2">
                         <div className="flex">
                           {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="size-5 text-amber-500 fill-amber-500" />
+                            <Star
+                              key={i}
+                              className="size-5 text-amber-500 fill-amber-500"
+                            />
                           ))}
                         </div>
-                        <span className="text-2xl" style={{ fontFamily: 'Volkhov, serif' }}>
+                        <span
+                          className="text-2xl"
+                          style={{ fontFamily: "Volkhov, serif" }}
+                        >
                           {vendor.rating}
                         </span>
                         <span className="text-muted-foreground">
@@ -732,35 +1007,48 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                         <div className="flex items-start gap-4">
                           <Avatar>
                             <AvatarImage src={review.avatar} />
-                            <AvatarFallback>{review.name.charAt(0)}</AvatarFallback>
+                            <AvatarFallback>
+                              {review.name.charAt(0)}
+                            </AvatarFallback>
                           </Avatar>
                           <div className="flex-1">
                             <div className="flex items-center justify-between mb-1">
                               <div className="flex items-center gap-2">
                                 <h4>{review.name}</h4>
                                 {review.verified && (
-                                  <Badge variant="outline" className="text-xs gap-1">
+                                  <Badge
+                                    variant="outline"
+                                    className="text-xs gap-1"
+                                  >
                                     <CheckCircle className="size-3" />
                                     Verified
                                   </Badge>
                                 )}
                               </div>
-                              <span className="text-sm text-muted-foreground">{review.date}</span>
+                              <span className="text-sm text-muted-foreground">
+                                {review.date}
+                              </span>
                             </div>
                             <div className="flex items-center gap-2 mb-2">
                               <div className="flex">
                                 {[...Array(review.rating)].map((_, i) => (
-                                  <Star key={i} className="size-4 text-amber-500 fill-amber-500" />
+                                  <Star
+                                    key={i}
+                                    className="size-4 text-amber-500 fill-amber-500"
+                                  />
                                 ))}
                               </div>
                               <span className="text-sm text-muted-foreground">
                                 • {review.event}
                               </span>
                             </div>
-                            <p className="text-muted-foreground">{review.comment}</p>
+                            <p className="text-muted-foreground">
+                              {review.comment}
+                            </p>
                           </div>
                         </div>
-                        {review.id !== vendor.reviews[vendor.reviews.length - 1].id && (
+                        {review.id !==
+                          vendor.reviews[vendor.reviews.length - 1].id && (
                           <Separator />
                         )}
                       </div>
@@ -777,15 +1065,23 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
             <Card className="p-6 sticky top-24">
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Starting from</p>
-                  <p className="text-3xl" style={{ fontFamily: 'Volkhov, serif' }}>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    Starting from
+                  </p>
+                  <p
+                    className="text-3xl"
+                    style={{ fontFamily: "Volkhov, serif" }}
+                  >
                     {vendor.startingPrice}
                   </p>
                 </div>
 
                 <Separator />
 
-                <Dialog open={showEnquiryForm} onOpenChange={setShowEnquiryForm}>
+                <Dialog
+                  open={showEnquiryForm}
+                  onOpenChange={setShowEnquiryForm}
+                >
                   <DialogTrigger asChild>
                     <Button className="w-full bg-gradient-to-r from-[#DF6951] to-[#F1A501] gap-2">
                       <Send className="size-4" />
@@ -806,11 +1102,19 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                       </div>
                       <div>
                         <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="your@email.com" />
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="your@email.com"
+                        />
                       </div>
                       <div>
                         <Label htmlFor="phone">Phone</Label>
-                        <Input id="phone" type="tel" placeholder="+91 XXXXX XXXXX" />
+                        <Input
+                          id="phone"
+                          type="tel"
+                          placeholder="+91 XXXXX XXXXX"
+                        />
                       </div>
                       <div>
                         <Label htmlFor="date">Event Date</Label>
@@ -818,13 +1122,16 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                       </div>
                       <div>
                         <Label htmlFor="message">Message</Label>
-                        <Textarea 
-                          id="message" 
+                        <Textarea
+                          id="message"
                           placeholder="Tell us about your requirements..."
                           rows={4}
                         />
                       </div>
-                      <Button type="submit" className="w-full bg-gradient-to-r from-[#DF6951] to-[#F1A501]">
+                      <Button
+                        type="submit"
+                        className="w-full bg-gradient-to-r from-[#DF6951] to-[#F1A501]"
+                      >
                         Send Enquiry
                       </Button>
                     </form>
@@ -869,7 +1176,8 @@ export function VendorProfilePage({ vendorType, vendorId, onBack }: VendorProfil
                 <div>
                   <h4 className="mb-1">Verified Professional</h4>
                   <p className="text-sm text-muted-foreground">
-                    This vendor has been verified by Wedzway and meets our quality standards.
+                    This vendor has been verified by Wedzway and meets our
+                    quality standards.
                   </p>
                 </div>
               </div>

@@ -1,5 +1,20 @@
 import { useState } from "react";
-import { ArrowLeft, Plane, Clock, Calendar, User, Mail, Phone, CreditCard, Shield, CheckCircle, AlertCircle, MapPin, Luggage, Coffee } from "lucide-react";
+import {
+  ArrowLeft,
+  Plane,
+  Clock,
+  Calendar,
+  User,
+  Mail,
+  Phone,
+  CreditCard,
+  Shield,
+  CheckCircle,
+  AlertCircle,
+  MapPin,
+  Luggage,
+  Coffee,
+} from "lucide-react";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
@@ -33,44 +48,47 @@ interface Flight {
 }
 
 interface FlightBookingPageProps {
-  selectedFlight: Flight;
+  selectedFlight?: Flight;
   onBack: () => void;
   passengers: number;
   tripType: "roundtrip" | "oneway";
   returnFlight?: Flight;
+  flight?: Flight;
 }
 
-export function FlightBookingPage({ 
-  selectedFlight, 
-  onBack, 
+export function FlightBookingPage({
+  selectedFlight,
+  onBack,
   passengers,
   tripType,
-  returnFlight 
+  returnFlight,
 }: FlightBookingPageProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [bookingData, setBookingData] = useState({
     // Passenger Details
-    passengers: Array(passengers).fill(null).map((_, index) => ({
-      title: "",
-      firstName: "",
-      lastName: "",
-      dateOfBirth: "",
-      nationality: "",
-      passportNumber: "",
-      passportExpiry: "",
-    })),
-    
+    passengers: Array(passengers)
+      .fill(null)
+      .map((_, index) => ({
+        title: "",
+        firstName: "",
+        lastName: "",
+        dateOfBirth: "",
+        nationality: "",
+        passportNumber: "",
+        passportExpiry: "",
+      })),
+
     // Contact Details
     email: "",
     phone: "",
     countryCode: "+91",
-    
+
     // Add-ons
     mealPreference: [] as string[],
     seatPreference: [] as string[],
     extraBaggage: false,
     travelInsurance: false,
-    
+
     // Payment
     paymentMethod: "card",
     cardNumber: "",
@@ -80,13 +98,14 @@ export function FlightBookingPage({
   });
 
   const totalSteps = 4;
-  const totalPrice = (selectedFlight.price + (returnFlight?.price || 0)) * passengers;
+  const totalPrice =
+    (selectedFlight.price + (returnFlight?.price || 0)) * passengers;
   const taxes = totalPrice * 0.12;
-  const addOnsPrice = 
-    (bookingData.extraBaggage ? 2500 : 0) + 
+  const addOnsPrice =
+    (bookingData.extraBaggage ? 2500 : 0) +
     (bookingData.travelInsurance ? 1500 * passengers : 0) +
-    (bookingData.mealPreference.length * 800) +
-    (bookingData.seatPreference.length * 1200);
+    bookingData.mealPreference.length * 800 +
+    bookingData.seatPreference.length * 1200;
   const grandTotal = totalPrice + taxes + addOnsPrice;
 
   const handleInputChange = (field: string, value: any) => {
@@ -96,7 +115,11 @@ export function FlightBookingPage({
     }));
   };
 
-  const handlePassengerChange = (index: number, field: string, value: string) => {
+  const handlePassengerChange = (
+    index: number,
+    field: string,
+    value: string,
+  ) => {
     setBookingData((prev) => {
       const newPassengers = [...prev.passengers];
       newPassengers[index] = {
@@ -113,8 +136,8 @@ export function FlightBookingPage({
   const validateStep = (step: number): boolean => {
     switch (step) {
       case 1:
-        return bookingData.passengers.every(p => 
-          p.firstName && p.lastName && p.dateOfBirth
+        return bookingData.passengers.every(
+          (p) => p.firstName && p.lastName && p.dateOfBirth,
         );
       case 2:
         return !!(bookingData.email && bookingData.phone);
@@ -123,7 +146,10 @@ export function FlightBookingPage({
       case 4:
         return !!(
           bookingData.paymentMethod === "upi" ||
-          (bookingData.cardNumber && bookingData.cardName && bookingData.expiryDate && bookingData.cvv)
+          (bookingData.cardNumber &&
+            bookingData.cardName &&
+            bookingData.expiryDate &&
+            bookingData.cvv)
         );
       default:
         return true;
@@ -164,7 +190,9 @@ export function FlightBookingPage({
       <div className="flex items-center justify-between mb-4">
         <Badge className="bg-blue-50 text-blue-600 border-0">{label}</Badge>
         <div className="text-right">
-          <div className="text-2xl text-[#DF6951]">₹{flight.price.toLocaleString()}</div>
+          <div className="text-2xl text-[#DF6951]">
+            ₹{flight.price.toLocaleString()}
+          </div>
           <div className="text-xs text-foreground/60">per person</div>
         </div>
       </div>
@@ -185,7 +213,9 @@ export function FlightBookingPage({
         </div>
 
         <div className="flex-1 text-center">
-          <div className="text-sm text-foreground/60 mb-2">{flight.duration}</div>
+          <div className="text-sm text-foreground/60 mb-2">
+            {flight.duration}
+          </div>
           <div className="relative h-0.5 bg-foreground/20">
             <Plane className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-4 text-[#DF6951]" />
           </div>
@@ -230,14 +260,16 @@ export function FlightBookingPage({
             {bookingData.passengers.map((passenger, index) => (
               <Card key={index} className="p-6">
                 <h4 className="mb-4">Passenger {index + 1}</h4>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                   <div>
                     <Label htmlFor={`title-${index}`}>Title *</Label>
                     <select
                       id={`title-${index}`}
                       value={passenger.title}
-                      onChange={(e) => handlePassengerChange(index, "title", e.target.value)}
+                      onChange={(e) =>
+                        handlePassengerChange(index, "title", e.target.value)
+                      }
                       className="w-full mt-2 h-10 px-3 rounded-md border border-border bg-background"
                     >
                       <option value="">Select</option>
@@ -253,7 +285,13 @@ export function FlightBookingPage({
                     <Input
                       id={`firstName-${index}`}
                       value={passenger.firstName}
-                      onChange={(e) => handlePassengerChange(index, "firstName", e.target.value)}
+                      onChange={(e) =>
+                        handlePassengerChange(
+                          index,
+                          "firstName",
+                          e.target.value,
+                        )
+                      }
                       placeholder="As per passport"
                       className="mt-2"
                     />
@@ -266,18 +304,28 @@ export function FlightBookingPage({
                     <Input
                       id={`lastName-${index}`}
                       value={passenger.lastName}
-                      onChange={(e) => handlePassengerChange(index, "lastName", e.target.value)}
+                      onChange={(e) =>
+                        handlePassengerChange(index, "lastName", e.target.value)
+                      }
                       placeholder="As per passport"
                       className="mt-2"
                     />
                   </div>
                   <div>
-                    <Label htmlFor={`dateOfBirth-${index}`}>Date of Birth *</Label>
+                    <Label htmlFor={`dateOfBirth-${index}`}>
+                      Date of Birth *
+                    </Label>
                     <Input
                       id={`dateOfBirth-${index}`}
                       type="date"
                       value={passenger.dateOfBirth}
-                      onChange={(e) => handlePassengerChange(index, "dateOfBirth", e.target.value)}
+                      onChange={(e) =>
+                        handlePassengerChange(
+                          index,
+                          "dateOfBirth",
+                          e.target.value,
+                        )
+                      }
                       className="mt-2"
                       max={new Date().toISOString().split("T")[0]}
                     />
@@ -290,28 +338,50 @@ export function FlightBookingPage({
                     <Input
                       id={`nationality-${index}`}
                       value={passenger.nationality}
-                      onChange={(e) => handlePassengerChange(index, "nationality", e.target.value)}
+                      onChange={(e) =>
+                        handlePassengerChange(
+                          index,
+                          "nationality",
+                          e.target.value,
+                        )
+                      }
                       placeholder="e.g., Indian"
                       className="mt-2"
                     />
                   </div>
                   <div>
-                    <Label htmlFor={`passportNumber-${index}`}>Passport Number</Label>
+                    <Label htmlFor={`passportNumber-${index}`}>
+                      Passport Number
+                    </Label>
                     <Input
                       id={`passportNumber-${index}`}
                       value={passenger.passportNumber}
-                      onChange={(e) => handlePassengerChange(index, "passportNumber", e.target.value)}
+                      onChange={(e) =>
+                        handlePassengerChange(
+                          index,
+                          "passportNumber",
+                          e.target.value,
+                        )
+                      }
                       placeholder="Optional"
                       className="mt-2"
                     />
                   </div>
                   <div>
-                    <Label htmlFor={`passportExpiry-${index}`}>Passport Expiry</Label>
+                    <Label htmlFor={`passportExpiry-${index}`}>
+                      Passport Expiry
+                    </Label>
                     <Input
                       id={`passportExpiry-${index}`}
                       type="date"
                       value={passenger.passportExpiry}
-                      onChange={(e) => handlePassengerChange(index, "passportExpiry", e.target.value)}
+                      onChange={(e) =>
+                        handlePassengerChange(
+                          index,
+                          "passportExpiry",
+                          e.target.value,
+                        )
+                      }
                       className="mt-2"
                       min={new Date().toISOString().split("T")[0]}
                     />
@@ -326,7 +396,9 @@ export function FlightBookingPage({
                 <div className="text-sm text-blue-900">
                   <p className="font-medium mb-1">Important</p>
                   <p>
-                    Ensure passenger names match exactly with passport/government ID. Name changes are not allowed after booking.
+                    Ensure passenger names match exactly with
+                    passport/government ID. Name changes are not allowed after
+                    booking.
                   </p>
                 </div>
               </div>
@@ -366,7 +438,9 @@ export function FlightBookingPage({
                   <div className="flex gap-2 mt-2">
                     <select
                       value={bookingData.countryCode}
-                      onChange={(e) => handleInputChange("countryCode", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("countryCode", e.target.value)
+                      }
                       className="w-24 h-10 px-3 rounded-md border border-border bg-background"
                     >
                       <option value="+91">+91</option>
@@ -378,7 +452,9 @@ export function FlightBookingPage({
                       id="phone"
                       type="tel"
                       value={bookingData.phone}
-                      onChange={(e) => handleInputChange("phone", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("phone", e.target.value)
+                      }
                       placeholder="98765 43210"
                       className="flex-1"
                     />
@@ -396,7 +472,8 @@ export function FlightBookingPage({
                 <div className="text-sm text-green-900">
                   <p className="font-medium mb-1">Secure Booking</p>
                   <p>
-                    Your information is encrypted and secure. We'll never share your details with third parties.
+                    Your information is encrypted and secure. We'll never share
+                    your details with third parties.
                   </p>
                 </div>
               </div>
@@ -432,27 +509,37 @@ export function FlightBookingPage({
                 </div>
               </div>
               <div className="space-y-2">
-                {["Vegetarian", "Non-Vegetarian", "Vegan", "Jain"].map((meal) => (
-                  <div key={meal} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={meal}
-                      checked={bookingData.mealPreference.includes(meal)}
-                      onCheckedChange={(checked) => {
-                        if (checked) {
-                          handleInputChange("mealPreference", [...bookingData.mealPreference, meal]);
-                        } else {
-                          handleInputChange(
-                            "mealPreference",
-                            bookingData.mealPreference.filter((m) => m !== meal)
-                          );
-                        }
-                      }}
-                    />
-                    <Label htmlFor={meal} className="font-normal cursor-pointer">
-                      {meal}
-                    </Label>
-                  </div>
-                ))}
+                {["Vegetarian", "Non-Vegetarian", "Vegan", "Jain"].map(
+                  (meal) => (
+                    <div key={meal} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={meal}
+                        checked={bookingData.mealPreference.includes(meal)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            handleInputChange("mealPreference", [
+                              ...bookingData.mealPreference,
+                              meal,
+                            ]);
+                          } else {
+                            handleInputChange(
+                              "mealPreference",
+                              bookingData.mealPreference.filter(
+                                (m) => m !== meal,
+                              ),
+                            );
+                          }
+                        }}
+                      />
+                      <Label
+                        htmlFor={meal}
+                        className="font-normal cursor-pointer"
+                      >
+                        {meal}
+                      </Label>
+                    </div>
+                  ),
+                )}
               </div>
             </Card>
 
@@ -481,16 +568,24 @@ export function FlightBookingPage({
                       checked={bookingData.seatPreference.includes(seat)}
                       onCheckedChange={(checked) => {
                         if (checked) {
-                          handleInputChange("seatPreference", [...bookingData.seatPreference, seat]);
+                          handleInputChange("seatPreference", [
+                            ...bookingData.seatPreference,
+                            seat,
+                          ]);
                         } else {
                           handleInputChange(
                             "seatPreference",
-                            bookingData.seatPreference.filter((s) => s !== seat)
+                            bookingData.seatPreference.filter(
+                              (s) => s !== seat,
+                            ),
                           );
                         }
                       }}
                     />
-                    <Label htmlFor={seat} className="font-normal cursor-pointer">
+                    <Label
+                      htmlFor={seat}
+                      className="font-normal cursor-pointer"
+                    >
                       {seat}
                     </Label>
                   </div>
@@ -575,25 +670,36 @@ export function FlightBookingPage({
               <h4 className="mb-4">Select Payment Method</h4>
               <RadioGroup
                 value={bookingData.paymentMethod}
-                onValueChange={(value) => handleInputChange("paymentMethod", value)}
+                onValueChange={(value) =>
+                  handleInputChange("paymentMethod", value)
+                }
                 className="space-y-3"
               >
                 <div className="flex items-center space-x-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
                   <RadioGroupItem value="card" id="card" />
-                  <Label htmlFor="card" className="font-normal cursor-pointer flex items-center gap-2 flex-1">
+                  <Label
+                    htmlFor="card"
+                    className="font-normal cursor-pointer flex items-center gap-2 flex-1"
+                  >
                     <CreditCard className="size-5" />
                     Credit/Debit Card
                   </Label>
                 </div>
                 <div className="flex items-center space-x-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
                   <RadioGroupItem value="upi" id="upi" />
-                  <Label htmlFor="upi" className="font-normal cursor-pointer flex-1">
+                  <Label
+                    htmlFor="upi"
+                    className="font-normal cursor-pointer flex-1"
+                  >
                     UPI Payment
                   </Label>
                 </div>
                 <div className="flex items-center space-x-2 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
                   <RadioGroupItem value="netbanking" id="netbanking" />
-                  <Label htmlFor="netbanking" className="font-normal cursor-pointer flex-1">
+                  <Label
+                    htmlFor="netbanking"
+                    className="font-normal cursor-pointer flex-1"
+                  >
                     Net Banking
                   </Label>
                 </div>
@@ -609,7 +715,9 @@ export function FlightBookingPage({
                     <Input
                       id="cardNumber"
                       value={bookingData.cardNumber}
-                      onChange={(e) => handleInputChange("cardNumber", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("cardNumber", e.target.value)
+                      }
                       placeholder="1234 5678 9012 3456"
                       className="mt-2"
                       maxLength={19}
@@ -621,7 +729,9 @@ export function FlightBookingPage({
                     <Input
                       id="cardName"
                       value={bookingData.cardName}
-                      onChange={(e) => handleInputChange("cardName", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("cardName", e.target.value)
+                      }
                       placeholder="Name on card"
                       className="mt-2"
                     />
@@ -633,7 +743,9 @@ export function FlightBookingPage({
                       <Input
                         id="expiryDate"
                         value={bookingData.expiryDate}
-                        onChange={(e) => handleInputChange("expiryDate", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("expiryDate", e.target.value)
+                        }
                         placeholder="MM/YY"
                         className="mt-2"
                         maxLength={5}
@@ -645,7 +757,9 @@ export function FlightBookingPage({
                         id="cvv"
                         type="password"
                         value={bookingData.cvv}
-                        onChange={(e) => handleInputChange("cvv", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("cvv", e.target.value)
+                        }
                         placeholder="123"
                         className="mt-2"
                         maxLength={3}
@@ -676,7 +790,8 @@ export function FlightBookingPage({
                 <div className="text-sm text-amber-900">
                   <p className="font-medium mb-1">Secure Payment</p>
                   <p>
-                    Your payment information is encrypted and secure. We use industry-standard security protocols.
+                    Your payment information is encrypted and secure. We use
+                    industry-standard security protocols.
                   </p>
                 </div>
               </div>
@@ -712,20 +827,22 @@ export function FlightBookingPage({
               {/* Progress Bar */}
               <div className="relative">
                 <div className="flex justify-between mb-2">
-                  {["Passengers", "Contact", "Add-ons", "Payment"].map((label, index) => (
-                    <div
-                      key={index}
-                      className={`text-xs ${
-                        currentStep > index + 1
-                          ? "text-green-600"
-                          : currentStep === index + 1
-                          ? "text-[#DF6951]"
-                          : "text-foreground/40"
-                      }`}
-                    >
-                      {label}
-                    </div>
-                  ))}
+                  {["Passengers", "Contact", "Add-ons", "Payment"].map(
+                    (label, index) => (
+                      <div
+                        key={index}
+                        className={`text-xs ${
+                          currentStep > index + 1
+                            ? "text-green-600"
+                            : currentStep === index + 1
+                              ? "text-[#DF6951]"
+                              : "text-foreground/40"
+                        }`}
+                      >
+                        {label}
+                      </div>
+                    ),
+                  )}
                 </div>
                 <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                   <div
@@ -787,14 +904,18 @@ export function FlightBookingPage({
               {renderFlightSummary(selectedFlight, "Outbound Flight")}
 
               {/* Return Flight */}
-              {returnFlight && renderFlightSummary(returnFlight, "Return Flight")}
+              {returnFlight &&
+                renderFlightSummary(returnFlight, "Return Flight")}
 
               <Separator className="my-4" />
 
               {/* Price Breakdown */}
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
-                  <span className="text-foreground/60">Base Fare ({passengers} passenger{passengers > 1 ? 's' : ''})</span>
+                  <span className="text-foreground/60">
+                    Base Fare ({passengers} passenger{passengers > 1 ? "s" : ""}
+                    )
+                  </span>
                   <span>₹{totalPrice.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-sm">
@@ -814,8 +935,12 @@ export function FlightBookingPage({
               <div className="flex justify-between items-center">
                 <span>Total Amount</span>
                 <div className="text-right">
-                  <div className="text-2xl text-[#DF6951]">₹{grandTotal.toLocaleString()}</div>
-                  <div className="text-xs text-foreground/60">All inclusive</div>
+                  <div className="text-2xl text-[#DF6951]">
+                    ₹{grandTotal.toLocaleString()}
+                  </div>
+                  <div className="text-xs text-foreground/60">
+                    All inclusive
+                  </div>
                 </div>
               </div>
 

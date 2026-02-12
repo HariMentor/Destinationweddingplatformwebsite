@@ -9,7 +9,6 @@ import {
   getVenueBySlug,
   Venue,
 } from "@/components/DestinationServices/services/venueService";
-import { BrandedLoader } from "@/components/ui/loader";
 
 export function VenueDetailClient({ venueId }: { venueId: string }) {
   const router = useRouter();
@@ -75,15 +74,15 @@ export function VenueDetailClient({ venueId }: { venueId: string }) {
     }
   };
 
-  if (isLoading) {
+  if (!venue && isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <BrandedLoader text="Loading venue details..." />
+      <div className="size-full">
+        {/* <TravelNav onNavigate={handleNavigate} currentPage="venues" /> */}
       </div>
     );
   }
 
-  if (!venue) {
+  if (!venue && !isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p>Venue not found</p>

@@ -86,11 +86,11 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { DeliveryTimelinePage } from "./DeliveryTimelinePage";
 import { PlannerDashboardContent } from "./PlannerDashboardContent";
 import { toast } from "sonner";
-import { useCurrency } from "./CurrencyContext";
+// import { useCurrency } from "./CurrencyContext";
 
 export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => void; onNavigate?: (page: string) => void }) {
   const data = mockCustomerData;
-  const { formatPrice } = useCurrency();
+  // const { formatPrice } = useCurrency();
   const [activeTab, setActiveTab] = useState("overview");
   const [showBuilder, setShowBuilder] = useState(false);
   const [selectedStep, setSelectedStep] = useState<string | null>(null);
@@ -912,7 +912,7 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
                     <div className="border rounded-lg p-2 sm:p-3">
                       <p className="text-xs text-muted-foreground mb-1">Total Savings</p>
-                      <p className="text-base sm:text-lg md:text-xl text-green-600 break-words">{formatPrice(totalSavingsINR)}</p>
+                      {/* <p className="text-base sm:text-lg md:text-xl text-green-600 break-words">{formatPrice(totalSavingsINR)}</p> */}
                     </div>
                     <div className="border rounded-lg p-2 sm:p-3">
                       <p className="text-xs text-muted-foreground mb-1">ROI</p>
@@ -1023,7 +1023,7 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
                         <div className="flex-1 min-w-0">
                           <p className="text-xs sm:text-sm text-muted-foreground mb-1">Total Money Saved</p>
                           <p className="text-xl sm:text-2xl md:text-3xl mb-1 break-words" style={{ color: "#059669" }}>
-                            {formatPrice(totalSavingsINR)}
+                            {/* {formatPrice(totalSavingsINR)} */}
                           </p>
                           <p className="text-xs text-muted-foreground">Across {conciergeService.savingsBreakdown.length} services</p>
                         </div>
@@ -1036,7 +1036,7 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
                         <div className="flex-1 min-w-0">
                           <p className="text-xs sm:text-sm text-muted-foreground mb-1">Service Investment</p>
                           <p className="text-xl sm:text-2xl md:text-3xl mb-1 break-words" style={{ color: "#0284c7" }}>
-                            {formatPrice(conciergeService.priceInr)}
+                            {/* {formatPrice(conciergeService.priceInr)} */}
                           </p>
                           <p className="text-xs text-muted-foreground">{conciergeService.tierName} tier</p>
                         </div>
@@ -1049,7 +1049,7 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
                         <div className="flex-1 min-w-0">
                           <p className="text-xs sm:text-sm text-muted-foreground mb-1">Net Benefit</p>
                           <p className="text-xl sm:text-2xl md:text-3xl mb-1 break-words" style={{ color: "#d97706" }}>
-                            {formatPrice(totalSavingsINR - conciergeService.priceInr)}
+                            {/* {formatPrice(totalSavingsINR - conciergeService.priceInr)} */}
                           </p>
                           <p className="text-xs text-muted-foreground">{roi}% return</p>
                         </div>
@@ -1076,17 +1076,17 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
                               <p className="text-xs sm:text-sm text-muted-foreground mb-2">{saving.details}</p>
                               <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm">
                                 <span className="text-muted-foreground line-through">
-                                  Original: {formatPrice(saving.originalPrice)}
+                                  {/* Original: {formatPrice(saving.originalPrice)} */}
                                 </span>
                                 <span className="text-green-600 font-semibold">
-                                  Paid: {formatPrice(saving.negotiatedPrice)}
+                                  {/* Paid: {formatPrice(saving.negotiatedPrice)} */}
                                 </span>
                                 <span className="text-xs text-muted-foreground">{saving.savedDate}</span>
                               </div>
                             </div>
                             <div className="bg-green-100 text-green-700 px-3 py-2 rounded-lg w-fit sm:self-end">
                               <p className="text-xs">Saved</p>
-                              <p className="font-semibold text-sm sm:text-base">{formatPrice(saving.savedAmount)}</p>
+                              {/* <p className="font-semibold text-sm sm:text-base">{formatPrice(saving.savedAmount)}</p> */}
                               <p className="text-xs">
                                 {((saving.savedAmount / saving.originalPrice) * 100).toFixed(0)}%
                               </p>
@@ -1219,7 +1219,7 @@ export function CustomerAccountPage({ onBack, onNavigate }: { onBack?: () => voi
                         </div>
                         <div className="bg-white p-4 rounded-lg md:col-span-2">
                           <p className="text-sm text-muted-foreground mb-1">Budget</p>
-                          <p className="text-2xl text-[#DF6951]">{formatPrice(data.weddingPlan.budget)}</p>
+                          {/* <p className="text-2xl text-[#DF6951]">{formatPrice(data.weddingPlan.budget)}</p> */}
                         </div>
                       </div>
                     </div>

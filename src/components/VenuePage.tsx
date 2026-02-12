@@ -4,12 +4,8 @@ import {
   MapPin,
   Users,
   Star,
-  Heart,
   SlidersHorizontal,
-  DollarSign,
-  Calendar,
   ChevronDown,
-  BadgeCheck,
   ChevronRight,
 } from "lucide-react";
 import { Card } from "./ui/card";
@@ -17,13 +13,6 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 import { motion } from "motion/react";
 import { CardSkeletonLoader } from "./ui/loader";
 import { Venue } from "./DestinationServices/services/venueService";
@@ -80,6 +69,8 @@ export function VenuePage({
     );
   });
 
+
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-rose-50/30 to-white">
       {/* Hero Section */}
@@ -118,7 +109,7 @@ export function VenuePage({
                   className="pl-10 h-12"
                 />
               </div>
-              <Select value={selectedType} onValueChange={setSelectedType}>
+              {/* <Select value={selectedType} onValueChange={setSelectedType}>
                 <SelectTrigger className="w-full md:w-40 h-12">
                   <SelectValue placeholder="Type" />
                 </SelectTrigger>
@@ -131,8 +122,8 @@ export function VenuePage({
                   <SelectItem value="Vineyard">Vineyard</SelectItem>
                   <SelectItem value="Mountain">Mountain</SelectItem>
                 </SelectContent>
-              </Select>
-              <Select value={selectedPrice} onValueChange={setSelectedPrice}>
+              </Select> */}
+              {/* <Select value={selectedPrice} onValueChange={setSelectedPrice}>
                 <SelectTrigger className="w-full md:w-40 h-12">
                   <SelectValue placeholder="Price" />
                 </SelectTrigger>
@@ -142,7 +133,7 @@ export function VenuePage({
                   <SelectItem value="$$">$$ Moderate</SelectItem>
                   <SelectItem value="$$$">$$$ Luxury</SelectItem>
                 </SelectContent>
-              </Select>
+              </Select> */}
               <Button className="hidden bg-gradient-to-r from-[#DF6951] to-[#F1A501] hover:from-[#DF6951]/90 hover:to-[#F1A501]/90 h-12 px-8">
                 <SlidersHorizontal className="size-5 mr-2" />
                 Filters
@@ -217,10 +208,10 @@ export function VenuePage({
                             {location}
                           </span>
                         </div>
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="text-sm text-gray-600">
+                        <div className="flex items-center justify-end mb-4">
+                          {/* <span className="text-sm text-gray-600">
                             (12 reviews)
-                          </span>
+                          </span> */}
                           <span className="text-sm text-gray-600">
                             <Users className="w-4 h-4 inline mr-1" />
                             Up to {capacity}

@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { useCurrency } from "./CurrencyContext";
+// import { useCurrency } from "./CurrencyContext";
 
 const footerLinks = {
   company: ["About", "Careers", "Mobile"],
@@ -20,7 +20,7 @@ interface TravelFooterProps {
 }
 
 export function TravelFooter({ onNavigate }: TravelFooterProps = {}) {
-  const { currency, setCurrency } = useCurrency();
+  // const { currency, setCurrency } = useCurrency();
 
   return (
     <footer className="bg-white pt-16 pb-8 relative overflow-hidden border-t border-gray-200">
@@ -45,11 +45,11 @@ export function TravelFooter({ onNavigate }: TravelFooterProps = {}) {
                     title="Change Currency"
                   >
                     <Globe className="size-4" />
-                    {currency === "INR" ? "₹ INR" : "€ EUR"}
+                    {/* {currency === "INR" ? "₹ INR" : "€ EUR"} */}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-48">
-                  <DropdownMenuItem 
+                  {/* <DropdownMenuItem 
                     onClick={() => setCurrency("INR")}
                     className={currency === "INR" ? "bg-muted" : ""}
                   >
@@ -58,8 +58,8 @@ export function TravelFooter({ onNavigate }: TravelFooterProps = {}) {
                       <div className="font-medium">India (INR)</div>
                       <div className="text-xs text-muted-foreground">Indian Rupee ₹</div>
                     </div>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem 
+                  </DropdownMenuItem> */}
+                  {/* <DropdownMenuItem 
                     onClick={() => setCurrency("EUR")}
                     className={currency === "EUR" ? "bg-muted" : ""}
                   >
@@ -68,7 +68,7 @@ export function TravelFooter({ onNavigate }: TravelFooterProps = {}) {
                       <div className="font-medium">International (EUR)</div>
                       <div className="text-xs text-muted-foreground">Euro €</div>
                     </div>
-                  </DropdownMenuItem>
+                  </DropdownMenuItem> */}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -141,7 +141,7 @@ export function TravelFooter({ onNavigate }: TravelFooterProps = {}) {
             <h4 className="mb-6">Company</h4>
             <ul className="space-y-3">
               <li>
-                <a href="/landing" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="/about" className="text-muted-foreground hover:text-foreground transition-colors">
                   About Us
                 </a>
               </li>

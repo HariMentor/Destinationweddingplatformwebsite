@@ -45,14 +45,14 @@ export function AuthPage({ onNavigate }: AuthPageProps = {}) {
 
   const handleSendOTP = async () => {
     setError("");
-    
+
     if (!validatePhoneNumber(phoneNumber)) {
       setError("Please enter a valid 10-digit mobile number");
       return;
     }
 
     setIsLoading(true);
-    
+
     // Simulate API call
     setTimeout(() => {
       setIsLoading(false);
@@ -64,11 +64,11 @@ export function AuthPage({ onNavigate }: AuthPageProps = {}) {
 
   const handleResendOTP = () => {
     if (!canResend) return;
-    
+
     setTimer(60);
     setCanResend(false);
     setOtp(["", "", "", "", "", ""]);
-    
+
     // Simulate resend
     setTimeout(() => {
       // OTP resent
@@ -89,12 +89,15 @@ export function AuthPage({ onNavigate }: AuthPageProps = {}) {
     }
 
     // Auto-verify when all 6 digits are entered
-    if (newOtp.every(digit => digit !== "") && index === 5) {
+    if (newOtp.every((digit) => digit !== "") && index === 5) {
       handleVerifyOTP(newOtp);
     }
   };
 
-  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       otpInputs.current[index - 1]?.focus();
     }
@@ -102,7 +105,7 @@ export function AuthPage({ onNavigate }: AuthPageProps = {}) {
 
   const handleVerifyOTP = async (otpToVerify = otp) => {
     const otpString = otpToVerify.join("");
-    
+
     if (otpString.length !== 6) {
       setError("Please enter complete OTP");
       return;
@@ -115,7 +118,7 @@ export function AuthPage({ onNavigate }: AuthPageProps = {}) {
     setTimeout(() => {
       setIsLoading(false);
       setStep("success");
-      
+
       // Redirect to account page after 2 seconds
       setTimeout(() => {
         onNavigate?.("account");
@@ -141,9 +144,10 @@ export function AuthPage({ onNavigate }: AuthPageProps = {}) {
     <div className="min-h-screen bg-gradient-to-br from-[#FFF5F3] via-white to-[#E8F5F1] pt-24 pb-12 px-4">
       {/* Demo Notice Banner */}
       <div className="fixed top-[72px] left-0 right-0 bg-gradient-to-r from-[#DF6951] to-[#F1A501] text-white py-2 px-4 text-center text-sm font-medium shadow-md z-40">
-        🎭 Demo Mode: Enter any 10-digit number and any 6-digit OTP to test the flow
+        🎭 Demo Mode: Enter any 10-digit number and any 6-digit OTP to test the
+        flow
       </div>
-      
+
       <div className="max-w-md mx-auto mt-12">
         <AnimatePresence mode="wait">
           {step === "phone" && (
@@ -159,8 +163,12 @@ export function AuthPage({ onNavigate }: AuthPageProps = {}) {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#02542D] to-[#04845E] rounded-full mb-4">
                   <Phone className="w-8 h-8 text-white" />
                 </div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-                <p className="text-gray-600">Login to plan your dream destination wedding</p>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  Welcome Back
+                </h1>
+                <p className="text-gray-600">
+                  Login to plan your dream destination wedding
+                </p>
               </div>
 
               {/* Phone Number Input */}
@@ -185,7 +193,9 @@ export function AuthPage({ onNavigate }: AuthPageProps = {}) {
                       type="tel"
                       value={phoneNumber}
                       onChange={(e) => {
-                        const value = e.target.value.replace(/\D/g, "").slice(0, 10);
+                        const value = e.target.value
+                          .replace(/\D/g, "")
+                          .slice(0, 10);
                         setPhoneNumber(value);
                         setError("");
                       }}
@@ -214,7 +224,11 @@ export function AuthPage({ onNavigate }: AuthPageProps = {}) {
                     <span className="flex items-center justify-center gap-2">
                       <motion.div
                         animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        transition={{
+                          duration: 1,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
                         className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
                       />
                       Sending OTP...
@@ -228,7 +242,8 @@ export function AuthPage({ onNavigate }: AuthPageProps = {}) {
               {/* Info */}
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <p className="text-xs text-gray-500 text-center mb-3">
-                  By continuing, you agree to Wedzway's Terms of Service and Privacy Policy
+                  By continuing, you agree to Wedzway's Terms of Service and
+                  Privacy Policy
                 </p>
                 <p className="text-sm text-gray-600 text-center">
                   Don't have an account?{" "}
@@ -264,7 +279,9 @@ export function AuthPage({ onNavigate }: AuthPageProps = {}) {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#DF6951] to-[#F1A501] rounded-full mb-4">
                   <Shield className="w-8 h-8 text-white" />
                 </div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Enter OTP</h1>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  Enter OTP
+                </h1>
                 <p className="text-gray-600">
                   We've sent a code to {countryCode} {phoneNumber}
                 </p>
@@ -276,7 +293,10 @@ export function AuthPage({ onNavigate }: AuthPageProps = {}) {
                   {otp.map((digit, index) => (
                     <input
                       key={index}
-                      ref={(el) => (otpInputs.current[index] = el)}
+                      // ref={(el) => (otpInputs.current[index] = el)}
+                      ref={(el) => {
+                        otpInputs.current[index] = el;
+                      }}
                       type="text"
                       inputMode="numeric"
                       maxLength={1}
@@ -300,14 +320,18 @@ export function AuthPage({ onNavigate }: AuthPageProps = {}) {
 
                 <button
                   onClick={() => handleVerifyOTP()}
-                  disabled={isLoading || otp.some(digit => !digit)}
+                  disabled={isLoading || otp.some((digit) => !digit)}
                   className="w-full bg-gradient-to-r from-[#02542D] to-[#04845E] text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <span className="flex items-center justify-center gap-2">
                       <motion.div
                         animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        transition={{
+                          duration: 1,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
                         className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
                       />
                       Verifying...
@@ -353,7 +377,9 @@ export function AuthPage({ onNavigate }: AuthPageProps = {}) {
                 >
                   <CheckCircle2 className="w-12 h-12 text-white" />
                 </motion.div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Success!</h1>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  Success!
+                </h1>
                 <p className="text-gray-600 mb-4">
                   You've been successfully authenticated
                 </p>

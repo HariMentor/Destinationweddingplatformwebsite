@@ -2,7 +2,14 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowLeft, Phone, Shield, CheckCircle2, User, Mail } from "lucide-react";
+import {
+  ArrowLeft,
+  Phone,
+  Shield,
+  CheckCircle2,
+  User,
+  Mail,
+} from "lucide-react";
 
 type RegisterStep = "phone" | "otp" | "details" | "success";
 
@@ -52,14 +59,14 @@ export function RegisterPage({ onNavigate }: RegisterPageProps = {}) {
 
   const handleSendOTP = async () => {
     setError("");
-    
+
     if (!validatePhoneNumber(phoneNumber)) {
       setError("Please enter a valid 10-digit mobile number");
       return;
     }
 
     setIsLoading(true);
-    
+
     // Simulate API call
     setTimeout(() => {
       setIsLoading(false);
@@ -71,11 +78,11 @@ export function RegisterPage({ onNavigate }: RegisterPageProps = {}) {
 
   const handleResendOTP = () => {
     if (!canResend) return;
-    
+
     setTimer(60);
     setCanResend(false);
     setOtp(["", "", "", "", "", ""]);
-    
+
     // Simulate resend
     setTimeout(() => {
       // OTP resent
@@ -96,12 +103,15 @@ export function RegisterPage({ onNavigate }: RegisterPageProps = {}) {
     }
 
     // Auto-verify when all 6 digits are entered
-    if (newOtp.every(digit => digit !== "") && index === 5) {
+    if (newOtp.every((digit) => digit !== "") && index === 5) {
       handleVerifyOTP(newOtp);
     }
   };
 
-  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       otpInputs.current[index - 1]?.focus();
     }
@@ -109,7 +119,7 @@ export function RegisterPage({ onNavigate }: RegisterPageProps = {}) {
 
   const handleVerifyOTP = async (otpToVerify = otp) => {
     const otpString = otpToVerify.join("");
-    
+
     if (otpString.length !== 6) {
       setError("Please enter complete OTP");
       return;
@@ -156,7 +166,7 @@ export function RegisterPage({ onNavigate }: RegisterPageProps = {}) {
     setTimeout(() => {
       setIsLoading(false);
       setStep("success");
-      
+
       // Redirect to account page after 2 seconds
       setTimeout(() => {
         onNavigate?.("account");
@@ -200,7 +210,9 @@ export function RegisterPage({ onNavigate }: RegisterPageProps = {}) {
                 <Phone className="w-8 h-8 text-[#02542D]" />
               </div>
 
-              <h1 className="text-3xl font-bold text-center mb-2">Create Account</h1>
+              <h1 className="text-3xl font-bold text-center mb-2">
+                Create Account
+              </h1>
               <p className="text-gray-600 text-center mb-8">
                 Enter your mobile number to get started
               </p>
@@ -225,7 +237,11 @@ export function RegisterPage({ onNavigate }: RegisterPageProps = {}) {
                     <input
                       type="tel"
                       value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                      onChange={(e) =>
+                        setPhoneNumber(
+                          e.target.value.replace(/\D/g, "").slice(0, 10),
+                        )
+                      }
                       placeholder="9876543210"
                       className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#02542D] focus:border-transparent"
                     />
@@ -286,10 +302,15 @@ export function RegisterPage({ onNavigate }: RegisterPageProps = {}) {
                 <Shield className="w-8 h-8 text-[#DF6951]" />
               </div>
 
-              <h1 className="text-3xl font-bold text-center mb-2">Verify OTP</h1>
+              <h1 className="text-3xl font-bold text-center mb-2">
+                Verify OTP
+              </h1>
               <p className="text-gray-600 text-center mb-8">
-                Enter the 6-digit code sent to<br />
-                <span className="font-medium text-gray-900">{countryCode} {phoneNumber}</span>
+                Enter the 6-digit code sent to
+                <br />
+                <span className="font-medium text-gray-900">
+                  {countryCode} {phoneNumber}
+                </span>
               </p>
 
               <div className="space-y-6">
@@ -297,7 +318,10 @@ export function RegisterPage({ onNavigate }: RegisterPageProps = {}) {
                   {otp.map((digit, index) => (
                     <input
                       key={index}
-                      ref={(el) => (otpInputs.current[index] = el)}
+                      // ref={(el) => (otpInputs.current[index] = el)}
+                      ref={(el) => {
+                        otpInputs.current[index] = el;
+                      }}
                       type="text"
                       inputMode="numeric"
                       maxLength={1}
@@ -321,7 +345,7 @@ export function RegisterPage({ onNavigate }: RegisterPageProps = {}) {
 
                 <button
                   onClick={() => handleVerifyOTP()}
-                  disabled={isLoading || otp.some(d => !d)}
+                  disabled={isLoading || otp.some((d) => !d)}
                   className="w-full bg-[#DF6951] text-white py-3 rounded-xl font-medium hover:bg-[#DF6951]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? "Verifying..." : "Verify OTP"}
@@ -366,7 +390,9 @@ export function RegisterPage({ onNavigate }: RegisterPageProps = {}) {
                 <User className="w-8 h-8 text-[#02542D]" />
               </div>
 
-              <h1 className="text-3xl font-bold text-center mb-2">Complete Your Profile</h1>
+              <h1 className="text-3xl font-bold text-center mb-2">
+                Complete Your Profile
+              </h1>
               <p className="text-gray-600 text-center mb-8">
                 Just a few more details to get you started
               </p>
@@ -417,7 +443,9 @@ export function RegisterPage({ onNavigate }: RegisterPageProps = {}) {
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl bg-gray-50 text-gray-600 cursor-not-allowed"
                     />
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">Phone number verified</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Phone number verified
+                  </p>
                 </div>
 
                 {error && (
@@ -468,7 +496,9 @@ export function RegisterPage({ onNavigate }: RegisterPageProps = {}) {
                 <p className="text-sm text-gray-600 mb-1">Registered as</p>
                 <p className="font-medium text-gray-900">{name}</p>
                 <p className="text-sm text-gray-600">{email}</p>
-                <p className="text-sm text-gray-600">{countryCode} {phoneNumber}</p>
+                <p className="text-sm text-gray-600">
+                  {countryCode} {phoneNumber}
+                </p>
               </div>
 
               <p className="text-sm text-gray-500">

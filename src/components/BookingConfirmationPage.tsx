@@ -1,41 +1,57 @@
 "use client";
 
 import { useState } from "react";
-import { 
-  CheckCircle2, Calendar, MapPin, Users, Clock, Mail, Phone, 
-  Download, Share2, ArrowLeft, CreditCard, Building, User,
-  Info, Bell, Heart, Star
+import {
+  CheckCircle2,
+  Calendar,
+  MapPin,
+  Users,
+  Clock,
+  Mail,
+  Phone,
+  Download,
+  Share2,
+  ArrowLeft,
+  CreditCard,
+  Building,
+  User,
+  Info,
+  Bell,
+  Heart,
+  Star,
 } from "lucide-react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
-import { useCurrency } from "./CurrencyContext";
+// import { useCurrency } from "./CurrencyContext";
 
 interface BookingConfirmationPageProps {
   onBack: () => void;
-  bookingType?: 'venue' | 'planner' | 'vendor' | 'product' | 'tour' | 'flight';
+  bookingType?: "venue" | "planner" | "vendor" | "product" | "tour" | "flight";
 }
 
-export function BookingConfirmationPage({ 
+export function BookingConfirmationPage({
   onBack,
-  bookingType = 'venue'
+  bookingType = "venue",
 }: BookingConfirmationPageProps) {
-  const { formatPrice } = useCurrency();
+  // const { formatPrice } = useCurrency();
   const [emailSent, setEmailSent] = useState(false);
 
   // Mock booking data - in a real app this would come from the booking flow
   const bookingData = {
-    confirmationNumber: "WDZ-" + Math.random().toString(36).substr(2, 9).toUpperCase(),
-    bookingDate: new Date().toLocaleDateString('en-US', { 
-      month: 'long', 
-      day: 'numeric', 
-      year: 'numeric' 
+    confirmationNumber:
+      "WDZ-" + Math.random().toString(36).substr(2, 9).toUpperCase(),
+    bookingDate: new Date().toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
     }),
     venue: {
       name: "Cliffside Resort & Spa",
       location: "Santorini, Greece",
-      image: "https://images.unsplash.com/photo-1519167758481-83f29da8c8b0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYwMzY0MzA4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      image:
+        "https://images.unsplash.com/photo-1519167758481-83f29da8c8b0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudWV8ZW58MXx8fHwxNzYwMzY0MzA4fDA&ixlib=rb-4.1.0&q=80&w=1080",
       rating: 4.9,
     },
     eventDetails: {
@@ -47,14 +63,14 @@ export function BookingConfirmationPage({
     pricing: {
       subtotal: 15000,
       serviceFee: 750,
-      tax: 1312.50,
-      total: 17062.50,
+      tax: 1312.5,
+      total: 17062.5,
     },
     contact: {
       name: "Sarah & Michael Johnson",
       email: "sarah.johnson@example.com",
       phone: "+1 (555) 123-4567",
-    }
+    },
   };
 
   const handleSendEmail = () => {
@@ -67,8 +83,8 @@ export function BookingConfirmationPage({
       {/* Header */}
       <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-border">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-4">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             size="icon"
             onClick={onBack}
             className="rounded-full"
@@ -76,7 +92,7 @@ export function BookingConfirmationPage({
             <ArrowLeft className="size-5" />
           </Button>
           <div>
-            <h1 className="text-xl" style={{ fontFamily: 'Volkhov, serif' }}>
+            <h1 className="text-xl" style={{ fontFamily: "Volkhov, serif" }}>
               Booking Confirmation
             </h1>
             <p className="text-sm text-muted-foreground">
@@ -92,14 +108,19 @@ export function BookingConfirmationPage({
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-500 mb-4">
             <CheckCircle2 className="size-10 text-white" />
           </div>
-          <h2 className="text-3xl mb-2" style={{ fontFamily: 'Volkhov, serif' }}>
+          <h2
+            className="text-3xl mb-2"
+            style={{ fontFamily: "Volkhov, serif" }}
+          >
             Booking Confirmed!
           </h2>
           <p className="text-lg text-muted-foreground mb-4">
             Your dream wedding venue is reserved
           </p>
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-green-200">
-            <span className="text-sm text-muted-foreground">Confirmation Number:</span>
+            <span className="text-sm text-muted-foreground">
+              Confirmation Number:
+            </span>
             <span className="font-mono font-medium text-green-700">
               {bookingData.confirmationNumber}
             </span>
@@ -108,11 +129,7 @@ export function BookingConfirmationPage({
 
         {/* Action Buttons */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <Button 
-            variant="outline" 
-            className="gap-2"
-            onClick={handleSendEmail}
-          >
+          <Button variant="outline" className="gap-2" onClick={handleSendEmail}>
             <Mail className="size-4" />
             {emailSent ? "Email Sent!" : "Email Confirmation"}
           </Button>
@@ -144,7 +161,10 @@ export function BookingConfirmationPage({
 
           <div className="p-6 space-y-6">
             <div>
-              <h3 className="text-2xl mb-1" style={{ fontFamily: 'Volkhov, serif' }}>
+              <h3
+                className="text-2xl mb-1"
+                style={{ fontFamily: "Volkhov, serif" }}
+              >
                 {bookingData.venue.name}
               </h3>
               <div className="flex items-center gap-2 text-muted-foreground">
@@ -160,24 +180,36 @@ export function BookingConfirmationPage({
                 <div className="flex items-start gap-3">
                   <Calendar className="size-5 text-[#DF6951] mt-0.5" />
                   <div>
-                    <div className="text-sm text-muted-foreground">Event Date</div>
-                    <div className="font-medium">{bookingData.eventDetails.date}</div>
+                    <div className="text-sm text-muted-foreground">
+                      Event Date
+                    </div>
+                    <div className="font-medium">
+                      {bookingData.eventDetails.date}
+                    </div>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <Clock className="size-5 text-[#DF6951] mt-0.5" />
                   <div>
-                    <div className="text-sm text-muted-foreground">Event Time</div>
-                    <div className="font-medium">{bookingData.eventDetails.time}</div>
+                    <div className="text-sm text-muted-foreground">
+                      Event Time
+                    </div>
+                    <div className="font-medium">
+                      {bookingData.eventDetails.time}
+                    </div>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <Users className="size-5 text-[#DF6951] mt-0.5" />
                   <div>
-                    <div className="text-sm text-muted-foreground">Expected Guests</div>
-                    <div className="font-medium">{bookingData.eventDetails.guests} guests</div>
+                    <div className="text-sm text-muted-foreground">
+                      Expected Guests
+                    </div>
+                    <div className="font-medium">
+                      {bookingData.eventDetails.guests} guests
+                    </div>
                   </div>
                 </div>
               </div>
@@ -186,8 +218,12 @@ export function BookingConfirmationPage({
                 <div className="flex items-start gap-3">
                   <User className="size-5 text-[#DF6951] mt-0.5" />
                   <div>
-                    <div className="text-sm text-muted-foreground">Contact Name</div>
-                    <div className="font-medium">{bookingData.contact.name}</div>
+                    <div className="text-sm text-muted-foreground">
+                      Contact Name
+                    </div>
+                    <div className="font-medium">
+                      {bookingData.contact.name}
+                    </div>
                   </div>
                 </div>
 
@@ -195,7 +231,9 @@ export function BookingConfirmationPage({
                   <Mail className="size-5 text-[#DF6951] mt-0.5" />
                   <div>
                     <div className="text-sm text-muted-foreground">Email</div>
-                    <div className="font-medium">{bookingData.contact.email}</div>
+                    <div className="font-medium">
+                      {bookingData.contact.email}
+                    </div>
                   </div>
                 </div>
 
@@ -203,7 +241,9 @@ export function BookingConfirmationPage({
                   <Phone className="size-5 text-[#DF6951] mt-0.5" />
                   <div>
                     <div className="text-sm text-muted-foreground">Phone</div>
-                    <div className="font-medium">{bookingData.contact.phone}</div>
+                    <div className="font-medium">
+                      {bookingData.contact.phone}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -212,9 +252,14 @@ export function BookingConfirmationPage({
             <Separator />
 
             <div>
-              <div className="text-sm text-muted-foreground mb-2">Selected Package</div>
+              <div className="text-sm text-muted-foreground mb-2">
+                Selected Package
+              </div>
               <div className="flex items-center gap-2">
-                <Badge variant="secondary" className="bg-gradient-to-r from-[#DF6951]/10 to-[#F1A501]/10">
+                <Badge
+                  variant="secondary"
+                  className="bg-gradient-to-r from-[#DF6951]/10 to-[#F1A501]/10"
+                >
                   {bookingData.eventDetails.package}
                 </Badge>
               </div>
@@ -224,30 +269,33 @@ export function BookingConfirmationPage({
 
         {/* Payment Summary */}
         <Card className="p-6">
-          <h3 className="text-xl mb-4" style={{ fontFamily: 'Volkhov, serif' }}>
+          <h3 className="text-xl mb-4" style={{ fontFamily: "Volkhov, serif" }}>
             Payment Summary
           </h3>
 
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Subtotal</span>
-              <span>{formatPrice(bookingData.pricing.subtotal)}</span>
+              <span>{bookingData.pricing.subtotal}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Service Fee</span>
-              <span>{formatPrice(bookingData.pricing.serviceFee)}</span>
+              <span>{bookingData.pricing.serviceFee}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Tax</span>
-              <span>{formatPrice(bookingData.pricing.tax)}</span>
+              <span>{bookingData.pricing.tax}</span>
             </div>
-            
+
             <Separator />
-            
+
             <div className="flex items-center justify-between">
               <span className="font-medium text-lg">Total Paid</span>
-              <span className="text-2xl font-medium text-green-600" style={{ fontFamily: 'Volkhov, serif' }}>
-                {formatPrice(bookingData.pricing.total)}
+              <span
+                className="text-2xl font-medium text-green-600"
+                style={{ fontFamily: "Volkhov, serif" }}
+              >
+                {bookingData.pricing.total}
               </span>
             </div>
           </div>
@@ -256,7 +304,9 @@ export function BookingConfirmationPage({
             <div className="flex items-start gap-3">
               <CreditCard className="size-5 text-blue-600 mt-0.5" />
               <div className="flex-1">
-                <div className="font-medium text-blue-900 mb-1">Payment Method</div>
+                <div className="font-medium text-blue-900 mb-1">
+                  Payment Method
+                </div>
                 <div className="text-sm text-blue-700">
                   Visa ending in 4242 • Paid on {bookingData.bookingDate}
                 </div>
@@ -270,12 +320,25 @@ export function BookingConfirmationPage({
           <div className="flex items-start gap-3">
             <Info className="size-5 text-amber-600 mt-0.5 flex-shrink-0" />
             <div>
-              <h4 className="font-medium text-amber-900 mb-2">Important Information</h4>
+              <h4 className="font-medium text-amber-900 mb-2">
+                Important Information
+              </h4>
               <ul className="space-y-2 text-sm text-amber-800">
-                <li>• A confirmation email has been sent to {bookingData.contact.email}</li>
-                <li>• Please arrive 30 minutes before your scheduled event time</li>
-                <li>• Cancellation policy: Free cancellation up to 30 days before the event</li>
-                <li>• For any changes to your booking, contact us at least 14 days in advance</li>
+                <li>
+                  • A confirmation email has been sent to{" "}
+                  {bookingData.contact.email}
+                </li>
+                <li>
+                  • Please arrive 30 minutes before your scheduled event time
+                </li>
+                <li>
+                  • Cancellation policy: Free cancellation up to 30 days before
+                  the event
+                </li>
+                <li>
+                  • For any changes to your booking, contact us at least 14 days
+                  in advance
+                </li>
               </ul>
             </div>
           </div>
@@ -283,17 +346,19 @@ export function BookingConfirmationPage({
 
         {/* Next Steps */}
         <Card className="p-6">
-          <h3 className="text-xl mb-4" style={{ fontFamily: 'Volkhov, serif' }}>
+          <h3 className="text-xl mb-4" style={{ fontFamily: "Volkhov, serif" }}>
             What's Next?
           </h3>
-          
+
           <div className="space-y-4">
             <div className="flex items-start gap-4">
               <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-[#DF6951] to-[#F1A501] text-white flex-shrink-0">
                 1
               </div>
               <div className="flex-1">
-                <div className="font-medium mb-1">Venue Manager Will Contact You</div>
+                <div className="font-medium mb-1">
+                  Venue Manager Will Contact You
+                </div>
                 <div className="text-sm text-muted-foreground">
                   Within 24-48 hours to discuss details and answer any questions
                 </div>
@@ -305,9 +370,12 @@ export function BookingConfirmationPage({
                 2
               </div>
               <div className="flex-1">
-                <div className="font-medium mb-1">Customize Your Experience</div>
+                <div className="font-medium mb-1">
+                  Customize Your Experience
+                </div>
                 <div className="text-sm text-muted-foreground">
-                  Work with our team to personalize every aspect of your special day
+                  Work with our team to personalize every aspect of your special
+                  day
                 </div>
               </div>
             </div>
@@ -319,7 +387,8 @@ export function BookingConfirmationPage({
               <div className="flex-1">
                 <div className="font-medium mb-1">Final Walk-Through</div>
                 <div className="text-sm text-muted-foreground">
-                  Schedule a visit 2-3 weeks before your event to finalize all details
+                  Schedule a visit 2-3 weeks before your event to finalize all
+                  details
                 </div>
               </div>
             </div>
@@ -328,19 +397,23 @@ export function BookingConfirmationPage({
 
         {/* Action Buttons */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="lg"
             className="gap-2"
-            onClick={() => {/* Navigate to account/wedding-plan */}}
+            onClick={() => {
+              /* Navigate to account/wedding-plan */
+            }}
           >
             <Calendar className="size-5" />
             View My Wedding Plan
           </Button>
-          <Button 
+          <Button
             size="lg"
             className="gap-2 bg-gradient-to-r from-[#DF6951] to-[#F1A501] hover:from-[#DF6951]/90 hover:to-[#F1A501]/90"
-            onClick={() => {/* Navigate to marketplace or vendors */}}
+            onClick={() => {
+              /* Navigate to marketplace or vendors */
+            }}
           >
             <Heart className="size-5" />
             Continue Planning

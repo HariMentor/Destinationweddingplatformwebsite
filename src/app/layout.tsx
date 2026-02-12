@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Volkhov, Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
-import { CurrencyProvider } from "@/components/CurrencyContext";
+// import { CurrencyProvider } from "@/components/CurrencyContext";
 import { PackageCompareProvider } from "@/components/PackageCompareContext";
 import "@/styles/globals.css";
 import { uatRobots } from "@/lib/robots";
@@ -63,12 +63,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${volkhov.variable} ${poppins.variable}`}>
       <body>
-        <CurrencyProvider>
+        {/* <CurrencyProvider> */}
           <PackageCompareProvider>
             {children}
             <Toaster position="top-right" />
           </PackageCompareProvider>
-        </CurrencyProvider>
+        {/* </CurrencyProvider> */}
       </body>
     </html>
   );

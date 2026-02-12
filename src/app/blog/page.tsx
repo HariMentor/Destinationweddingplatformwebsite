@@ -1,6 +1,6 @@
-import type { Metadata } from 'next';
-import { blogMetadata } from '@/lib/metadata';
-import { BlogPageClient } from './BlogPageClient';
+import type { Metadata } from "next";
+import { blogMetadata } from "@/lib/metadata";
+import BlogPageClient from "./BlogPageClient";
 
 export const metadata: Metadata = blogMetadata;
 

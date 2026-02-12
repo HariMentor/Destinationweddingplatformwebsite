@@ -17,7 +17,7 @@ import {
   Building2,
 } from "lucide-react";
 import Link from "next/link";
-import { useCurrency } from "./CurrencyContext";
+// import { useCurrency } from "./CurrencyContext";
 
 interface PackageComparePageProps {
   onBack?: () => void;
@@ -26,7 +26,7 @@ interface PackageComparePageProps {
 
 export function PackageComparePage({ onBack, onViewVenue }: PackageComparePageProps = {}) {
   const { comparePackages, removeFromCompare, clearCompare } = usePackageCompare();
-  const { formatPrice } = useCurrency();
+  // const { formatPrice } = useCurrency();
 
   if (comparePackages.length === 0) {
     return (
@@ -193,7 +193,7 @@ export function PackageComparePage({ onBack, onViewVenue }: PackageComparePagePr
                     className="text-2xl"
                     style={{ fontFamily: "Volkhov, serif" }}
                   >
-                    {formatPrice(pkg.price)}
+                    {/* {formatPrice(pkg.price)} */}
                   </p>
                   <p className="text-sm text-muted-foreground">per event</p>
                 </Card>

@@ -335,7 +335,7 @@ export function generateProductMetadata(productName: string, brandName: string):
     openGraph: {
       title: `${productName} | ${brandName}`,
       description: `Shop ${productName} for your wedding.`,
-      type: 'product',
+      // type: 'product',
     },
   };
 }
